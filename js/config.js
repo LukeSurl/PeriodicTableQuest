@@ -28,7 +28,7 @@ window.PQ_CONFIG = {
   // 4. Game rules
   defaultMinutes: 10,        // default countdown length on the projector
   allowSteal: true,          // can a team take an element the other team owns?
-  shieldSeconds: 20,         // a freshly claimed element can't be stolen for this long
+  shieldSeconds: 3,         // a freshly claimed element can't be stolen for this long
   wrongCooldownSeconds: 8,   // pause after a wrong answer, to discourage guessing
 
   // 5. Branding
