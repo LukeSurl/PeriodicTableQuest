@@ -4,7 +4,24 @@ window.PQ_CONFIG = {
   // 1. Paste your Firebase web app config here (see README, step 2).
   //    While this is null the game runs in DEMO mode: everything works, but
   //    only between tabs of one browser on one computer.
-  firebase: null,
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDMHq0RBpDcPfpssygFYrf9Z8ZKuR2IreA",
+  authDomain: "periodic-table-quest.firebaseapp.com",
+  databaseURL: "https://periodic-table-quest-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "periodic-table-quest",
+  storageBucket: "periodic-table-quest.firebasestorage.app",
+  messagingSenderId: "647305885725",
+  appId: "1:647305885725:web:ff6cd56a8b42d462b96ef4"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
   // firebase: {
   //   apiKey: "…",
   //   authDomain: "…firebaseapp.com",
