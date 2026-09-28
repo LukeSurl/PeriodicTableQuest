@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Periodic Table Quest</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="host">
+<header>
+  <h1 id="title">Periodic Table Quest</h1>
+  <span class="topic" id="topic"></span>
+  <span class="mode" id="mode"></span>
+</header>
+<main>
+  <section class="board">
+    <div id="table"></div>
+    <div class="overlay hidden" id="overlay"><div class="box" id="overlayBox"></div></div>
+  </section>
+  <aside class="side">
+    <div class="card qr">
+      <div class="code" id="qr"></div>
+      <div class="join" id="join"></div>
+    </div>
+    <div class="card timer">
+      <div class="t" id="clock">–:––</div>
+      <div class="lbl" id="clockLbl">Waiting to start</div>
+    </div>
+    <div>
+      <div class="scores">
+        <div class="score a"><div class="nm" id="nameA"></div><div class="n" id="scoreA">0</div><div class="pl" id="plA">0 players</div></div>
+        <div class="score b"><div class="nm" id="nameB"></div><div class="n" id="scoreB">0</div><div class="pl" id="plB">0 players</div></div>
+      </div>
+      <div class="tug"><div class="a" id="tugA"></div><div class="free" id="tugF" style="flex-grow:1"></div><div class="b" id="tugB"></div></div>
+    </div>
+    <div class="card feed"><ul id="feed"></ul></div>
+  </aside>
+</main>
+<div class="controls" id="controls">
+  <label>Minutes <input type="number" id="mins" min="1" max="60" step="1"></label>
+  <label>or ends at <input type="time" id="endAt" style="width:7em"></label>
+  <button class="btn primary" id="start">Start</button>
+  <button class="btn" id="plus">+1 min</button>
+  <button class="btn" id="end">End now</button>
+  <button class="btn warn" id="reset">Clear board</button>
+  <button class="btn warn" id="newgame">New game</button>
+  <span class="spacer"></span>
+  <button class="btn hidden" id="sim">Simulate class</button>
+  <a class="btn hidden" id="testphone" target="_blank" rel="noopener">Open a test phone</a>
+  <button class="btn" id="fs">Full screen</button>
+  <button class="btn" id="hide" title="Hide these controls (press C to bring them back)">Hide controls</button>
+</div>
+
+<script src="js/vendor/qrcode.js"></script>
+<script src="js/config.js"></script>
+<script src="js/elements.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/table.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/host.js"></script>
+</body>
+</html>

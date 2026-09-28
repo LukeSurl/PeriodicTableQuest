@@ -1,0 +1,30 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "games": {
+      "$code": {
+        ".read": "auth != null",
+        ".write": "auth != null && ((data.exists() && data.child('meta/host').val() === auth.uid) || (!data.exists() && newData.child('meta/host').val() === auth.uid))",
+        ".validate": "$code.matches(/^[A-Z0-9]{4}$/)",
+        "meta": {
+          ".validate": "newData.hasChildren(['host', 'status', 'endsAt', 'steal', 'shield']) && newData.child('host').val() === auth.uid && newData.child('status').val().matches(/^(lobby|open|ended)$/)"
+        },
+        "players": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('games').child($code).child('meta').exists()",
+            ".validate": "newData.hasChildren(['t', 'at']) && newData.child('t').val().matches(/^[ab]$/) && newData.child('at').val() === now"
+          }
+        },
+        "cells": {
+          "$z": {
+            ".write": "auth != null && newData.exists() && root.child('games').child($code).child('meta/status').val() === 'open' && now < root.child('games').child($code).child('meta/endsAt').val() && newData.child('by').val() === auth.uid && newData.child('t').val() === root.child('games').child($code).child('players').child(auth.uid).child('t').val() && (!data.exists() || (data.child('t').val() !== newData.child('t').val() && root.child('games').child($code).child('meta/steal').val() === true && now > data.child('at').val() + root.child('games').child($code).child('meta/shield').val()))",
+            ".validate": "$z.matches(/^([1-9]|[1-9][0-9]|10[0-9]|11[0-8])$/) && newData.hasChildren(['t', 'by', 'at']) && newData.child('at').val() === now",
+            "$other": { ".validate": "$other === 't' || $other === 'by' || $other === 'at'" }
+          }
+        },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}
