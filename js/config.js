@@ -21,8 +21,8 @@ window.PQ_CONFIG = {
   //    Colours are picked to match the lecture slide palette and to stay
   //    distinguishable for colour-blind students.
   teams: {
-    a: { name: 'Teal',  colour: '#007A75' },
-    b: { name: 'Coral', colour: '#C8553D' }
+    a: { name: 'Blue',  colour: '#007A75' },
+    b: { name: 'Red', colour: '#C8553D' }
   },
 
   // 4. Game rules
