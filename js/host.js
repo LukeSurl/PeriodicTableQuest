@@ -10,8 +10,25 @@
 
   T.applyTheme();
   $('title').textContent = CFG.title;
-  const bank = window.PQ_BANKS[CFG.topic];
-  $('topic').textContent = `${CFG.moduleCode} · ${bank ? bank.title : ''}`;
+  const BANKS = Object.keys(window.PQ_BANKS).filter(k => k !== 'template');
+  const bankName = k => window.PQ_BANKS[k].short || window.PQ_BANKS[k].title;
+  const defaultMix = () => CFG.mix || { [CFG.topic]: 100 };
+  function showTopic(mix) {
+    const on = Object.entries(mix || defaultMix()).filter(([k, w]) => window.PQ_BANKS[k] && +w > 0);
+    const tot = on.reduce((s, [, w]) => s + +w, 0);
+    $('topic').textContent = `${CFG.moduleCode} · ` + (on.length === 1 ? window.PQ_BANKS[on[0][0]].title
+      : on.map(([k, w]) => `${bankName(k)} ${Math.round(w / tot * 100)}%`).join(' · '));
+  }
+  // Question mix inputs in the control bar
+  $('mixBox').innerHTML = 'Question mix: ' + BANKS.map(k =>
+    `<label>${bankName(k)} <input type="number" min="0" max="100" step="5" id="mix-${k}" value="${defaultMix()[k] || 0}"></label>`).join(' ');
+  const readMix = () => Object.fromEntries(BANKS.map(k => [k, Math.max(0, +$('mix-' + k).value || 0)]));
+  BANKS.forEach(k => $('mix-' + k).addEventListener('change', () => {
+    const mix = readMix();
+    if (!Object.values(mix).some(v => v > 0)) return;
+    B.updateMeta(code, { mix }); showTopic(mix);
+  }));
+  showTopic(defaultMix());
   $('nameA').textContent = TEAM('a').name; $('nameB').textContent = TEAM('b').name;
   $('mins').value = CFG.defaultMinutes;
 
@@ -23,7 +40,7 @@
   $('mode').textContent = B.mode === 'demo' ? 'Demo mode: this browser only' : 'Live';
   B.onConnection(ok => { if (B.mode !== 'demo') $('mode').textContent = ok ? 'Live' : 'Reconnecting…'; });
 
-  const freshMeta = () => ({ status: 'lobby', endsAt: 0, steal: !!CFG.allowSteal, shield: CFG.shieldSeconds * 1000, topic: CFG.topic });
+  const freshMeta = () => ({ status: 'lobby', endsAt: 0, steal: !!CFG.allowSteal, shield: CFG.shieldSeconds * 1000, topic: CFG.topic, mix: readMix() });
   const newCode = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
 
   let code, state = { meta: null, cells: {}, players: {} }, unwatch = null, first = true, endingSent = false;
@@ -93,6 +110,10 @@
     const ov = $('overlay'), box = $('overlayBox');
     if (!m) { ov.classList.remove('hidden'); box.innerHTML = '<h2>Setting up…</h2>'; return; }
     if (m.status === 'open') endingSent = false;
+    if (m.mix) {
+      showTopic(m.mix);
+      BANKS.forEach(k => { const i = $('mix-' + k); if (document.activeElement !== i) i.value = m.mix[k] || 0; });
+    }
     if (m.status === 'lobby') {
       ov.classList.remove('hidden');
       box.innerHTML = `<h2>Scan to join</h2><p class="lobby-msg">You'll be put in team <span style="color:var(--ta);font-weight:700">${TEAM('a').name}</span> or <span style="color:var(--tb);font-weight:700">${TEAM('b').name}</span>.<br>Answer questions to claim elements.</p>`;

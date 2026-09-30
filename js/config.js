@@ -14,8 +14,11 @@ window.PQ_CONFIG = {
     appId: "1:647305885725:web:ff6cd56a8b42d462b96ef4"
   },
 
-  // 2. Which question bank to use (see js/questions.js).
-  topic: 'isotopes',
+  // 2. Question mix: which question banks to use (see js/questions.js) and in what
+  //    proportion. These are the starting values; you can change them on the
+  //    projector during a game. Banks left out are not used.
+  mix: { skills1: 75, isotopes: 25 },
+  topic: 'skills1',   // fallback if the mix is empty
 
   // 3. Teams. Keys 'a' and 'b' are used internally; change names and colours freely.
   //    Colours are picked to match the lecture slide palette and to stay
@@ -28,7 +31,7 @@ window.PQ_CONFIG = {
   // 4. Game rules
   defaultMinutes: 10,        // default countdown length on the projector
   allowSteal: true,          // can a team take an element the other team owns?
-  shieldSeconds: 3,         // a freshly claimed element can't be stolen for this long
+  shieldSeconds: 3,          // a freshly claimed element can't be stolen for this long
   wrongCooldownSeconds: 8,   // pause after a wrong answer, to discourage guessing
 
   // 5. Branding

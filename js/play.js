@@ -118,11 +118,19 @@
 
   function ask(z, { practice, steal }) {
     const e = Q.BY_Z[z];
-    const q = (steal && Q.getStealQuestion(z, seen)) || Q.getQuestion(z, seen);
+    const mix = (state.meta && state.meta.mix) || CFG.mix || { [CFG.topic]: 100 };
+    const topic = Q.chooseTopic(mix);
+    let q = null;
+    if (steal) {
+      // Try the chosen bank's steal challenges first, then the other banks in the mix
+      const order = [topic, ...Object.keys(mix).filter(t => t !== topic && +mix[t] > 0)];
+      for (const t of order) if (window.PQ_BANKS[t] && (q = Q.getStealQuestion(z, seen, t))) break;
+    }
+    q = q || Q.getQuestion(z, seen, topic);
     seen.add(q.id); saveSeen();
     const owner = state.cells[z] && state.cells[z].t;
     const head = practice ? `Practice question` : steal ? `Steal challenge: take it from Team ${TEAM(owner).name}` : `Claim for Team ${TEAM(team).name}`;
-    const note = q.about ? `<p class="hint">There's no suitable isotope data for ${e.n.toLowerCase()}, so this challenge is about ${q.about.toLowerCase()}.</p>` : '';
+    const note = q.about ? `<p class="hint">There's no suitable data on ${e.n.toLowerCase()} for this kind of challenge, so this one is about ${q.about.toLowerCase()}.</p>` : '';
     const body = q.numeric
       ? `<form class="numform" id="numform" autocomplete="off">
            <input id="numIn" inputmode="decimal" enterkeyhint="done" placeholder="Your answer" aria-label="Your answer">${q.unit ? `<span class="unit">${q.unit}</span>` : ''}
@@ -146,7 +154,7 @@
         if (ok === null) return toast('Type a number, e.g. 35.48');
         $('numIn').disabled = true; $('numform').querySelector('button').disabled = true;
         $('numIn').classList.add(ok ? 'right' : 'wrong');
-        const shown = q.num.toFixed(q.dp) + q.unit;
+        const shown = q.show || (q.num.toFixed(q.dp) + q.unit);
         answer(z, q, ok, practice, ok ? '' : `<p><b>Answer: ${shown}</b></p>`);
       };
       setTimeout(() => $('numIn') && $('numIn').focus(), 50);

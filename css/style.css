@@ -101,6 +101,8 @@ body.host { height: 100vh; overflow: hidden; display: flex; flex-direction: colu
 .btn.warn { border-color: var(--bad); color: var(--bad); }
 .btn:hover { filter: brightness(.95); }
 .controls .spacer { flex: 1; }
+.mixbox { display: inline-flex; flex-wrap: wrap; gap: .5rem; align-items: center; padding-left: .6rem; border-left: 1px solid var(--line); }
+.mixbox input { width: 4.8em; }
 .overlay {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   background: #CCE5E1cc; backdrop-filter: blur(2px); z-index: 5;
