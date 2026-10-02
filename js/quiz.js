@@ -159,7 +159,7 @@
     curatedFor(e, topic).forEach(q => weighted.push([q, 3]));
     (b.generators || []).forEach(g => {
       const q = GEN[g] && GEN[g](e);
-      if (q && q.w.length === 3) weighted.push([q, (q.calc ? 0.6 : 1) * (q.weight || 1)]);
+      if (q && q.w.length >= 2) weighted.push([q, (q.calc ? 0.6 : 1) * (q.weight || 1)]);
     });
     const gen = general(topic);
     if (gen.length) {

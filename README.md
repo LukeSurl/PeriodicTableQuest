@@ -73,13 +73,15 @@ Taking an element the other team owns needs a harder question with a typed numer
 
 Answers must be within rounding of the correct value (±0.01 for 2 d.p., ±0.1 for 1 d.p.). A wrong answer shows the right value and the working. About 35 elements have suitable isotope data; tapping any other element (sodium, gold, the superheavies) gives a challenge about a different element, and the phone says so.
 
+The **Atoms 2** set (Electromagnetic radiation and energy levels) has 30 hand-written questions from the lecture, including flame colours worked out from emission wavelengths, plus generated questions: frequency and wavelength conversions, photon energies (including real UK local radio frequencies, FM and former MW), regions of the spectrum, the potassium photoelectric effect, missing hydrogen lines, gaps on the hydrogen energy-level diagram, ionising from the ground or an excited state, and the longest wavelength that can ionise the tapped element. Its steal challenges cover that last calculation (the guanine method), hydrogen line wavelengths, photoelectron kinetic energy, radio photon energies and energy per mole of photons.
+
 ### Typesetting
 
 Question text is tidied automatically before it is shown: numbers in standard form (3.00 × 10⁸), a number and its unit (0.10 g, 10⁸ m) and the parts of compound units (mol dm⁻³, J s, g cm⁻³) are held together with non-breaking spaces so they never split across lines. You can type ordinary spaces when writing questions.
 
 ### Mixing question sets
 
-The projector's control bar has a **Question mix** box with a number for each question set (Skills 1, Atoms 1, Isotope extras). Each question a student gets is drawn from a set at random in those proportions, so 75 / 25 gives roughly three Skills 1 questions for every Atoms 1 question. Set a number to 0 to leave that set out. Changes apply to the next question each phone asks for, even mid-game. The starting values come from `mix` in `js/config.js`.
+The projector's control bar has a **Question mix** box with a number for each question set (Atoms 2, Skills 1, Atoms 1, Isotope extras). Each question a student gets is drawn from a set at random in those proportions, so 75 / 25 gives roughly three Skills 1 questions for every Atoms 1 question. Set a number to 0 to leave that set out. Changes apply to the next question each phone asks for, even mid-game. The starting values come from `mix` in `js/config.js`.
 
 The **Skills 1** set (Chemistry Skills 1: Maths for chemists) has about 40 questions written from the lecture, plus generated ones with fresh numbers every time: standard form, multiplying and adding in standard form, prefixes, cubed units, counting significant figures, reporting products and sums, moles from mass for the tapped element, and n = cV. Its steal challenges need a typed answer: moles or mass for the tapped element, the element's density in kg m⁻³ or the mass of a cube of it, the Week 3 chloride titration, AgNO₃ and MgCl₂·6H₂O stoichiometry, photon energy per mole or frequency in THz, and hydrate molar masses. Answers within ±0.5% (correct to 3 s.f.) count.
 

@@ -45,6 +45,9 @@
   }
   const UNITS = ['m', 'g', 'mol', 'J', 'Hz', 's'];
 
+  // Shared with other question generators (e.g. gen-atoms2.js)
+  Q.fmt = { toSF, num, round, sfHtml, expo, unique };
+
   // Elements usable for mole questions (real, non-trivial molar masses)
   const moleEl = e => e.ram && e.z <= 92 && !['Tc', 'Pm', 'Po', 'At', 'Rn', 'Fr', 'Ra', 'Ac', 'Pa'].includes(e.s);
 
