@@ -14,10 +14,11 @@ window.PQ_CONFIG = {
     appId: "1:647305885725:web:ff6cd56a8b42d462b96ef4"
   },
 
-  // 2. Starting question mix: question sets (files in the questions/ folder, without .js)
-  //    and their share of the questions. Change it during a game with the projector's
-  //    Topics button.
-  mix: { atoms2: 70, skills1: 20, atoms1: 10 },
+  // 2. Starting question mix. null means an even share for every question set in the
+  //    questions/ folder; choose the topics for each lecture with the projector's Topics
+  //    button. To start with a fixed mix instead, give set ids (file names without .js)
+  //    and shares, e.g. { atoms3: 70, atoms2: 30 }.
+  mix: null,
 
   // 3. Teams. Keys 'a' and 'b' are used internally; change names and colours freely.
   //    Colours are picked to match the lecture slide palette and to stay

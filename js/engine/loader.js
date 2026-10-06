@@ -10,7 +10,7 @@
   PQ.setStatus = {};   // id -> { ok, error, warnings }
 
   // Used only when questions/index.json can't be read (e.g. a copy run without GitHub Pages)
-  const FALLBACK = ['atoms1', 'atoms1-extension', 'atoms2', 'skills1'];
+  const FALLBACK = ['atoms1', 'atoms1-extension', 'atoms2', 'atoms3', 'skills1'];
   const VALID_ID = /^[A-Za-z0-9_-]+$/;
   const pending = {};          // id -> promise
   const syntaxErrors = {};     // id -> message

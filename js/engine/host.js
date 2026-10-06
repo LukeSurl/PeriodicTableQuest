@@ -28,8 +28,9 @@
     await PQ.loadSets(topicIds);
     topicIds.sort((a, b) => (!PQ.sets[a]) - (!PQ.sets[b]) || setName(a).localeCompare(setName(b), 'en', { numeric: true }));
     if (!activeMix(currentMix).length) {
-      const first = topicIds.find(k => PQ.sets[k]);
-      currentMix = first ? { [first]: 100 } : {};
+      // No starting mix set (or none of it exists): share evenly across every usable set
+      const ok = topicIds.filter(k => PQ.sets[k]);
+      currentMix = Object.fromEntries(ok.map(k => [k, Math.round(1000 / ok.length) / 10]));
     }
     currentMix = Object.fromEntries(activeMix(currentMix));
     const bad = topicIds.filter(k => !PQ.sets[k] || (PQ.setStatus[k] && PQ.setStatus[k].warnings.length)).length;

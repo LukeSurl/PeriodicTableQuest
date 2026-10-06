@@ -692,4 +692,145 @@
       }
     });
   }
+  // ================================================================
+  // Atoms 3: electrons as waves, orbitals and quantum numbers
+  // ================================================================
+  {
+    const L = ['s', 'p', 'd', 'f'];                            // letter for l = 0, 1, 2, 3
+    const ml = '<i>m</i><sub>l</sub>', ms = '<i>m</i><sub>s</sub>';
+    const label = (n, l) => `${n}${L[l]}`;
+    const mlList = l => Array.from({ length: 2 * l + 1 }, (_, i) => i - l).map(v => v > 0 ? `+${v}` : sn(v)).join(', ');
+    // A random orbital label that exists (n up to 5, l up to f)
+    const realOrbital = () => { const n = 1 + rnd(5), l = rnd(Math.min(n, 4)); return [n, l]; };
+    const fakeOrbital = () => { const n = 1 + rnd(3), l = n + rnd(4 - n); return [n, l]; };   // l ≥ n, e.g. 1p, 2d, 3f
+    const REL3 = 0.006;
+    const higherOrbital = () => { let o; do { o = realOrbital(); } while (o[0] < 2); return o; };
+    const CONFIG = { 1: '1s<sup>1</sup>', 2: '1s<sup>2</sup>', 3: '1s<sup>2</sup> 2s<sup>1</sup>', 4: '1s<sup>2</sup> 2s<sup>2</sup>' };
+
+    PQ.addGenerators({
+      // Which orbital label can or can't exist
+      a3Exists() {
+        const odd = Math.random() < 0.5;   // true: find the impossible one
+        const pool = new Set(); const want = odd ? fakeOrbital() : realOrbital();
+        const ans = label(...want);
+        while (pool.size < 3) { const o = label(...(odd ? realOrbital() : fakeOrbital())); if (o !== ans) pool.add(o); }
+        const [n, l] = want;
+        return { id: `a3:ex:${ans}:${odd}`,
+          q: odd ? 'Which of these orbitals cannot exist?' : 'Which of these orbitals can exist?',
+          a: ans, w: [...pool],
+          x: `l can be any whole number from 0 to n − 1. For ${ans}, n = ${n} and ${L[l]} means l = ${l}, ${l <= n - 1 ? `which is allowed (l can go up to ${n - 1})` : `but l can only go up to ${n - 1}`}.` };
+      },
+      // Orbitals in a subshell
+      a3Subshell() {
+        const [n, l] = realOrbital(), lab = label(n, l), k = 2 * l + 1;
+        return { id: `a3:sub:${lab}`,
+          q: `How many orbitals are there in the ${lab} subshell?`,
+          a: String(k), w: unique(String(k), ['1', '3', '5', '7', String(n), String(2 * k)].filter(v => v !== String(k))),
+          x: l ? `${L[l]} means l = ${l}, and ${ml} runs from −${l} to +${l} (${mlList(l)}): that is ${k} values, so ${k} orbitals.`
+               : `s means l = 0, so ${ml} can only be 0: one orbital.` };
+      },
+      // Orbitals in a shell
+      a3Shell() {
+        const n = 2 + rnd(3), k = n * n;
+        const parts = Array.from({ length: n }, (_, l) => `${2 * l + 1} ${label(n, l)}`).join(' + ');
+        return { id: `a3:sh:${n}`,
+          q: `How many orbitals are there in total in the n = ${n} shell?`,
+          a: String(k), w: unique(String(k), [String(2 * k), String(n), String(2 * n + 1), String(k + 1), String(n * (n + 1) / 2)]),
+          x: `l can be 0 to ${n - 1}, giving ${parts} = ${k} orbitals (n² in general). ${2 * k} is the number of electrons they can hold.` };
+      },
+      // Allowed values of l or ml
+      a3Values() {
+        if (Math.random() < 0.5) {
+          const n = 1 + rnd(4), right = Array.from({ length: n }, (_, i) => i).join(', ');
+          return { id: `a3:lv:${n}`,
+            q: `For the shell n = ${n}, which values can l take?`,
+            a: right, w: unique(right, [Array.from({ length: n }, (_, i) => i + 1).join(', '), Array.from({ length: n + 1 }, (_, i) => i).join(', '), n > 1 ? `−${n - 1} to +${n - 1}` : '1', '0'].filter(x => x !== right)),
+            x: `l can be any whole number from 0 to n − 1, so for n = ${n}: ${right}.` };
+        }
+        const l = 1 + rnd(3), right = mlList(l);
+        return { id: `a3:mv:${l}`,
+          q: `For a ${L[l]} subshell (l = ${l}), which values can ${ml} take?`,
+          a: right, w: unique(right, [Array.from({ length: l + 1 }, (_, i) => i).join(', '), Array.from({ length: 2 * l + 1 }, (_, i) => i + 1).join(', '), mlList(l - 1) || '0', mlList(l + 1)]),
+          x: `${ml} can be any whole number from −l to +l, so for l = ${l}: ${right} (${2 * l + 1} orbitals).` };
+      },
+      // Naming an orbital from n and l, or the reverse
+      a3Name() {
+        const [n, l] = higherOrbital();
+        if (Math.random() < 0.5) {
+          const ans = label(n, l);
+          return { id: `a3:nm:${ans}`,
+            q: `What is the name of the subshell with n = ${n} and l = ${l}?`,
+            a: ans, w: unique(ans, [label(n, l < 3 ? l + 1 : l - 1), label(n + 1, l), label(n, l > 0 ? l - 1 : l + 2), label(n - 1, l), label(n + 2, l)]),
+            x: `The number is n and the letter shows l (s = 0, p = 1, d = 2, f = 3), so n = ${n}, l = ${l} is ${ans}.` };
+        }
+        const ans = `n = ${n}, l = ${l}`;
+        return { id: `a3:qn:${label(n, l)}`,
+          q: `What are the quantum numbers n and l for a ${label(n, l)} orbital?`,
+          a: ans, w: unique(ans, [`n = ${n}, l = ${l + 1}`, `n = ${n}, l = ${n}`, `n = ${n - 1}, l = ${l}`, `n = ${n + 1}, l = ${l}`]),
+          x: `The number is n = ${n}; the letter ${L[l]} means l = ${l}.` };
+      },
+      // Angular nodes
+      a3Angular() {
+        const [n, l] = realOrbital(), lab = label(n, l);
+        return { id: `a3:an:${lab}`,
+          q: `How many angular nodes (nodal planes through the nucleus) does a ${lab} orbital have?`,
+          a: String(l), w: unique(String(l), ['0', '1', '2', '3', String(n)].filter(v => v !== String(l))),
+          x: `The number of angular nodes equals l: s has none, p one, d two, f three. ${lab} has ${l}.` };
+      },
+      // Configurations of H to Be (linked to those elements)
+      a3Config(e) {
+        if (e.z > 4) return null;
+        const all = Object.values(CONFIG).concat(['1s<sup>3</sup>', '1s<sup>1</sup> 2s<sup>1</sup>', '1s<sup>2</sup> 2p<sup>1</sup>', '2s<sup>1</sup>']);
+        const ans = CONFIG[e.z];
+        return { id: `a3:cf:${e.s}`, weight: 3,
+          q: `What is the ground-state electron configuration of ${lc(e)}?`,
+          a: ans, w: unique(ans, shuffle(all)),
+          x: `${e.n} has ${e.z} electron${e.z > 1 ? 's' : ''}. 1s holds at most two (one ↑, one ↓), so ${e.z > 2 ? 'the rest go into 2s, the next lowest energy orbital' : 'they all fit in 1s'}: ${ans}.` };
+      }
+    });
+
+    PQ.addStealGenerators({
+      // Maximum number of electrons in a subshell
+      s3Electrons() {
+        const [n, l] = (() => { let o; do { o = realOrbital(); } while (o[1] === 0); return o; })();
+        return { id: `s3:eb:${label(n, l)}`, num: 2 * (2 * l + 1), tol: 0, unit: 'electrons', show: `${2 * (2 * l + 1)} electrons`,
+          q: `What is the maximum number of electrons that a ${label(n, l)} subshell can hold?`,
+          x: `${L[l]} means l = ${l}, so ${ml} = ${mlList(l)}: ${2 * l + 1} orbitals. Each holds two electrons, so ${2 * (2 * l + 1)}.` };
+      },
+      // Counting orbitals across shells
+      s3Orbitals() {
+        const variant = rnd(3);
+        if (variant === 0) {
+          const n = 5 + rnd(3);
+          return { id: `s3:on:${n}`, num: n * n, tol: 0, unit: 'orbitals', show: `${n * n} orbitals`,
+            q: `How many orbitals are there in total in the n = ${n} shell?`,
+            x: `l = 0 to ${n - 1}: ${Array.from({ length: n }, (_, l) => 2 * l + 1).join(' + ')} = ${n * n}.` };
+        }
+        if (variant === 1) {
+          const top = 3 + rnd(3);
+          const tot = Array.from({ length: top }, (_, i) => (i + 1) ** 2).reduce((a, b) => a + b, 0);
+          return { id: `s3:or:${top}`, num: tot, tol: 0, unit: 'orbitals', show: `${tot} orbitals`,
+            q: `How many orbitals are there altogether in the shells n = 1 to n = ${top}?`,
+            x: `Each shell has n² orbitals: ${Array.from({ length: top }, (_, i) => (i + 1) ** 2).join(' + ')} = ${tot}.` };
+        }
+        const l = 1 + rnd(2), top = 4 + rnd(2);
+        const count = (top - l) * (2 * l + 1);
+        return { id: `s3:ol:${l}:${top}`, num: count, tol: 0, unit: 'orbitals', show: `${count} orbitals`,
+          q: `How many ${L[l]} orbitals are there altogether in the shells n = 1 to n = ${top}?`,
+          x: `${L[l]} subshells (l = ${l}) exist only from n = ${l + 1} upwards: ${Array.from({ length: top - l }, (_, i) => label(l + 1 + i, l)).join(', ')}. That is ${top - l} subshells × ${2 * l + 1} orbitals = ${count}.` };
+      },
+      // Comparing probability densities from ψ values
+      s3Psi() {
+        let a = (rnd(70) + 15) / 100, b = (rnd(70) + 10) / 100;
+        if (Math.abs(a - b) < 0.05) b = Math.max(0.05, a - 0.2);
+        if (b > a) [a, b] = [b, a];
+        const sa = Math.random() < 0.5 ? 1 : -1, sb = Math.random() < 0.5 ? 1 : -1;
+        const A = sa * a, B = sb * b, r = (a * a) / (b * b);
+        const fmt = v => (v < 0 ? MINUS : '') + Math.abs(v).toFixed(2);
+        return { id: `s3:ps:${A}:${B}`, num: round(r, 3), rel: REL3, show: num(r, 3),
+          q: `At point A an electron's wavefunction has ψ = ${fmt(A)}; at point B, ψ = ${fmt(B)}. How many times more likely (per unit volume) is the electron to be found at A than at B? Give 3 s.f.`,
+          x: `Probability density is proportional to ψ², and the sign (phase) doesn't matter: ${Math.abs(A).toFixed(2)}² ÷ ${Math.abs(B).toFixed(2)}² = ${(a * a).toFixed(4)} ÷ ${(b * b).toFixed(4)} = ${num(r, 3)}.` };
+      }
+    });
+  }
 })();

@@ -50,7 +50,7 @@ Before the game starts, students can tap any element for practice questions; not
 ### Rules you can change in `js/config.js`
 
 - Team names and colours (currently Blue `#007A75` and Red `#C8553D`, chosen to sit with the slide palette and to stay distinguishable for colour-blind students).
-- `mix`, the topics and shares the projector starts with.
+- `mix`, the topics and shares the projector starts with. Left as `null`, every set in the folder gets an even share, and you choose the topics for each lecture with the Topics button.
 - `defaultMinutes`, `allowSteal`, `shieldSeconds` (how long a new claim is protected from stealing) and `wrongCooldownSeconds`.
 
 ## Questions
@@ -72,7 +72,7 @@ Before the game starts, students can tap any element for practice questions; not
 
 That's all. When GitHub Pages rebuilds the site (a minute or two), it updates `questions/index.json`, the list of every `.js` file in the folder, and the new topic appears in the projector's Topics window. If a file has a mistake, the Topics window shows it as unusable with the reason (for example a typing error and its line number), and lists warnings about individual questions it had to skip. The other topics keep working.
 
-`questions/index.json` is written by GitHub Pages, so it only works on the live site. A copy run any other way (for example `demo.html` on your own computer) falls back to the four built-in sets.
+`questions/index.json` is written by GitHub Pages, so it only works on the live site. A copy run any other way (for example `demo.html` on your own computer) falls back to the built-in sets.
 
 ### How a question is chosen
 
@@ -88,6 +88,7 @@ Every answer is followed by a short explanation. Stealing an element the other t
 
 - **Atoms 1** (`atoms1.js`): the atom, isotopes and relative mass. Generated questions on neutrons, protons, nuclide notation, ions, relative atomic mass and isotope abundance; steal challenges on relative atomic mass from abundances or mass spectrum peaks, abundance from relative atomic mass (including ¹⁵N-, ¹³C-, ²H- and ¹⁸O-labelled samples) and Cl₂/Br₂ peak heights.
 - **Isotope extras** (`atoms1-extension.js`): isotope questions beyond Lecture 1 and A-level, kept for reference.
+- **Atoms 3** (`atoms3.js`): electrons as waves, wavefunctions and ψ², quantum numbers and orbital labels, orbital shapes and angular nodes, radial distribution functions, Pauli and spin, configurations of H to Be; steal challenges on subshell capacity, counting orbitals and comparing ψ values.
 - **Chemistry Skills 1** (`skills1.js`): standard form, prefixes, cubed units, significant figures, moles, n = cV; steal challenges on moles and mass of the tapped element, its density, the Week 3 chloride titration, stoichiometry, photon energies and hydrate molar masses.
 - **Atoms 2** (`atoms2.js`): electromagnetic radiation and energy levels. Includes flame colours worked out from emission wavelengths, UK local radio frequencies (FM and former MW), the potassium photoelectric effect, missing hydrogen lines and the hydrogen energy-level diagram; steal challenges on the longest wavelength that ionises the tapped element (the guanine method), hydrogen line wavelengths, photoelectron kinetic energy and radio photon energies.
 
