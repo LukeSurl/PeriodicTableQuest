@@ -101,8 +101,6 @@ body.host { height: 100vh; overflow: hidden; display: flex; flex-direction: colu
 .btn.warn { border-color: var(--bad); color: var(--bad); }
 .btn:hover { filter: brightness(.95); }
 .controls .spacer { flex: 1; }
-.mixbox { display: inline-flex; flex-wrap: wrap; gap: .5rem; align-items: center; padding-left: .6rem; border-left: 1px solid var(--line); }
-.mixbox input { width: 4.8em; }
 .overlay {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   background: #CCE5E1cc; backdrop-filter: blur(2px); z-index: 5;
@@ -167,3 +165,26 @@ sup, sub { line-height: 0; }
 .numform input.wrong { border-color: var(--bad); background: #FBE9E7; }
 .numform .unit { font-size: 1.2rem; font-weight: 600; }
 .numform .btn { padding: .7rem 1rem; font-size: 1rem; }
+
+/* Topics window (projector) */
+.modal { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 16px; background: #003C3B66; }
+.modal-box { background: var(--paper); color: var(--ink); border-radius: 14px; width: min(760px, 100%); max-height: 90vh; display: flex; flex-direction: column; padding: 1.2rem 1.4rem; box-shadow: 0 12px 40px #003c3b44; }
+.modal-box h2 { margin: 0 0 .3rem; font-size: 1.4rem; }
+.modal-sub { margin: 0 0 .8rem; color: var(--muted); font-size: .95rem; }
+.tlist { overflow: auto; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.trow { display: grid; grid-template-columns: auto 1fr auto; gap: .8rem; align-items: start; padding: .65rem .2rem; border-bottom: 1px dashed var(--line); }
+.trow:last-child { border-bottom: 0; }
+.trow input[type=checkbox] { width: 1.15rem; height: 1.15rem; margin-top: .15rem; accent-color: var(--ink); }
+.tinfo { display: flex; flex-direction: column; gap: .15rem; cursor: pointer; }
+.tinfo small { color: var(--muted); }
+.twarn { color: #8A5A00; font-size: .85rem; }
+.twarn::before { content: "⚠ "; }
+.terr { color: var(--bad); font-size: .9rem; }
+.trow.bad b { color: var(--muted); }
+.tpct { display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; }
+.tpct input { width: 4.5em; font: inherit; padding: .3rem .4rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); text-align: right; }
+.modal-total { margin: .7rem 0 0; font-weight: 600; }
+.modal-note { margin: .2rem 0 .8rem; font-size: .85rem; color: var(--muted); }
+.modal-actions { display: flex; gap: .5rem; align-items: center; }
+.modal-actions .spacer { flex: 1; }
+.btn:disabled { opacity: .5; cursor: default; }

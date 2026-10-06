@@ -1,0 +1,6 @@
+---
+# GitHub Pages fills this in automatically each time the site is rebuilt:
+# it lists every .js file in this folder (files starting with _ are left out).
+# Don't edit the line below.
+---
+[{%- assign first = true -%}{%- for f in site.static_files -%}{%- if f.path contains "/questions/" and f.extname == ".js" -%}{%- unless first -%},{%- endunless -%}"{{ f.name }}"{%- assign first = false -%}{%- endif -%}{%- endfor -%}]

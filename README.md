@@ -41,7 +41,7 @@ Firebase's free (Spark) plan allows **100 simultaneous connections**. The projec
 
 1. Open the site on the lectern PC. Press **F** for full screen.
 2. Set the countdown in minutes, or type the time the lecture starts in "or ends at" (e.g. 12:05). Press **Start**.
-3. Press **C** to hide or show the control bar.
+3. Press **Topics** (or **T**) to choose which question sets to use and their share of the questions. Press **C** to hide or show the control bar.
 4. When the timer reaches zero the board locks and the winner is shown. **+1 min** or **Play on** reopens it.
 5. **Clear board** keeps the teams and wipes the table. **New game** starts a fresh game with a new QR code and new teams.
 
@@ -49,45 +49,51 @@ Before the game starts, students can tap any element for practice questions; not
 
 ### Rules you can change in `js/config.js`
 
-- Team names and colours (currently Teal `#007A75` and Coral `#C8553D`, chosen to sit with the pale-teal/deep-teal slide palette and to stay distinguishable for colour-blind students).
+- Team names and colours (currently Blue `#007A75` and Red `#C8553D`, chosen to sit with the slide palette and to stay distinguishable for colour-blind students).
+- `mix`, the topics and shares the projector starts with.
 - `defaultMinutes`, `allowSteal`, `shieldSeconds` (how long a new claim is protected from stealing) and `wrongCooldownSeconds`.
 
 ## Questions
 
-Questions live in `js/questions.js`. For each tapped element the game picks from:
+### Where they live
 
-- your own questions for that element (e.g. ¹⁵N and Meselson–Stahl on nitrogen, the 3 : 1 chlorine M/M+2 pattern on chlorine, Earth versus Jupiter argon on argon). Questions beyond Lecture 1 and A-level are parked in an unused `isotopesExtension` bank;
-- questions generated from real isotope data for that element: neutron and proton counts, nuclide notation, electrons in common ions, relative atomic mass calculations, which isotope is more abundant, and single-isotope elements;
-- occasional general questions (definitions, the dalton, kDa for proteins).
+| Where | What | Who edits it |
+|---|---|---|
+| `questions/` | One file per question set (topic), e.g. `atoms2.js`. Hand-written questions, plus the names of the generators the set uses. | Lecturers |
+| `questions/_template.js` | A starting point for a new set, with instructions. Ignored by the game. | Copy it |
+| `js/question_generators.js` | Generators: code that writes fresh questions from element data or random numbers, and the typed-answer steal challenges. A guide at the top explains how to add one. | Anyone comfortable with a little JavaScript |
+| `js/engine/` | Everything else: choosing questions, loading sets, typesetting, the game itself. | Nobody, normally |
 
-Every answer is followed by a one-line explanation. Relative atomic mass calculations use mass numbers and percentages to 1 d.p., and the explanation gives the precise value too. Any calculation that lands near a rounding boundary is left out.
+### Adding a topic
 
-### Steal challenges
+1. Copy `questions/_template.js` and rename the copy, e.g. `atoms3.js`. Use only letters, numbers, hyphens and underscores, and don't start the name with `_`.
+2. Write the title, a short name and your questions.
+3. Upload it to the `questions/` folder on GitHub.
 
-Taking an element the other team owns needs a harder question with a typed numeric answer:
+That's all. When GitHub Pages rebuilds the site (a minute or two), it updates `questions/index.json`, the list of every `.js` file in the folder, and the new topic appears in the projector's Topics window. If a file has a mistake, the Topics window shows it as unusable with the reason (for example a typing error and its line number), and lists warnings about individual questions it had to skip. The other topics keep working.
 
-- relative atomic mass from percentage abundances (2 d.p.);
-- relative atomic mass from mass spectrum peak heights, where students must divide by the total peak height (2 d.p.);
-- percentage abundance of an isotope from a sample's relative atomic mass, including ¹⁵N-, ¹³C-, ²H- and ¹⁸O-labelled samples (1 d.p.);
-- Cl₂ and Br₂ molecular ion peak heights (whole number).
+`questions/index.json` is written by GitHub Pages, so it only works on the live site. A copy run any other way (for example `demo.html` on your own computer) falls back to the four built-in sets.
 
-Answers must be within rounding of the correct value (±0.01 for 2 d.p., ±0.1 for 1 d.p.). A wrong answer shows the right value and the working. About 35 elements have suitable isotope data; tapping any other element (sodium, gold, the superheavies) gives a challenge about a different element, and the phone says so.
+### How a question is chosen
 
-The **Atoms 2** set (Electromagnetic radiation and energy levels) has 30 hand-written questions from the lecture, including flame colours worked out from emission wavelengths, plus generated questions: frequency and wavelength conversions, photon energies (including real UK local radio frequencies, FM and former MW), regions of the spectrum, the potassium photoelectric effect, missing hydrogen lines, gaps on the hydrogen energy-level diagram, ionising from the ground or an excited state, and the longest wavelength that can ionise the tapped element. Its steal challenges cover that last calculation (the guanine method), hydrogen line wavelengths, photoelectron kinetic energy, radio photon energies and energy per mole of photons.
+When a student taps an element, the game picks a question set according to the mix, then picks from that set's:
+
+- hand-written questions for that element (e.g. ¹⁵N and Meselson–Stahl on nitrogen, Earth versus Jupiter argon on argon);
+- generated questions that work for that element;
+- general questions (`el: null`), which can appear on any element.
+
+Every answer is followed by a short explanation. Stealing an element the other team owns uses a harder steal challenge with a typed numeric answer; answers must be within rounding of the correct value. If the chosen set has no steal challenge for the tapped element, the game tries the other sets in the mix, then a challenge about a different element (the phone says so).
+
+### The sets so far
+
+- **Atoms 1** (`atoms1.js`): the atom, isotopes and relative mass. Generated questions on neutrons, protons, nuclide notation, ions, relative atomic mass and isotope abundance; steal challenges on relative atomic mass from abundances or mass spectrum peaks, abundance from relative atomic mass (including ¹⁵N-, ¹³C-, ²H- and ¹⁸O-labelled samples) and Cl₂/Br₂ peak heights.
+- **Isotope extras** (`atoms1-extension.js`): isotope questions beyond Lecture 1 and A-level, kept for reference.
+- **Chemistry Skills 1** (`skills1.js`): standard form, prefixes, cubed units, significant figures, moles, n = cV; steal challenges on moles and mass of the tapped element, its density, the Week 3 chloride titration, stoichiometry, photon energies and hydrate molar masses.
+- **Atoms 2** (`atoms2.js`): electromagnetic radiation and energy levels. Includes flame colours worked out from emission wavelengths, UK local radio frequencies (FM and former MW), the potassium photoelectric effect, missing hydrogen lines and the hydrogen energy-level diagram; steal challenges on the longest wavelength that ionises the tapped element (the guanine method), hydrogen line wavelengths, photoelectron kinetic energy and radio photon energies.
 
 ### Typesetting
 
 Question text is tidied automatically before it is shown: numbers in standard form (3.00 × 10⁸), a number and its unit (0.10 g, 10⁸ m) and the parts of compound units (mol dm⁻³, J s, g cm⁻³) are held together with non-breaking spaces so they never split across lines. You can type ordinary spaces when writing questions.
-
-### Mixing question sets
-
-The projector's control bar has a **Question mix** box with a number for each question set (Atoms 2, Skills 1, Atoms 1, Isotope extras). Each question a student gets is drawn from a set at random in those proportions, so 75 / 25 gives roughly three Skills 1 questions for every Atoms 1 question. Set a number to 0 to leave that set out. Changes apply to the next question each phone asks for, even mid-game. The starting values come from `mix` in `js/config.js`.
-
-The **Skills 1** set (Chemistry Skills 1: Maths for chemists) has about 40 questions written from the lecture, plus generated ones with fresh numbers every time: standard form, multiplying and adding in standard form, prefixes, cubed units, counting significant figures, reporting products and sums, moles from mass for the tapped element, and n = cV. Its steal challenges need a typed answer: moles or mass for the tapped element, the element's density in kg m⁻³ or the mass of a cube of it, the Week 3 chloride titration, AgNO₃ and MgCl₂·6H₂O stoichiometry, photon energy per mole or frequency in THz, and hydrate molar masses. Answers within ±0.5% (correct to 3 s.f.) count.
-
-### Using it for another lecture
-
-Copy the `template` block at the bottom of `js/questions.js`, rename it (e.g. `light`), write your questions, and set `topic: 'light'` in `js/config.js`. Set `generators: []` if the built-in isotope questions don't fit the topic. A question with `el: null` can appear on any element; one with `el: 'Na'` appears only on sodium.
 
 ## Things to know
 
@@ -102,10 +108,11 @@ Copy the `template` block at the bottom of `js/questions.js`, rename it (e.g. `l
 | `index.html` | Projector view |
 | `play.html` | Student phone view (the QR code points here) |
 | `demo.html` | Projector and two phones in one page, for trying it out |
-| `js/config.js` | Settings: Firebase, teams, timings, topic |
-| `js/questions.js` | Question banks |
-| `js/quiz.js` | Picks and generates questions |
-| `js/elements.js` | Element and isotope data (from the `mendeleev` package, IUPAC/NUBASE values) |
-| `js/backend.js`, `js/table.js`, `js/host.js`, `js/play.js` | Game code |
+| `js/config.js` | Settings: Firebase, teams, timings, starting topics |
+| `questions/*.js` | Question sets, one per topic |
+| `questions/index.json` | The list of question sets, written by GitHub Pages |
+| `js/question_generators.js` | Question generators and steal challenges |
+| `js/elements.js` | Element data: isotopes (from the `mendeleev` package, IUPAC/NUBASE values), densities, first ionisation energies |
+| `js/engine/` | Game code: `tools.js`, `quiz.js`, `loader.js`, `table.js`, `backend.js`, `host.js`, `play.js` |
 | `js/vendor/qrcode.js` | QR code generator (MIT licence, Kazuhiko Arase) |
 | `database.rules.json` | Firebase security rules |

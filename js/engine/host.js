@@ -10,25 +10,95 @@
 
   T.applyTheme();
   $('title').textContent = CFG.title;
-  const BANKS = Object.keys(window.PQ_BANKS).filter(k => k !== 'template');
-  const bankName = k => window.PQ_BANKS[k].short || window.PQ_BANKS[k].title;
-  const defaultMix = () => CFG.mix || { [CFG.topic]: 100 };
+  // ---------- Question topics ----------
+  let currentMix = { ...(CFG.mix || {}) };
+  let topicIds = [];
+  const setName = k => (PQ.sets[k] && PQ.sets[k].short) || k;
+  const activeMix = mix => Object.entries(mix || {}).filter(([k, w]) => PQ.sets[k] && +w > 0);
   function showTopic(mix) {
-    const on = Object.entries(mix || defaultMix()).filter(([k, w]) => window.PQ_BANKS[k] && +w > 0);
+    const on = activeMix(mix);
     const tot = on.reduce((s, [, w]) => s + +w, 0);
-    $('topic').textContent = `${CFG.moduleCode} · ` + (on.length === 1 ? window.PQ_BANKS[on[0][0]].title
-      : on.map(([k, w]) => `${bankName(k)} ${Math.round(w / tot * 100)}%`).join(' · '));
+    $('topic').textContent = `${CFG.moduleCode} · ` + (!on.length ? 'No topics chosen'
+      : on.length === 1 ? PQ.sets[on[0][0]].title
+      : on.map(([k, w]) => `${setName(k)} ${Math.round(w / tot * 100)}%`).join(' · '));
   }
-  // Question mix inputs in the control bar
-  $('mixBox').innerHTML = 'Question mix: ' + BANKS.map(k =>
-    `<label>${bankName(k)} <input type="number" min="0" max="100" step="5" id="mix-${k}" value="${defaultMix()[k] || 0}"></label>`).join(' ');
-  const readMix = () => Object.fromEntries(BANKS.map(k => [k, Math.max(0, +$('mix-' + k).value || 0)]));
-  BANKS.forEach(k => $('mix-' + k).addEventListener('change', () => {
-    const mix = readMix();
-    if (!Object.values(mix).some(v => v > 0)) return;
-    B.updateMeta(code, { mix }); showTopic(mix);
-  }));
-  showTopic(defaultMix());
+  // Find every set in the questions/ folder and load it, so the Topics window can list them
+  async function loadTopics() {
+    topicIds = await PQ.listSets();
+    await PQ.loadSets(topicIds);
+    topicIds.sort((a, b) => (!PQ.sets[a]) - (!PQ.sets[b]) || setName(a).localeCompare(setName(b), 'en', { numeric: true }));
+    if (!activeMix(currentMix).length) {
+      const first = topicIds.find(k => PQ.sets[k]);
+      currentMix = first ? { [first]: 100 } : {};
+    }
+    currentMix = Object.fromEntries(activeMix(currentMix));
+    const bad = topicIds.filter(k => !PQ.sets[k] || (PQ.setStatus[k] && PQ.setStatus[k].warnings.length)).length;
+    $('topicsBtn').textContent = bad ? `Topics (${bad} need attention)` : 'Topics';
+  }
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function openTopics() {
+    const mix = (state.meta && state.meta.mix) || currentMix;
+    const rows = topicIds.map(k => {
+      const set = PQ.sets[k], st = PQ.setStatus[k] || {};
+      if (!set) return `<div class="trow bad"><input type="checkbox" disabled aria-label="${esc(k)}"><div class="tinfo"><b>${esc(k)}.js</b>
+          <span class="terr">Can't be used: ${esc(st.error || 'unknown problem')}</span></div><span></span></div>`;
+      const written = set.questions.filter(q => !q.steal).length, wSteal = set.questions.filter(q => q.steal).length;
+      const parts = [`${written} written question${written === 1 ? '' : 's'}`];
+      if (set.generators.length) parts.push(`${set.generators.length} generated type${set.generators.length === 1 ? '' : 's'}`);
+      const steals = set.stealGenerators.length + wSteal;
+      parts.push(steals ? `${steals} steal challenge type${steals === 1 ? '' : 's'}` : 'no steal challenges of its own');
+      const w = +mix[k] || 0;
+      return `<div class="trow"><input type="checkbox" id="tc-${k}" data-k="${k}" ${w > 0 ? 'checked' : ''}>
+        <label class="tinfo" for="tc-${k}"><b>${esc(set.title)}</b><small>${esc(k)}.js · ${parts.join(' · ')}</small>
+        ${(st.warnings || []).map(x => `<span class="twarn">${esc(x)}</span>`).join('')}</label>
+        <span class="tpct"><input type="number" min="0" max="100" step="5" id="tp-${k}" value="${w > 0 ? Math.round(w) : ''}" aria-label="Share for ${esc(set.short)}"> %</span></div>`;
+    }).join('');
+    $('topicList').innerHTML = rows || '<p>No question sets found in the questions folder.</p>';
+    $('topicSource').textContent = PQ.listSource === 'fallback'
+      ? 'The folder list (questions/index.json) could not be read, so only the built-in topics are shown. This is normal when running a copy without GitHub Pages.'
+      : `${topicIds.length} file${topicIds.length === 1 ? '' : 's'} in the questions folder.`;
+    $('topicList').querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', () => {
+      const p = $('tp-' + cb.dataset.k);
+      if (cb.checked && !+p.value) p.value = 10;
+      if (!cb.checked) p.value = '';
+      updateTotal();
+    }));
+    $('topicList').querySelectorAll('.tpct input').forEach(inp => inp.addEventListener('input', () => {
+      const cb = $('tc-' + inp.id.slice(3)); cb.checked = +inp.value > 0; updateTotal();
+    }));
+    updateTotal();
+    $('topicsModal').classList.remove('hidden');
+    const firstBox = $('topicList').querySelector('input:not([disabled])'); if (firstBox) firstBox.focus();
+  }
+  function readTopics() {
+    return Object.fromEntries(topicIds.filter(k => PQ.sets[k] && $('tc-' + k).checked && +$('tp-' + k).value > 0).map(k => [k, +$('tp-' + k).value]));
+  }
+  function updateTotal() {
+    const mix = readTopics(), tot = Object.values(mix).reduce((a, b) => a + b, 0);
+    $('topicTotal').textContent = !tot ? 'Tick at least one topic.'
+      : tot === 100 ? 'Total: 100%' : `Total: ${tot}%. Shares will be scaled to add up to 100%.`;
+    $('tApply').disabled = !tot;
+  }
+  const closeTopics = () => $('topicsModal').classList.add('hidden');
+  $('topicsBtn').onclick = openTopics;
+  $('tCancel').onclick = closeTopics;
+  $('topicsModal').addEventListener('click', ev => { if (ev.target === $('topicsModal')) closeTopics(); });
+  $('tEqual').onclick = () => {
+    const on = topicIds.filter(k => PQ.sets[k] && $('tc-' + k).checked);
+    on.forEach((k, i) => { $('tp-' + k).value = Math.floor(100 / on.length) + (i < 100 % on.length ? 1 : 0); });
+    updateTotal();
+  };
+  $('tApply').onclick = () => {
+    const raw = readTopics(), tot = Object.values(raw).reduce((a, b) => a + b, 0);
+    if (!tot) return;
+    currentMix = Object.fromEntries(Object.entries(raw).map(([k, v]) => [k, Math.round(v / tot * 1000) / 10]));
+    if (code) B.updateMeta(code, { mix: currentMix });
+    showTopic(currentMix); closeTopics();
+  };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTopics(); });
+
+  await loadTopics();
+  showTopic(currentMix);
   $('nameA').textContent = TEAM('a').name; $('nameB').textContent = TEAM('b').name;
   $('mins').value = CFG.defaultMinutes;
 
@@ -40,7 +110,7 @@
   $('mode').textContent = B.mode === 'demo' ? 'Demo mode: this browser only' : 'Live';
   B.onConnection(ok => { if (B.mode !== 'demo') $('mode').textContent = ok ? 'Live' : 'Reconnecting…'; });
 
-  const freshMeta = () => ({ status: 'lobby', endsAt: 0, steal: !!CFG.allowSteal, shield: CFG.shieldSeconds * 1000, topic: CFG.topic, mix: readMix() });
+  const freshMeta = () => ({ status: 'lobby', endsAt: 0, steal: !!CFG.allowSteal, shield: CFG.shieldSeconds * 1000, mix: currentMix });
   const newCode = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
 
   let code, state = { meta: null, cells: {}, players: {} }, unwatch = null, first = true, endingSent = false;
@@ -110,10 +180,8 @@
     const ov = $('overlay'), box = $('overlayBox');
     if (!m) { ov.classList.remove('hidden'); box.innerHTML = '<h2>Setting up…</h2>'; return; }
     if (m.status === 'open') endingSent = false;
-    if (m.mix) {
-      showTopic(m.mix);
-      BANKS.forEach(k => { const i = $('mix-' + k); if (document.activeElement !== i) i.value = m.mix[k] || 0; });
-    }
+    if (m.mix && activeMix(m.mix).length) showTopic(m.mix);
+    else if (code && m.host === B.uid) B.updateMeta(code, { mix: currentMix });   // e.g. a game saved before a topic was renamed
     if (m.status === 'lobby') {
       ov.classList.remove('hidden');
       box.innerHTML = `<h2>Scan to join</h2><p class="lobby-msg">You'll be put in team <span style="color:var(--ta);font-weight:700">${TEAM('a').name}</span> or <span style="color:var(--tb);font-weight:700">${TEAM('b').name}</span>.<br>Answer questions to claim elements.</p>`;
@@ -195,7 +263,8 @@
   const toggleControls = () => $('controls').classList.toggle('hidden');
   $('hide').onclick = toggleControls;
   document.addEventListener('keydown', e => {
-    if (e.target.tagName === 'INPUT') return;
+    if (e.target.tagName === 'INPUT' || !$('topicsModal').classList.contains('hidden')) return;
+    if (e.key === 't' || e.key === 'T') openTopics();
     if (e.key === 'c' || e.key === 'C') toggleControls();
     if (e.key === 'f' || e.key === 'F') $('fs').click();
   });

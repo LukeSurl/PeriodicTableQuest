@@ -14,11 +14,10 @@ window.PQ_CONFIG = {
     appId: "1:647305885725:web:ff6cd56a8b42d462b96ef4"
   },
 
-  // 2. Question mix: which question banks to use (see js/questions.js) and in what
-  //    proportion. These are the starting values; you can change them on the
-  //    projector during a game. Banks left out are not used.
-  mix: { atoms2: 70, skills1: 20, isotopes: 10 },
-  topic: 'atoms2',    // fallback if the mix is empty
+  // 2. Starting question mix: question sets (files in the questions/ folder, without .js)
+  //    and their share of the questions. Change it during a game with the projector's
+  //    Topics button.
+  mix: { atoms2: 70, skills1: 20, atoms1: 10 },
 
   // 3. Teams. Keys 'a' and 'b' are used internally; change names and colours freely.
   //    Colours are picked to match the lecture slide palette and to stay

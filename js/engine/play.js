@@ -39,9 +39,16 @@
 
   B.onConnection(ok => { if (!ok && team) toast('Connection lost, reconnecting…'); });
 
+  // The question sets the game is using, e.g. { atoms2: 70, skills1: 30 }
+  const gameMix = () => {
+    const mix = (state.meta && state.meta.mix) || CFG.mix || {};
+    return Object.fromEntries(Object.entries(mix).filter(([, w]) => +w > 0));
+  };
+
   B.watch(code, ['meta', 'cells'], async (st, part) => {
     state = st;
     if (part === 'meta') {
+      if (st.meta) PQ.loadSets(Object.keys(gameMix()));   // fetch them in the background
       if (st.meta === null) { setStatus(`No game found with code <b>${code}</b>. Check the code on the screen. <p><a class="btn" href="play.html${B.mode === 'demo' ? '?demo=1' : ''}">Enter a different code</a></p>`); return; }
       if (!team && !joining) join();
       renderMeta();
@@ -96,8 +103,9 @@
 
   const check = z => PQ_BACKEND.canClaim({ ...state, players: { [B.uid]: { t: team } } }, B.uid, z, B.now());
 
+  let asking = false;
   function tap(z) {
-    if (sheetOpen || !team) return;
+    if (sheetOpen || asking || !team) return;
     if (Date.now() < coolUntil) return toast('Wait for the timer, then try again.');
     const e = Q.BY_Z[z], r = check(z);
     if (!r.ok) {
@@ -116,17 +124,26 @@
     ask(z, { steal: r.steal });
   }
 
-  function ask(z, { practice, steal }) {
+  async function ask(z, opts) {
+    asking = true;
+    try { await askNow(z, opts); } finally { asking = false; }
+  }
+
+  async function askNow(z, { practice, steal }) {
     const e = Q.BY_Z[z];
-    const mix = (state.meta && state.meta.mix) || CFG.mix || { [CFG.topic]: 100 };
+    const all = gameMix();
+    await PQ.loadSets(Object.keys(all));
+    const mix = Object.fromEntries(Object.entries(all).filter(([t]) => PQ.sets[t]));
+    if (!Object.keys(mix).length) return toast('The questions couldn\'t be loaded. Check your connection and try again.');
     const topic = Q.chooseTopic(mix);
     let q = null;
     if (steal) {
-      // Try the chosen bank's steal challenges first, then the other banks in the mix
-      const order = [topic, ...Object.keys(mix).filter(t => t !== topic && +mix[t] > 0)];
-      for (const t of order) if (window.PQ_BANKS[t] && (q = Q.getStealQuestion(z, seen, t))) break;
+      // Try the chosen set's steal challenges first, then the other sets in the mix
+      const order = [topic, ...Object.keys(mix).filter(t => t !== topic)];
+      for (const t of order) if ((q = Q.getStealQuestion(z, seen, t))) break;
     }
     q = q || Q.getQuestion(z, seen, topic);
+    if (!q) return toast('No question available for this element. Try another.');
     seen.add(q.id); saveSeen();
     const owner = state.cells[z] && state.cells[z].t;
     const head = practice ? `Practice question` : steal ? `Steal challenge: take it from Team ${TEAM(owner).name}` : `Claim for Team ${TEAM(team).name}`;
