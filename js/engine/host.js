@@ -55,9 +55,9 @@
         <span class="tpct"><input type="number" min="0" max="100" step="5" id="tp-${k}" value="${w > 0 ? Math.round(w) : ''}" aria-label="Share for ${esc(set.short)}"> %</span></div>`;
     }).join('');
     $('topicList').innerHTML = rows || '<p>No question sets found in the questions folder.</p>';
-    $('topicSource').textContent = PQ.listSource === 'fallback'
+    $('topicSource').textContent = (PQ.generatorsError ? `Problem: ${PQ.generatorsError} Generated questions won't work until it's fixed. ` : '') + (PQ.listSource === 'fallback'
       ? 'The folder list (questions/index.json) could not be read, so only the built-in topics are shown. This is normal when running a copy without GitHub Pages.'
-      : `${topicIds.length} file${topicIds.length === 1 ? '' : 's'} in the questions folder.`;
+      : `${topicIds.length} file${topicIds.length === 1 ? '' : 's'} in the questions folder.`);
     $('topicList').querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', () => {
       const p = $('tp-' + cb.dataset.k);
       if (cb.checked && !+p.value) p.value = 10;

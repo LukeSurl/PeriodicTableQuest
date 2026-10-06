@@ -15,9 +15,21 @@
   const pending = {};          // id -> promise
   const syntaxErrors = {};     // id -> message
 
+  // question_generators.js is fetched fresh every time (like the question files), so a
+  // browser never pairs a new question set with an old saved copy of the generators.
+  PQ.generatorsReady = (typeof document !== 'undefined' && document.createElement) ? new Promise(resolve => {
+    const s = document.createElement('script');
+    s.src = `js/question_generators.js?v=${Date.now()}`;
+    s.onload = () => resolve(!PQ.generatorsError);
+    s.onerror = () => { PQ.generatorsError = 'js/question_generators.js could not be found.'; resolve(false); };
+    document.head.appendChild(s);
+  }) : Promise.resolve(true);
+
   const idFromUrl = url => decodeURIComponent((String(url).split('?')[0].split('/').pop() || '').replace(/\.js$/i, ''));
 
   window.addEventListener('error', ev => {
+    if (ev.filename && /question_generators\.js/.test(ev.filename))
+      PQ.generatorsError = `js/question_generators.js has a typing mistake: ${String(ev.message).replace(/^Uncaught /, '')} (line ${ev.lineno})`;
     if (ev.filename && /\/questions\//.test(ev.filename)) syntaxErrors[idFromUrl(ev.filename)] = `${String(ev.message).replace(/^Uncaught /, '')} (line ${ev.lineno})`;
   });
 
@@ -67,7 +79,11 @@
   };
 
   // Load one set by id; resolves to true if it loaded and is usable
-  PQ.loadSet = function (id) {
+  PQ.loadSet = async function (id) {
+    await PQ.generatorsReady;
+    return loadSetNow(id);
+  };
+  function loadSetNow(id) {
     if (PQ.sets[id]) return Promise.resolve(true);
     if (pending[id]) return pending[id];
     if (!VALID_ID.test(id)) {
@@ -87,7 +103,7 @@
     });
     pending[id].then(ok => { if (!ok) delete pending[id]; });
     return pending[id];
-  };
+  }
 
   PQ.loadSets = ids => Promise.all(ids.map(PQ.loadSet));
 })();
