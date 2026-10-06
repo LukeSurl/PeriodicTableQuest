@@ -459,7 +459,7 @@
         const V = +(m / s.M * s.k / c * 1000).toFixed(2);           // end point, mL
         const nCl = c * V / 1000, M = m / (nCl / s.k);
         return { id: `s:ti:${s.f}`, weight: mine.length ? 2 : 1, num: round(M), rel: REL, unit: 'g mol<sup>−1</sup>', show: `${num(M, 3)} g mol<sup>−1</sup>`,
-          q: `0.100 g of an unknown group ${s.g} chloride${s.g === 2 ? ' (XCl<sub>2</sub>, possibly hydrated)' : ' (XCl)'} is titrated with 0.100 mol dm<sup>−3</sup> AgNO<sub>3</sub>. The end point is at ${V.toFixed(2)} mL. What is the molar mass of the salt? Give 3 s.f.`,
+          q: `0.100 g of an unknown group ${s.g} chloride${s.g === 2 ? ' (XCl<sub>2</sub>, possibly hydrated)' : ' (XCl)'} is titrated with 0.100 mol dm<sup>−3</sup> AgNO<sub>3</sub>.<br> The end point is at ${V.toFixed(2)} mL. What is the molar mass of the salt? Give 3 s.f.`,
           x: `n(Ag<sup>+</sup>) = n(Cl<sup>−</sup>) = 0.100 × ${num(V / 1000, 4)} dm<sup>3</sup> = ${toSF(nCl)} mol. ${s.k === 2 ? `Two Cl<sup>−</sup> per formula unit, so n(salt) = ${toSF(nCl / 2)} mol. ` : ''}M = 0.100 ÷ ${toSF(nCl / s.k)} = ${num(M, 3)} g mol<sup>−1</sup>, consistent with ${s.f} (${s.M}).` };
       },
       // Stoichiometry: 2AgNO3 + MgCl2·6H2O
@@ -467,7 +467,7 @@
         const V = (rnd(1500) + 500) / 100, c = pick([0.0100, 0.0200, 0.0500]);
         const nAg = c * V / 1000, nMg = nAg / 2, mg = nMg * 203.31 * 1000;
         return { id: `s:st:${V}:${c}`, num: round(mg), rel: REL, unit: 'mg', show: `${num(mg, 3)} mg`,
-          q: `2AgNO<sub>3</sub> + MgCl<sub>2</sub>·6H<sub>2</sub>O → 2AgCl + Mg(NO<sub>3</sub>)<sub>2</sub> + 6H<sub>2</sub>O. ${V.toFixed(2)} mL of ${c.toFixed(4)} mol dm<sup>−3</sup> AgNO<sub>3</sub> reacts completely. What mass of MgCl<sub>2</sub>·6H<sub>2</sub>O (203.31 g mol<sup>−1</sup>) reacted, in <b>mg</b>? Give 3 s.f.`,
+          q: `2AgNO<sub>3</sub> + MgCl<sub>2</sub>·6H<sub>2</sub>O → 2AgCl + Mg(NO<sub>3</sub>)<sub>2</sub> + 6H<sub>2</sub>O.<br> ${V.toFixed(2)} mL of ${c.toFixed(4)} mol dm<sup>−3</sup> AgNO<sub>3</sub> reacts completely.<br> What mass of MgCl<sub>2</sub>·6H<sub>2</sub>O (203.31 g mol<sup>−1</sup>) reacted, in <b>mg</b>? Give 3 s.f.`,
           x: `n(AgNO<sub>3</sub>) = ${c.toFixed(4)} × ${num(V / 1000, 4)} = ${toSF(nAg)} mol; ÷ 2 = ${toSF(nMg)} mol of MgCl<sub>2</sub>·6H<sub>2</sub>O; × 203.31 = ${num(mg / 1000, 3)} g = ${num(mg, 3)} mg.` };
       },
       // Chained light calculation
