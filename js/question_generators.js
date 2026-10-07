@@ -833,4 +833,209 @@
       }
     });
   }
+  // ================================================================
+  // Atoms 4: building atoms and the periodic table
+  // ================================================================
+  {
+    const REL4 = 0.006;
+    // Filling order up to calcium, as taught (4s before 3d)
+    const ORDER = [['1s', 2], ['2s', 2], ['2p', 6], ['3s', 2], ['3p', 6], ['4s', 2]];
+    const CORES = [[18, 'Ar'], [10, 'Ne'], [2, 'He']];
+    function filled(z) {                                     // [[subshell, electrons], ...]
+      const out = []; let left = z;
+      for (const [sub, cap] of ORDER) { if (left <= 0) break; const k = Math.min(cap, left); out.push([sub, k]); left -= k; }
+      return out;
+    }
+    const fmtCfg = parts => parts.map(([sub, k]) => `${sub}<sup>${k}</sup>`).join(' ');
+    const full = z => fmtCfg(filled(z));
+    const coreOf = z => CORES.find(([n]) => n < z) || null;
+    function short(z) {
+      const c = coreOf(z); if (!c) return full(z);
+      return `[${c[1]}] ${fmtCfg(filled(z).filter((_, i) => i >= filled(c[0]).length))}`;
+    }
+    function unpaired(z) {
+      return filled(z).reduce((t, [sub, k]) => t + (sub.endsWith('s') ? k % 2 : (k <= 3 ? k : 6 - k)), 0);
+    }
+    const outerN = z => Math.max(...filled(z).map(([sub]) => +sub[0]));
+    const valence = z => filled(z).filter(([sub]) => +sub[0] === outerN(z)).reduce((t, [, k]) => t + k, 0);
+    const el = z => BY_Z[z];
+    // Atomic radii (pm) as in the lecture's table; noble gases left out (measured differently)
+    const RADIUS = { H: 37, Li: 157, Be: 112, B: 88, C: 77, N: 74, O: 66, F: 64, Na: 191, Mg: 160, Al: 143, Si: 118, P: 110, S: 104, Cl: 99,
+      K: 235, Ca: 197, Ga: 153, Ge: 122, As: 121, Se: 117, Br: 114, Rb: 250, Sr: 215, In: 167, Sn: 158, Sb: 141, Te: 137, I: 133,
+      Cs: 272, Ba: 224, Tl: 171, Pb: 175, Bi: 182 };
+    const mainGroup = e => e.r <= 7 && (e.c <= 2 || e.c >= 13);
+    // Pairs of elements in the same group or period, kept only where the data follow the taught trend clearly
+    function trendPairs(e, value, upDown, across, margin) {
+      if (value(e) == null || !mainGroup(e)) return [];
+      return ELS.filter(o => o !== e && value(o) != null && mainGroup(o) && (o.c === e.c || o.r === e.r)).filter(o => {
+        const sameGroup = o.c === e.c;
+        const predictE = sameGroup ? upDown(e, o) : across(e, o);   // true if e predicted larger
+        const actualE = value(e) > value(o);
+        return predictE === actualE && Math.abs(value(e) - value(o)) / Math.max(value(e), value(o)) > margin;
+      });
+    }
+    const HAL = { Cl: -349, Br: -325, I: -295 };
+    const an = e => (/^[aeiou]/i.test(e.n) ? 'an ' : 'a ') + lc(e);          // "an oxygen atom"
+    const signed = v => (v > 0 ? '+' : '') + sn(v);                          // +54, −24
+
+    PQ.addGenerators({
+      // Full configuration of the tapped element (H to Ca)
+      a4Config(e) {
+        if (e.z > 20) return null;
+        const ans = full(e.z);
+        const parts = filled(e.z), last = parts[parts.length - 1];
+        const cands = [full(e.z + 1), full(e.z - 1)];
+        if (e.z >= 19) cands.unshift(`1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> 3s<sup>2</sup> 3p<sup>6</sup> 3d<sup>${e.z - 18}</sup>`);
+        if (last[0].endsWith('p') && last[1] < 6) cands.unshift(fmtCfg(parts.slice(0, -2).concat([[last[0], last[1] + 2]])));   // skips the s subshell
+        if (e.z > 2 && last[1] < (last[0].endsWith('p') ? 6 : 2)) cands.push(fmtCfg([['1s', 2], ...parts.slice(1, -1), [last[0], last[1] + 1]]).replace(/1s<sup>2<\/sup> /, '1s<sup>1</sup> '));
+        return { id: `a4:cf:${e.s}`, weight: 2,
+          q: `What is the ground-state electron configuration of ${lc(e)} (${e.z} electrons)?`,
+          a: ans, w: unique(ans, cands.filter(Boolean)),
+          x: `Fill the lowest-energy subshells first, at most two electrons per orbital: 1s, 2s, 2p, 3s, 3p, then 4s (just below 3d). ${e.n}: ${ans}.` };
+      },
+      // Shorthand configuration
+      a4Short(e) {
+        if (e.z < 3 || e.z > 20) return null;
+        const ans = short(e.z), c = coreOf(e.z);
+        return { id: `a4:sh:${e.s}`, weight: 2,
+          q: `What is the shorthand (noble-gas core) configuration of ${lc(e)}?`,
+          a: ans, w: unique(ans, [e.z >= 19 ? `[Ar] 3d<sup>${e.z - 18}</sup>` : null, short(e.z + 1), short(e.z - 1), short(e.z + 2), short(e.z - 2)].filter(x => x && x !== '1s<sup>2</sup>' && x.includes('['))),
+          x: `${e.n}'s first ${c[0]} electrons are arranged exactly as in ${el(c[0]).n.toLowerCase()} (${full(c[0])}), so write [${c[1]}] and add the rest: ${ans}.` };
+      },
+      // Which element has this configuration
+      a4Which(e) {
+        if (e.z > 20) return null;
+        const nb = [e.z - 1, e.z + 1, e.z + 8, e.z - 8, e.z + 2].filter(z => z >= 1 && z <= 20 && z !== e.z).slice(0, 3);
+        return { id: `a4:wh:${e.s}`,
+          q: `Which element has the ground-state configuration ${e.z >= 3 && Math.random() < 0.5 ? short(e.z) : full(e.z)}?`,
+          a: e.n, w: unique(e.n, nb.map(z => el(z).n)),
+          x: `Count the electrons: ${filled(e.z).map(([, k]) => k).join(' + ')} = ${e.z}, so atomic number ${e.z}: ${lc(e)}.` };
+      },
+      // Unpaired electrons (Hund's rule)
+      a4Unpaired(e) {
+        if (e.z > 20) return null;
+        const u = unpaired(e.z), parts = filled(e.z), last = parts[parts.length - 1];
+        const hund = last[0].endsWith('p') && last[1] > 1 && last[1] < 6;
+        return { id: `a4:up:${e.s}`, weight: hund ? 2 : 1,
+          q: `How many unpaired electrons does ${an(e)} atom have in its ground state?`,
+          a: String(u), w: unique(String(u), ['0', '1', '2', '3', String(last[1])].filter(v => v !== String(u))),
+          x: hund ? `${e.n} ends ${last[0]}<sup>${last[1]}</sup>. By Hund's rule the three ${last[0]} orbitals fill singly with parallel spins before any pair up, ${last[1] <= 3 ? `so all ${last[1]} are unpaired` : `so ${last[1] - 3} of the ${last[1]} have to pair, leaving ${u} unpaired`}.`
+                   : `${e.n} is ${full(e.z)}. ${u ? `The single ${last[0]} electron is unpaired.` : 'Every occupied orbital is full, so there are no unpaired electrons.'}` };
+      },
+      // Same valence configuration (same group)
+      a4Group(e) {
+        if (e.z > 20 || e.z <= 2 || e.c === 18 && e.z === 2) return null;
+        const mates = ELS.filter(o => o.c === e.c && o !== e && o.z <= 56 && o.r <= 6 && o.z > 2);
+        if (!mates.length) return null;
+        const ans = pick(mates);
+        const wrong = ELS.filter(o => o.r === ans.r && o.c !== e.c && mainGroup(o) && Math.abs(o.c - e.c) <= 3);
+        return { id: `a4:gr:${e.s}:${ans.s}`,
+          q: `Which element has the same valence (outer-shell) configuration as ${lc(e)}?`,
+          a: ans.n, w: unique(ans.n, shuffle(wrong).map(o => o.n)),
+          x: `Elements in the same group have the same valence configuration, which is why they behave alike. ${e.n} and ${lc(ans)} are both in group ${e.c}.` };
+      },
+      // Which subshell is lower in a many-electron atom
+      a4Lower() {
+        const pairs = [['2s', '2p'], ['3s', '3p'], ['3p', '3d'], ['3s', '3d'], ['4s', '4p'], ['4s', '3d'], ['4p', '4d'], ['4d', '4f']];
+        const [lo, hi] = pick(pairs), flip = Math.random() < 0.5;
+        const why = lo === '4s' && hi === '3d' ? '4s is so penetrating that it ends up marginally below 3d, which is why potassium and calcium fill 4s before 3d.'
+          : `Within a shell, the more penetrating subshell feels more nuclear charge and is lower: s, then p, then d, then f.`;
+        return { id: `a4:lo:${lo}${hi}`,
+          q: `In an atom with many electrons, which subshell is lower in energy: ${flip ? hi : lo} or ${flip ? lo : hi}?`,
+          a: lo, w: [hi, 'They have the same energy'],
+          x: why };
+      },
+      // Which block of the periodic table
+      a4Block(e) {
+        if (['La', 'Ac', 'Lu', 'Lr'].includes(e.s)) return null;
+        const b = e.r >= 9 ? 'f' : e.s === 'He' || e.c <= 2 ? 's' : e.c >= 13 ? 'p' : 'd';
+        const width = { s: 2, p: 6, d: 10, f: 14 }[b];
+        return { id: `a4:bl:${e.s}`,
+          q: `Which block of the periodic table is ${lc(e)} in?`,
+          a: `${b}-block`, w: ['s', 'p', 'd', 'f'].filter(x => x !== b).map(x => `${x}-block`),
+          x: `The blocks follow the subshell being filled: s-block 2 wide, p-block 6, d-block 10 and f-block 14, matching the number of electrons each subshell holds. ${e.n} is in the ${b}-block (${width} wide).` };
+      },
+      // Which atom is bigger
+      a4Bigger(e) {
+        const r = o => RADIUS[o.s];
+        const others = trendPairs(e, r, (a, b) => a.r > b.r, (a, b) => a.c < b.c, 0.05);
+        if (!others.length) return null;
+        const o = pick(others), big = r(e) > r(o) ? e : o, small = big === e ? o : e;
+        const sameGroup = o.c === e.c;
+        return { id: `a4:bg:${e.s}:${o.s}`, weight: 2,
+          q: `Which atom is bigger: ${lc(e)} or ${lc(o)}?`,
+          a: big.n, w: [small.n, 'They are the same size'],
+          x: sameGroup ? `Down a group atoms get bigger: the outer electrons are in a shell with higher n, mostly further from the nucleus. ${big.n} ${r(big)} pm, ${lc(small)} ${r(small)} pm.`
+                       : `Across a period atoms get smaller: each step adds a proton, and electrons in the same shell shield each other poorly, so the effective nuclear charge rises and pulls the outer electrons in. ${big.n} ${r(big)} pm, ${lc(small)} ${r(small)} pm.` };
+      },
+      // Which has the higher first ionisation energy
+      a4IE(e) {
+        const v = o => (o.z <= 56 ? o.ie : null);
+        const others = trendPairs(e, v, (a, b) => a.r < b.r, (a, b) => a.c > b.c, 0.08);
+        if (!others.length) return null;
+        const o = pick(others), hi = v(e) > v(o) ? e : o, lo = hi === e ? o : e;
+        const sameGroup = o.c === e.c;
+        return { id: `a4:ie:${e.s}:${o.s}`, weight: 2,
+          q: `Which has the higher first ionisation energy: ${lc(e)} or ${lc(o)}?`,
+          a: hi.n, w: [lo.n, 'They are the same'],
+          x: sameGroup ? `Down a group ionisation energy decreases: the outer electron is in a higher shell, further from the nucleus, so it is held less tightly. ${hi.n} ${hi.ie}, ${lc(lo)} ${lo.ie} kJ mol<sup>−1</sup>.`
+                       : `Across a period ionisation energy generally increases: the effective nuclear charge rises, so the outer electron is held more tightly. ${hi.n} ${hi.ie}, ${lc(lo)} ${lo.ie} kJ mol<sup>−1</sup>.` };
+      },
+      // Halogen displacement, from electron gain energies
+      a4Displace(e) {
+        if (!HAL[e.s]) return null;
+        const others = Object.keys(HAL).filter(k => k !== e.s);
+        const y = pick(others), asX = Math.random() < 0.5;
+        const X = asX ? e.s : y, Y = asX ? y : e.s;               // X2 + Y−
+        const reacts = HAL[X] < HAL[Y];
+        const nm = s => BY_S[s].n.toLowerCase();
+        return { id: `a4:dp:${X}${Y}`, weight: 2,
+          q: `Electron gain energies: Cl −349, Br −325, I −295 kJ mol<sup>−1</sup>. Does ${X}<sub>2</sub> react with ${Y}<sup>−</sup> ions?`,
+          a: reacts ? `Yes: ${Y}<sub>2</sub> forms` : 'No reaction',
+          w: reacts ? ['No reaction', `Yes, but only if heated`] : [`Yes: ${Y}<sub>2</sub> forms`, `Yes, but only if heated`],
+          x: `Gain: ${X} + e<sup>−</sup> → ${X}<sup>−</sup> releases ${-HAL[X]}; loss: ${Y}<sup>−</sup> → ${Y} + e<sup>−</sup> costs ${-HAL[Y]} kJ mol<sup>−1</sup>. Overall ${signed(HAL[X] - HAL[Y])} kJ mol<sup>−1</sup>, so ${reacts ? `${nm(X)} takes the electron and ${Y}<sub>2</sub> forms` : 'nothing happens'}.` };
+      }
+    });
+
+    PQ.addStealGenerators({
+      // Counting electrons from a configuration (H to Ca)
+      s4Count(e) {
+        if (e.z < 3 || e.z > 20) return null;
+        const parts = filled(e.z), kind = rnd(3);
+        if (kind === 0) {
+          const n = outerN(e.z), v = valence(e.z);
+          return { id: `s4:va:${e.s}`, weight: 2, num: v, tol: 0, unit: 'electrons', show: `${v}`,
+            q: `How many electrons does ${an(e)} atom have in its outer shell (n = ${n})?`,
+            x: `${e.n} is ${full(e.z)}. The n = ${n} shell holds ${parts.filter(([s]) => +s[0] === n).map(([s, k]) => `${k} in ${s}`).join(' and ')}: ${v}.` };
+        }
+        if (kind === 1) {
+          const c = coreOf(e.z);
+          return { id: `s4:co:${e.s}`, weight: 2, num: c[0], tol: 0, unit: 'electrons', show: `${c[0]}`,
+            q: `How many core electrons does ${an(e)} atom have?`,
+            x: `${e.n} is ${short(e.z)}: the [${c[1]}] core holds ${c[0]} electrons. The rest are valence electrons.` };
+        }
+        const pElectrons = parts.filter(([s]) => s.endsWith('p')).reduce((t, [, k]) => t + k, 0);
+        if (!pElectrons) return null;
+        return { id: `s4:pe:${e.s}`, weight: 2, num: pElectrons, tol: 0, unit: 'electrons', show: `${pElectrons}`,
+          q: `How many electrons are in p orbitals in ${an(e)} atom?`,
+          x: `${e.n} is ${full(e.z)}: ${parts.filter(([s]) => s.endsWith('p')).map(([s, k]) => `${k} in ${s}`).join(' + ')} = ${pElectrons}.` };
+      },
+      // Overall energy of a halogen displacement
+      s4Halogen() {
+        const ks = Object.keys(HAL), X = pick(ks), Y = pick(ks.filter(k => k !== X));
+        const tot = HAL[X] - HAL[Y];
+        return { id: `s4:hl:${X}${Y}`, num: tot, tol: 0.5, unit: 'kJ mol<sup>−1</sup>', show: `${signed(tot)} kJ mol<sup>−1</sup>`,
+          q: `Electron gain energies: ${X} ${sn(HAL[X])} kJ mol<sup>−1</sup>, ${Y} ${sn(HAL[Y])} kJ mol<sup>−1</sup>. For ${X}<sub>2</sub> + 2${Y}<sup>−</sup> → 2${X}<sup>−</sup> + ${Y}<sub>2</sub>, what is the overall energy per mole of electrons transferred (gain plus loss)? Include the sign.`,
+          x: `Gain ${sn(HAL[X])} (${X} + e<sup>−</sup> → ${X}<sup>−</sup>) plus loss +${-HAL[Y]} (${Y}<sup>−</sup> → ${Y} + e<sup>−</sup>) = ${signed(tot)} kJ mol<sup>−1</sup>. ${tot < 0 ? 'Negative, so the reaction happens.' : 'Positive, so no reaction.'}` };
+      },
+      // Ionisation energy per atom from kJ per mole
+      s4IEatom(e) {
+        if (!e.ie || e.z > 56) return null;
+        const J = e.ie * 1e3 / 6.022e23 / 1e-19;
+        return { id: `s4:ia:${e.s}`, num: round(J), rel: REL4, unit: '× 10<sup>−19</sup> J', show: `${num(J, 3)} × 10<sup>−19</sup> J`,
+          q: `The first ionisation energy of ${lc(e)} is ${e.ie} kJ mol<sup>−1</sup>. How much energy does it take to remove the outer electron from one ${lc(e)} atom, in units of 10<sup>−19</sup> J? Use N<sub>A</sub> = 6.022 × 10<sup>23</sup> mol<sup>−1</sup>. Give 3 s.f.`,
+          x: `${e.ie} kJ mol<sup>−1</sup> = ${e.ie} × 10<sup>3</sup> J per mole of atoms; ÷ 6.022 × 10<sup>23</sup> = ${toSF(J * 1e-19)} J per atom.` };
+      }
+    });
+  }
 })();
