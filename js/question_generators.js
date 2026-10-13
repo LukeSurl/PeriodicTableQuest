@@ -42,7 +42,8 @@
 //   e.z atomic number, e.s symbol, e.n name, e.ram relative atomic mass,
 //   e.iso natural isotopes as [mass number, % abundance] (largest first),
 //   e.A a notable isotope's mass number, e.d density in g cm⁻³ (solids and liquids),
-//   e.ie first ionisation energy in kJ mol⁻¹. Any of these can be missing.
+//   e.ie first ionisation energy in kJ mol⁻¹, e.en Pauling electronegativity.
+//   Any of these can be missing.
 //
 // TOOLS (from PQ.tools, already unpacked below)
 //   rnd(n) 0 to n−1;  rint(a, b) a to b;  pick(list);  shuffle(list)
@@ -1035,6 +1036,156 @@
         return { id: `s4:ia:${e.s}`, num: round(J), rel: REL4, unit: '× 10<sup>−19</sup> J', show: `${num(J, 3)} × 10<sup>−19</sup> J`,
           q: `The first ionisation energy of ${lc(e)} is ${e.ie} kJ mol<sup>−1</sup>. How much energy does it take to remove the outer electron from one ${lc(e)} atom, in units of 10<sup>−19</sup> J? Use N<sub>A</sub> = 6.022 × 10<sup>23</sup> mol<sup>−1</sup>. Give 3 s.f.`,
           x: `${e.ie} kJ mol<sup>−1</sup> = ${e.ie} × 10<sup>3</sup> J per mole of atoms; ÷ 6.022 × 10<sup>23</sup> = ${toSF(J * 1e-19)} J per atom.` };
+      }
+    });
+  }
+  // ================================================================
+  // Molecules 1: why do molecules stick together?
+  // Bond lengths and energies, Lewis structures, electronegativity
+  // ================================================================
+  {
+    const REL = 0.006;
+    const an = e => (/^[aeiou]/i.test(e.n) ? 'an ' : 'a ') + lc(e);
+    const KJ = 'kJ mol<sup>−1</sup>';
+    const f2 = s => `${s}<sub>2</sub>`;
+    // Bond dissociation energy (kJ mol⁻¹) and bond length (pm) of X₂, from the table on slide 13
+    const DIA = { H: [435.8, 74.1], Li: [105.0, 267.3], Na: [74.8, 307.9], K: [57.0, 390.5],
+      N: [944.9, 109.8], P: [489.1, 189.3], O: [498.5, 120.7], S: [430.0, 188.9],
+      F: [158.7, 141.2], Cl: [242.9, 198.8], Br: [193.9, 228.1], I: [152.3, 266.6] };
+    const GROUPS = [['Li', 'Na', 'K'], ['N', 'P'], ['O', 'S'], ['F', 'Cl', 'Br', 'I']];
+    // Lewis structures of X₂ that obey the octet rule: [valence electrons, bonds]
+    const LEWIS = { H: [1, 1], N: [5, 3], P: [5, 3], O: [6, 2], S: [6, 2], F: [7, 1], Cl: [7, 1], Br: [7, 1], I: [7, 1] };
+    const BOND = ['', 'single', 'double', 'triple'];
+    // Non-metals used as the other end of a bond
+    const PARTNERS = ['H', 'B', 'C', 'N', 'O', 'F', 'Si', 'P', 'S', 'Cl', 'Br', 'I'];
+    const mainGroup = o => o.r <= 7 && (o.c <= 2 || o.c >= 13);
+    const valenceOf = o => (o.c <= 2 ? o.c : o.c - 10);
+    const en = o => o.en.toFixed(2);
+    const L = s => BY_S[s];
+    const H_C = 'Use c = 3.00 × 10<sup>8</sup> m s<sup>−1</sup>, h = 6.626 × 10<sup>−34</sup> J s, N<sub>A</sub> = 6.022 × 10<sup>23</sup> mol<sup>−1</sup>.';
+
+    PQ.addGenerators({
+      // Valence electrons, and how many more are needed for a full outer shell
+      m1Valence(e) {
+        if (!mainGroup(e) || e.z > 54 || e.c === 18) return null;
+        const v = valenceOf(e);
+        if (e.c >= 14 || e.s === 'H') {
+          if (Math.random() < 0.5) {
+            const need = e.s === 'H' ? 1 : 8 - v;
+            return { id: `m1:nd:${e.s}`,
+              q: `In the Lewis model, how many more electrons does ${an(e)} atom need to get a full outer shell like a noble gas?`,
+              a: String(need), w: distractors(need, [v, need + 1, need - 1, 8, need + 2]),
+              x: e.s === 'H' ? 'Hydrogen\'s outer shell is n = 1, which is full with 2 electrons (like helium). It has 1, so it needs 1 more: one bond.'
+                : `${e.n} is in group ${e.c}, so it has ${v} outer-shell electrons and needs ${need} more to make 8. In a Lewis structure it gets them by sharing: ${need} bond${need > 1 ? 's' : ''}.` };
+          }
+        }
+        return { id: `m1:va:${e.s}`,
+          q: `How many valence (outer-shell) electrons does ${an(e)} atom have?`,
+          a: String(v), w: distractors(v, [e.r, v + 1, v - 1, 8 - v, v + 2]),
+          x: `${e.n} is in group ${e.c}${e.c >= 13 ? `, so it has ${e.c} − 10 = ${v}` : `, so it has ${v}`} electron${v > 1 ? 's' : ''} in its outer shell (n = ${e.r}).` };
+      },
+      // Lewis structure of X2: bond order or lone pairs
+      m1Lewis(e) {
+        if (!LEWIS[e.s]) return null;
+        const [v, b] = LEWIS[e.s], lp = (v - b) / 2, X = f2(e.s);
+        const how = e.s === 'H' ? 'Each hydrogen has 1 electron and needs 2 (like helium), so the two atoms share one pair: a single bond, with no lone pairs.'
+          : `${e.n} has ${v} outer-shell electrons and needs ${b} more, so the two atoms share ${b} pair${b > 1 ? 's' : ''}: a ${BOND[b]} bond. That leaves ${v - b} unshared electrons on each atom: ${lp} lone pair${lp > 1 ? 's' : ''}.`;
+        const kind = e.s !== 'H' && e.c === 17 ? rnd(3) : e.s === 'H' ? 0 : rnd(2);
+        if (kind === 0) return { id: `m1:bo:${e.s}`, weight: 2,
+          q: `What bond order does the Lewis model predict for ${X}?`,
+          a: String(b), w: ['1', '2', '3'].filter(k => k !== String(b)),
+          x: how };
+        if (kind === 1) return { id: `m1:lp:${e.s}`, weight: 2,
+          q: `In the Lewis structure of ${X}, how many lone pairs does each ${lc(e)} atom have?`,
+          a: String(lp), w: distractors(lp, [0, 1, 2, 3, 4]),
+          x: how };
+        return { id: `m1:hx:${e.s}`,
+          q: `In the Lewis structure of H${e.s}, how many lone pairs does the ${lc(e)} atom have?`,
+          a: '3', w: ['0', '1', '2'],
+          x: `${e.n} has 7 outer-shell electrons. One is shared with hydrogen in a single bond, leaving 6: three lone pairs. Hydrogen has none.` };
+      },
+      // Where the minimum of the potential energy curve sits
+      m1Curve(e) {
+        if (!DIA[e.s]) return null;
+        const [D, len] = DIA[e.s], X = f2(e.s);
+        return { id: `m1:cv:${e.s}`,
+          q: `${X} has a bond length of ${len} pm and a bond dissociation energy of ${D} ${KJ}. Where is the minimum of its potential energy curve?`,
+          a: `At ${len} pm, ${D} ${KJ} below zero`,
+          w: [`At ${len} pm, ${D} ${KJ} above zero`, `At ${round(len / 2, 3)} pm, ${D} ${KJ} below zero`, `At ${len} pm, at zero energy`],
+          x: `Zero is two atoms too far apart to interact. Bonding lowers the energy, so the curve dips below zero; the bottom of the dip is at the bond length (the distance between the two nuclei, not the radius of one atom), and its depth is the bond dissociation energy.` };
+      },
+      // Deeper potential energy well = larger bond dissociation energy
+      m1Deeper(e) {
+        if (!DIA[e.s]) return null;
+        const others = Object.keys(DIA).filter(k => k !== e.s && Math.abs(DIA[k][0] - DIA[e.s][0]) / Math.max(DIA[k][0], DIA[e.s][0]) > 0.15);
+        const o = pick(others), deep = DIA[o][0] > DIA[e.s][0] ? o : e.s, shallow = deep === o ? e.s : o;
+        const [p, q] = Math.random() < 0.5 ? [e.s, o] : [o, e.s];
+        return { id: `m1:dp:${[e.s, o].sort().join('')}`,
+          q: `Bond dissociation energies: ${f2(p)} ${DIA[p][0]}, ${f2(q)} ${DIA[q][0]} ${KJ}. Which molecule's potential energy curve has the deeper minimum?`,
+          a: f2(deep), w: [f2(shallow), 'Both are the same depth: the depth depends only on bond length'],
+          x: `The depth of the dip below zero is the bond dissociation energy, so the stronger bond (${f2(deep)}) has the deeper curve.` };
+      },
+      // Bond length down a group
+      m1Group(e) {
+        const g = GROUPS.find(gr => gr.includes(e.s));
+        if (!g) return null;
+        const i = g.indexOf(e.s), j = i === 0 ? 1 : i === g.length - 1 ? i - 1 : pick([i - 1, i + 1]);
+        const ref = g[j], down = i > j, len = DIA[e.s][1], refLen = DIA[ref][1];
+        const pool = Object.values(DIA).map(d => d[1]).filter(l => (down ? l < refLen : l > refLen));
+        const wrong = shuffle(pool).slice(0, 3).sort((a, b) => a - b).map(l => `${l} pm`);
+        if (wrong.length < 2) return null;
+        return { id: `m1:gp:${e.s}${ref}`,
+          q: `${f2(ref)} has a bond length of ${refLen} pm. Which of these is the bond length of ${f2(e.s)}?`,
+          a: `${len} pm`, w: wrong,
+          x: `${L(e.s).n} is ${down ? 'below' : 'above'} ${L(ref).n.toLowerCase()} in group ${e.c}. Atoms get bigger down a group (Atoms 4), so their nuclei sit further apart when bonded: ${f2(e.s)} must be ${down ? 'longer' : 'shorter'} than ${refLen} pm. It is ${len} pm.` };
+      },
+      // Bond polarity from electronegativity
+      m1Polar(e) {
+        if (e.en == null || e.c === 18) return null;
+        if (PARTNERS.includes(e.s) && Math.random() < 0.12) return { id: `m1:po:${e.s}${e.s}`,
+          q: `Which describes the polarity of the ${e.s}–${e.s} bond in ${f2(e.s)}?`,
+          a: 'Not polar', w: [`δ+ on one ${e.s}, δ− on the other`, 'Polar, but you can\'t tell which way round'],
+          x: 'Both atoms have the same electronegativity, so the bonding electrons are shared evenly: a homonuclear diatomic is not polar.' };
+        const ps = PARTNERS.map(L).filter(o => o !== e && Math.abs(o.en - e.en) >= 0.3);
+        if (!ps.length) return null;
+        const o = pick(ps), [A, B] = Math.random() < 0.5 ? [e, o] : [o, e], neg = A.en > B.en ? A : B, pos = neg === A ? B : A;
+        const trend = A.r >= 2 && B.r >= 2 && A.r <= 3 && B.r <= 3 && mainGroup(A) && mainGroup(B) && (A.r === B.r || A.c === B.c) && Math.abs(A.en - B.en) >= 0.4;
+        const given = !(trend && Math.random() < 0.5);
+        return { id: `m1:po:${A.s}${B.s}`, weight: 2,
+          q: given ? `Pauling electronegativities: ${A.s} ${en(A)}, ${B.s} ${en(B)}. Which describes the ${A.s}–${B.s} bond?`
+                   : `Without looking anything up, which describes the ${A.s}–${B.s} bond?`,
+          a: `${A === pos ? 'δ+' : 'δ−'} on ${A.s}, ${B === pos ? 'δ+' : 'δ−'} on ${B.s}`,
+          w: [`${A === pos ? 'δ−' : 'δ+'} on ${A.s}, ${B === pos ? 'δ−' : 'δ+'} on ${B.s}`, 'Not polar'],
+          x: `${neg.n} (${en(neg)}) is more electronegative than ${lc(pos)} (${en(pos)}), so it pulls the bonding electrons towards itself and is δ−.${given ? '' : A.r === B.r ? ' Electronegativity increases across a period.' : ' Electronegativity decreases down a group.'}` };
+      }
+    });
+
+    PQ.addStealGenerators({
+      // Energy to break (or released forming) the bonds in a mass of X2
+      sm1Break(e) {
+        if (!['H', 'N', 'O', 'F', 'Cl', 'Br', 'I'].includes(e.s)) return null;
+        const D = DIA[e.s][0], r = +e.ram.toFixed(2), X = f2(e.s);
+        const m = e.s === 'H' ? pick([0.500, 1.00, 2.00, 5.00]) : pick([2.00, 5.00, 7.50, 10.0, 12.5, 20.0, 25.0, 50.0]);
+        const ms = m < 1 ? m.toFixed(3) : m < 10 ? m.toFixed(2) : m.toFixed(1);
+        const rs = r.toFixed(2);
+        if (Math.random() < 0.5) {
+          const n = m / (2 * r), E = n * D;
+          return { id: `sm1:bk:${e.s}:${ms}`, num: round(E), rel: REL, unit: 'kJ', show: `${num(E, 3)} kJ`,
+            q: `The bond dissociation energy of ${X} is ${D} ${KJ}. How much energy, in kJ, is needed to break the bonds in ${ms} g of ${X} gas into separate atoms? Relative atomic mass of ${e.s}: ${rs}. Give 3 s.f.`,
+            x: `M(${X}) = 2 × ${rs} = ${(2 * r).toFixed(2)} g mol<sup>−1</sup>; n = ${ms} ÷ ${(2 * r).toFixed(2)} = ${num(n, 4)} mol of bonds; E = ${num(n, 4)} × ${D} = ${num(E, 3)} kJ.` };
+        }
+        const atoms = m / r, n = atoms / 2, E = n * D;
+        return { id: `sm1:fm:${e.s}:${ms}`, num: round(E), rel: REL, unit: 'kJ', show: `${num(E, 3)} kJ`,
+          q: `${ms} g of gas-phase ${lc(e)} atoms all pair up to form ${X}. The bond dissociation energy of ${X} is ${D} ${KJ}. How much energy, in kJ, is released? Relative atomic mass of ${e.s}: ${rs}. Give 3 s.f.`,
+          x: `n(atoms) = ${ms} ÷ ${rs} = ${num(atoms, 4)} mol. Two atoms make one bond, so ${num(n, 4)} mol of bonds form, releasing ${num(n, 4)} × ${D} = ${num(E, 3)} kJ.` };
+      },
+      // Longest wavelength of light that can break an X2 bond
+      sm1Photon(e) {
+        if (!DIA[e.s]) return null;
+        const D = DIA[e.s][0], X = f2(e.s), J = D * 1e3 / 6.022e23, lam = 6.626e-34 * 3.00e8 / J * 1e9;
+        return { id: `sm1:ph:${e.s}`, num: round(lam), rel: REL, unit: 'nm', show: `${num(lam, 3)} nm`,
+          q: `The bond dissociation energy of ${X} is ${D} ${KJ}. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one ${X} bond? ${H_C} Give 3 s.f.`,
+          x: `${D} × 10<sup>3</sup> J mol<sup>−1</sup> ÷ N<sub>A</sub> = ${toSF(J)} J per bond; ν = E/h = ${toSF(J / 6.626e-34)} s<sup>−1</sup>; λ = c/ν = ${toSF(lam * 1e-9)} m = ${num(lam, 3)} nm. Longer wavelengths carry less energy per photon, so can't break the bond.` };
       }
     });
   }
