@@ -5,7 +5,8 @@ PQ.questionSet({
   short: 'Molecules 2',
   generators: ['m2Order', 'm2Para', 'm2Stronger', 'm2Overlap'],
   generalWeight: 4,
-  stealGenerators: ['sm2Core', 'sm2Count'],
+  // No steals of its own: borrows from Molecules 1 (bond energies) and Atoms 4 (ionisation energy)
+  stealGenerators: ['sm1Break', 'sm1Photon', 's4IEatom'],
   questions: [
 
     // ---------- Why move on from the Lewis model ----------
@@ -15,9 +16,6 @@ PQ.questionSet({
     { el: null, q: 'Which bonding theory uses orbitals that can spread out over the entire molecule?',
       a: 'Molecular orbital theory', w: ['Valence bond theory', 'The Lewis model', 'None of them: orbitals always belong to one atom'],
       x: 'Valence bond theory builds tidy bonds from overlapping orbitals on neighbouring atoms. MO theory is more quantitative and lets orbitals span the whole molecule.' },
-    { el: 'C', q: 'Which bonding theory is often used in organic chemistry for a qualitative picture, clipping atoms together with tidy bonds between neighbours?',
-      a: 'Valence bond theory', w: ['Molecular orbital theory', 'The orbital approximation', 'The linear combination of atomic orbitals'],
-      x: 'Valence bond theory (with hybrid orbitals) is mostly covered in the organic chemistry module. The two theories overlap, so the MO ideas will still be useful there.' },
 
     // ---------- The two approximations ----------
     { el: null, q: 'What is the orbital approximation?',

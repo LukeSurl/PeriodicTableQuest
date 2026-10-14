@@ -1267,29 +1267,5 @@
           x: `${hi.n}'s valence ${hi.r}s orbital is smaller and less diffuse than ${lc(lo)}'s ${lo.r}s, so it overlaps more strongly with its neighbour's. That lowers the bonding orbital further, giving a stronger bond (as with H<sub>2</sub> 436 vs Li<sub>2</sub> 105 kJ mol<sup>−1</sup>).` };
       }
     });
-
-    // Subshells occupied in the ground state, and how many orbitals each has (H to Ca)
-    const SUBS = [['1s', 2, 1], ['2s', 2, 1], ['2p', 6, 3], ['3s', 2, 1], ['3p', 6, 3], ['4s', 2, 1]];
-    const occupied = z => { const out = []; let left = z; for (const [s, cap, k] of SUBS) { if (left <= 0) break; out.push([s, k]); left -= cap; } return out; };
-
-    PQ.addStealGenerators({
-      // Counting the core electrons too (Li and Be)
-      sm2Core(e) {
-        if (!['Li', 'Be'].includes(e.s)) return null;
-        const q = pick(charges(e)), tot = 2 * e.z - q, val = tot - 4, b = 2 + Math.min(val, 2), a = 2 + Math.max(val - 2, 0);
-        const anti = Math.random() < 0.5, X = species(e, q);
-        return { id: `sm2:co:${e.s}${q}${anti ? 'a' : 'b'}`, num: anti ? a : b, tol: 0, unit: 'electrons', show: `${anti ? a : b}`,
-          q: `Include the core 1s orbitals too. In the full molecular orbital diagram of ${X}, how many electrons are in ${anti ? 'antibonding' : 'bonding'} orbitals?`,
-          x: `${X} has ${tot} electrons: 1σ<sub>g</sub><sup>2</sup> 1σ<sub>u</sub>*<sup>2</sup> (from the core 1s orbitals), then ${val} in 2σ<sub>g</sub>${val > 2 ? ' and 2σ<sub>u</sub>*' : ''}. Bonding: ${b}; antibonding: ${a}. The core pair cancel out, so the bond order is still (${b} − ${a}) ÷ 2 = ${bo(b - a)}.` };
-      },
-      // Number of molecular orbitals = number of atomic orbitals combined
-      sm2Count(e) {
-        if (e.z > 20) return null;
-        const subs = occupied(e.z), per = subs.reduce((t, [, k]) => t + k, 0);
-        return { id: `sm2:ct:${e.s}`, num: 2 * per, tol: 0, unit: 'molecular orbitals', show: `${2 * per}`,
-          q: `Two ${lc(e)} atoms combine. If every orbital in every occupied subshell of both atoms (core included) is used, how many molecular orbitals are formed?`,
-          x: `${e.n}'s occupied subshells are ${subs.map(([s, k]) => `${s} (${k} orbital${k > 1 ? 's' : ''})`).join(', ')}: ${per} atomic orbital${per > 1 ? 's' : ''} per atom, ${2 * per} for two atoms. The number of molecular orbitals always equals the number of atomic orbitals combined.` };
-      }
-    });
   }
 })();
