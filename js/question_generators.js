@@ -1239,21 +1239,21 @@
                  : ['Paramagnetic: it has an unpaired electron', `Paramagnetic: it has electrons in a bonding orbital`],
           x: working(e, q) + (odd ? ' An odd number of electrons means one is unpaired, so it is paramagnetic.' : ' Each orbital holds a pair with opposite spins, so there are no unpaired electrons.') };
       },
-      // Adding or removing an electron: which has the stronger bond?
+      // Adding or removing an electron: which has the higher bond order?
       m2Stronger(e) {
         if (!sValence(e)) return null;
         const qs = charges(e), pairs = [];
         for (const q of qs) if (q !== 0 && qs.includes(0) && fill(e, q).n2 !== fill(e, 0).n2) pairs.push(q);
         if (!pairs.length) return null;
-        const q = pick(pairs), A = fill(e, 0), B = fill(e, q), strong = A.n2 > B.n2 ? 0 : q, weak = strong === 0 ? q : 0;
+        const q = pick(pairs), A = fill(e, 0), B = fill(e, q), hi = A.n2 > B.n2 ? 0 : q, lo = hi === 0 ? q : 0;
         const [p1, p2] = Math.random() < 0.5 ? [0, q] : [q, 0];
-        const surprise = strong !== 0;
+        const ionHigher = hi !== 0;
         return { id: `m2:st:${e.s}${q}`,
-          q: `Which has the stronger bond: ${species(e, p1)} or ${species(e, p2)}?`,
-          a: species(e, strong), w: [species(e, weak), 'They are equally strong: they have the same atoms'],
-          x: `${species(e, 0)}: bond order ${bo(A.n2)}; ${species(e, q)}: bond order ${bo(B.n2)}. ` + (surprise
-            ? `Removing an electron here takes it out of an antibonding orbital, so the ion is more strongly bonded than the neutral molecule.`
-            : `The ${q > 0 ? 'electron removed came from a bonding' : 'extra electron goes into an antibonding'} orbital, so the ${q > 0 ? 'cation' : 'anion'} has a weaker bond.`) };
+          q: `Which does molecular orbital theory predict has the higher bond order: ${species(e, p1)} or ${species(e, p2)}?`,
+          a: species(e, hi), w: [species(e, lo), 'They have the same bond order: they are made of the same atoms'],
+          x: `${species(e, 0)}: bond order ${bo(A.n2)}; ${species(e, q)}: bond order ${bo(B.n2)}. ` + (ionHigher
+            ? 'Removing an electron here takes it out of an antibonding orbital, so the bond order goes up.'
+            : `The ${q > 0 ? 'electron removed came from a bonding' : 'extra electron goes into an antibonding'} orbital, so the bond order goes down.`) };
       },
       // Orbital overlap: same bond order, different strength (group 1)
       m2Overlap(e) {
