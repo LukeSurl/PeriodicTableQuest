@@ -1210,7 +1210,7 @@
       const from = `${v === 1 ? 'one' : 'two'} from each ${e.s}${q ? `, ${q > 0 ? 'minus' : 'plus'} one for the charge` : ''}`;
       return `${species(e, q)} has ${n} valence electron${n === 1 ? '' : 's'} (${from}): ${b} in ${g} (bonding)${a ? ` and ${a} in ${u} (antibonding)` : ''}. Bond order = (${b} − ${a}) ÷ 2 = ${bo(n2)}.`;
     };
-    const heavy = e => (e.r > 2 ? ` Treat it like Li<sub>2</sub>: only the valence ${e.r}s orbitals matter.` : '');
+    const heavy = e => (e.r > 2 ? ` Treat it like ${e.c === 1 ? 'Li' : 'Be'}<sub>2</sub>: only the valence ${e.r}s orbitals matter.` : '');
 
     PQ.addGenerators({
       // Bond order of an s-orbital diatomic, or whether it can exist
