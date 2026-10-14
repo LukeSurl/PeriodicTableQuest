@@ -1189,4 +1189,107 @@
       }
     });
   }
+  // ================================================================
+  // Molecules 2: molecular orbital theory with s orbitals
+  // H2, He2, Li2 and their ions; bond order; core electrons; overlap
+  // ================================================================
+  {
+    const REL = 0.006;
+    const an = e => (/^[aeiou]/i.test(e.n) ? 'an ' : 'a ') + lc(e);
+    const HALF = ['0', '½', '1', '1½', '2'];
+    const bo = n2 => HALF[n2];                                 // n2 = twice the bond order
+    // s-block elements (and H, He) whose diatomics we treat with one valence s orbital per atom
+    const sValence = e => (e.s === 'H' ? 1 : e.s === 'He' ? 2 : e.c <= 2 && e.r <= 6 ? e.c : 0);
+    // charges allowed for X2 so that the valence electrons fit in the σ and σ* orbitals (1 to 4)
+    const charges = e => { const v = sValence(e); return [-1, 0, 1].filter(q => { const n = 2 * v - q; return n >= 1 && n <= 4; }); };
+    const species = (e, q) => `${e.s}<sub>2</sub>${q === 0 ? '' : `<sup>${q > 0 ? '+' : '−'}</sup>`}`;
+    const fill = (e, q) => { const n = 2 * sValence(e) - q, b = Math.min(n, 2), a = n - b; return { n, b, a, n2: b - a }; };
+    const labels = e => (e.z <= 2 ? ['1σ<sub>g</sub>', '1σ<sub>u</sub>*'] : e.r === 2 ? ['2σ<sub>g</sub>', '2σ<sub>u</sub>*'] : ['σ<sub>g</sub>', 'σ<sub>u</sub>*']);
+    const working = (e, q) => {
+      const { n, b, a, n2 } = fill(e, q), [g, u] = labels(e), v = sValence(e);
+      const from = `${v === 1 ? 'one' : 'two'} from each ${e.s}${q ? `, ${q > 0 ? 'minus' : 'plus'} one for the charge` : ''}`;
+      return `${species(e, q)} has ${n} valence electron${n === 1 ? '' : 's'} (${from}): ${b} in ${g} (bonding)${a ? ` and ${a} in ${u} (antibonding)` : ''}. Bond order = (${b} − ${a}) ÷ 2 = ${bo(n2)}.`;
+    };
+    const heavy = e => (e.r > 2 ? ` Treat it like Li<sub>2</sub>: only the valence ${e.r}s orbitals matter.` : '');
+
+    PQ.addGenerators({
+      // Bond order of an s-orbital diatomic, or whether it can exist
+      m2Order(e) {
+        if (!sValence(e)) return null;
+        const q = pick(charges(e)), { n2 } = fill(e, q), X = species(e, q);
+        if (Math.random() < 0.5) return { id: `m2:bo:${e.s}${q}`, weight: 2,
+          q: `Using molecular orbital theory, what is the bond order of ${X}?`,
+          a: bo(n2), w: ['0', '½', '1', '1½'].filter(k => k !== bo(n2)),
+          x: working(e, q) + heavy(e) };
+        const opts = ['Yes: bond order 1', 'Yes: bond order ½', 'No: bond order 0'], ans = n2 ? `Yes: bond order ${bo(n2)}` : 'No: bond order 0';
+        return { id: `m2:ex:${e.s}${q}`, weight: 2,
+          q: `According to molecular orbital theory, could ${X} exist as a stable species?`,
+          a: ans, w: opts.filter(o => o !== ans),
+          x: working(e, q) + (n2 ? ` Bond order above 0, so it can exist${n2 === 1 ? ', though the bond is weak' : ''}.` : ' The bonding and antibonding effects cancel, so it is not stable.') + heavy(e) };
+      },
+      // Paramagnetism from unpaired electrons
+      m2Para(e) {
+        if (!sValence(e)) return null;
+        const qs = charges(e).filter(q => fill(e, q).n2 > 0), q = pick(qs), { n } = fill(e, q), X = species(e, q);
+        const odd = n % 2 === 1;
+        return { id: `m2:pm:${e.s}${q}`,
+          q: `Molecular orbital theory predicts that ${X} is…`,
+          a: odd ? 'Paramagnetic: it has an unpaired electron' : 'Not paramagnetic: all its electrons are paired',
+          w: odd ? ['Not paramagnetic: all its electrons are paired', 'Not paramagnetic: it has no antibonding electrons']
+                 : ['Paramagnetic: it has an unpaired electron', `Paramagnetic: it has electrons in a bonding orbital`],
+          x: working(e, q) + (odd ? ' An odd number of electrons means one is unpaired, so it is paramagnetic.' : ' Each orbital holds a pair with opposite spins, so there are no unpaired electrons.') };
+      },
+      // Adding or removing an electron: which has the stronger bond?
+      m2Stronger(e) {
+        if (!sValence(e)) return null;
+        const qs = charges(e), pairs = [];
+        for (const q of qs) if (q !== 0 && qs.includes(0) && fill(e, q).n2 !== fill(e, 0).n2) pairs.push(q);
+        if (!pairs.length) return null;
+        const q = pick(pairs), A = fill(e, 0), B = fill(e, q), strong = A.n2 > B.n2 ? 0 : q, weak = strong === 0 ? q : 0;
+        const [p1, p2] = Math.random() < 0.5 ? [0, q] : [q, 0];
+        const surprise = strong !== 0;
+        return { id: `m2:st:${e.s}${q}`,
+          q: `Which has the stronger bond: ${species(e, p1)} or ${species(e, p2)}?`,
+          a: species(e, strong), w: [species(e, weak), 'They are equally strong: they have the same atoms'],
+          x: `${species(e, 0)}: bond order ${bo(A.n2)}; ${species(e, q)}: bond order ${bo(B.n2)}. ` + (surprise
+            ? `Removing an electron here takes it out of an antibonding orbital, so the ion is more strongly bonded than the neutral molecule.`
+            : `The ${q > 0 ? 'electron removed came from a bonding' : 'extra electron goes into an antibonding'} orbital, so the ${q > 0 ? 'cation' : 'anion'} has a weaker bond.`) };
+      },
+      // Orbital overlap: same bond order, different strength (group 1)
+      m2Overlap(e) {
+        if (e.c !== 1 || e.r > 6) return null;
+        const o = pick(ELS.filter(x => x.c === 1 && x.r <= 6 && x !== e));
+        const hi = e.r < o.r ? e : o, lo = hi === e ? o : e;
+        const [p, q] = Math.random() < 0.5 ? [e, o] : [o, e];
+        return { id: `m2:ov:${[e.s, o.s].sort().join('')}`,
+          q: `${p.s}<sub>2</sub> and ${q.s}<sub>2</sub> both have a bond order of 1. Which has the stronger bond?`,
+          a: `${hi.s}<sub>2</sub>`, w: [`${lo.s}<sub>2</sub>`, 'They are equally strong: same bond order'],
+          x: `${hi.n}'s valence ${hi.r}s orbital is smaller and less diffuse than ${lc(lo)}'s ${lo.r}s, so it overlaps more strongly with its neighbour's. That lowers the bonding orbital further, giving a stronger bond (as with H<sub>2</sub> 436 vs Li<sub>2</sub> 105 kJ mol<sup>−1</sup>).` };
+      }
+    });
+
+    // Subshells occupied in the ground state, and how many orbitals each has (H to Ca)
+    const SUBS = [['1s', 2, 1], ['2s', 2, 1], ['2p', 6, 3], ['3s', 2, 1], ['3p', 6, 3], ['4s', 2, 1]];
+    const occupied = z => { const out = []; let left = z; for (const [s, cap, k] of SUBS) { if (left <= 0) break; out.push([s, k]); left -= cap; } return out; };
+
+    PQ.addStealGenerators({
+      // Counting the core electrons too (Li and Be)
+      sm2Core(e) {
+        if (!['Li', 'Be'].includes(e.s)) return null;
+        const q = pick(charges(e)), tot = 2 * e.z - q, val = tot - 4, b = 2 + Math.min(val, 2), a = 2 + Math.max(val - 2, 0);
+        const anti = Math.random() < 0.5, X = species(e, q);
+        return { id: `sm2:co:${e.s}${q}${anti ? 'a' : 'b'}`, num: anti ? a : b, tol: 0, unit: 'electrons', show: `${anti ? a : b}`,
+          q: `Include the core 1s orbitals too. In the full molecular orbital diagram of ${X}, how many electrons are in ${anti ? 'antibonding' : 'bonding'} orbitals?`,
+          x: `${X} has ${tot} electrons: 1σ<sub>g</sub><sup>2</sup> 1σ<sub>u</sub>*<sup>2</sup> (from the core 1s orbitals), then ${val} in 2σ<sub>g</sub>${val > 2 ? ' and 2σ<sub>u</sub>*' : ''}. Bonding: ${b}; antibonding: ${a}. The core pair cancel out, so the bond order is still (${b} − ${a}) ÷ 2 = ${bo(b - a)}.` };
+      },
+      // Number of molecular orbitals = number of atomic orbitals combined
+      sm2Count(e) {
+        if (e.z > 20) return null;
+        const subs = occupied(e.z), per = subs.reduce((t, [, k]) => t + k, 0);
+        return { id: `sm2:ct:${e.s}`, num: 2 * per, tol: 0, unit: 'molecular orbitals', show: `${2 * per}`,
+          q: `Two ${lc(e)} atoms combine. If every orbital in every occupied subshell of both atoms (core included) is used, how many molecular orbitals are formed?`,
+          x: `${e.n}'s occupied subshells are ${subs.map(([s, k]) => `${s} (${k} orbital${k > 1 ? 's' : ''})`).join(', ')}: ${per} atomic orbital${per > 1 ? 's' : ''} per atom, ${2 * per} for two atoms. The number of molecular orbitals always equals the number of atomic orbitals combined.` };
+      }
+    });
+  }
 })();
