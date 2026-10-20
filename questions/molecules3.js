@@ -1,0 +1,80 @@
+// Periodic Table Quest question set: Molecules lecture 3: molecular orbital theory with p orbitals.
+// The file name (without .js) is this set's id. See _template.js for how to write one.
+PQ.questionSet({
+  title: 'Molecules 3: Molecular orbitals from p orbitals',
+  short: 'Molecules 3',
+  generators: ['m3Order', 'm3Unpaired', 'm3Frontier', 'm3Label'],
+  generalWeight: 4,
+  // No steals of its own: borrows from Molecules 1 (bond energies) and Atoms 4 (ionisation energy)
+  stealGenerators: ['sm1Break', 'sm1Photon', 's4IEatom'],
+  questions: [
+
+    // ---------- p orbitals in a diatomic ----------
+    { el: null, q: 'In a diatomic molecule, which p orbital is, by convention, the one pointing towards the other atom?',
+      a: 'p<sub>z</sub>', w: ['p<sub>x</sub>', 'p<sub>y</sub>', 'All three point towards it equally'],
+      x: 'The internuclear axis is called z, so p<sub>z</sub> points along it. p<sub>x</sub> and p<sub>y</sub> are at right angles to it.' },
+    { el: null, q: 'Why is the axis between the two nuclei of a diatomic called "z"?',
+      a: 'It is just a convention', w: ['Because z is always vertical', 'Because p<sub>z</sub> is lower in energy than p<sub>x</sub> and p<sub>y</sub>', 'Because the electrons orbit around the z axis'],
+      x: 'There are no built-in x, y and z directions in the universe. Calling the bond axis z simply makes the labels consistent.' },
+    { el: null, q: 'Two p<sub>z</sub> orbitals overlap end-on, along the internuclear axis. What type of molecular orbitals do they form?',
+      a: 'σ bonding and σ antibonding', w: ['π bonding and π antibonding', 'Only a σ bonding orbital', 'Non-bonding orbitals'],
+      x: 'End-on overlap gives σ orbitals, just like s–s overlap. In phase gives the bonding orbital, out of phase the antibonding one.' },
+    { el: null, q: 'Two p<sub>x</sub> orbitals, at right angles to the internuclear axis, overlap side-on. What type of molecular orbitals do they form?',
+      a: 'π bonding and π antibonding', w: ['σ bonding and σ antibonding', 'Nothing: they don\'t point at each other', 'Only a π antibonding orbital'],
+      x: 'Side-on overlap gives π orbitals, with electron density above and below the axis.' },
+    { el: null, q: 'Which overlap is stronger: end-on (p<sub>z</sub> with p<sub>z</sub>) or side-on (p<sub>x</sub> with p<sub>x</sub>)?',
+      a: 'End-on (σ)', w: ['Side-on (π)', 'They are the same', 'It depends on the element'],
+      x: 'p<sub>z</sub> orbitals point straight at each other, so they overlap far more than two parallel p<sub>x</sub> orbitals do.' },
+    { el: 'F', q: 'Because π overlap is weaker than σ overlap, the π bonding and antibonding orbitals of F<sub>2</sub> are…',
+      a: 'Closer in energy to the original 2p orbitals than the σ ones are', w: ['Further from the original 2p orbitals than the σ ones are', 'Both below the original 2p orbitals', 'At exactly the same energies as the σ orbitals'],
+      x: 'Weaker overlap means a smaller bonding effect and a smaller antibonding effect. So 1π<sub>u</sub> sits above 3σ<sub>g</sub>, and 1π<sub>g</sub>* below 3σ<sub>u</sub>*.' },
+    { el: null, q: 'Why doesn\'t the p<sub>x</sub> orbital on one atom form bonding and antibonding orbitals with the p<sub>z</sub> orbital on the other?',
+      a: 'The in-phase and out-of-phase parts of the overlap cancel, so there is no net interaction', w: ['The p<sub>x</sub> orbital is higher in energy', 'They are too far apart', 'Only orbitals with the same letter can ever combine'],
+      x: 'Half of the p<sub>x</sub> orbital overlaps the p<sub>z</sub> lobe in phase and half out of phase. For the same reason p<sub>x</sub> and p<sub>y</sub> can\'t interact with an s orbital on the other atom.' },
+    { el: null, q: 'Each atom of a diatomic contributes three 2p orbitals. How many molecular orbitals do the six 2p orbitals form?',
+      a: '6', w: ['3', '4', '12'],
+      x: 'One σ and one σ* (from p<sub>z</sub>), two π and two π* (from p<sub>x</sub> and p<sub>y</sub>): six orbitals in, six out.' },
+
+    // ---------- Orbital labels ----------
+    { el: null, q: 'What do σ orbitals have that π orbitals don\'t?',
+      a: 'Rotational symmetry about the internuclear axis', w: ['A nodal plane between the nuclei', 'Electron density above and below the axis', 'Room for more than two electrons'],
+      x: 'Spin a σ orbital about the bond axis and it looks the same. A π orbital has its density above and below the axis, so it doesn\'t.' },
+    { el: null, q: 'What does the star in a label such as σ<sub>u</sub>* tell you?',
+      a: 'It is an antibonding orbital', w: ['It is the highest occupied orbital', 'It contains unpaired electrons', 'It was formed by side-on overlap'],
+      x: 'Antibonding orbitals are marked with stars, though some sources leave them off.' },
+    { el: null, q: 'What do the g and u in σ<sub>g</sub> and π<sub>u</sub> stand for?',
+      a: 'Gerade (even) and ungerade (uneven): how the orbital behaves under inversion', w: ['Ground state and upper state', 'Bonding and antibonding', 'Gained and unchanged electrons'],
+      x: 'Inverting through the centre of the molecule leaves the phase of a g orbital unchanged and flips that of a u orbital. These labels are only used for bonds between identical atoms.' },
+    { el: null, q: 'What does the 3 in 3σ<sub>g</sub> mean?',
+      a: 'It is the third σ<sub>g</sub> orbital in energy order, counting those from the core', w: ['It holds three electrons', 'It is made from n = 3 atomic orbitals', 'It is the third orbital in the diagram overall'],
+      x: 'In F<sub>2</sub>, 1σ<sub>g</sub> comes from the 1s core orbitals, 2σ<sub>g</sub> from 2s and 3σ<sub>g</sub> from 2p<sub>z</sub>.' },
+    { el: null, q: 'In the numbering of molecular orbitals, how do the two degenerate π<sub>u</sub> orbitals count?',
+      a: 'Once: both are 1π<sub>u</sub>', w: ['Twice: 1π<sub>u</sub> and 2π<sub>u</sub>', 'Not at all: only σ orbitals are numbered', 'As half each'],
+      x: 'A degenerate pair counts as one step in the sequence, so the next set of π<sub>u</sub> orbitals would be 2π<sub>u</sub>.' },
+
+    // ---------- F2 and O2 ----------
+    { el: 'F', q: 'The Lewis model gives F<sub>2</sub> a single shared pair. How many valence electrons does molecular orbital theory place in the molecular orbitals of F<sub>2</sub>?',
+      a: '14', w: ['2', '8', '12'],
+      x: 'Seven from each fluorine. Eight are in bonding orbitals and six in antibonding orbitals, so the bond order is still (8 − 6) ÷ 2 = 1: six electrons are trying to pull the molecule apart.' },
+    { el: 'O', q: 'According to molecular orbital theory, why is O<sub>2</sub> paramagnetic?',
+      a: 'Its two highest-energy electrons sit singly, with parallel spins, in the two degenerate 1π<sub>g</sub>* orbitals', w: ['It has one electron in 3σ<sub>u</sub>*', 'Its 3σ<sub>g</sub> orbital is only half full', 'O<sub>2</sub> is really an ion'],
+      x: 'O<sub>2</sub> has 12 valence electrons; the last two go into 1π<sub>g</sub>*, one in each orbital (Hund\'s rule). The Lewis model can\'t explain this.' },
+    { el: 'O', q: 'Molecular orbital theory gives O<sub>2</sub> a bond order of 2. Which electrons does that count?',
+      a: '8 in bonding orbitals and 4 in antibonding orbitals', w: ['4 in bonding orbitals and 0 in antibonding orbitals', '12 in bonding orbitals and 8 in antibonding orbitals', '6 in bonding orbitals and 2 in antibonding orbitals'],
+      x: '2σ<sub>g</sub><sup>2</sup> 2σ<sub>u</sub>*<sup>2</sup> 3σ<sub>g</sub><sup>2</sup> 1π<sub>u</sub><sup>4</sup> 1π<sub>g</sub>*<sup>2</sup>: bonding 2 + 2 + 4 = 8, antibonding 2 + 2 = 4. (8 − 4) ÷ 2 = 2.' },
+
+    // ---------- HOMOs and LUMOs ----------
+    { el: null, q: 'What is the HOMO of a molecule?',
+      a: 'The highest-energy molecular orbital that contains electrons', w: ['The lowest-energy molecular orbital', 'The highest-energy bonding orbital', 'The lowest orbital with room for another electron'],
+      x: 'Its electrons are the ones most likely to be lost in a chemical or physical reaction. It may be bonding or antibonding, full or partly filled.' },
+    { el: null, q: 'What is the LUMO of a molecule?',
+      a: 'The lowest-energy molecular orbital with room for another electron', w: ['The highest-energy molecular orbital', 'The lowest-energy antibonding orbital', 'The highest orbital that contains electrons'],
+      x: 'This is where an electron goes if the molecule gains one. It may be bonding or antibonding, empty or partly filled.' },
+    { el: 'F', q: 'Can the HOMO of a molecule be an antibonding orbital?',
+      a: 'Yes: in F<sub>2</sub>, for example, the HOMO is 1π<sub>g</sub>*', w: ['No: the HOMO is always a bonding orbital', 'Only in ions', 'Only if the molecule doesn\'t exist'],
+      x: 'In F<sub>2</sub> the highest occupied orbitals are the antibonding 1π<sub>g</sub>* pair, and its LUMO is 3σ<sub>u</sub>*.' },
+    { el: 'O', q: 'Which orbital of O<sub>2</sub> is both its HOMO and its LUMO?',
+      a: '1π<sub>g</sub>*', w: ['1π<sub>u</sub>', '3σ<sub>g</sub>', '3σ<sub>u</sub>*'],
+      x: 'The 1π<sub>g</sub>* pair holds only two of its possible four electrons: it has the highest-energy electrons and also the lowest-energy vacancies.' },
+  ]
+});

@@ -1268,4 +1268,99 @@
       }
     });
   }
+  // ================================================================
+  // Molecules 3: molecular orbital theory with p orbitals
+  // σ and π overlap, orbital labels, F2 and O2 (no s–p mixing), HOMOs and LUMOs
+  // ================================================================
+  {
+    const HALF = ['0', '½', '1', '1½', '2', '2½', '3'];
+    const bo = n2 => HALF[n2];
+    const LAB = {
+      sg: n => `${n}σ<sub>g</sub>`, su: n => `${n}σ<sub>u</sub>*`,
+      pu: n => `${n}π<sub>u</sub>`, pg: n => `${n}π<sub>g</sub>*` };
+    // Valence MOs in energy order without s–p mixing: [label, capacity, bonding?, degenerate pair?]
+    const P_SET = (num, r) => [
+      [num ? LAB.sg(2) : `σ<sub>g</sub>(${r}s)`, 2, true], [num ? LAB.su(2) : `σ<sub>u</sub>*(${r}s)`, 2, false],
+      [num ? LAB.sg(3) : `σ<sub>g</sub>(${r}p)`, 2, true], [num ? LAB.pu(1) : 'π<sub>u</sub>', 4, true, true],
+      [num ? LAB.pg(1) : 'π<sub>g</sub>*', 4, false, true], [num ? LAB.su(3) : `σ<sub>u</sub>*(${r}p)`, 2, false]];
+    const S_SET = e => (e.z <= 2 ? [[LAB.sg(1), 2, true], [LAB.su(1), 2, false]] : [[LAB.sg(2), 2, true], [LAB.su(2), 2, false]]);
+    // Group 16–18 elements of periods 2–5 use the p-orbital set; H, He, Li, Be the s set (for HOMO/LUMO)
+    const pElement = e => e.c >= 16 && e.r >= 2 && e.r <= 5;
+    const sElement = e => ['H', 'He', 'Li', 'Be'].includes(e.s);
+    const valence = e => (pElement(e) ? e.c - 10 : e.s === 'H' ? 1 : e.s === 'Li' ? 1 : 2);
+    const chargesFor = e => (pElement(e) ? { 16: [1, 0, -1, -2], 17: [1, 0, -1], 18: [1, 0] }[e.c] : [-1, 0, 1].filter(q => { const n = 2 * valence(e) - q; return n >= 1 && n <= 4; }));
+    const species = (e, q) => `${e.s}<sub>2</sub>${q === 0 ? '' : `<sup>${Math.abs(q) > 1 ? Math.abs(q) : ''}${q > 0 ? '+' : '−'}</sup>`}`;
+    function fillSet(set, n) {
+      const out = []; let left = n, b = 0, a = 0, unp = 0;
+      for (const [lab, cap, bond, deg] of set) {
+        const k = Math.min(cap, Math.max(left, 0)); left -= k;
+        out.push([lab, k, cap, bond]);
+        if (bond) b += k; else a += k;
+        unp += deg ? (k <= 2 ? k : 4 - k) : k % 2;
+      }
+      return { orbs: out, b, a, n2: (b - a), unp };
+    }
+    const info = (e, q) => { const set = pElement(e) ? P_SET(e.r === 2, e.r) : S_SET(e); return { set, ...fillSet(set, 2 * valence(e) - q) }; };
+    const cfg = orbs => orbs.filter(o => o[1]).map(([l, k]) => `${l}<sup>${k}</sup>`).join(' ');
+    const working = (e, q) => {
+      const { orbs, b, a, n2 } = info(e, q), n = 2 * valence(e) - q;
+      return `${species(e, q)} has ${n} valence electrons: ${cfg(orbs)}. Bonding ${b}, antibonding ${a}: bond order = (${b} − ${a}) ÷ 2 = ${bo(n2)}.` +
+        (pElement(e) && e.r > 2 ? ` (The same pattern as O<sub>2</sub> and F<sub>2</sub>, built from ${e.r}s and ${e.r}p orbitals.)` : '');
+    };
+
+    PQ.addGenerators({
+      // Bond order of a p-block homonuclear diatomic (no s–p mixing)
+      m3Order(e) {
+        if (!pElement(e)) return null;
+        const q = pick(chargesFor(e)), { n2 } = info(e, q), X = species(e, q);
+        const opts = HALF.filter(h => h !== bo(n2) && Math.abs(HALF.indexOf(h) - n2) <= 3);
+        const ex = n2 === 0 ? ' Bond order 0: it is not stable.' : '';
+        return { id: `m3:bo:${e.s}${q}`, weight: 2,
+          q: `Using molecular orbital theory (ignoring s–p mixing), what is the bond order of ${X}?`,
+          a: bo(n2), w: shuffle(opts).slice(0, 3),
+          x: working(e, q) + ex };
+      },
+      // Unpaired electrons
+      m3Unpaired(e) {
+        if (!pElement(e)) return null;
+        const qs = chargesFor(e).filter(q => info(e, q).n2 > 0), q = pick(qs), { unp, orbs } = info(e, q), X = species(e, q);
+        const top = orbs.filter(o => o[1]).pop();
+        return { id: `m3:up:${e.s}${q}`, weight: 2,
+          q: `According to molecular orbital theory, how many unpaired electrons does ${X} have?`,
+          a: String(unp), w: ['0', '1', '2', '3'].filter(k => k !== String(unp)),
+          x: `${species(e, q)}: ${cfg(orbs)}. ` + (top[1] === top[2] ? 'Every occupied orbital is full, so all the electrons are paired and it is not paramagnetic.'
+            : top[2] === 4 ? `The ${top[1]} electron${top[1] > 1 ? 's' : ''} in the two degenerate ${top[0]} orbitals ${top[1] === 2 ? 'go in singly with parallel spins (Hund\'s rule)' : top[1] === 1 ? 'is unpaired' : 'leave one orbital with a single electron'}, so ${unp} unpaired: ${unp ? 'paramagnetic' : 'not paramagnetic'}.`
+            : `The single electron in ${top[0]} is unpaired, so it is paramagnetic.`) };
+      },
+      // HOMO or LUMO
+      m3Frontier(e) {
+        if (!(sElement(e) || (pElement(e) && e.r === 2))) return null;
+        const qs = chargesFor(e).filter(q => info(e, q).n2 > 0), q = pick(qs), { orbs } = info(e, q), X = species(e, q);
+        const homoI = orbs.map(o => o[1] > 0).lastIndexOf(true), lumoI = orbs.findIndex(o => o[1] < o[2]);
+        let lumo = Math.random() < 0.5;
+        if (lumo && lumoI < 0) lumo = false;
+        const ans = orbs[lumo ? lumoI : homoI][0];
+        let labs = orbs.map(o => o[0]);
+        if (e.s === 'H' || e.s === 'He') labs = labs.concat(['2σ<sub>g</sub>']);
+        if (e.s === 'Li' || e.s === 'Be') labs = ['1σ<sub>g</sub>', '1σ<sub>u</sub>*'].concat(labs);
+        const partial = orbs[lumo ? lumoI : homoI][1] > 0 && orbs[lumo ? lumoI : homoI][1] < orbs[lumo ? lumoI : homoI][2];
+        return { id: `m3:${lumo ? 'lu' : 'ho'}:${e.s}${q}`, weight: 2,
+          q: `Which molecular orbital is the ${lumo ? 'LUMO (lowest unoccupied molecular orbital)' : 'HOMO (highest occupied molecular orbital)'} of ${X}?`,
+          a: ans, w: shuffle(labs.filter(l => l !== ans)).slice(0, 3),
+          x: `${X}: ${cfg(orbs)}. ` + (lumo
+            ? `The lowest orbital with room for another electron is ${ans}${partial ? ', which is only partly filled, so it is the HOMO as well' : ''}.`
+            : `The highest-energy orbital holding electrons is ${ans}${partial ? '. It is only partly filled, so it is also the LUMO' : ''}.`) };
+      },
+      // Orbital labels from the orbitals that formed them
+      m3Label() {
+        const kinds = [['s + s', 'σ'], ['p<sub>z</sub> + p<sub>z</sub>', 'σ'], ['p<sub>x</sub> + p<sub>x</sub>', 'π'], ['p<sub>y</sub> + p<sub>y</sub>', 'π']];
+        const [form, t] = pick(kinds), anti = Math.random() < 0.5;
+        const ans = t === 'σ' ? (anti ? 'σ<sub>u</sub>*' : 'σ<sub>g</sub>') : (anti ? 'π<sub>g</sub>*' : 'π<sub>u</sub>');
+        return { id: `m3:lb:${form}${anti}`,
+          q: `In a homonuclear diatomic, what is the label for the ${anti ? 'antibonding (out-of-phase)' : 'bonding (in-phase)'} combination of ${form} orbitals?`,
+          a: ans, w: ['σ<sub>g</sub>', 'σ<sub>u</sub>*', 'π<sub>u</sub>', 'π<sub>g</sub>*'].filter(l => l !== ans),
+          x: `${t === 'σ' ? 'End-on overlap along the internuclear axis gives σ orbitals' : 'Side-on overlap gives π orbitals'}; antibonding ones get a star. The g/u labels flip between σ and π: σ<sub>g</sub> and σ<sub>u</sub>*, but π<sub>u</sub> and π<sub>g</sub>*.` };
+      }
+    });
+  }
 })();
