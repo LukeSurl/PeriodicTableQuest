@@ -28,12 +28,9 @@ PQ.questionSet({
     { el: 'F', q: 'Because π overlap is weaker than σ overlap, the π bonding and antibonding orbitals of F<sub>2</sub> are…',
       a: 'Closer in energy to the original 2p orbitals than the σ ones are', w: ['Further from the original 2p orbitals than the σ ones are', 'Both below the original 2p orbitals', 'At exactly the same energies as the σ orbitals'],
       x: 'Weaker overlap means a smaller bonding effect and a smaller antibonding effect. So 1π<sub>u</sub> sits above 3σ<sub>g</sub>, and 1π<sub>g</sub>* below 3σ<sub>u</sub>*.' },
-    { el: null, q: 'Why doesn\'t the p<sub>x</sub> orbital on one atom form bonding and antibonding orbitals with the p<sub>z</sub> orbital on the other?',
+    { el: null, q: 'In a homonuclear diatomic, why doesn\'t the p<sub>x</sub> orbital on one atom form bonding and antibonding orbitals with the p<sub>z</sub> orbital on the other?',
       a: 'The in-phase and out-of-phase parts of the overlap cancel, so there is no net interaction', w: ['The p<sub>x</sub> orbital is higher in energy', 'They are too far apart', 'Only orbitals with the same letter can ever combine'],
-      x: 'Half of the p<sub>x</sub> orbital overlaps the p<sub>z</sub> lobe in phase and half out of phase. For the same reason p<sub>x</sub> and p<sub>y</sub> can\'t interact with an s orbital on the other atom.' },
-    { el: null, q: 'Each atom of a diatomic contributes three 2p orbitals. How many molecular orbitals do the six 2p orbitals form?',
-      a: '6', w: ['3', '4', '12'],
-      x: 'One σ and one σ* (from p<sub>z</sub>), two π and two π* (from p<sub>x</sub> and p<sub>y</sub>): six orbitals in, six out.' },
+      x: 'Half of the p<sub>x</sub> orbital overlaps the p<sub>z</sub> lobe in phase and half out of phase. For the same reason, in a diatomic p<sub>x</sub> and p<sub>y</sub> can\'t interact with an s orbital on the other atom.' },
 
     // ---------- Orbital labels ----------
     { el: null, q: 'What do σ orbitals have that π orbitals don\'t?',
@@ -45,10 +42,10 @@ PQ.questionSet({
     { el: null, q: 'What do the g and u in σ<sub>g</sub> and π<sub>u</sub> stand for?',
       a: 'Gerade (even) and ungerade (uneven): how the orbital behaves under inversion', w: ['Ground state and upper state', 'Bonding and antibonding', 'Gained and unchanged electrons'],
       x: 'Inverting through the centre of the molecule leaves the phase of a g orbital unchanged and flips that of a u orbital. These labels are only used for bonds between identical atoms.' },
-    { el: null, q: 'What does the 3 in 3σ<sub>g</sub> mean?',
+    { el: null, q: 'In a homonuclear diatomic, what does the 3 in 3σ<sub>g</sub> mean?',
       a: 'It is the third σ<sub>g</sub> orbital in energy order, counting those from the core', w: ['It holds three electrons', 'It is made from n = 3 atomic orbitals', 'It is the third orbital in the diagram overall'],
       x: 'In F<sub>2</sub>, 1σ<sub>g</sub> comes from the 1s core orbitals, 2σ<sub>g</sub> from 2s and 3σ<sub>g</sub> from 2p<sub>z</sub>.' },
-    { el: null, q: 'In the numbering of molecular orbitals, how do the two degenerate π<sub>u</sub> orbitals count?',
+    { el: null, q: 'In a homonuclear diatomic, when molecular orbitals are numbered, how do the two degenerate π<sub>u</sub> orbitals count?',
       a: 'Once: both are 1π<sub>u</sub>', w: ['Twice: 1π<sub>u</sub> and 2π<sub>u</sub>', 'Not at all: only σ orbitals are numbered', 'As half each'],
       x: 'A degenerate pair counts as one step in the sequence, so the next set of π<sub>u</sub> orbitals would be 2π<sub>u</sub>.' },
 
