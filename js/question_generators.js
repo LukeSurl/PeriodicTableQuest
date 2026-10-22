@@ -1363,4 +1363,137 @@
       }
     });
   }
+  // ================================================================
+  // Molecules 4: molecular ions, s–p mixing, heteronuclear diatomics
+  // ================================================================
+  {
+    const HALF = ['0', '½', '1', '1½', '2', '2½', '3'];
+    const bo = n2 => HALF[n2];
+    const sg = n => `${n}σ<sub>g</sub>`, su = n => `${n}σ<sub>u</sub>*`, pu = n => `${n}π<sub>u</sub>`, pg = n => `${n}π<sub>g</sub>*`;
+    // Period 2 valence MOs in energy order: [label, capacity, bonding?, degenerate pair?]
+    const MIX = [[sg(2), 2, true], [su(2), 2, false], [pu(1), 4, true, true], [sg(3), 2, true], [pg(1), 4, false, true], [su(3), 2, false]];
+    const NOMIX = [[sg(2), 2, true], [su(2), 2, false], [sg(3), 2, true], [pu(1), 4, true, true], [pg(1), 4, false, true], [su(3), 2, false]];
+    const P2 = ['B', 'C', 'N', 'O', 'F'];
+    const mixes = s => ['B', 'C', 'N'].includes(s);
+    // Bond dissociation energies (kJ mol⁻¹) and lengths (pm) of N2 and O2 and their ions (slide 6)
+    const ION = { N: { 1: [840, 112], 0: [944.9, 109.8], '-1': [765, 119], '-2': [null, 122] },
+                  O: { 1: [643, 112], 0: [498.5, 120.7], '-1': [360, 128], '-2': [155, 149] } };
+    const species = (s, q) => `${s}<sub>2</sub>${q === 0 ? '' : `<sup>${Math.abs(q) > 1 ? Math.abs(q) : ''}${q > 0 ? '+' : '−'}</sup>`}`;
+    function fillSet(set, n) {
+      const orbs = []; let left = n, b = 0, a = 0, unp = 0;
+      for (const [lab, cap, bond, deg] of set) {
+        const k = Math.min(cap, Math.max(left, 0)); left -= k;
+        orbs.push([lab, k, cap, bond]);
+        if (bond) b += k; else a += k;
+        unp += deg ? (k <= 2 ? k : 4 - k) : k % 2;
+      }
+      return { orbs, b, a, n2: b - a, unp };
+    }
+    const info = (s, q) => fillSet(mixes(s) ? MIX : NOMIX, 2 * (BY_S[s].c - 10) - q);
+    const cfg = orbs => orbs.filter(o => o[1]).map(([l, k]) => `${l}<sup>${k}</sup>`).join(' ');
+    const mixNote = s => (mixes(s) ? ' (s–p mixing pushes 3σ<sub>g</sub> above 1π<sub>u</sub>.)' : '');
+    const el = s => BY_S[s].n.toLowerCase();
+
+    PQ.addGenerators({
+      // Period 2 homonuclear diatomics, with s–p mixing where it matters
+      m4Diatomic(e) {
+        if (!P2.includes(e.s)) return null;
+        const q = pick([-1, 0, 1]), d = info(e.s, q), X = species(e.s, q), kind = rnd(3);
+        const head = `${X} has ${2 * (e.c - 10) - q} valence electrons: ${cfg(d.orbs)}.${mixNote(e.s)}`;
+        if (kind === 0) return { id: `m4:bo:${e.s}${q}`, weight: 2,
+          q: `Using molecular orbital theory, what is the bond order of ${X}?`,
+          a: bo(d.n2), w: shuffle(HALF.filter(h => h !== bo(d.n2) && Math.abs(HALF.indexOf(h) - d.n2) <= 3)).slice(0, 3),
+          x: `${head} Bonding ${d.b}, antibonding ${d.a}: (${d.b} − ${d.a}) ÷ 2 = ${bo(d.n2)}.` };
+        if (kind === 1) return { id: `m4:up:${e.s}${q}`, weight: 2,
+          q: `According to molecular orbital theory, how many unpaired electrons does ${X} have?`,
+          a: String(d.unp), w: ['0', '1', '2', '3'].filter(k => k !== String(d.unp)),
+          x: `${head} ${d.unp ? `${d.unp} unpaired (degenerate orbitals fill singly first), so it is paramagnetic.` : 'All the electrons are paired, so it is not paramagnetic.'}` };
+        const top = d.orbs.filter(o => o[1]).pop()[0];
+        return { id: `m4:ho:${e.s}${q}`, weight: 2,
+          q: `Which molecular orbital is the HOMO of ${X}?`,
+          a: top, w: shuffle([sg(3), pu(1), pg(1), su(2), su(3)].filter(l => l !== top)).slice(0, 3),
+          x: head };
+      },
+      // Adding or removing an electron: what happens to the bond order (and strength, for N2 and O2)
+      m4Ion(e) {
+        if (!P2.includes(e.s)) return null;
+        const q = pick([1, -1]), A = info(e.s, 0), B = info(e.s, q), X = species(e.s, 0), Y = species(e.s, q);
+        const homo = A.orbs.filter(o => o[1]).pop(), lumo = A.orbs.find(o => o[1] < o[2]);
+        const orb = q > 0 ? homo : lumo, up = B.n2 > A.n2;
+        const data = ION[e.s] ? ` Data: ${X} ${ION[e.s][0][0]} kJ mol<sup>−1</sup>, ${ION[e.s][0][1]} pm; ${Y} ${ION[e.s][q][0]} kJ mol<sup>−1</sup>, ${ION[e.s][q][1]} pm.` : '';
+        const why = `${q > 0 ? 'The electron is removed from the HOMO' : 'The extra electron goes into the LUMO'}, ${orb[0]}, which is ${orb[3] ? 'bonding' : 'antibonding'}. Bond order ${bo(A.n2)} → ${bo(B.n2)}.${mixNote(e.s)}`;
+        if (ION[e.s] && Math.random() < 0.5) {
+          const strong = up ? Y : X, weak = up ? X : Y, [p1, p2] = Math.random() < 0.5 ? [X, Y] : [Y, X];
+          return { id: `m4:is:${e.s}${q}`, weight: 2,
+            q: `Which has the stronger bond: ${p1} or ${p2}?`,
+            a: strong, w: [weak, 'They are equally strong: same atoms'],
+            x: why + data };
+        }
+        return { id: `m4:io:${e.s}${q}`, weight: 2,
+          q: `${X} ${q > 0 ? 'loses' : 'gains'} an electron to form ${Y}. What happens to the bond order?`,
+          a: up ? 'It goes up by ½' : 'It goes down by ½', w: [up ? 'It goes down by ½' : 'It goes up by ½', 'It stays the same', `It goes ${up ? 'up' : 'down'} by 1`],
+          x: why + data };
+      },
+      // Where 3σg sits, and the periodic trend in s–p mixing
+      m4Mixing(e) {
+        if (e.r !== 2 || e.c === 18) return null;
+        if (P2.includes(e.s) && Math.random() < 0.5) {
+          const above = mixes(e.s);
+          return { id: `m4:sg:${e.s}`, weight: 2,
+            q: `In the molecular orbital diagram of ${e.s}<sub>2</sub>, is the 3σ<sub>g</sub> orbital above or below the 1π<sub>u</sub> orbitals?`,
+            a: above ? 'Above' : 'Below', w: [above ? 'Below' : 'Above', 'At exactly the same energy'],
+            x: above ? `For ${e.s}<sub>2</sub> the 2s and 2p orbitals are close in energy, so s–p mixing is large: it pushes 3σ<sub>g</sub> up above 1π<sub>u</sub>.`
+                     : `Across period 2 the 2s–2p gap grows, so s–p mixing gets weaker. By ${e.s}<sub>2</sub> it is too small to push 3σ<sub>g</sub> above 1π<sub>u</sub>.` };
+        }
+        const others = ELS.filter(o => o.r === 2 && o.c !== 18 && o !== e);
+        const o = pick(others), more = o.z < e.z ? o : e, less = more === o ? e : o;
+        const [p1, p2] = Math.random() < 0.5 ? [e, o] : [o, e];
+        return { id: `m4:tr:${[e.s, o.s].sort().join('')}`,
+          q: `Which has more s–p mixing: ${p1.s}<sub>2</sub> or ${p2.s}<sub>2</sub>?`,
+          a: `${more.s}<sub>2</sub>`, w: [`${less.s}<sub>2</sub>`, 'They have the same amount'],
+          x: `The 2s–2p energy gap increases across the period, so the σ molecular orbitals formed from them get further apart and mix less. ${more.n} is further left than ${el(less.s)}.` };
+      },
+      // Heteronuclear diatomics: whose orbitals are lower, and where the bonding electrons are
+      m4Hetero(e) {
+        const PAIRS = [['H', 'F'], ['H', 'Cl'], ['H', 'Br'], ['H', 'I'], ['Li', 'H'], ['Na', 'H'], ['Br', 'Cl'], ['Cl', 'F'], ['I', 'Cl'], ['I', 'Br'], ['Br', 'F']];
+        const mine = PAIRS.filter(p => p.includes(e.s));
+        if (!mine.length) return null;
+        const [a, b] = pick(mine), A = BY_S[a], B = BY_S[b], neg = A.en > B.en ? A : B, pos = neg === A ? B : A, f = `${a}${b}`;
+        const lower = Math.random() < 0.5;
+        return { id: `m4:ht:${f}${lower ? 'l' : 'b'}`, weight: 2,
+          q: lower ? `In the molecular orbital diagram of ${f}, which atom's valence atomic orbitals are lower in energy?`
+                   : `In ${f}, the two bonding electrons are in a σ molecular orbital. Where are they mostly located?`,
+          a: lower ? neg.n : `On the ${el(neg.s)} atom`,
+          w: lower ? [pos.n, 'Neither: they are at the same energy'] : [`On the ${el(pos.s)} atom`, 'Shared exactly equally between the two atoms'],
+          x: `${neg.n} is more electronegative (${neg.en.toFixed(2)} vs ${pos.en.toFixed(2)}), so its valence orbitals are lower in energy. The bonding orbital is closer in energy to ${el(neg.s)}'s orbital, so it has a larger contribution from it and its electrons are mostly on ${el(neg.s)}: ${neg.s} is δ−.` };
+      },
+      // Non-bonding orbitals in HX
+      m4HX(e) {
+        if (e.c !== 17 || e.r > 5) return null;
+        const n = e.r, X = `H${e.s}`;
+        return { id: `m4:hx:${e.s}`,
+          q: `In the molecular orbital diagram of ${X}, how many electrons are in non-bonding orbitals?`,
+          a: '6', w: ['0', '2', '4', '8'].sort(() => Math.random() - 0.5).slice(0, 3),
+          x: `${e.n}'s ${n}s orbital is too far below hydrogen's 1s in energy to interact, and its ${n}p<sub>x</sub> and ${n}p<sub>y</sub> have the wrong symmetry. Those three orbitals stay non-bonding, holding 6 electrons. Only ${n}p<sub>z</sub> + H 1s form σ bonding and antibonding orbitals: 2 bonding electrons, bond order (2 − 0) ÷ 2 = 1.` };
+      },
+      // CO and NO (heteronuclear, with s–p mixing)
+      m4CONO(e) {
+        if (!['C', 'N', 'O'].includes(e.s)) return null;
+        const SP = { CO: 10, NO: 11, 'NO+': 10, 'NO−': 12 };
+        const opts = e.s === 'C' ? ['CO'] : e.s === 'N' ? ['NO', 'NO+', 'NO−'] : ['CO', 'NO', 'NO+', 'NO−'];
+        const sp = pick(opts), n = SP[sp], d = fillSet(MIX, n);
+        const X = sp.replace(/([+−])$/, '<sup>$1</sup>');
+        const para = Math.random() < 0.4;
+        const head = `${X} has ${n} valence electrons (${sp === 'CO' ? '4 + 6' : sp === 'NO' ? '5 + 6' : sp === 'NO+' ? '5 + 6 − 1' : '5 + 6 + 1'}). They fill orbitals like those of N<sub>2</sub>: 8 in the four bonding orbitals and 2 in the σ antibonding orbital from the 2s orbitals${n > 10 ? `, then ${n - 10} in the π antibonding pair` : ''}.`;
+        if (para) return { id: `m4:cu:${sp}`,
+          q: `How many unpaired electrons does ${X} have?`,
+          a: String(d.unp), w: ['0', '1', '2', '3'].filter(k => k !== String(d.unp)),
+          x: `${head} ${d.unp ? `${d.unp} unpaired, so it is paramagnetic.` : 'All paired.'}` };
+        return { id: `m4:co:${sp}`, weight: 2,
+          q: `Using molecular orbital theory, what is the bond order of ${X}?`,
+          a: bo(d.n2), w: shuffle(HALF.filter(h => h !== bo(d.n2) && Math.abs(HALF.indexOf(h) - d.n2) <= 3)).slice(0, 3),
+          x: `${head} Bonding ${d.b}, antibonding ${d.a}: (${d.b} − ${d.a}) ÷ 2 = ${bo(d.n2)}.` };
+      }
+    });
+  }
 })();
