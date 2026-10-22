@@ -89,6 +89,10 @@
     on.forEach((k, i) => { $('tp-' + k).value = Math.floor(100 / on.length) + (i < 100 % on.length ? 1 : 0); });
     updateTotal();
   };
+  $('tNone').onclick = () => {
+    topicIds.filter(k => PQ.sets[k]).forEach(k => { $('tc-' + k).checked = false; $('tp-' + k).value = ''; });
+    updateTotal();
+  };
   $('tApply').onclick = () => {
     const raw = readTopics(), tot = Object.values(raw).reduce((a, b) => a + b, 0);
     if (!tot) return;
