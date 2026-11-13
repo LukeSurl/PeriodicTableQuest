@@ -101,6 +101,25 @@ Every answer is followed by a short explanation. Stealing an element the other t
 
 Question text is tidied automatically before it is shown: numbers in standard form (3.00 × 10⁸), a number and its unit (0.10 g, 10⁸ m) and the parts of compound units (mol dm⁻³, J s, g cm⁻³) are held together with non-breaking spaces so they never split across lines. You can type ordinary spaces when writing questions.
 
+## Quiz Grid (version 0.1)
+
+A simpler, general-purpose spin-off in the `grid/` folder, meant for colleagues who don't want to touch code. A lecturer types a handful of multiple-choice questions into a web page; the projector shows them as a grid of tiles with a QR code; students join in two teams as before. A correct answer wins the student's team one point for that question, at most once per team, so each question can earn a point for each team. The team with the most points when the timer ends wins.
+
+- **Start page:** `https://lukesurl.github.io/PeriodicTableQuest/grid/`. "Make a new quiz" creates a quiz and opens its editor. No sign-in.
+- **Edit link** (`grid/edit.html#…`): the only way back to a quiz from another computer, and anyone who has it can change the quiz. The start page also remembers the quizzes made or opened in that browser.
+- **Present link** (`grid/host.html?quiz=…`): opens the projector view. Anyone with it can run the quiz but not change it.
+- **Demo:** `grid/demo.html` runs the projector and two phones in one page with a sample quiz and no database. Its "edit this demo quiz" link opens the editor on the sample quiz; changes appear in the demo as you type.
+
+Each tile shows the question's picture and short label if it has them, otherwise the question text. Pictures can be pasted straight from the clipboard (e.g. copied from a slide), dragged in or chosen as a file; they are shrunk to under about 300 KB. Settings such as the name, team colours, countdown and wrong-answer pause are in `grid/js/settings.js`.
+
+**Setting it up:** it shares this project's Firebase connection, so the only step is to publish the updated `database.rules.json` (Realtime Database → Rules → paste → Publish). The Periodic Table Quest rules are unchanged inside it.
+
+**Answers stay off the phones.** Phones never download the correct answers. They are stored where only someone with the edit link can read them, and the database itself checks each answer a phone sends in (`proofs/…` in the rules), so a student can't find them by inspecting the page. A determined student could still bypass the wrong-answer pause and try every option, which is acceptable for a warm-up game.
+
+**Free-plan limit:** the 100 simultaneous connections are shared between Periodic Table Quest and every Quiz Grid game running at the same moment. If colleagues use it in parallel lectures, move the project to the Blaze plan (see "Class size and the free plan").
+
+Not yet in version 0.1: typed numeric answers, explanations after answering, steals, deleting a quiz, and a list of a lecturer's quizzes across computers.
+
 ## Things to know
 
 - **Cheating.** The database rules stop students claiming for the other team, changing team, claiming outside the game, or stealing during the protection window. They can't check answers (that would need a paid server), so a student who knows their way round browser developer tools could claim without answering. For a warm-up game that is an acceptable trade.

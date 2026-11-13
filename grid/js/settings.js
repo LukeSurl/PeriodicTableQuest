@@ -1,0 +1,19 @@
+// Quiz Grid settings. The Firebase connection is shared with Periodic Table Quest
+// (js/config.js in the folder above), so there is nothing to set up here.
+window.GQ_SETTINGS = {
+  title: 'Quiz Grid',               // working name: change it here and it changes everywhere
+
+  teams: {
+    a: { name: 'Blue', colour: '#007A75' },
+    b: { name: 'Red',  colour: '#C8553D' }
+  },
+
+  defaultMinutes: 10,               // default countdown on the projector
+  wrongCooldownSeconds: 10,         // pause after a wrong answer, to discourage guessing
+
+  maxQuestions: 30,
+  maxOptions: 6,
+  labelLength: 40,                  // longest "short label" for a tile
+  imageMaxPixels: 1000,             // pictures are shrunk to fit this many pixels on their longest side
+  imageMaxKB: 300                   // and squeezed until they are smaller than this
+};

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Edit quiz</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/grid.css">
+</head>
+<body class="page">
+<header class="top">
+  <h1><a href="index.html" id="home">Quiz Grid</a></h1>
+  <span class="spacer"></span>
+  <span class="savestate" id="saveState" aria-live="polite">Loading…</span>
+</header>
+<main>
+  <div id="problem" class="panel notice bad hidden"></div>
+  <div id="editor" class="hidden">
+    <div class="panel titlebox">
+      <label class="lbl" for="qTitle" style="margin-top:0">Quiz title <small>(shown on the big screen)</small></label>
+      <input type="text" id="qTitle" maxlength="100" placeholder="e.g. BIO1347 Molecules 5 warm-up">
+    </div>
+
+    <div class="panel">
+      <div class="row"><b style="flex:1">Run this quiz</b>
+        <a class="btn primary" id="presentBtn" target="_blank" rel="noopener">Present now</a></div>
+      <p class="small muted">Open the <b>present link</b> on the lectern PC. It shows the grid and a QR code for students. Anyone with it can run the quiz but not change it.</p>
+      <div class="linkbox"><input type="text" id="presentLink" readonly aria-label="Present link"><button class="btn" data-copy="presentLink">Copy</button></div>
+      <p class="small muted" style="margin-top:1rem">The <b>edit link</b> is the only way back to this page from another computer. Anyone who has it can change the quiz, so keep it to yourself (bookmark it or email it to yourself).</p>
+      <div class="linkbox"><input type="text" id="editLink" readonly aria-label="Edit link"><button class="btn" data-copy="editLink">Copy</button></div>
+    </div>
+
+    <h2>Questions</h2>
+    <p class="small muted">Each question needs its text, at least two answers and a tick by the right one. Changes save automatically.</p>
+    <div id="qs"></div>
+    <button class="btn addq" id="addQ">+ Add a question</button>
+
+    <h2>How the big screen will look</h2>
+    <div class="preview"><div id="preview"></div></div>
+    <p class="small muted">Each tile shows its picture and short label if it has them, or else the question itself. Students see the full question and answers on their phones.</p>
+  </div>
+</main>
+<input type="file" id="fileIn" accept="image/*" class="hidden">
+<script src="../js/config.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/common.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/edit.js"></script>
+</body>
+</html>
