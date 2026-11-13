@@ -86,7 +86,7 @@
     if (m.status === 'lobby') {
       ov.classList.remove('hidden');
       box.innerHTML = `<h2>Scan to join</h2><p class="lobby-msg">You'll be put in team <span style="color:var(--ta);font-weight:700">${esc(team('a').name)}</span> or <span style="color:var(--tb);font-weight:700">${esc(team('b').name)}</span>.<br>
-        ${n} question${n === 1 ? '' : 's'}: each one answered correctly wins your team a point.</p>`;
+        ${n} question${n === 1 ? '' : 's'}. Every correct answer wins your team a point,<br>so the more of you who get each one right, the better.</p>`;
     } else if (m.status === 'ended') {
       const s = score(state.pts), w = s.a === s.b ? null : (s.a > s.b ? 'a' : 'b');
       ov.classList.remove('hidden');
@@ -99,7 +99,7 @@
   function feedLine(ch) {
     const li = document.createElement('li');
     const k = GQ.playable(quiz).findIndex(q => q.i === ch.i) + 1;
-    li.innerHTML = `<span class="dot" style="background:var(--t${ch.t})"></span><b>${esc(team(ch.t).name)}</b> got question ${k}`;
+    li.innerHTML = `<span class="dot" style="background:var(--t${ch.t})"></span><b>${esc(team(ch.t).name)}</b> +${ch.add} on question ${k}`;
     $('feed').prepend(li);
     while ($('feed').children.length > 12) $('feed').lastChild.remove();
   }

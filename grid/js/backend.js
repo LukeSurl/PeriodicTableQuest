@@ -109,10 +109,11 @@
           return done && done.exists() ? 'right' : 'wrong';
         }
       },
-      // After a right answer: try to win the point for the team. Returns 'scored' or 'taken'.
+      // After a right answer: add this player's point for the team. Returns 'scored', or
+      // 'already' if they had scored on this question before (each player once per question).
       async award(code, q, t) {
-        try { await timeout(D.set(r(`runs/${code}/pts/${q}/${t}`), { by: user.uid, at: D.serverTimestamp() })); return 'scored'; }
-        catch (e) { if (isDenied(e)) return 'taken'; throw e; }
+        try { await timeout(D.set(r(`runs/${code}/pts/${q}/${user.uid}`), { t, at: D.serverTimestamp() })); return 'scored'; }
+        catch (e) { if (isDenied(e)) return 'already'; throw e; }
       }
     };
   }
@@ -166,9 +167,9 @@
         if (right) publish();
       }
       if (msg.type === 'award') {
-        const p = S.players[msg.uid], ok = p && p.t === msg.t && S.proofs[msg.uid] && S.proofs[msg.uid][msg.q] && !(S.pts[msg.q] && S.pts[msg.q][msg.t]) && S.meta.status === 'open';
-        if (ok) { S.pts[msg.q] = S.pts[msg.q] || {}; S.pts[msg.q][msg.t] = { by: msg.uid, at: Date.now() }; }
-        reply({ result: ok ? 'scored' : 'taken' });
+        const p = S.players[msg.uid], ok = p && p.t === msg.t && S.proofs[msg.uid] && S.proofs[msg.uid][msg.q] && !(S.pts[msg.q] && S.pts[msg.q][msg.uid]) && S.meta.status === 'open';
+        if (ok) { S.pts[msg.q] = S.pts[msg.q] || {}; S.pts[msg.q][msg.uid] = { t: msg.t, at: Date.now() }; }
+        reply({ result: ok ? 'scored' : 'already' });
         if (ok) publish();
       }
     });

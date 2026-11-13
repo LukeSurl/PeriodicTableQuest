@@ -111,9 +111,13 @@
         },
         "pts": {
           "$q": {
-            "$t": {
-              ".write": "auth != null && !data.exists() && newData.child('by').val() === auth.uid && root.child('runs').child($code).child('players').child(auth.uid).child('t').val() === $t && root.child('proofs').child($code).child(auth.uid).child($q).exists() && root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val() + 5000",
-              ".validate": "$t.matches(/^[ab]$/) && newData.hasChildren(['by', 'at']) && newData.child('at').val() === now"
+            ".validate": "$q.matches(/^([0-9]|[12][0-9])$/)",
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid && !data.exists() && newData.child('t').val() === root.child('runs').child($code).child('players').child(auth.uid).child('t').val() && root.child('proofs').child($code).child(auth.uid).child($q).exists() && root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val() + 5000",
+              ".validate": "newData.hasChildren(['t', 'at']) && newData.child('t').val().matches(/^[ab]$/) && newData.child('at').val() === now",
+              "$other": {
+                ".validate": "$other === 't' || $other === 'at'"
+              }
             }
           }
         },

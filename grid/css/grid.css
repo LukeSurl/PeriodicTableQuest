@@ -28,9 +28,10 @@ button.gtile:active { transform: scale(.97); }
   display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden;
 }
 .gflags { display: grid; grid-template-columns: 1fr 1fr; height: max(1.3rem, 15cqh); border-top: 2px solid var(--line); }
-.gflags span { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: clamp(.65rem, 8cqh, 1.6rem); white-space: nowrap; overflow: hidden; transition: background-color .4s ease; }
-.gflags .fa.on { background: var(--ta); }
-.gflags .fb.on { background: var(--tb); }
+.gflags span { display: flex; align-items: center; justify-content: center; gap: .3em; color: var(--muted); font-weight: 700; font-size: clamp(.65rem, 8cqh, 1.6rem); white-space: nowrap; overflow: hidden; transition: background-color .4s ease; }
+.gflags span b { font-variant-numeric: tabular-nums; }
+.gflags .fa.on { background: var(--ta); color: #fff; }
+.gflags .fb.on { background: var(--tb); color: #fff; }
 .gflags .fa { border-right: 1px solid var(--line); }
 .gtile.pop { animation: pop .6s ease; z-index: 2; }
 .gempty { margin: auto; color: var(--muted); font-size: 1.2rem; }

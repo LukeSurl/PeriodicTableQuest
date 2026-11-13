@@ -34,7 +34,14 @@
     return `<span class="gnum">${n}</span><span class="gbody${q.img ? ' hasimg' : ''}">${img}${label}${text}</span>`;
   }
 
-  // Build or refresh a grid of tiles. pts = { qIndex: { a: {...}, b: {...} } }
+  // Points on one question, per team. pts = { qIndex: { uid: { t: 'a' or 'b', at } } }
+  function counts(p) {
+    const c = { a: 0, b: 0 };
+    Object.values(p || {}).forEach(x => { if (x && (x.t === 'a' || x.t === 'b')) c[x.t]++; });
+    return c;
+  }
+
+  // Build or refresh a grid of tiles
   function drawGrid(container, quiz, pts, opts = {}) {
     const qs = playable(quiz);
     const key = JSON.stringify(qs.map(q => [q.i, q.text, q.label, q.img ? q.img.length : 0]));
@@ -52,14 +59,15 @@
     }
     const changes = [];
     container.querySelectorAll('.gtile').forEach(el => {
-      const p = (pts && pts[el.dataset.i]) || {};
+      const c = counts(pts && pts[el.dataset.i]);
       ['a', 'b'].forEach(t => {
-        const on = !!p[t], f = el.querySelector('.f' + t);
-        if (f.classList.contains('on') !== on) {
-          if (on && opts.animate) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); changes.push({ i: +el.dataset.i, t }); }
-          f.classList.toggle('on', on);
-          f.textContent = on ? `✓ ${team(t).name}` : '';
-        }
+        const f = el.querySelector('.f' + t), before = f.dataset.n == null ? null : +f.dataset.n;
+        if (before === c[t]) return;
+        if (before != null && c[t] > before && opts.animate) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); changes.push({ i: +el.dataset.i, t, add: c[t] - before }); }
+        f.dataset.n = c[t];
+        f.classList.toggle('on', c[t] > 0);
+        f.innerHTML = `${esc(team(t).name)} <b>${c[t]}</b>`;
+        f.title = `${c[t]} correct answer${c[t] === 1 ? '' : 's'} from Team ${team(t).name}`;
       });
       if (opts.mark) opts.mark(el, +el.dataset.i);
     });
@@ -68,7 +76,7 @@
 
   function score(pts) {
     let a = 0, b = 0;
-    Object.values(pts || {}).forEach(p => { if (p && p.a) a++; if (p && p.b) b++; });
+    Object.values(pts || {}).forEach(p => { const c = counts(p); a += c.a; b += c.b; });
     return { a, b };
   }
 
@@ -88,5 +96,5 @@
     t.innerHTML = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 2800);
   }
 
-  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, tileInner, drawGrid, score, qrSvg, toast };
+  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, tileInner, drawGrid, counts, score, qrSvg, toast };
 })();

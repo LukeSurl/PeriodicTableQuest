@@ -92,14 +92,14 @@
     if (!fresh && busy) return;
     if (!fresh && $('sheet').dataset.answered) return;   // keep the result on screen
     const got = !!(state.mine && state.mine[sheetQ]);
-    const teamHas = !!(state.pts[sheetQ] && state.pts[sheetQ][myTeam]);
+    const mates = GQ.counts(state.pts[sheetQ])[myTeam];
     const cooling = Date.now() < coolUntil;
     const canAnswer = isOpen() && !got && !cooling;
     const note = got ? '✅ You got this one right. Try another!'
       : !state.meta || state.meta.status === 'lobby' ? 'Answers open when the game starts.'
       : state.meta.status === 'ended' || !isOpen() ? 'The game is over.'
       : cooling ? 'Wait for the timer after a wrong answer, then try again.'
-      : teamHas ? `Team ${esc(team(myTeam).name)} already has this point, but you can still answer it.` : '';
+      : mates ? `${mates} of Team ${esc(team(myTeam).name)} ${mates === 1 ? 'has' : 'have'} got this right so far. Every correct answer adds another point.` : '';
     delete $('sheet').dataset.answered;
     $('sheet').innerHTML = `
       <p class="qhead"><b>Question ${qNumber(sheetQ)}</b> · Team ${esc(team(myTeam).name)}</p>
@@ -126,10 +126,9 @@
       const r = await B.answer(code, i, j);
       if (r === 'right') {
         ok = true; btn.classList.add('right');
-        const teamHad = !!(state.pts[i] && state.pts[i][myTeam]);
-        const a = teamHad ? 'taken' : await B.award(code, i, myTeam);
-        msg = a === 'scored' ? `<h3>✅ Correct! +1 point for Team ${esc(team(myTeam).name)}.</h3>`
-          : `<h3>✅ Correct!</h3><p>A teammate got this one first, so your team already has the point.</p>`;
+        const a = await B.award(code, i, myTeam);
+        msg = a === 'scored' ? `<h3>✅ Correct! +1 point for Team ${esc(team(myTeam).name)}.</h3><p>Try another question, and get your teammates onto this one too.</p>`
+          : `<h3>✅ Correct!</h3><p>You'd already scored on this one, so no extra point.</p>`;
       } else {
         btn.classList.add('wrong');
         coolUntil = Date.now() + S.wrongCooldownSeconds * 1000;
