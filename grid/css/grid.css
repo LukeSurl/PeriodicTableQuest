@@ -130,3 +130,9 @@ label.lbl small { font-weight: 400; color: var(--muted); }
 .addq { width: 100%; padding: .8rem; font-size: 1.05rem; border-style: dashed; }
 .notice { border-left: 5px solid var(--ink); }
 .notice.bad { border-left-color: var(--bad); }
+.importbox summary { cursor: pointer; }
+.importbox[open] summary { margin-bottom: .4rem; }
+.importbox textarea { font-family: ui-monospace, Consolas, monospace; font-size: .9rem; }
+.importeg { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: .5rem .7rem; margin: .4rem 0 .7rem; white-space: pre-wrap; }
+.okline { color: var(--ok); font-weight: 700; margin: .5rem 0 0; }
+.okline::before { content: "✓ "; }

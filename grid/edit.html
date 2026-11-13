@@ -32,6 +32,29 @@
 
     <h2>Questions</h2>
     <p class="small muted">Each question needs its text, at least two answers and a tick by the right one. Changes save automatically.</p>
+
+    <details class="panel importbox" id="importBox">
+      <summary><b>Import questions from text</b> <small class="muted">paste several questions at once, or copy them out to share</small></summary>
+      <p class="small">Put a blank line between questions. Write the question, then each answer on its own line starting with <code>-</code>. Start the correct answer with <code>*</code> instead. A <code>Label:</code> line for the big screen is optional. Pictures can be added afterwards.</p>
+      <pre class="small importeg">What is the C–C bond length in benzene?
+Label: Bond lengths
+- 134 pm
+* 140 pm
+- 151 pm
+
+Which of these is aromatic?
+- Cyclooctatetraene
+* Pyridine</pre>
+      <textarea id="importText" rows="10" spellcheck="false" aria-label="Questions to import" placeholder="Paste or type questions here"></textarea>
+      <div id="importCheck" class="small" aria-live="polite"></div>
+      <div class="row" style="margin-top:.6rem">
+        <button class="btn primary" id="importAdd" disabled>Add to the end</button>
+        <button class="btn warn" id="importReplace" disabled>Replace all questions</button>
+        <span class="spacer"></span>
+        <button class="btn" id="exportText" title="Copy every question in this format, e.g. to share with a colleague">Copy all questions as text</button>
+      </div>
+    </details>
+
     <div id="qs"></div>
     <button class="btn addq" id="addQ">+ Add a question</button>
 
@@ -41,6 +64,6 @@
   </div>
 </main>
 <input type="file" id="fileIn" accept="image/*" class="hidden">
-<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', 'js/settings.js', 'js/common.js', 'js/backend.js', 'js/edit.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', 'js/settings.js', 'js/common.js', 'js/backend.js', 'js/import.js', 'js/edit.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
 </body>
 </html>

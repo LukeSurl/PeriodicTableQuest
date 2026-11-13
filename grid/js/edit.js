@@ -221,6 +221,60 @@
     });
   }
 
+  // ---------- Import and export as text ----------
+  const isBlank = q => !q.text.trim() && !q.opts.some(o => o.trim()) && !q.img && !(q.label || '').trim();
+  let parsed = null;
+  function checkImport() {
+    const txt = $('importText').value;
+    parsed = null; $('importAdd').disabled = $('importReplace').disabled = true;
+    if (!txt.trim()) { $('importCheck').innerHTML = ''; return; }
+    const r = GQ_IMPORT.parse(txt);
+    const kept = quiz.qs.filter(q => !isBlank(q)).length;
+    if (r.errors.length) {
+      $('importCheck').innerHTML = r.errors.slice(0, 8).map(e => `<p class="warnline">${esc(e)}</p>`).join('') + (r.errors.length > 8 ? `<p class="warnline">…and ${r.errors.length - 8} more.</p>` : '');
+      return;
+    }
+    const n = r.qs.length;
+    $('importCheck').innerHTML = `<p class="okline">Found ${n} question${n === 1 ? '' : 's'}, all complete.</p>`
+      + (kept + n > S.maxQuestions ? `<p class="warnline">Adding them would make ${kept + n}; the most allowed is ${S.maxQuestions}. You can still replace the existing questions.</p>` : '');
+    parsed = r.qs;
+    $('importAdd').disabled = kept + n > S.maxQuestions;
+    $('importReplace').disabled = n > S.maxQuestions;
+  }
+  $('importText').addEventListener('input', checkImport);
+  function doImport(replace) {
+    if (!parsed) return;
+    const fresh = parsed.map(p => ({ text: p.text, opts: p.opts, label: p.label, img: '' }));
+    if (replace) { quiz.qs = fresh; answers = parsed.map(p => p.answer); }
+    else {
+      const keep = quiz.qs.map((q, i) => [q, answers[i]]).filter(([q]) => !isBlank(q));
+      quiz.qs = keep.map(x => x[0]).concat(fresh);
+      answers = keep.map(x => x[1] == null ? null : x[1]).concat(parsed.map(p => p.answer));
+    }
+    const n = fresh.length, first = quiz.qs.length - n;
+    $('importText').value = ''; checkImport();
+    $('importBox').open = false;
+    changed(); render(`.qcard[data-i="${first}"] textarea`);
+    toast(`${replace ? 'Replaced the questions with' : 'Added'} ${n} question${n === 1 ? '' : 's'}`);
+  }
+  $('importAdd').onclick = () => doImport(false);
+  $('importReplace').onclick = () => {
+    const btn = $('importReplace'), kept = quiz.qs.filter(q => !isBlank(q)).length;
+    if (kept && !btn.dataset.armed) {
+      btn.dataset.armed = 1; btn.textContent = `Click again to replace all ${kept}`;
+      return setTimeout(() => { delete btn.dataset.armed; btn.textContent = 'Replace all questions'; }, 3000);
+    }
+    delete btn.dataset.armed; btn.textContent = 'Replace all questions';
+    doImport(true);
+  };
+  $('exportText').onclick = async () => {
+    const keep = quiz.qs.map((q, i) => [q, answers[i]]).filter(([q]) => !isBlank(q));
+    if (!keep.length) return toast('There are no questions to copy yet.');
+    const txt = GQ_IMPORT.toText(keep.map(x => x[0]), keep.map(x => x[1]));
+    try { await navigator.clipboard.writeText(txt); toast(`Copied ${keep.length} question${keep.length === 1 ? '' : 's'} as text` + (keep.some(([q]) => q.img) ? ' (pictures aren\'t included)' : '')); }
+    catch (e) { $('importText').value = txt; checkImport(); toast('Couldn\'t reach the clipboard, so the text is in the box above'); }
+  };
+
   $('addQ').onclick = () => { quiz.qs.push(blankQ()); changed(); render(`.qcard[data-i="${quiz.qs.length - 1}"] textarea`); };
   render();
 })();
