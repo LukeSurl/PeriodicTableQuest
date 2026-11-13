@@ -105,8 +105,14 @@
         try { await timeout(D.set(r(`proofs/${code}/${user.uid}/${q}`), { a, at: D.serverTimestamp() })); return 'right'; }
         catch (e) {
           if (!isDenied(e)) throw e;
+          // Refused: work out why, so a student is only told "wrong" when the answer was wrong
           const done = (await D.get(r(`proofs/${code}/${user.uid}/${q}`)).catch(() => null));
-          return done && done.exists() ? 'right' : 'wrong';
+          if (done && done.exists()) return 'right';
+          const [meta, me] = await Promise.all([D.get(r(`runs/${code}/meta`)), D.get(r(`runs/${code}/players/${user.uid}`))]);
+          const m = meta.val();
+          if (!m || m.status !== 'open' || Date.now() + offset >= m.endsAt) return 'closed';
+          if (!me.exists()) return 'notjoined';
+          return 'wrong';
         }
       },
       // After a right answer: add this player's point for the team. Returns 'scored', or
@@ -160,10 +166,10 @@
       }
       if (msg.type === 'answer') {
         const entry = all()[S.meta.quiz];
-        const open = S.meta.status === 'open' && Date.now() < S.meta.endsAt && S.players[msg.uid];
-        const right = open && entry && entry.answers[msg.q] === msg.a;
+        const open = S.meta.status === 'open' && Date.now() < S.meta.endsAt;
+        const right = open && S.players[msg.uid] && entry && entry.answers[msg.q] === msg.a;
         if (right) { S.proofs[msg.uid] = S.proofs[msg.uid] || {}; S.proofs[msg.uid][msg.q] = { a: msg.a, at: Date.now() }; }
-        reply({ result: right ? 'right' : 'wrong' });
+        reply({ result: right ? 'right' : !open ? 'closed' : !S.players[msg.uid] ? 'notjoined' : 'wrong' });
         if (right) publish();
       }
       if (msg.type === 'award') {

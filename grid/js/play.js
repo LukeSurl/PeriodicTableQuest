@@ -38,6 +38,8 @@
       if (!myTeam && !joining) join();
       renderMeta();
     }
+    // A new game on the same code (or a reset demo) no longer lists this phone: join again
+    if (part === 'players' && myTeam && !joining && st.players && !st.players[B.uid]) { myTeam = null; join(); }
     if (part === 'pts' || part === 'mine') { draw(); if (sheetQ != null) refreshSheet(); }
   });
 
@@ -45,6 +47,7 @@
     joining = true;
     try {
       myTeam = await B.join(code);
+      joining = false;
       $('bar').className = 'teambar t' + myTeam;
       $('you').textContent = `You're on Team ${team(myTeam).name}`;
       renderMeta(); draw();
@@ -129,6 +132,13 @@
         const a = await B.award(code, i, myTeam);
         msg = a === 'scored' ? `<h3>✅ Correct! +1 for Team ${esc(team(myTeam).name)} on this question.</h3><p>The team with more correct answers wins the question, so get your teammates onto it too.</p>`
           : `<h3>✅ Correct!</h3><p>You'd already answered this one, so it doesn't count twice.</p>`;
+      } else if (r === 'closed') {
+        msg = '<h3>The game isn\'t running right now.</h3><p>Answers only count while the timer is running.</p>';
+        delete $('sheet').dataset.answered;
+      } else if (r === 'notjoined') {
+        msg = '<h3>You weren\'t in this game yet.</h3><p>You\'ve been added to a team now. Please try that answer again.</p>';
+        delete $('sheet').dataset.answered;
+        myTeam = null; join();
       } else {
         btn.classList.add('wrong');
         coolUntil = Date.now() + S.wrongCooldownSeconds * 1000;
