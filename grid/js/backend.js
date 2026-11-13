@@ -119,7 +119,14 @@
       // 'already' if they had scored on this question before (each player once per question).
       async award(code, q, t) {
         try { await timeout(D.set(r(`runs/${code}/pts/${q}/${user.uid}`), { t, at: D.serverTimestamp() })); return 'scored'; }
-        catch (e) { if (isDenied(e)) return 'already'; throw e; }
+        catch (e) {
+          if (!isDenied(e)) throw e;
+          // Refused: only say "already" if there really is an earlier point
+          const mine = await D.get(r(`runs/${code}/pts/${q}/${user.uid}`)).catch(() => null);
+          if (mine && mine.exists()) return 'already';
+          console.warn('Quiz Grid: the database refused this point. If this keeps happening, publish the latest database.rules.json in the Firebase console.', e);
+          return 'refused';
+        }
       }
     };
   }

@@ -131,7 +131,8 @@
         ok = true; btn.classList.add('right');
         const a = await B.award(code, i, myTeam);
         msg = a === 'scored' ? `<h3>✅ Correct! +1 for Team ${esc(team(myTeam).name)} on this question.</h3><p>The team with more correct answers wins the question, so get your teammates onto it too.</p>`
-          : `<h3>✅ Correct!</h3><p>You'd already answered this one, so it doesn't count twice.</p>`;
+          : a === 'already' ? `<h3>✅ Correct!</h3><p>You'd already answered this one, so it doesn't count twice.</p>`
+          : `<h3>✅ Correct!</h3><p>But your point couldn't be recorded. Please tell your lecturer.</p>`;
       } else if (r === 'closed') {
         msg = '<h3>The game isn\'t running right now.</h3><p>Answers only count while the timer is running.</p>';
         delete $('sheet').dataset.answered;
