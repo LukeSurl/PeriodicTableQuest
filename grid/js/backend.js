@@ -221,7 +221,7 @@
       // Demo only: put a ready-made quiz in place
       seedQuiz(id, k, quiz, answers) { const q = all(); q[id] = { k, quiz, answers }; putAll(q); },
 
-      newRunCode: () => 'DEMO',
+      newRunCode,
       async createRun(code, quizId) {
         server = { code, state: { meta: { host: uid, quiz: quizId, status: 'lobby', endsAt: 0, created: Date.now() }, players: {}, pts: {}, proofs: {} } };
         publish();

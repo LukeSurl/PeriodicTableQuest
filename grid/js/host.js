@@ -31,12 +31,19 @@
   const runKey = 'gq-run-' + quizId + (B.mode === 'demo' ? '-demo' : '');
 
   async function openRun(fresh) {
-    code = fresh ? null : store.get(runKey, null);
-    if (code && B.mode !== 'demo') {
-      const meta = await B.getRunMeta(code).catch(() => null);
-      if (!meta || meta.host !== B.uid || meta.quiz !== quizId) code = null;
-    } else if (B.mode === 'demo') code = null;
-    if (!code) { code = B.newRunCode(); await B.createRun(code, quizId); store.set(runKey, code); }
+    if (B.mode === 'demo') {
+      // Each demo projector gets its own code, so two demo tabs can't answer each other's phones.
+      // New game keeps the code (the demo page's phones are pointed at it) and starts afresh.
+      code = code || params.get('run') || B.newRunCode();
+      await B.createRun(code, quizId);
+    } else {
+      code = fresh ? null : store.get(runKey, null);
+      if (code) {
+        const meta = await B.getRunMeta(code).catch(() => null);
+        if (!meta || meta.host !== B.uid || meta.quiz !== quizId) code = null;
+      }
+      if (!code) { code = B.newRunCode(); await B.createRun(code, quizId); store.set(runKey, code); }
+    }
     if (unwatch) unwatch();
     first = true;
     unwatch = B.watchRun(code, (st, part) => { state = st; render(part); });

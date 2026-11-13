@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quiz Grid demo</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="css/grid.css">
 <style>
   body { padding: 12px 16px; }
   h1 { margin: 0 0 4px; font-size: 1.3rem; }
@@ -19,6 +17,7 @@
   .lbl { font-size: .85rem; font-weight: 600; margin: 0 0 4px; }
   @media (max-width: 1100px) { .stage { grid-template-columns: 1fr; } .phones { flex-wrap: wrap; } .phone { width: min(300px, 100%); } }
 </style>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../css/style.css', 'css/grid.css'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
 </head>
 <body>
 <h1 id="h">Quiz Grid: demo</h1>
@@ -31,7 +30,7 @@
     <div><p class="lbl">Student phone 2</p><div class="phone"><iframe id="p2" title="Phone 2"></iframe></div></div>
   </div>
 </div>
-<script src="js/settings.js"></script>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['js/settings.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
 <script>
   document.getElementById('h').textContent = GQ_SETTINGS.title + ': demo';
   const ID = 'demoquiz01', K = 'demo-only-edit-key-00000';
@@ -67,10 +66,12 @@
     if (!ev.data || !ev.data.__gq) return;
     frames.forEach(f => { if (f.contentWindow && f.contentWindow !== ev.source) f.contentWindow.postMessage(ev.data, '*'); });
   });
-  frames[0].src = `host.html?demo=1&quiz=${ID}`;
+  // A fresh game code for this page, so demos open in other tabs don't interfere
+  const RUN = Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+  frames[0].src = `host.html?demo=1&quiz=${ID}&run=${RUN}&v=${Date.now()}`;
   setTimeout(() => {
-    frames[1].src = 'play.html?demo=1&g=DEMO&p=1';
-    frames[2].src = 'play.html?demo=1&g=DEMO&p=2';
+    frames[1].src = `play.html?demo=1&g=${RUN}&p=1&v=${Date.now()}`;
+    frames[2].src = `play.html?demo=1&g=${RUN}&p=2&v=${Date.now()}`;
   }, 900);
 </script>
 </body>
