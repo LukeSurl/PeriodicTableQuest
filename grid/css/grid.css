@@ -33,12 +33,33 @@ button.gtile:active { transform: scale(.97); }
 .gflags .fa.on { background: var(--ta); color: #fff; }
 .gflags .fb.on { background: var(--tb); color: #fff; }
 .gflags .fa { border-right: 1px solid var(--line); }
+.gtile.lead-a { border-color: var(--ta); box-shadow: 0 0 0 2px var(--ta); }
+.gtile.lead-b { border-color: var(--tb); box-shadow: 0 0 0 2px var(--tb); }
 .gtile.pop { animation: pop .6s ease; z-index: 2; }
 .gempty { margin: auto; color: var(--muted); font-size: 1.2rem; }
 
+/* Projector: how to play */
+.howto { font-size: clamp(.7rem, .85vw, 1rem); flex: none; padding-top: .6vw; padding-bottom: .6vw; }
+.howto ul.rules { margin: .3rem 0 0; padding-left: 1.1em; }
+.howto ul.rules li { margin: .15rem 0; }
+.lobby-msg ul.rules { text-align: left; margin: .6rem auto 0; padding-left: 1.2em; max-width: 34em; }
+.lobby-msg ul.rules li { margin: .35rem 0; }
+.overlay p.small { font-size: clamp(.9rem, 1.3vw, 1.4rem); color: var(--muted); }
+.scorecap { text-align: center; font-weight: 700; font-size: clamp(.75rem, .9vw, 1rem); color: var(--muted); margin-bottom: .3rem; }
+.mini .s small { font-weight: 400; opacity: .85; }
+
+/* Projector lobby: big QR code beside the rules */
+.lobbygrid { display: grid; grid-template-columns: auto 1fr; gap: 2.5vw; align-items: center; text-align: left; }
+.lobbygrid h2 { text-align: left; }
+.lobbygrid .lobby-msg ul.rules { margin-left: 0; }
+.bigqr { text-align: center; font-size: clamp(1rem, 1.6vw, 1.8rem); }
+.bigqr svg { width: min(42vh, 26vw); height: auto; display: block; }
+.bigqr b { letter-spacing: .12em; }
+
 /* Projector board */
 .host .gboard { width: 100%; height: 100%; }
-.host .qr .code svg { max-height: 27vh; }
+.host .qr .code svg { max-height: 19vh; }
+.host .side { gap: .8vw; }
 
 /* ---------- Phone ---------- */
 .play .ggrid { height: auto; grid-template-rows: none; grid-auto-rows: 9.5rem; }

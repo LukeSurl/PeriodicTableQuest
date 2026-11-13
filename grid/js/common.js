@@ -69,16 +69,32 @@
         f.innerHTML = `${esc(team(t).name)} <b>${c[t]}</b>`;
         f.title = `${c[t]} correct answer${c[t] === 1 ? '' : 's'} from Team ${team(t).name}`;
       });
+      el.classList.toggle('lead-a', c.a > c.b); el.classList.toggle('lead-b', c.b > c.a);
       if (opts.mark) opts.mark(el, +el.dataset.i);
     });
     return changes;
   }
 
+  // A team wins a question by having more correct answers on it. The overall score is
+  // questions won (a, b); total correct answers (ca, cb) break a tie.
   function score(pts) {
-    let a = 0, b = 0;
-    Object.values(pts || {}).forEach(p => { const c = counts(p); a += c.a; b += c.b; });
-    return { a, b };
+    let a = 0, b = 0, ca = 0, cb = 0;
+    Object.values(pts || {}).forEach(p => { const c = counts(p); ca += c.a; cb += c.b; if (c.a > c.b) a++; else if (c.b > c.a) b++; });
+    return { a, b, ca, cb };
   }
+  const winner = s => (s.a !== s.b ? (s.a > s.b ? 'a' : 'b') : s.ca !== s.cb ? (s.ca > s.cb ? 'a' : 'b') : null);
+  // The result in words, e.g. for the end of the game
+  function resultText(s) {
+    const w = winner(s), A = esc(team('a').name), Bn = esc(team('b').name);
+    if (!w) return { w, head: 'It\'s a draw!', sub: `${s.a} question${s.a === 1 ? '' : 's'} won each, and ${s.ca} correct answer${s.ca === 1 ? '' : 's'} each` };
+    if (s.a !== s.b) return { w, head: `${esc(team(w).name)} wins!`, sub: `Questions won: ${A} ${s.a} – ${s.b} ${Bn}` };
+    return { w, head: `${esc(team(w).name)} wins!`, sub: `${s.a} question${s.a === 1 ? '' : 's'} won each, so it went to correct answers: ${A} ${s.ca} – ${s.cb} ${Bn}` };
+  }
+  // How to play, in the team names from settings
+  const rulesList = () => `<ul class="rules">
+      <li>You'll be put into Team <b style="color:var(--ta)">${esc(team('a').name)}</b> or Team <b style="color:var(--tb)">${esc(team('b').name)}</b> at random.</li>
+      <li>The team with more correct answers on a question wins that question.</li>
+      <li>The team that wins the most questions wins!</li></ul>`;
 
   function qrSvg(url) {
     const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
@@ -96,5 +112,5 @@
     t.innerHTML = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 2800);
   }
 
-  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, tileInner, drawGrid, counts, score, qrSvg, toast };
+  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, tileInner, drawGrid, counts, score, winner, resultText, rulesList, qrSvg, toast };
 })();

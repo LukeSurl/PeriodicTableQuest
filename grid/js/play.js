@@ -64,8 +64,8 @@
     const m = state.meta; if (!m || !myTeam) return;
     if (m.status === 'lobby') setStatus('The game starts soon. You can look at the questions now; answers open when the timer starts.');
     else if (m.status === 'ended') {
-      const s = score(state.pts), w = s.a === s.b ? null : (s.a > s.b ? 'a' : 'b');
-      setStatus(w ? `<b>Game over.</b> Team ${esc(team(w).name)} wins, ${Math.max(s.a, s.b)} to ${Math.min(s.a, s.b)}! ${w === myTeam ? '🎉' : 'Better luck next time.'}` : '<b>Game over.</b> It\'s a draw!');
+      const r = GQ.resultText(score(state.pts));
+      setStatus(`<b>Game over. ${r.head}</b> ${r.sub}. ${r.w === myTeam ? '🎉' : r.w ? 'Better luck next time.' : ''}`);
     } else setStatus('');
   }
 
@@ -92,14 +92,14 @@
     if (!fresh && busy) return;
     if (!fresh && $('sheet').dataset.answered) return;   // keep the result on screen
     const got = !!(state.mine && state.mine[sheetQ]);
-    const mates = GQ.counts(state.pts[sheetQ])[myTeam];
+    const c = GQ.counts(state.pts[sheetQ]);
     const cooling = Date.now() < coolUntil;
     const canAnswer = isOpen() && !got && !cooling;
     const note = got ? '✅ You got this one right. Try another!'
       : !state.meta || state.meta.status === 'lobby' ? 'Answers open when the game starts.'
       : state.meta.status === 'ended' || !isOpen() ? 'The game is over.'
       : cooling ? 'Wait for the timer after a wrong answer, then try again.'
-      : mates ? `${mates} of Team ${esc(team(myTeam).name)} ${mates === 1 ? 'has' : 'have'} got this right so far. Every correct answer adds another point.` : '';
+      : c.a + c.b ? `Correct answers so far: ${esc(team('a').name)} ${c.a}, ${esc(team('b').name)} ${c.b}. The team with more wins this question.` : '';
     delete $('sheet').dataset.answered;
     $('sheet').innerHTML = `
       <p class="qhead"><b>Question ${qNumber(sheetQ)}</b> · Team ${esc(team(myTeam).name)}</p>
@@ -127,8 +127,8 @@
       if (r === 'right') {
         ok = true; btn.classList.add('right');
         const a = await B.award(code, i, myTeam);
-        msg = a === 'scored' ? `<h3>✅ Correct! +1 point for Team ${esc(team(myTeam).name)}.</h3><p>Try another question, and get your teammates onto this one too.</p>`
-          : `<h3>✅ Correct!</h3><p>You'd already scored on this one, so no extra point.</p>`;
+        msg = a === 'scored' ? `<h3>✅ Correct! +1 for Team ${esc(team(myTeam).name)} on this question.</h3><p>The team with more correct answers wins the question, so get your teammates onto it too.</p>`
+          : `<h3>✅ Correct!</h3><p>You'd already answered this one, so it doesn't count twice.</p>`;
       } else {
         btn.classList.add('wrong');
         coolUntil = Date.now() + S.wrongCooldownSeconds * 1000;

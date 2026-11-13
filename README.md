@@ -103,7 +103,7 @@ Question text is tidied automatically before it is shown: numbers in standard fo
 
 ## Quiz Grid (version 0.1)
 
-A simpler, general-purpose spin-off in the `grid/` folder, meant for colleagues who don't want to touch code. A lecturer types a handful of multiple-choice questions into a web page; the projector shows them as a grid of tiles with a QR code; students join in two teams as before. Every correct answer wins the student's team a point. Each student can score once per question, so the more of a team who get a question right, the more points it earns; each tile shows how many points each team has from it. The team with the most points when the timer ends wins.
+A simpler, general-purpose spin-off in the `grid/` folder, meant for colleagues who don't want to touch code. A lecturer types a handful of multiple-choice questions into a web page; the projector shows them as a grid of tiles with a QR code; students join in two teams as before. Each student can answer every question once. The team with more correct answers on a question wins that question (its tile shows each team's count and is outlined in the leading team's colour), and the team that wins the most questions wins the game, with total correct answers as the tie-break. The big screen shows these rules, with a large QR code before the game starts.
 
 - **Start page:** `https://lukesurl.github.io/PeriodicTableQuest/grid/`. "Make a new quiz" creates a quiz and opens its editor. No sign-in.
 - **Edit link** (`grid/edit.html#…`): the only way back to a quiz from another computer, and anyone who has it can change the quiz. The start page also remembers the quizzes made or opened in that browser.
