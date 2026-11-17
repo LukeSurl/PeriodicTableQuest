@@ -55,6 +55,34 @@ Which of these is aromatic?
       </div>
     </details>
 
+    <details class="panel importbox aibox" id="aiBox">
+      <summary><b>Generate questions from lecture material with AI</b> <small class="muted">let ChatGPT, Copilot or similar draft questions for you</small></summary>
+      <p class="small">This gives you a ready-made request (a "prompt") to paste into an AI chat, together with your lecture slides. The AI replies with questions in exactly the format this page can read, so you can add them all in one go.</p>
+      <p class="small notice aiadvice" id="aiAdvice"></p>
+
+      <ol class="aisteps">
+        <li><b>Choose what you want.</b>
+          <div class="aiopts">
+            <label>How many questions <input type="number" id="aiCount" min="2" max="30" step="1"></label>
+            <label>Who are they for? <input type="text" id="aiStudents" maxlength="100"></label>
+            <label class="wide">Anything to focus on? <small class="muted">optional, e.g. "only the second half", "calculations", "common misconceptions"</small> <input type="text" id="aiFocus" maxlength="200"></label>
+          </div>
+        </li>
+        <li><b>Copy the prompt.</b> <button class="btn primary" id="aiCopy">Copy the prompt</button> <button class="btn" id="aiShow" aria-expanded="false">Show it</button>
+          <textarea id="aiPrompt" class="hidden" rows="12" readonly aria-label="The prompt to give the AI"></textarea>
+        </li>
+        <li><b>Open your AI chat tool and start a new chat.</b> Click in the message box and paste (<kbd>Ctrl</kbd>+<kbd>V</kbd>, or <kbd>⌘</kbd>+<kbd>V</kbd> on a Mac).</li>
+        <li><b>Add your lecture material to the same message.</b> Attach your slides or notes with the <b>+</b> or 📎 paperclip button next to the message box (PowerPoint and PDF files both work). If you can't attach a file, paste the text of your slides underneath the prompt instead. Then send the message.</li>
+        <li><b>Copy the AI's reply.</b> The questions come back in a shaded box. Click the <b>Copy</b> button at the top or bottom of that box. (Copying the whole reply also works: any extra chat is ignored.)</li>
+        <li><b>Paste the reply here.</b>
+          <textarea id="aiReply" rows="6" spellcheck="false" aria-label="The AI's reply" placeholder="Paste the AI's reply here"></textarea>
+          <div class="row" style="margin-top:.4rem"><button class="btn primary" id="aiCheck" disabled>Check the questions</button><span class="small muted" id="aiMsg"></span></div>
+          <p class="small muted" style="margin:.4rem 0 0">This opens the import box above, which checks every question before you add them.</p>
+        </li>
+        <li><b>Read every question before you use it.</b> AI makes mistakes: check each correct answer, and that the wrong answers really are wrong. You can edit any question after adding it, and add pictures.</li>
+      </ol>
+    </details>
+
     <div id="qs"></div>
     <button class="btn addq" id="addQ">+ Add a question</button>
 
@@ -64,6 +92,6 @@ Which of these is aromatic?
   </div>
 </main>
 <input type="file" id="fileIn" accept="image/*" class="hidden">
-<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', 'js/settings.js', 'js/common.js', 'js/backend.js', 'js/import.js', 'js/edit.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', 'js/settings.js', 'js/common.js', 'js/backend.js', 'js/import.js', 'js/edit.js', 'js/ai.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
 </body>
 </html>

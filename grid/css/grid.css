@@ -136,3 +136,17 @@ label.lbl small { font-weight: 400; color: var(--muted); }
 .importeg { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: .5rem .7rem; margin: .4rem 0 .7rem; white-space: pre-wrap; }
 .okline { color: var(--ok); font-weight: 700; margin: .5rem 0 0; }
 .okline::before { content: "✓ "; }
+
+/* Editor: generate questions with AI */
+.aibox .aiadvice { margin: .6rem 0; padding: .5rem .7rem; background: var(--bg); border-radius: 8px; }
+.aisteps { padding-left: 1.4em; margin: .6rem 0 0; }
+.aisteps > li { margin: 0 0 1rem; line-height: 1.5; }
+.aisteps > li::marker { font-weight: 700; }
+.aiopts { display: grid; grid-template-columns: 10rem 1fr; gap: .5rem .8rem; margin-top: .4rem; }
+.aiopts label { display: flex; flex-direction: column; gap: .2rem; font-size: .92rem; }
+.aiopts label.wide { grid-column: 1 / -1; }
+.aiopts input[type=number] { font: inherit; padding: .45rem .5rem; border: 1px solid var(--line); border-radius: 8px; width: 100%; }
+#aiPrompt { margin-top: .5rem; font-family: ui-monospace, Consolas, monospace; font-size: .85rem; }
+#aiReply { margin-top: .4rem; font-family: ui-monospace, Consolas, monospace; font-size: .9rem; }
+kbd { font: inherit; font-size: .85em; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 .3em; background: #fff; }
+@media (max-width: 560px) { .aiopts { grid-template-columns: 1fr; } }

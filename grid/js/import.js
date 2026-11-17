@@ -60,6 +60,17 @@
     ].join('\n')).join('\n\n') + '\n';
   }
 
-  const api = { parse, toText };
+  // Tidy a reply copied from an AI chat: drop code fences, bold/heading marks and any
+  // chat text around the questions (any block without answer lines).
+  function cleanAI(text) {
+    const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n')
+      .filter(l => !/^\s*```/.test(l))
+      .map(l => l.replace(/\*\*|__/g, '').replace(/^\s*#+\s*/, '').replace(/^(\s*)\*\s*label\s*:/i, '$1Label:'));
+    const blocks = lines.join('\n').split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+    const keep = blocks.filter(b => b.split('\n').some(l => /^\s*[*\-–•]\s*\S/.test(l)));
+    return { text: keep.join('\n\n'), dropped: blocks.length - keep.length };
+  }
+
+  const api = { parse, toText, cleanAI };
   if (typeof module !== 'undefined') module.exports = api; else window.GQ_IMPORT = api;
 })();
