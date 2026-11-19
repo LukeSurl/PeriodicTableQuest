@@ -83,7 +83,8 @@
       const s = score(state.pts), pl = n => `${n} player${n === 1 ? '' : 's'}`;
       $('plA').textContent = `${pl(a)} · ${s.ca} correct`; $('plB').textContent = `${pl(b)} · ${s.cb} correct`;
     }
-    if (part === 'meta') renderMeta();
+    // The scores can arrive after the status (e.g. reopening a finished game), so redo the result
+    if (part === 'meta' || (part === 'pts' && state.meta && state.meta.status === 'ended')) renderMeta();
   }
 
   function renderMeta() {

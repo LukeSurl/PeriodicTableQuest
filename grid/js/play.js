@@ -41,6 +41,8 @@
     // A new game on the same code (or a reset demo) no longer lists this phone: join again
     if (part === 'players' && myTeam && !joining && st.players && !st.players[B.uid]) { myTeam = null; join(); }
     if (part === 'pts' || part === 'mine') { draw(); if (sheetQ != null) refreshSheet(); }
+    // The scores can arrive after the status, so redo the result line when they do
+    if (part === 'pts' && st.meta && st.meta.status === 'ended') renderMeta();
   });
 
   async function join() {
