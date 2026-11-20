@@ -108,7 +108,11 @@
         await timeout(D.set(r(`quizzes/${id}`), { ...storeQuiz(quiz), updated: D.serverTimestamp() }));
         await timeout(D.update(r(`answers/${id}`), storeAnswers(answers)));
       },
-      async deleteQuiz(id) { await D.remove(r(`quizzes/${id}`)); },
+      // Delete a quiz for good (needs its edit key). Its answers stay behind, unreadable without the quiz.
+      async deleteQuiz(id, k) {
+        if (k) await timeout(D.set(r(`owners/${id}/${user.uid}`), k));
+        await timeout(D.remove(r(`quizzes/${id}`)));
+      },
       watchQuiz(id, cb) { return D.onValue(r(`quizzes/${id}`), s => cb(s.exists() ? cleanQuiz(s.val()) : null)); },
 
       // ----- Games -----

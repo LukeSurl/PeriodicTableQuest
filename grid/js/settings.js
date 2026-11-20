@@ -18,9 +18,9 @@ window.GQ_SETTINGS = {
   imageMaxKB: 300,                  // and squeezed until they are smaller than this
 
   // Shown in the editor's "Generate questions with AI" box: which AI tools colleagues should use
-  aiAdvice: 'Use an AI tool your university allows for teaching material. At Exeter that means Microsoft Copilot Chat or AWS Quick, signed in with your university account. Ordinary lecture slides are usually fine to share; never paste in student names, marks or other personal data.',
+  aiAdvice: 'Use an AI tool your institution allows for teaching material. Ordinary lecture slides are usually fine to share; never paste in student names, marks or other personal data.',
   aiDefaultCount: 8,
-  aiDefaultStudents: 'first-year undergraduate students',
+  aiDefaultStudents: 'university students',
 
   // Periodic Table Quest (the quest/ folder) uses the settings above, changed by these.
   // Its quizzes are made with the same editor and kept in the same database.

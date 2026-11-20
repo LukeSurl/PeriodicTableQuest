@@ -120,7 +120,7 @@
       ? `<form class="numform" id="numform" autocomplete="off">
            <input id="numIn" inputmode="decimal" enterkeyhint="done" placeholder="Your answer" aria-label="Your answer">${q.unit ? `<span class="unit">${esc(q.unit)}</span>` : ''}
            <button class="btn primary">Submit</button></form>
-         <p class="hint">Type a number. For standard form, type e.g. 6.02e23 or 6.02 × 10^23. Use your phone's calculator if you need it.</p>`
+         <p class="hint">Type a number. For standard form, type e.g. 6.02e23 or 6.02 × 10^23.</p>`
       : `<div class="opts">${order.map(j => `<button class="opt" data-j="${j}">${esc(q.opts[j])}</button>`).join('')}</div>`;
     $('sheet').innerHTML = `
       <div class="el"><div class="big"><small>${e.z}</small><b>${e.s}</b></div>
@@ -163,7 +163,7 @@
             : c === 'shielded' ? `<h3>✅ Correct!</h3><p>But Team ${esc(team(now ? now.t : (myTeam === 'a' ? 'b' : 'a')).name)} grabbed ${esc(e.n)} a moment before you.</p>`
             : c === 'ended' ? '<h3>✅ Correct, but time is up!</h3>'
             : c === 'lobby' ? '<h3>✅ Correct!</h3><p>The game hasn\'t started yet, so nothing was claimed.</p>'
-            : '<h3>✅ Correct!</h3><p>But the claim couldn\'t be recorded. Please tell your lecturer.</p>';
+            : '<h3>✅ Correct!</h3><p>But the claim couldn\'t be recorded. Please tell the lecturer.</p>';
         }
       } else if (r === 'closed') msg = '<h3>The game isn\'t running right now.</h3>';
       else if (r === 'notjoined') { msg = '<h3>You weren\'t in this game yet.</h3><p>You\'ve been added to a team now. Please try again.</p>'; myTeam = null; join(); }

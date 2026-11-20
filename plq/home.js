@@ -50,8 +50,8 @@
     const type = btn.dataset.id, name = product(type).name;
     btn.disabled = true; btn.querySelector('.pgo').textContent = 'Creating…'; $('createMsg').textContent = '';
     try {
-      const B = await GQ_BACKEND.create();
-      const { id: qid, k } = await B.createQuiz('Untitled quiz', type);
+      backend = backend || await GQ_BACKEND.create();
+      const { id: qid, k } = await backend.createQuiz('Untitled quiz', type);
       const mine = store.get(GKEY, []); mine.unshift({ id: qid, k, title: 'Untitled quiz', type, at: Date.now() }); store.set(GKEY, mine);
       location.href = withDemo('grid/edit.html') + `#${qid}.${k}`;
     } catch (e) {
@@ -70,7 +70,19 @@
     })).sort((a, b) => b.at - a.at || a.order - b.order);   // most recent first; older entries (no date) keep their order
   }
 
-  function forget(item) {
+  // Delete a quiz for good, then take it off this browser's list
+  let backend = null;
+  async function remove(item, btn) {
+    btn.disabled = true; btn.textContent = 'Deleting…';
+    const entry = store.get(GKEY, []).find(m => m.id === item.key);
+    try {
+      backend = backend || await GQ_BACKEND.create();
+      await backend.deleteQuiz(item.key, entry && entry.k);
+    } catch (e) {
+      btn.disabled = false; btn.textContent = 'Delete';
+      $('createMsg').innerHTML = `<b>Couldn't delete "${esc(item.title)}".</b> Check your internet connection and try again. <small>(${esc(e.message)})</small>`;
+      return;
+    }
     store.set(GKEY, store.get(GKEY, []).filter(m => m.id !== item.key));
     draw();
   }
@@ -89,14 +101,14 @@
         <span class="t">${esc(x.title)}<small>${esc(product(x.type).name)}${x.detail ? ' · ' + esc(x.detail) : ''}</small></span>
         <a class="btn" href="${x.edit}">Edit</a>
         ${x.present ? `<a class="btn primary" href="${x.present}" target="_blank" rel="noopener">Present</a>` : '<span class="btn primary disabled" title="Choose some topics first">Present</span>'}
-        <button class="btn" data-forget="${i}" title="Remove from this list">Forget</button></li>`).join('')
+        <button class="btn" data-forget="${i}" title="Delete this quiz">Delete</button></li>`).join('')
       : '<li class="muted">None yet. Quizzes you create or open on this computer will appear here.</li>';
     $('saved').querySelectorAll('[data-forget]').forEach(b => b.onclick = () => {
       const item = shown[+b.dataset.forget];
-      if (b.dataset.armed) return forget(item);
+      if (b.dataset.armed) return remove(item, b);
       b.dataset.armed = 1;
-      b.textContent = 'Sure? Keep the edit link first';
-      setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = 'Forget'; } }, 4000);
+      b.textContent = 'Click to confirm delete';
+      setTimeout(() => { if (b.isConnected && !b.disabled) { delete b.dataset.armed; b.textContent = 'Delete'; } }, 4000);
     });
   }
   draw();

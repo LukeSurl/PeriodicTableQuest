@@ -152,8 +152,8 @@
   // How to play, in the team names from settings
   const rulesList = () => `<ul class="rules">
       <li>You'll be put into Team <b style="color:var(--ta)">${esc(team('a').name)}</b> or Team <b style="color:var(--tb)">${esc(team('b').name)}</b> at random.</li>
-      <li>The team with more correct answers on a question wins that question.</li>
-      <li>The team that wins the most questions wins!</li></ul>`;
+      <li>The team with more correct answers on a question holds that question.</li>
+      <li>The team that holds the most questions at the end wins!</li></ul>`;
 
   function qrSvg(url) {
     const qr = qrcode(0, 'M'); qr.addData(url); qr.make();

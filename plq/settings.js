@@ -9,7 +9,7 @@ window.PLQ_SETTINGS = {
     {
       id: 'grid',
       name: 'Quiz Grid',
-      blurb: 'Write your own questions, multiple choice or with a number answer. They appear as a grid of tiles; two teams race to win the most questions.',
+      blurb: 'Write your own questions, multiple choice or with a number answer. They appear as a grid of tiles; two teams try to win the most questions.',
       icon: 'grid',
       demo: 'grid/demo.html'
     },

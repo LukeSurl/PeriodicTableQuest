@@ -100,11 +100,11 @@
     const c = GQ.counts(state.pts[sheetQ]);
     const cooling = Date.now() < coolUntil;
     const canAnswer = isOpen() && !got && !cooling;
-    const note = got ? '✅ You got this one right. Try another!'
+    const note = got ? '✅ Correct'
       : !state.meta || state.meta.status === 'lobby' ? 'Answers open when the game starts.'
       : state.meta.status === 'ended' || !isOpen() ? 'The game is over.'
       : cooling ? 'Wait for the timer after a wrong answer, then try again.'
-      : c.a + c.b ? `Correct answers so far: ${esc(team('a').name)} ${c.a}, ${esc(team('b').name)} ${c.b}. The team with more wins this question.` : '';
+      : c.a + c.b ? `Correct answers so far: ${esc(team('a').name)} ${c.a}, ${esc(team('b').name)} ${c.b}. The team with most holds this question.` : '';
     delete $('sheet').dataset.answered;
     $('sheet').innerHTML = `
       <p class="qhead"><b>Question ${qNumber(sheetQ)}</b> · Team ${esc(team(myTeam).name)}</p>
@@ -145,9 +145,9 @@
       if (r === 'right') {
         ok = true; btn.classList.add('right');
         const a = await B.award(code, i, myTeam);
-        msg = a === 'scored' ? `<h3>✅ Correct! +1 for Team ${esc(team(myTeam).name)} on this question.</h3><p>The team with more correct answers wins the question, so get your teammates onto it too.</p>`
+        msg = a === 'scored' ? `<h3>✅ Correct! +1 for Team ${esc(team(myTeam).name)} on this question.</h3>`
           : a === 'already' ? `<h3>✅ Correct!</h3><p>You'd already answered this one, so it doesn't count twice.</p>`
-          : `<h3>✅ Correct!</h3><p>But your point couldn't be recorded. Please tell your lecturer.</p>`;
+          : `<h3>✅ Correct!</h3><p>But your point couldn't be recorded. Please tell the lecturer.</p>`;
       } else if (r === 'closed') {
         msg = '<h3>The game isn\'t running right now.</h3><p>Answers only count while the timer is running.</p>';
         delete $('sheet').dataset.answered;

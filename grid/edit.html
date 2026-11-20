@@ -19,7 +19,7 @@
   <div id="editor" class="hidden">
     <div class="panel titlebox">
       <label class="lbl" for="qTitle" style="margin-top:0">Quiz title <small>(shown on the big screen)</small></label>
-      <input type="text" id="qTitle" maxlength="100" placeholder="e.g. BIO1347 Molecules 5 warm-up">
+      <input type="text" id="qTitle" maxlength="100" placeholder="e.g. Lecture 1 warm-up">
     </div>
 
     <div class="panel">
@@ -32,7 +32,7 @@
     </div>
 
     <h2>Questions</h2>
-    <p class="small muted" id="qsHelp">Each question needs its text and either at least two answers with the right one ticked, or a number answer. Changes save automatically.</p>
+    <p class="small muted" id="qsHelp">Each question needs question text, and either at least two options with one marked as correct, or a number answer. Changes save automatically.</p>
 
     <details class="panel importbox" id="importBox">
       <summary><b>Import questions from text</b> <small class="muted">paste several questions at once, or copy them out to share</small></summary>
@@ -44,13 +44,13 @@
         <button class="btn primary" id="importAdd" disabled>Add to the end</button>
         <button class="btn warn" id="importReplace" disabled>Replace all questions</button>
         <span class="spacer"></span>
-        <button class="btn" id="exportText" title="Copy every question in this format, e.g. to share with a colleague">Copy all questions as text</button>
+        <button class="btn" id="exportText" title="Copy every question in this format, e.g. to share with a colleague">Export all existing questions as text</button>
       </div>
     </details>
 
     <details class="panel importbox aibox" id="aiBox">
-      <summary><b>Generate questions from lecture material with AI</b> <small class="muted">let ChatGPT, Copilot or similar draft questions for you</small></summary>
-      <p class="small">This gives you a ready-made request (a "prompt") to paste into an AI chat, together with your lecture slides. The AI replies with questions in exactly the format this page can read, so you can add them all in one go.</p>
+      <summary><b>Generate questions from lecture material with AI</b> <small class="muted">prompt ChatGPT, Copilot or similar to draft questions for you</small></summary>
+      <p class="small">This gives you a ready-made request (a "prompt") to paste into an AI chat, together with your lecture material. Your AI is directed to reply with questions in exactly the format this page can read, so you can add them all in one go.</p>
       <p class="small notice aiadvice" id="aiAdvice"></p>
 
       <ol class="aisteps">
@@ -68,7 +68,7 @@
         </li>
         <li><b>Open your AI chat tool and start a new chat.</b> Click in the message box and paste (<kbd>Ctrl</kbd>+<kbd>V</kbd>, or <kbd>⌘</kbd>+<kbd>V</kbd> on a Mac).</li>
         <li><b>Add your lecture material to the same message.</b> Attach your slides or notes with the <b>+</b> or 📎 paperclip button next to the message box (PowerPoint and PDF files both work). If you can't attach a file, paste the text of your slides underneath the prompt instead. Then send the message.</li>
-        <li><b>Copy the AI's reply.</b> The questions come back in a shaded box. Click the <b>Copy</b> button at the top or bottom of that box. (Copying the whole reply also works: any extra chat is ignored.)</li>
+        <li><b>Copy the AI's reply.</b> For most AIs the questions come back in a shaded box. Click the <b>Copy</b> button at the top or bottom of that box. (Copying the whole reply also works: any extra chat is ignored.)</li>
         <li><b>Paste the reply here.</b>
           <textarea id="aiReply" rows="6" spellcheck="false" aria-label="The AI's reply" placeholder="Paste the AI's reply here"></textarea>
           <div class="row" style="margin-top:.4rem"><button class="btn primary" id="aiCheck" disabled>Check the questions</button><span class="small muted" id="aiMsg"></span></div>

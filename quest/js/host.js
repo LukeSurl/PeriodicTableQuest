@@ -91,7 +91,7 @@
       ov.classList.remove('hidden');
       box.innerHTML = `<div class="lobbygrid"><div class="bigqr">${code ? qrSvg(playUrl()) : ''}<div>Code <b>${esc(code || '')}</b></div></div>
         <div><h2>Scan to join</h2><div class="lobby-msg">${PTQ.rulesList()}</div>
-        <p class="small">${n} question${n === 1 ? '' : 's'}${playableEls < 118 ? ` · ${playableEls} of 118 elements can be claimed` : ''}. Tap any element to practise until the timer starts.</p></div></div>`;
+        <p class="small">${n} question${n === 1 ? '' : 's'}${playableEls < 118 ? ` · ${playableEls} of 118 elements can be claimed in this game` : ''}. Tap any element to practise until the timer starts.</p></div></div>`;
     } else if (m.status === 'ended') {
       const r = PTQ.resultText(state.cells);
       ov.classList.remove('hidden');

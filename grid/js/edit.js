@@ -27,10 +27,10 @@
   $('home').textContent = S.title; $('home').href = home;
   document.title = `Edit: ${S.title}`;
   if (ptq) {
-    $('qTitle').placeholder = 'e.g. Atoms 2: electromagnetic radiation';
+    $('qTitle').placeholder = 'e.g. Chemistry Lecture 1 warm-up';
     $('presentHelp').innerHTML = 'Open the <b>present link</b> on the lectern PC. It shows the periodic table and a QR code for students. Anyone with it can run the quiz but not change it.';
-    $('qsHelp').textContent = 'Each question needs its text and either at least two answers with the right one ticked, or a number answer. Tie a question to particular elements, or leave it for any element. Changes save automatically.';
-    $('previewHead').textContent = 'Which elements have questions';
+    $('qsHelp').textContent = 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Questions can be tied to particular elements, or left for any element. Changes save automatically.';
+    $('previewHead').textContent = 'Which elements have element-specific questions';
   }
   showImportHelp();
   GQ_AI.init(S);
@@ -119,7 +119,7 @@
     if (!a || !isFinite(a.v)) return '';
     const t = Math.abs(+a.tol || 0) * (a.pct ? Math.abs(a.v) / 100 : 1), u = q.unit ? ' ' + esc(q.unit) : '';
     const f = x => fmtNum(+x.toPrecision(10));
-    return t ? `Accepts ${f(a.v - t)} to ${f(a.v + t)}${u}` : `Accepts exactly ${f(a.v)}${u}`;
+    return t ? `Accepts ${f(a.v - t)} to ${f(a.v + t)}${u}` : `Accepts only exactly ${f(a.v)}${u}`;
   }
 
   function answersBlock(q, i) {
@@ -159,7 +159,7 @@
         <span class="seg" role="radiogroup" aria-label="Kind of answer">
           <label><input type="radio" name="k${i}" data-kind="mc" ${isNum(q) ? '' : 'checked'}> Multiple choice</label>
           <label><input type="radio" name="k${i}" data-kind="num" ${isNum(q) ? 'checked' : ''}> Number</label>
-        </span>${isNum(q) ? '' : ' <small>tick the correct one</small>'}</div>
+        </span>${isNum(q) ? '' : ' <small>tick the correct option</small>'}</div>
       ${answersBlock(q, i)}
       ${ptq ? `
       <label class="lbl" for="e${i}">Elements <small>the question only comes up on these; leave empty for any element</small></label>
@@ -208,14 +208,14 @@
       const n = GQ.playable(pq).filter(q => !q.steal && q.els && q.els[z]).length;
       const c = tableCells[z];
       c.classList.toggle('hasq', n > 0); c.classList.toggle('noq', n === 0 && !general);
-      c.title = `${GQ.ELS[z - 1].n}: ${n ? `${n} question${n === 1 ? '' : 's'} of its own` : 'no questions of its own'}${general ? ` + ${general} for any element` : ''}`;
+      c.title = `${GQ.ELS[z - 1].n}: ${n ? `${n} question${n === 1 ? '' : 's'} of its own` : 'no questions of its own'}${general ? ` + ${general} any-element questions` : ''}`;
       if (n) own++;
     }
     const pl = GQ.playable(pq), steals = pl.filter(q => q.steal).length, incomplete = ready.length - pl.length - ready.filter(q => !q.text.trim() && !q.opts.some(o => o.trim())).length;
     $('previewNote').innerHTML = `${pl.length} question${pl.length === 1 ? '' : 's'} ready: ${general} for any element, ${pl.length - general - steals} tied to particular elements, and ${steals} steal question${steals === 1 ? '' : 's'}.`
       + (incomplete > 0 ? ` ${incomplete} more ${incomplete === 1 ? 'is' : 'are'} unfinished and won't be used yet.` : '')
-      + `<br>Elements in bold have questions of their own${general ? '; every element can use the questions for any element' : '; <b>greyed-out elements have no questions</b>, so students can\'t claim them'}.`
-      + (steals ? '' : ' With no steal questions, an ordinary question is used for steals.');
+      + `<br>Elements in bold have questions of their own${general ? '; non-element specific questions may be used for any element' : '; <b>greyed-out elements have no questions</b> (either element-specific or all-element questions), so students can\'t claim them'}.`
+      + (steals ? '' : ' There are no questions marked as steal questions, so an ordinary question is used for steals.');
   }
 
   // ---------- Typing: update the model without redrawing, so the cursor stays put ----------
@@ -353,7 +353,7 @@
 
   // Shrink a picture so it is quick to send to every phone
   async function setPicture(i, file) {
-    if (!file || !file.type.startsWith('image/')) return toast('That isn\'t a picture file.');
+    if (!file || !file.type.startsWith('image/')) return toast('Not a valid picture file.');
     try {
       quiz.qs[i].img = await shrink(file);
       changed(); render(`.qcard[data-i="${i}"] .paste`);
@@ -405,7 +405,7 @@
     const n = r.qs.length, nNum = r.qs.filter(q => q.kind === 'num').length, nSteal = r.qs.filter(q => q.steal).length;
     const extra = [nNum ? `${nNum} with a number answer` : '', nSteal ? `${nSteal} steal question${nSteal === 1 ? '' : 's'}` : ''].filter(Boolean).join(', ');
     $('importCheck').innerHTML = `<p class="okline">Found ${n} question${n === 1 ? '' : 's'}${extra ? ` (${extra})` : ''}, all complete.</p>`
-      + (kept + n > S.maxQuestions ? `<p class="warnline">Adding them would make ${kept + n}; the most allowed is ${S.maxQuestions}. You can still replace the existing questions.</p>` : '');
+      + (kept + n > S.maxQuestions ? `<p class="warnline">Adding them would make ${kept + n}; the max number of questions allowed is ${S.maxQuestions}. You can still replace the existing questions.</p>` : '');
     parsed = r.qs;
     $('importAdd').disabled = kept + n > S.maxQuestions;
     $('importReplace').disabled = n > S.maxQuestions;

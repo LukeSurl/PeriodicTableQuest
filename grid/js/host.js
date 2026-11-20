@@ -96,7 +96,7 @@
     if (m.status === 'lobby') {
       ov.classList.remove('hidden');
       box.innerHTML = `<div class="lobbygrid"><div class="bigqr">${code ? qrSvg(playUrl()) : ''}<div>Code <b>${esc(code || '')}</b></div></div>
-        <div><h2>Scan to join</h2><div class="lobby-msg">${GQ.rulesList()}</div><p class="small">${n} question${n === 1 ? '' : 's'}. Each of you can answer every one.</p></div></div>`;
+        <div><h2>Scan to join</h2><div class="lobby-msg">${GQ.rulesList()}</div><p class="small">${n} question${n === 1 ? '' : 's'}. Each player can answer every one.</p></div></div>`;
     } else if (m.status === 'ended') {
       const r = GQ.resultText(score(state.pts));
       ov.classList.remove('hidden');
