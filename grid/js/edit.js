@@ -35,7 +35,7 @@
   if (pach) {
     $('qTitle').placeholder = 'e.g. Lecture 1 warm-up';
     $('presentHelp').innerHTML = 'Open the <b>present link</b> on the lectern PC. It shows the Pachinko board and a QR code for students. Anyone with it can run the quiz but not change it.';
-    $('qsHelp').textContent = 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Students get the questions in a random order and can answer each one correctly once. Give tricky questions a multiplier. Changes save automatically.';
+    $('qsHelp').textContent = 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Students pick questions from a list on their phones and can answer each one correctly once. Give tricky questions a multiplier. Changes save automatically.';
     $('previewHead').textContent = 'The board';
   }
   showImportHelp();

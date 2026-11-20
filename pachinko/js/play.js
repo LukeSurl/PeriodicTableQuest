@@ -24,7 +24,7 @@
   catch (e) { return setStatus('Could not connect. Check your internet connection and reload.'); }
 
   let state = { meta: undefined, drops: {}, scores: {}, mine: {} }, quiz = null, quizFor = null, unQuiz = null;
-  let myTeam = null, joining = false, busy = false, coolUntil = 0, lastWrong = null, sheetDrop = null;
+  let myTeam = null, joining = false, busy = false, coolUntil = 0, sheetDrop = null;
   const told = new Set();       // my balls whose landing I've been told about
   let scoresSeen = false;
   const doneHere = new Set();   // right answers given on this phone (before the database confirms them)
@@ -86,9 +86,7 @@
     $('progress').textContent = total ? `You've got ${got} of ${total} question${total === 1 ? '' : 's'} right` : 'No questions yet.';
     $('done').classList.toggle('hidden', !finished);
     if (finished) $('done').innerHTML = `🎉 <b>You've answered every question correctly!</b><br>Well done: that's the whole set. Watch your balls land on the big screen.`;
-    $('ask').classList.toggle('hidden', finished);
-    $('ask').disabled = !isOpen() || busy || Date.now() < coolUntil || !left;
-    $('ask').textContent = m.status === 'lobby' ? 'Questions open when the game starts' : timeUp() || m.status === 'ended' ? 'Time\'s up' : 'Get a question';
+    drawTiles();
     // My balls: falling or landed
     const mine = Object.keys(state.drops || {}).filter(id => id.startsWith(B.uid + '_'));
     $('myballs').innerHTML = mine.map(id => {
@@ -106,13 +104,29 @@
   }, 500);
 
   // ---------- One question ----------
-  $('ask').onclick = () => {
-    if (busy || !isOpen() || Date.now() < coolUntil) return;
-    const left = remaining();
-    if (!left.length) return update();
-    const pool = left.length > 1 ? left.filter(q => q.i !== lastWrong) : left;
-    ask(pool[Math.floor(Math.random() * pool.length)]);
-  };
+  // The questions as tiles, as in Quiz Grid, each with its ball in the top right corner
+  function drawTiles() {
+    GQ.drawGrid($('grid'), quiz, {}, { cols: 2, onTap: tapTile, mark: (el, i) => {
+      el.classList.toggle('done', isDone({ i }));
+      let cv = el.querySelector('canvas.tileball');
+      if (!cv || cv.dataset.t !== myTeam) {
+        if (!cv) { cv = document.createElement('canvas'); cv.className = 'tileball'; cv.width = cv.height = 96; el.appendChild(cv); }
+        cv.dataset.t = myTeam;
+        const g = cv.getContext('2d'), q = quiz.qs[i];
+        g.clearRect(0, 0, 96, 96);
+        PACH.drawBall(g, 48, 48, 42, getComputedStyle(document.documentElement).getPropertyValue('--t' + myTeam).trim(), +q.mult || 1, PACH.shapeFor(i), 0);
+      }
+    } });
+  }
+  function tapTile(i) {
+    const q = all().find(x => x.i === i);
+    if (busy || !q) return;
+    if (isDone(q)) return toast('You\'ve already got that one right. Try another!');
+    if (!state.meta || state.meta.status === 'lobby') return toast('Questions open when the game starts.');
+    if (!isOpen()) return toast('Time\'s up!');
+    if (Date.now() < coolUntil) return toast('Wait for the timer after a wrong answer, then try again.');
+    ask(q);
+  }
 
   function ask(q) {
     sheetDrop = null;
@@ -125,7 +139,7 @@
       : `<div class="opts">${order.map(j => `<button class="opt" data-j="${j}">${esc(q.opts[j])}</button>`).join('')}</div>`;
     $('sheet').innerHTML = `
       <canvas class="ballprev" id="ballCv" width="120" height="120" aria-label="Your ball for this question"></canvas>
-      <p class="qhead"><b>Question</b> · Team ${esc(team(myTeam).name)}${+q.mult > 1 ? `<span class="multnote">Worth ×${+q.mult}</span>` : ''}</p>
+      <p class="qhead"><b>Question ${all().findIndex(x => x.i === q.i) + 1}</b> · Team ${esc(team(myTeam).name)}${+q.mult > 1 ? `<span class="multnote">Worth ×${+q.mult}</span>` : ''}</p>
       ${q.img ? `<img class="qimg" src="${q.img}" alt="">` : ''}
       <div class="q">${esc(q.text).replace(/\n/g, '<br>')}</div>
       ${body}
@@ -153,7 +167,7 @@
     try {
       const r = await B.answer(code, q.i, a);
       if (r === 'right') {
-        el.classList.add('right'); doneHere.add(q.i); lastWrong = null;
+        el.classList.add('right'); doneHere.add(q.i);
         const d = await B.drop(code, q.i, myTeam);
         if (d === 'dropped' || d === 'already') {
           sheetDrop = myId(q.i);
@@ -163,9 +177,9 @@
       } else if (r === 'closed') msg = '<h3>The game isn\'t running right now.</h3><p>Answers only count while the timer is running.</p>';
       else if (r === 'notjoined') { msg = '<h3>You weren\'t in this game yet.</h3><p>You\'ve been added to a team now. Please try again.</p>'; myTeam = null; join(); }
       else {
-        el.classList.add('wrong'); lastWrong = q.i;
+        el.classList.add('wrong');
         coolUntil = Date.now() + S.wrongCooldownSeconds * 1000;
-        msg = `<h3>❌ Not quite.</h3><p>Get another question in ${S.wrongCooldownSeconds} seconds. This one may come back later.</p>`;
+        msg = `<h3>❌ Not quite.</h3><p>Try another question, or come back to this one in ${S.wrongCooldownSeconds} seconds.</p>`;
       }
     } catch (e) {
       msg = '<h3>That couldn\'t be checked.</h3><p>Check your connection and try again.</p>';

@@ -23,7 +23,7 @@ window.PLQ_SETTINGS = {
     {
       id: 'pachinko',
       name: 'Pachinko',
-      blurb: 'Students tap for a question. Each right answer drops a ball of their team\'s colour down a pachinko board, scoring 10 to 100 points where it lands. Tricky questions can be worth double or triple.',
+      blurb: 'Students pick questions on their phones. Each right answer drops a ball of their team\'s colour down a pachinko board, scoring 10 to 100 points where it lands. Tricky questions can be worth double or triple.',
       icon: 'pachinko',
       demo: 'pachinko/demo.html'
     }
