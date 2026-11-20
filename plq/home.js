@@ -53,7 +53,7 @@
       const B = await GQ_BACKEND.create();
       const { id: qid, k } = await B.createQuiz('Untitled quiz', type);
       const mine = store.get(GKEY, []); mine.unshift({ id: qid, k, title: 'Untitled quiz', type, at: Date.now() }); store.set(GKEY, mine);
-      location.href = withDemo('../grid/edit.html') + `#${qid}.${k}`;
+      location.href = withDemo('grid/edit.html') + `#${qid}.${k}`;
     } catch (e) {
       btn.disabled = false; btn.querySelector('.pgo').textContent = `Create a ${name} quiz`;
       $('createMsg').innerHTML = `<b>Couldn't create the quiz.</b> Check your internet connection. <small>(${esc(e.message)})</small>`;
@@ -62,11 +62,11 @@
 
   // ---------- Saved quizzes ----------
   let filter = 'all';
-  const presentPage = { grid: '../grid/host.html', ptq: '../quest/host.html' };
+  const presentPage = { grid: 'grid/host.html', ptq: 'quest/host.html' };
   function allSaved() {
     return store.get(GKEY, []).map((m, i) => ({
       type: m.type === 'ptq' ? 'ptq' : 'grid', key: m.id, at: m.at || 0, order: i, title: m.title || 'Untitled quiz', detail: '',
-      edit: withDemo('../grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo(presentPage[m.type === 'ptq' ? 'ptq' : 'grid'] + '?quiz=' + m.id)
+      edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo(presentPage[m.type === 'ptq' ? 'ptq' : 'grid'] + '?quiz=' + m.id)
     })).sort((a, b) => b.at - a.at || a.order - b.order);   // most recent first; older entries (no date) keep their order
   }
 
@@ -105,6 +105,6 @@
 
   // ---------- About ----------
   const A = P.about;
-  $('about').innerHTML = `<p>${esc(P.title)} v${esc(P.version)} · ${esc(A.copyright)} · <a href="${A.source}" target="_blank" rel="noopener">Source code</a></p>
+  $('about').innerHTML = `<p>${esc(P.title)} v${esc(P.version)} · ${esc(A.copyright)} · <a href="${A.source}" target="_blank" rel="noopener">Source code</a>${A.classic ? ` · <a href="${A.classic}">Classic Periodic Table Quest</a>` : ''}</p>
     <p>${esc(A.privacy)} ${esc(A.credits)}</p>`;
 })();

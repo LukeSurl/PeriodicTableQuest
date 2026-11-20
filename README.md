@@ -31,7 +31,7 @@ Until you add Firebase settings, the game runs in demo mode, which only works be
 
 ### 3. Rehearse
 
-Open the site on your laptop, scan the QR code with your phone, press **Start**, and claim an element. If the element changes colour on the laptop, you are ready.
+Open `classic.html` on your laptop, scan the QR code with your phone, press **Start**, and claim an element. If the element changes colour on the laptop, you are ready.
 
 ## Class size and the free plan
 
@@ -39,7 +39,7 @@ Firebase's free (Spark) plan allows **100 simultaneous connections**. The projec
 
 ## In the lecture
 
-1. Open the site on the lectern PC. Press **F** for full screen.
+1. Open `classic.html` on the lectern PC (the front page links to it at the bottom). Press **F** for full screen.
 2. Set the countdown in minutes, or type the time the lecture starts in "or ends at" (e.g. 12:05). Press **Start**.
 3. Press **Topics** (or **T**) to choose which question sets to use and their share of the questions. **Deselect all** clears every tick, so you can pick just this lecture's sets, and **Share equally** splits 100% between the ticked ones. Press **C** to hide or show the control bar.
 4. When the timer reaches zero the board locks and the winner is shown. **+1 min** or **Play on** reopens it.
@@ -103,7 +103,7 @@ Question text is tidied automatically before it is shown: numbers in standard fo
 
 ## Pre-Lecture Quizzes (home page)
 
-`plq/` is the home page for every quiz type: `https://lukesurl.github.io/PeriodicTableQuest/plq/`. At the top, **Create new quiz** shows a card for each type (Quiz Grid and Periodic Table Quest); clicking one starts a new quiz of that type. Below, **Your saved quizzes** lists every quiz made or opened in this browser, of any type, newest first, with Edit, Present and Forget. Copyright and other "about" details sit quietly at the bottom. The name, the card text and the footer are in `plq/settings.js`.
+The site's front page (`index.html`, with its files in `plq/`) is the home page for every quiz type: `https://lukesurl.github.io/PeriodicTableQuest/`. The old `plq/` address redirects there. At the top, **Create new quiz** shows a card for each type (Quiz Grid and Periodic Table Quest); clicking one starts a new quiz of that type. Below, **Your saved quizzes** lists every quiz made or opened in this browser, of any type, newest first, with Edit, Present and Forget. Copyright and other "about" details sit quietly at the bottom. The name, the card text and the footer are in `plq/settings.js`.
 
 Both quiz types share one editor (`grid/edit.html`), the same private edit links and the same database. A quiz's type (`grid` or `ptq`) is stored with it.
 
@@ -154,9 +154,9 @@ Not yet: explanations after answering, deleting a quiz, and a list of a lecturer
 
 | File | What it is |
 |---|---|
-| `index.html` | Projector view |
+| `classic.html` | Projector view (classic game; it was `index.html` until the front page became the Pre-Lecture Quizzes home) |
 | `play.html` | Student phone view (the QR code points here) |
-| `plq/` | Pre-Lecture Quizzes home page (`index.html`, `home.js`, `plq.css`, `settings.js`) |
+| `index.html`, `plq/` | Pre-Lecture Quizzes home page (`home.js`, `plq.css`, `settings.js`); `plq/index.html` redirects to it |
 | `quest/` | Periodic Table Quest (new): `host.html`, `play.html`, `demo.html`, `js/`, and `topics/` (the classic question sets as text) |
 | `tools/export-ptq-topics.js` | Writes `quest/topics/*.txt` from `questions/*.js` |
 | `demo.html` | Projector and two phones in one page, for trying it out |

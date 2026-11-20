@@ -5,7 +5,8 @@
   const KEY = isDemo() ? 'gq-mine-demo' : 'gq-mine';
   const [id, k] = location.hash.slice(1).split('.');
   const problem = html => { $('problem').innerHTML = html; $('problem').classList.remove('hidden'); $('saveState').textContent = ''; };
-  const home = withDemo('../plq/');
+  const home = withDemo('../');
+  document.querySelectorAll('.homelink').forEach(a => { a.href = home; });
   if (!id || !k) return problem(`This page needs a quiz's edit link. <a href="${home}">Go to the start page</a> to make a quiz.`);
 
   let B;
