@@ -24,7 +24,7 @@
   // Settings for this kind of quiz
   const S = GQ_SETTINGS.forType(quiz.type), ptq = S.type === 'ptq';
   document.body.classList.toggle('ptq', ptq);
-  $('home').textContent = S.title; $('home').href = ptq ? home : withDemo('index.html');
+  $('home').textContent = S.title; $('home').href = home;
   document.title = `Edit: ${S.title}`;
   if (ptq) {
     $('qTitle').placeholder = 'e.g. Atoms 2: electromagnetic radiation';

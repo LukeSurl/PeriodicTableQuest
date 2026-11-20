@@ -129,7 +129,7 @@ A question can have a typed number answer instead of options. The lecturer gives
 
 A simpler, general-purpose spin-off in the `grid/` folder, meant for colleagues who don't want to touch code. A lecturer types a handful of multiple-choice questions into a web page; the projector shows them as a grid of tiles with a QR code; students join in two teams as before. Each student can answer every question once. The team with more correct answers on a question wins that question (its tile shows each team's count and is outlined in the leading team's colour), and the team that wins the most questions wins the game, with total correct answers as the tie-break. The big screen shows these rules, with a large QR code before the game starts.
 
-- **Start page:** `https://lukesurl.github.io/PeriodicTableQuest/grid/`. "Make a new quiz" creates a quiz and opens its editor. No sign-in.
+- **Start page:** the Pre-Lecture Quizzes front page, `https://lukesurl.github.io/PeriodicTableQuest/`. Its Quiz Grid card creates a quiz and opens the editor. No sign-in. (The old `grid/` start page now redirects there.)
 - **Edit link** (`grid/edit.html#…`): the only way back to a quiz from another computer, and anyone who has it can change the quiz. The start page also remembers the quizzes made or opened in that browser.
 - **Present link** (`grid/host.html?quiz=…`): opens the projector view. Anyone with it can run the quiz but not change it.
 - **Demo:** `grid/demo.html` runs the projector and two phones in one page with a sample quiz and no database. Its "edit this demo quiz" link opens the editor on the sample quiz; changes appear in the demo as you type.

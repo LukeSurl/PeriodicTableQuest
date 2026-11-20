@@ -2,67 +2,9 @@
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quiz Grid</title>
-<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../css/style.css', 'css/grid.css'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+<title>Pre-Lecture Quizzes</title>
+<script>location.replace('../' + location.search + location.hash);</script>
+<meta http-equiv="refresh" content="0; url=../">
 </head>
-<body class="page">
-<header class="top"><a href="../" class="homelink">Pre-Lecture Quizzes</a><h1 id="title">Quiz Grid</h1><span class="spacer"></span><span class="small" id="mode"></span></header>
-<main>
-  <p>A pre-lecture team quiz. You write a handful of multiple-choice questions; the screen shows them as a grid. Students scan a QR code, are put into one of two teams, and answer the questions on their phones. The team with more correct answers on a question wins that question, and the team that wins the most questions wins the game (total correct answers break a tie). The team with the most points when the timer ends wins.</p>
-
-  <div class="panel">
-    <div class="row">
-      <button class="btn primary big-btn" id="create">Make a new quiz</button>
-      <a class="btn big-btn" id="demoLink" href="demo.html" target="_blank" rel="noopener">Try the demo first</a>
-    </div>
-    <p class="small muted" id="createMsg" style="margin:.6rem 0 0">No sign-in needed. When you make a quiz you get a private edit link: keep it, as it is the only way back to your quiz from another computer.</p>
-  </div>
-
-  <h2>Your quizzes on this computer</h2>
-  <div class="panel"><ul class="qlist-home" id="mine"></ul></div>
-
-  <h2>Opening a quiz from somewhere else</h2>
-  <p>Open your quiz's <b>edit link</b> on any computer to edit it, or its <b>present link</b> on the lectern PC to run it. Both are on the quiz's edit page.</p>
-</main>
-<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', 'js/settings.js', 'js/common.js', 'js/backend.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
-<script>
-(async function () {
-  const { $, esc, store, S, withDemo, isDemo, theme } = GQ;
-  theme();
-  document.title = $('title').textContent = S.title;
-  const KEY = isDemo() ? 'gq-mine-demo' : 'gq-mine';
-  if (isDemo()) $('mode').textContent = 'Demo mode: this browser only';
-
-  function list() {
-    const mine = store.get(KEY, []);
-    $('mine').innerHTML = mine.length ? mine.map((m, i) => `<li>
-        <span class="t">${esc(m.title || 'Untitled quiz')}</span>
-        <a class="btn" href="${withDemo('edit.html')}#${m.id}.${m.k}">Edit</a>
-        <a class="btn primary" href="${withDemo('host.html?quiz=' + m.id)}" target="_blank" rel="noopener">Present</a>
-        <button class="btn" data-forget="${i}" title="Remove from this list (the quiz itself is kept)">Forget</button></li>`).join('')
-      : '<li class="muted">None yet. Quizzes you make or edit on this computer will appear here.</li>';
-    $('mine').querySelectorAll('[data-forget]').forEach(b => b.onclick = () => {
-      if (b.dataset.armed) { const m = store.get(KEY, []); m.splice(+b.dataset.forget, 1); store.set(KEY, m); return list(); }
-      b.dataset.armed = 1; b.textContent = 'Sure? Keep the edit link first';
-      setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = 'Forget'; } }, 4000);
-    });
-  }
-  list();
-
-  $('create').onclick = async () => {
-    $('create').disabled = true; $('createMsg').textContent = 'Creating…';
-    try {
-      const B = await GQ_BACKEND.create();
-      const { id, k } = await B.createQuiz('Untitled quiz');
-      const mine = store.get(KEY, []); mine.unshift({ id, k, title: 'Untitled quiz', at: Date.now() }); store.set(KEY, mine);
-      location.href = withDemo('edit.html') + `#${id}.${k}`;
-    } catch (e) {
-      $('create').disabled = false;
-      $('createMsg').innerHTML = `<b>Couldn't create the quiz.</b> Check your internet connection. <small>(${esc(e.message)})</small>`;
-    }
-  };
-})();
-</script>
-</body>
+<body><p>Quiz Grid quizzes are now made from <a href="../">the Pre-Lecture Quizzes front page</a>.</p></body>
 </html>
