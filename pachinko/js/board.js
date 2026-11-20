@@ -105,8 +105,16 @@
     }
   }
   // One ball on its own, e.g. a phone's preview of the ball it will drop: colour, multiplier or shape, angle
+  // Multiplier balls glow gold, more brightly and widely the bigger the multiplier
+  const GLOW = '255, 200, 40';
   function drawBall(g, x, y, r, colour, mult, shape, angle) {
     g.save(); g.translate(x, y);
+    if (mult > 1) {
+      const outer = r * (1.35 + 0.25 * (mult - 1)), peak = Math.min(0.95, 0.6 + 0.1 * (mult - 1));
+      const grad = g.createRadialGradient(0, 0, r * 0.8, 0, 0, outer);
+      grad.addColorStop(0, `rgba(${GLOW}, ${peak})`); grad.addColorStop(0.45, `rgba(${GLOW}, ${peak * 0.55})`); grad.addColorStop(1, `rgba(${GLOW}, 0)`);
+      g.beginPath(); g.arc(0, 0, outer, 0, Math.PI * 2); g.fillStyle = grad; g.fill();
+    }
     g.beginPath(); g.arc(0, 0, r, 0, Math.PI * 2); g.fillStyle = colour; g.fill();
     g.lineWidth = r * 0.12; g.strokeStyle = '#fff'; g.stroke();
     g.rotate(angle || 0);

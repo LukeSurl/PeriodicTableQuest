@@ -110,11 +110,11 @@
       el.classList.toggle('done', isDone({ i }));
       let cv = el.querySelector('canvas.tileball');
       if (!cv || cv.dataset.t !== myTeam) {
-        if (!cv) { cv = document.createElement('canvas'); cv.className = 'tileball'; cv.width = cv.height = 96; el.appendChild(cv); }
+        if (!cv) { cv = document.createElement('canvas'); cv.className = 'tileball'; cv.width = cv.height = 128; el.appendChild(cv); }
         cv.dataset.t = myTeam;
         const g = cv.getContext('2d'), q = quiz.qs[i];
-        g.clearRect(0, 0, 96, 96);
-        PACH.drawBall(g, 48, 48, 42, getComputedStyle(document.documentElement).getPropertyValue('--t' + myTeam).trim(), +q.mult || 1, PACH.shapeFor(i), 0);
+        g.clearRect(0, 0, 128, 128);
+        PACH.drawBall(g, 64, 64, 28, getComputedStyle(document.documentElement).getPropertyValue('--t' + myTeam).trim(), +q.mult || 1, PACH.shapeFor(i), 0);
       }
     } });
   }
@@ -138,8 +138,8 @@
          <p class="hint">Type a number. For standard form, type e.g. 6.02e23 or 6.02 × 10^23.</p>`
       : `<div class="opts">${order.map(j => `<button class="opt" data-j="${j}">${esc(q.opts[j])}</button>`).join('')}</div>`;
     $('sheet').innerHTML = `
-      <canvas class="ballprev" id="ballCv" width="120" height="120" aria-label="Your ball for this question"></canvas>
-      <p class="qhead"><b>Question ${all().findIndex(x => x.i === q.i) + 1}</b> · Team ${esc(team(myTeam).name)}${+q.mult > 1 ? `<span class="multnote">Worth ×${+q.mult}</span>` : ''}</p>
+      <canvas class="ballprev" id="ballCv" width="160" height="160" aria-label="Your ball for this question"></canvas>
+      <p class="qhead"><b>Question ${all().findIndex(x => x.i === q.i) + 1}</b>${+q.mult > 1 ? ` <span class="multnote">${multWords(+q.mult)}</span>` : ''} · Team ${esc(team(myTeam).name)}</p>
       ${q.img ? `<img class="qimg" src="${q.img}" alt="">` : ''}
       <div class="q">${esc(q.text).replace(/\n/g, '<br>')}</div>
       ${body}
@@ -205,12 +205,14 @@
     });
   }
 
+  const multWords = m => ({ 2: 'DOUBLE POINTS', 3: 'TRIPLE POINTS', 4: 'QUADRUPLE POINTS', 5: 'QUINTUPLE POINTS' }[m] || `×${m} POINTS`);
+
   // The ball a right answer to this question drops, the right way up, in the sheet's corner
   function drawPreview(q) {
     const cv = $('ballCv'), g = cv.getContext('2d');
     const colour = getComputedStyle(document.documentElement).getPropertyValue('--t' + myTeam).trim();
     g.clearRect(0, 0, cv.width, cv.height);
-    PACH.drawBall(g, cv.width / 2, cv.height / 2, cv.width * 0.44, colour, +q.mult || 1, PACH.shapeFor(q.i), 0);
+    PACH.drawBall(g, cv.width / 2, cv.height / 2, cv.width * 0.21, colour, +q.mult || 1, PACH.shapeFor(q.i), 0);
   }
 
   function close() { if (busy) return; sheetDrop = null; $('sheetBg').classList.add('hidden'); update(); }
