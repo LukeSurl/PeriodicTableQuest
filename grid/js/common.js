@@ -84,6 +84,9 @@
     return st.length ? st : ordinary;
   }
 
+  // A question's own feedback for a wrong answer, if the lecturer wrote one
+  const fbHtml = q => (q && q.fb && String(q.fb).trim() ? `<p class="fbtext">${esc(String(q.fb).trim())}</p>` : '');
+
   // What a tile shows: picture and/or short label, otherwise the question itself
   function tileInner(q, n) {
     const img = q.img ? `<img src="${q.img}" alt="">` : '';
@@ -171,5 +174,5 @@
     t.innerHTML = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 2800);
   }
 
-  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, tileInner, drawGrid, counts, score, winner, resultText, rulesList, qrSvg, toast };
+  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, score, winner, resultText, rulesList, qrSvg, toast };
 })();

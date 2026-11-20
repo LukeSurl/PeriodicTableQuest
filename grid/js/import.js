@@ -16,7 +16,8 @@
 // is ignored). "Label:" is optional. Multiple-choice answers start with "-", and the
 // correct one with "*". A number answer is one line starting with "=": the value, then
 // optionally "± 0.05" or "± 1%" (how close an answer must be), then optionally a unit.
-// Lines starting with "#" are notes and are ignored.
+// Lines starting with "#" are notes and are ignored. An optional "Feedback:" line is shown to
+// a student who gets the question wrong (any wrong answer); without it they see the usual message.
 //
 // Periodic Table Quest only: "Elements: Na, K" (the question only appears on those
 // elements; without it, it can appear on any) and "Steal" (a harder question, used
@@ -63,13 +64,14 @@
       .map(b => b.split('\n').filter(l => !/^\s*#/.test(l)).join('\n').trim()).filter(Boolean);
     const qs = [], errors = [];
     blocks.forEach((block, b) => {
-      const n = b + 1, q = { text: '', kind: 'mc', opts: [], label: '', answer: null, unit: '', steal: false, els: [], mult: 1 }, textLines = [];
+      const n = b + 1, q = { text: '', kind: 'mc', opts: [], label: '', answer: null, unit: '', steal: false, els: [], mult: 1, fb: '' }, textLines = [];
       let numLines = 0, badNum = '', badEls = [], ptqOnly = '', badMult = '';
       for (const raw of block.split('\n')) {
         const line = raw.trim();
         if (!line) continue;
         let m;
         if ((m = line.match(/^label\s*:\s*(.*)$/i))) q.label = m[1].trim();
+        else if ((m = line.match(/^feedback\s*:\s*(.*)$/i))) q.fb = (q.fb ? q.fb + ' ' : '') + m[1].trim();
         else if ((m = line.match(/^(?:multiplier|mult)\s*:?\s*[x×*]?\s*(\S*?)\s*[x×]?\s*$/i)) || (m = line.match(/^[x×]\s*(\d+)$/))) {
           const v = +m[1];
           if (Number.isInteger(v) && v >= 1 && v <= maxMult) q.mult = v; else badMult = m[1];
@@ -118,6 +120,7 @@
         if (q.opts.some(o => o.length > MAX_OPT)) errors.push(`${where}: an answer is longer than ${MAX_OPT} characters.`);
       }
       if (q.text.length > MAX_TEXT) errors.push(`${where}: the question is longer than ${MAX_TEXT} characters.`);
+      if (q.fb.length > 400) errors.push(`${where}: the feedback is longer than 400 characters.`);
       if (q.label.length > S.labelLength) errors.push(`${where}: the label is longer than ${S.labelLength} characters.`);
       qs.push(q);
     });
@@ -141,6 +144,7 @@
         ...(els.length ? ['Elements: ' + els.join(', ')] : []),
         ...(type === 'ptq' && q.steal ? ['Steal'] : []),
         ...(type === 'pachinko' && +q.mult > 1 ? ['Multiplier: ' + Math.round(+q.mult)] : []),
+        ...(q.fb && String(q.fb).trim() ? ['Feedback: ' + String(q.fb).trim().replace(/\s*\n\s*/g, ' ')] : []),
         ...(q.kind === 'num'
           ? [answers[i] && isFinite(answers[i].v) ? '= ' + numText(answers[i], (q.unit || '').trim()) : '= ?']
           : q.opts.map((o, j) => o.trim() ? (j === answers[i] ? '* ' : '- ') + o.trim() : null).filter(Boolean))
@@ -153,7 +157,7 @@
   function cleanAI(text) {
     const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n')
       .filter(l => !/^\s*```/.test(l))
-      .map(l => l.replace(/\*\*|__/g, '').replace(/^\s*#+\s+(?=\S)/, '').replace(/^(\s*)\*\s*(label|elements?|steal|multiplier)\b/i, '$1$2'));
+      .map(l => l.replace(/\*\*|__/g, '').replace(/^\s*#+\s+(?=\S)/, '').replace(/^(\s*)\*\s*(label|elements?|steal|multiplier|feedback)\b/i, '$1$2'));
     const blocks = lines.join('\n').split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
     const keep = blocks.filter(b => b.split('\n').some(l => /^\s*([*\-–•]\s*\S|=\s*\S)/.test(l)));
     return { text: keep.join('\n\n'), dropped: blocks.length - keep.length };

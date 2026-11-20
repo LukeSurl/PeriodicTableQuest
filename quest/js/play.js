@@ -170,7 +170,7 @@
       else {
         el.classList.add('wrong');
         if (!practice) coolUntil = Date.now() + S.wrongCooldownSeconds * 1000;
-        msg = `<h3>❌ Not quite.</h3><p>${practice ? 'Have another go: tap any element.' : `Try another element in ${S.wrongCooldownSeconds} seconds.`}</p>`;
+        msg = `<h3>❌ Not quite.</h3>${GQ.fbHtml(q)}<p>${practice ? 'Have another go: tap any element.' : `Try another element in ${S.wrongCooldownSeconds} seconds.`}</p>`;
       }
     } catch (err) {
       msg = '<h3>That couldn\'t be checked.</h3><p>Check your connection and try again.</p>';

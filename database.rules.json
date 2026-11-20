@@ -78,6 +78,9 @@
             "mult": {
               ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 10"
             },
+            "fb": {
+              ".validate": "newData.isString() && newData.val().length <= 400"
+            },
             "$other": {
               ".validate": false
             }

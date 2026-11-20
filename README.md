@@ -129,6 +129,10 @@ The projector runs the board. A phone's right answer is a proof (as in Quiz Grid
 
 Text import: `Multiplier: 2` (or `×2`) on its own line. Quiz Grid and Periodic Table Quest accept the line and ignore it, and Pachinko accepts Quiz Grid's `Label:` lines, so questions copy between the two in either direction.
 
+## Feedback for wrong answers (all quiz types)
+
+Any question can have its own feedback, shown under "Not quite" to a student who answers it wrongly (the same text for every wrong answer). It is optional: without it, students see the usual message. In the editor it is the "Feedback for a wrong answer" box; in text it is a `Feedback:` line, so older text without one still imports as before. The AI prompt asks for feedback only when "Include feedback for students who answer wrongly" is ticked (off by default). Feedback is stored with the questions, which phones download, so a determined student could read it in advance: it should hint, not give the answer.
+
 ## Number answers (both quiz types)
 
 A question can have a typed number answer instead of options. The lecturer gives the value, how close an answer must be (in the same units, or as a percentage) and an optional unit shown by the answer box. Students can type `6.02e23`, `6.02 × 10^23` or a decimal comma. In text, a number answer is one line: `= 35.5 ± 0.05 g mol⁻¹`. The database stores the accepted range (`answers/<id>/lo` and `hi`) and checks each answer against it.

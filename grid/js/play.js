@@ -158,7 +158,7 @@
       } else {
         btn.classList.add('wrong');
         coolUntil = Date.now() + S.wrongCooldownSeconds * 1000;
-        msg = `<h3>❌ Not quite.</h3><p>Try another question, or come back to this one in ${S.wrongCooldownSeconds} seconds.</p>`;
+        msg = `<h3>❌ Not quite.</h3>${GQ.fbHtml(quiz && quiz.qs[i])}<p>Try another question, or come back to this one in ${S.wrongCooldownSeconds} seconds.</p>`;
       }
     } catch (e) {
       msg = '<h3>That couldn\'t be checked.</h3><p>Check your connection and try again.</p>';

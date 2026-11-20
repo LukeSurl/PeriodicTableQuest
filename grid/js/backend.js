@@ -41,13 +41,14 @@
   // Firebase may hand back { "8": true, "9": true } as an array, so turn element lists back into objects
   const elsObj = v => { const o = {}; if (v) Object.keys(v).forEach(k => { if (v[k] && +k >= 1 && +k <= 118) o[k] = true; }); return o; };
   const cleanQuiz = q => ({ title: (q && q.title) || '', type: (q && q.type) || 'grid',
-    qs: asArray(q && q.qs).map(x => ({ text: '', label: '', img: '', kind: 'mc', unit: '', ...x, opts: optsOf(x && x.opts), els: elsObj(x && x.els), steal: !!(x && x.steal), mult: Math.max(1, Math.round(+(x && x.mult) || 1)) })) });
+    qs: asArray(q && q.qs).map(x => ({ text: '', label: '', img: '', kind: 'mc', unit: '', fb: '', ...x, opts: optsOf(x && x.opts), els: elsObj(x && x.els), steal: !!(x && x.steal), mult: Math.max(1, Math.round(+(x && x.mult) || 1)) })) });
   // A quiz ready to store: drop empty extras so old readers and the rules see what they expect
   const storeQuiz = quiz => ({ title: quiz.title || 'Untitled quiz', type: quiz.type || 'grid',
     qs: quiz.qs.map(q => {
       const o = { text: q.text, opts: q.kind === 'num' ? [] : q.opts, label: q.label || '', img: q.img || '', ready: !!q.ready };
       if (q.kind === 'num') { o.kind = 'num'; o.unit = q.unit || ''; }
       if (q.steal) o.steal = true;
+      if (q.fb && String(q.fb).trim()) o.fb = String(q.fb).trim().slice(0, 400);
       if (q.els && Object.keys(q.els).length) o.els = elsObj(q.els);
       if (quiz.type === 'pachinko' && +q.mult > 1) o.mult = Math.min(10, Math.round(+q.mult));
       return o;

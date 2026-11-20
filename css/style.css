@@ -188,3 +188,6 @@ sup, sub { line-height: 0; }
 .modal-actions { display: flex; gap: .5rem; align-items: center; }
 .modal-actions .spacer { flex: 1; }
 .btn:disabled { opacity: .5; cursor: default; }
+
+/* A question's own feedback after a wrong answer */
+.result .fbtext { margin: .2rem 0 .5rem; padding: .5rem .7rem; background: #fff; border-left: 4px solid var(--bad); border-radius: 6px; }

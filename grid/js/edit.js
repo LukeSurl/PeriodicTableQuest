@@ -179,6 +179,8 @@
       : `
       <label class="lbl" for="l${i}">On the big screen <small>optional; without these the tile shows the question itself</small></label>
       <input type="text" id="l${i}" data-f="label" value="${esc(q.label)}" maxlength="${S.labelLength}" placeholder="Short label, e.g. Bond angles">`}
+      <label class="lbl" for="f${i}">Feedback for a wrong answer <small>optional; shown to a student who gets it wrong. Leave empty for the usual "Not quite" message. Phones can read this, so don't give the answer away.</small></label>
+      <textarea id="f${i}" data-f="fb" maxlength="400" rows="2" placeholder="e.g. Remember that isotopes differ only in their number of neutrons.">${esc(q.fb || '')}</textarea>
       <div class="picbox" style="margin-top:.5rem">
         <div class="paste" tabindex="0" role="button" data-act="pic" aria-label="Add a picture: click to choose a file, or paste one">${q.img ? 'Paste, drop or click to replace the picture' : 'Picture: click here and paste one (Ctrl+V), drag one in, or click to choose a file'}</div>
         ${q.img ? `<div><img class="picprev" src="${q.img}" alt="Picture for question ${i + 1}"><button class="btn" data-act="nopic" style="margin-top:.3rem">Remove picture</button></div>` : ''}
@@ -401,15 +403,15 @@
 
   // ---------- Import and export as text ----------
   function showImportHelp() {
-    $('importHelp').innerHTML = `Put a blank line between questions. Write the question, then each answer on its own line starting with <code>-</code>. Start the correct answer with <code>*</code> instead. For a number answer, write one line starting with <code>=</code>: the value, then optionally how close an answer must be (<code>± 0.1</code> or <code>± 1%</code>) and a unit. `
+    $('importHelp').innerHTML = `Put a blank line between questions. Write the question, then each answer on its own line starting with <code>-</code>. Start the correct answer with <code>*</code> instead. For a number answer, write one line starting with <code>=</code>: the value, then optionally how close an answer must be (<code>± 0.1</code> or <code>± 1%</code>) and a unit. An optional <code>Feedback:</code> line is shown to a student who answers wrongly. `
       + (pach ? `A <code>Multiplier: 2</code> line (up to ×${S.maxMultiplier}) makes a question's ball worth that many times its points. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`
         : ptq ? 'An <code>Elements:</code> line ties a question to those elements, and a line saying <code>Steal</code> makes it a steal question. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.'
         : 'A <code>Label:</code> line for the big screen is optional. Pachinko\'s <code>Multiplier:</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.');
     $('importEg').textContent = pach
-      ? 'What is the C–C bond length in benzene?\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nMultiplier: 2\n= 0.50 ± 0.005 mol'
+      ? 'What is the C–C bond length in benzene?\nFeedback: The bonds are all the same length, between a single and a double bond.\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nMultiplier: 2\n= 0.50 ± 0.005 mol'
       : ptq
-      ? 'Which ion does sodium usually form?\nElements: Na\n- Na⁻\n* Na⁺\n- Na²⁺\n\nCalculate the relative atomic mass of chlorine (75.8% ³⁵Cl, 24.2% ³⁷Cl) to 3 s.f.\nElements: Cl\nSteal\n= 35.5 ± 0.05'
-      : 'What is the C–C bond length in benzene?\nLabel: Bond lengths\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nLabel: Moles\n= 0.50 ± 0.005 mol';
+      ? 'Which ion does sodium usually form?\nElements: Na\nFeedback: Group 1 metals lose their single outer electron.\n- Na⁻\n* Na⁺\n- Na²⁺\n\nCalculate the relative atomic mass of chlorine (75.8% ³⁵Cl, 24.2% ³⁷Cl) to 3 s.f.\nElements: Cl\nSteal\n= 35.5 ± 0.05'
+      : 'What is the C–C bond length in benzene?\nLabel: Bond lengths\nFeedback: The bonds are all the same length, between a single and a double bond.\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nLabel: Moles\n= 0.50 ± 0.005 mol';
   }
   const isBlank = (q, i) => !q.text.trim() && !q.opts.some(o => o.trim()) && !q.img && !(q.label || '').trim() && !(isNum(q) && answers[i]);
   let parsed = null;
@@ -434,7 +436,7 @@
   $('importText').addEventListener('input', checkImport);
   function doImport(replace) {
     if (!parsed) return;
-    const fresh = parsed.map(p => ({ text: p.text, kind: p.kind, opts: p.kind === 'num' ? ['', '', '', ''] : p.opts, label: p.label, img: '', unit: p.unit || '', steal: !!p.steal, els: Object.fromEntries((p.els || []).map(z => [z, true])), mult: p.mult || 1 }));
+    const fresh = parsed.map(p => ({ text: p.text, kind: p.kind, opts: p.kind === 'num' ? ['', '', '', ''] : p.opts, label: p.label, img: '', unit: p.unit || '', steal: !!p.steal, els: Object.fromEntries((p.els || []).map(z => [z, true])), mult: p.mult || 1, fb: p.fb || '' }));
     if (replace) { quiz.qs = fresh; answers = parsed.map(p => p.answer); }
     else {
       const keep = quiz.qs.map((q, i) => [q, answers[i], i]).filter(([q, , i]) => !isBlank(q, i));
