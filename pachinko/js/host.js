@@ -73,7 +73,7 @@
       if (spawned.has(id) || (state.scores || {})[id] || !d) return;
       spawned.add(id);
       const q = quiz.qs[+d.q];
-      balls.push(PACH.newBall({ id, t: d.t, mult: (q && +q.mult) || 1 }));
+      balls.push(PACH.newBall({ id, t: d.t, mult: (q && +q.mult) || 1, shape: PACH.shapeFor(q && q.text) }));
     });
   }
   let last = performance.now(), acc = 0;

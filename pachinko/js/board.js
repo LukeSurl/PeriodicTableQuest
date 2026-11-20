@@ -21,42 +21,85 @@
   const zoneOf = x => Math.max(0, Math.min(ZONES.length - 1, Math.floor(x / ZW)));
 
   // ---------- Physics ----------
-  const G = 110, BOUNCE = 0.4, MAXV = 90;
+  // Each ball is a uniform 2D disc (moment of inertia ½mr²) that slides and spins. At every
+  // contact, the normal impulse bounces it, and friction between its rim and the peg or wall
+  // trades sliding for spin (and spin back into sideways throw), up to the Coulomb limit.
+  const G = 110, BOUNCE = 0.4, FRICTION = 0.35, MAXV = 90, MAXW = 40;
   function newBall(o) {
-    return { id: o.id, t: o.t, mult: o.mult || 1, x: 8 + Math.random() * 84, y: 3, vx: (Math.random() - 0.5) * 10, vy: 0, age: 0, best: 0, stuck: 0, landed: false };
+    return { id: o.id, t: o.t, mult: o.mult || 1, shape: o.shape || 0, x: 8 + Math.random() * 84, y: 3, vx: (Math.random() - 0.5) * 10, vy: 0,
+      w: (Math.random() - 0.5) * 4, a: Math.random() * Math.PI * 2, age: 0, best: 0, stuck: 0, landed: false };
+  }
+  // A contact with a surface whose normal (nx, ny) points from the surface to the ball's centre
+  function contact(b, nx, ny, e) {
+    const vn = b.vx * nx + b.vy * ny;
+    if (vn >= 0) return false;
+    const tx = -ny, ty = nx;                               // tangent
+    const jn = -(1 + e) * vn;                              // normal impulse (per unit mass)
+    const slip = b.vx * tx + b.vy * ty - BALL_R * b.w;    // speed of the rim at the contact point, along the tangent
+    let jt = -slip / 3;                                    // the impulse that would stop slipping: 1/m + r²/I = 3/m for a disc
+    const lim = FRICTION * jn;
+    if (jt > lim) jt = lim; else if (jt < -lim) jt = -lim;
+    b.vx += jn * nx + jt * tx; b.vy += jn * ny + jt * ty;
+    b.w -= 2 * jt / BALL_R;                                // Δω = −r·J/I = −2J/r
+    return true;
   }
   // Advance one ball by dt seconds. Returns the zone index when it lands, else null.
   function step(b, dt) {
     if (b.landed) return null;
     b.age += dt;
     b.vy += G * dt;
-    b.vx *= 0.998;
+    b.vx *= 0.998; b.w *= 0.999;
     const sp = Math.hypot(b.vx, b.vy);
     if (sp > MAXV) { b.vx *= MAXV / sp; b.vy *= MAXV / sp; }
-    b.x += b.vx * dt; b.y += b.vy * dt;
+    if (Math.abs(b.w) > MAXW) b.w = Math.sign(b.w) * MAXW;
+    b.x += b.vx * dt; b.y += b.vy * dt; b.a += b.w * dt;
     for (const p of pegs) {
       const dx = b.x - p.x, dy = b.y - p.y, d = Math.hypot(dx, dy), min = BALL_R + PEG_R;
       if (d < min && d > 1e-6) {
         const nx = dx / d, ny = dy / d;
         b.x = p.x + nx * min; b.y = p.y + ny * min;
-        const vn = b.vx * nx + b.vy * ny;
-        if (vn < 0) {
-          b.vx -= (1 + BOUNCE) * vn * nx; b.vy -= (1 + BOUNCE) * vn * ny;
-          const kick = (Math.random() - 0.5) * 9;          // a little randomness, and no balancing on a peg
+        if (contact(b, nx, ny, BOUNCE)) {
+          const kick = (Math.random() - 0.5) * 6;          // a little randomness, and no balancing on a peg
           b.vx += -ny * kick; b.vy += nx * kick;
         }
       }
     }
-    if (b.x < BALL_R) { b.x = BALL_R; b.vx = Math.abs(b.vx) * 0.6 + 6; }
-    if (b.x > W - BALL_R) { b.x = W - BALL_R; b.vx = -Math.abs(b.vx) * 0.6 - 6; }
+    if (b.x < BALL_R) { b.x = BALL_R; contact(b, 1, 0, 0.6); b.vx += 6; }
+    if (b.x > W - BALL_R) { b.x = W - BALL_R; contact(b, -1, 0, 0.6); b.vx -= 6; }
     if (b.y > ZONE_TOP) for (const x of dividers) {
-      if (Math.abs(b.x - x) < BALL_R + 0.4) { const s = b.x < x ? -1 : 1; b.x = x + s * (BALL_R + 0.4); b.vx = s * Math.abs(b.vx) * 0.4; }
+      if (Math.abs(b.x - x) < BALL_R + 0.4) { const s = b.x < x ? -1 : 1; b.x = x + s * (BALL_R + 0.4); contact(b, s, 0, 0.4); }
     }
     // Stuck somewhere (very unlikely)? Give it a nudge, and after a while land it where it is
     if (b.y > b.best + 0.5) { b.best = b.y; b.stuck = 0; } else b.stuck += dt;
     if (b.stuck > 1.5) { b.vx += (Math.random() - 0.5) * 30; b.vy -= 10; b.stuck = 0; }
     if (b.y >= LAND_Y || b.age > 25) { b.landed = true; b.y = Math.min(b.y, LAND_Y); return zoneOf(b.x); }
     return null;
+  }
+
+  // Each question always gets the same decoration: a shape chosen from a hash of its text
+  const SHAPES = 9;
+  function shapeFor(text) {
+    let h = 5381;
+    for (const c of String(text || '')) h = ((h * 33) ^ c.codePointAt(0)) >>> 0;
+    return h % SHAPES;
+  }
+  // Draw a shape in white on a disc of radius r centred at the origin (already rotated)
+  function decorate(g, shape, r) {
+    g.fillStyle = '#fff'; g.strokeStyle = '#fff'; g.lineCap = 'round'; g.lineJoin = 'round';
+    const k = r;
+    const poly = pts => { g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x * k, y * k) : g.moveTo(x * k, y * k))); g.closePath(); g.fill(); };
+    const dot = (x, y, s) => { g.beginPath(); g.arc(x * k, y * k, s * k, 0, Math.PI * 2); g.fill(); };
+    switch (shape) {
+      case 0: g.lineWidth = 0.28 * k; g.beginPath(); g.moveTo(-0.62 * k, 0); g.lineTo(0.62 * k, 0); g.stroke(); break;            // stripe
+      case 1: g.lineWidth = 0.24 * k; g.beginPath(); g.moveTo(-0.55 * k, 0); g.lineTo(0.55 * k, 0); g.moveTo(0, -0.55 * k); g.lineTo(0, 0.55 * k); g.stroke(); break; // cross
+      case 2: poly([[0, -0.6], [0.52, 0.32], [-0.52, 0.32]]); break;                                                              // triangle
+      case 3: poly([[-0.4, -0.4], [0.4, -0.4], [0.4, 0.4], [-0.4, 0.4]]); break;                                                 // square
+      case 4: dot(-0.32, 0, 0.2); dot(0.32, 0, 0.2); break;                                                                       // two dots
+      case 5: g.beginPath(); g.arc(0, 0, 0.62 * k, 0, Math.PI); g.closePath(); g.fill(); break;                                   // half disc
+      case 6: g.lineWidth = 0.2 * k; g.beginPath(); g.arc(0, 0, 0.42 * k, 0, Math.PI * 2); g.stroke(); dot(0, -0.42, 0.18); break;  // ring with a bead
+      case 7: g.lineWidth = 0.26 * k; g.beginPath(); g.moveTo(-0.45 * k, -0.35 * k); g.lineTo(0.3 * k, 0); g.lineTo(-0.45 * k, 0.35 * k); g.stroke(); break; // chevron
+      default: g.lineWidth = 0.22 * k; g.beginPath(); for (let i = 0; i < 3; i++) { const t = i * 2 * Math.PI / 3 - Math.PI / 2; g.moveTo(0, 0); g.lineTo(Math.cos(t) * 0.58 * k, Math.sin(t) * 0.58 * k); } g.stroke(); // three spokes
+    }
   }
 
   // ---------- Drawing ----------
@@ -102,10 +145,13 @@
       g.beginPath(); g.arc(b.x, b.y, BALL_R, 0, Math.PI * 2);
       g.fillStyle = team[b.t] || ink; g.fill();
       g.lineWidth = 0.5; g.strokeStyle = '#fff'; g.stroke();
+      // The decoration turns with the ball: its multiplier, or else its question's shape
+      g.save(); g.translate(b.x, b.y); g.rotate(b.a || 0);
       if (b.mult > 1) {
         g.fillStyle = '#fff'; g.font = `800 ${BALL_R * 1.15}px Segoe UI, system-ui, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
-        g.fillText('×' + b.mult, b.x, b.y + 0.1);
-      }
+        g.fillText('×' + b.mult, 0, 0.1);
+      } else decorate(g, b.shape, BALL_R);
+      g.restore();
     }
     // Points floating up from where a ball landed
     for (const fl of flashes || []) {
@@ -122,5 +168,5 @@
     g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
   }
 
-  window.PACH = { W, H, ZONES, zoneOf, newBall, step, draw, fit };
+  window.PACH = { W, H, ZONES, zoneOf, newBall, step, draw, fit, shapeFor };
 })();
