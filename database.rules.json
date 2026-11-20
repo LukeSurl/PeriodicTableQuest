@@ -75,6 +75,9 @@
                 ".validate": "$z.matches(/^([1-9]|[1-9][0-9]|10[0-9]|11[0-8])$/) && newData.val() === true"
               }
             },
+            "mult": {
+              ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 10"
+            },
             "$other": {
               ".validate": false
             }
@@ -84,7 +87,7 @@
           ".validate": false
         },
         "type": {
-          ".validate": "newData.val() === 'grid' || newData.val() === 'ptq'"
+          ".validate": "newData.val() === 'grid' || newData.val() === 'ptq' || newData.val() === 'pachinko'"
         }
       }
     },
@@ -160,6 +163,20 @@
             "$other": {
               ".validate": "$other === 't' || $other === 'by' || $other === 'at'"
             }
+          }
+        },
+        "drops": {
+          "$id": {
+            ".write": "auth != null && !data.exists() && newData.exists() && newData.child('q').isString() && $id === auth.uid + '_' + newData.child('q').val() && root.child('proofs').child($code).child(auth.uid).child(newData.child('q').val()).exists() && newData.child('t').val() === root.child('runs').child($code).child('players').child(auth.uid).child('t').val() && root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val() + 5000",
+            ".validate": "newData.hasChildren(['q', 't', 'at']) && newData.child('q').val().matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/) && newData.child('t').val().matches(/^[ab]$/) && newData.child('at').val() === now",
+            "$other": {
+              ".validate": "$other === 'q' || $other === 't' || $other === 'at'"
+            }
+          }
+        },
+        "scores": {
+          "$id": {
+            ".validate": "newData.hasChildren(['p', 'm', 't']) && newData.child('p').isNumber() && newData.child('m').isNumber()"
           }
         },
         "$other": {

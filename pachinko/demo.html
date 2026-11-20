@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pachinko demo</title>
+<style>
+  body { padding: 12px 16px; }
+  h1 { margin: 0 0 4px; font-size: 1.3rem; }
+  p.lead { margin: 0 0 10px; color: var(--muted); max-width: 80ch; }
+  .stage { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: start; }
+  .proj { border: 2px solid var(--ink); border-radius: 10px; overflow: hidden; background: #000; }
+  .proj iframe { width: 100%; aspect-ratio: 16 / 9; display: block; border: 0; }
+  .phones { display: flex; gap: 12px; }
+  .phone { width: 300px; border: 8px solid var(--ink); border-radius: 26px; overflow: hidden; background: var(--bg); }
+  .phone iframe { width: 100%; height: 600px; display: block; border: 0; }
+  .lbl { font-size: .85rem; font-weight: 600; margin: 0 0 4px; }
+  @media (max-width: 1100px) { .stage { grid-template-columns: 1fr; } .phones { flex-wrap: wrap; } .phone { width: min(300px, 100%); } }
+</style>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../css/style.css', '../grid/css/grid.css', 'css/pachinko.css'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+</head>
+<body>
+<h1 id="h">Pachinko: demo</h1>
+<p class="lead">The projector and two student phones, running in this one page with no server. Press <b>Start</b> on the projector, then tap <b>Get a question</b> on either phone. Each right answer drops a ball down the board; the zone it lands in sets the points. The last two questions are worth ×2 and ×3.
+  To try the editor, <a id="editLink" target="_blank" rel="noopener">edit this demo quiz</a> in another tab: your changes appear here as you type. <button class="btn" id="resetDemo">Reset the demo quiz</button></p>
+<div class="stage">
+  <div><p class="lbl">Projector</p><div class="proj"><iframe id="host" title="Projector view"></iframe></div></div>
+  <div class="phones">
+    <div><p class="lbl">Student phone 1</p><div class="phone"><iframe id="p1" title="Phone 1"></iframe></div></div>
+    <div><p class="lbl">Student phone 2</p><div class="phone"><iframe id="p2" title="Phone 2"></iframe></div></div>
+  </div>
+</div>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../grid/js/settings.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+<script>
+  document.getElementById('h').textContent = GQ_SETTINGS.pachinko.title + ': demo';
+  // Bump the number when the demo questions change, so browsers that ran an older demo get the new one
+  const ID = 'demopach01', K = 'demo-only-edit-key-pach0';
+  const mc = (text, opts, more) => ({ text, kind: 'mc', opts, label: '', img: '', ready: true, ...(more || {}) });
+  const nq = (text, unit, more) => ({ text, kind: 'num', opts: [], unit, label: '', img: '', ready: true, ...(more || {}) });
+  const quiz = { title: 'Demo: Stage 1 science warm-up', type: 'pachinko', qs: [
+    mc('In a eukaryotic cell, where is most ATP made?', ['Nucleus', 'Ribosome', 'Mitochondrion', 'Golgi apparatus']),
+    mc('Which bond links amino acids together in a protein?', ['Peptide bond', 'Glycosidic bond', 'Phosphodiester bond', 'Hydrogen bond']),
+    mc('Which of these is a noble gas?', ['Nitrogen', 'Argon', 'Oxygen', 'Chlorine']),
+    mc('Isotopes of the same element have the same number of…', ['neutrons', 'protons', 'nucleons']),
+    nq('How many protons are in one atom of carbon?', ''),
+    nq('A solution has [H⁺] = 10⁻³ mol dm⁻³. What is its pH?', '', { mult: 2 }),
+    nq('How many moles are in 9.0 g of water (M = 18.0 g mol⁻¹)? Give 2 s.f.', 'mol', { mult: 3 })
+  ] };
+  const answers = [2, 0, 1, 1, { v: 6, tol: 0, pct: false }, { v: 3, tol: 0, pct: false }, { v: 0.5, tol: 0.005, pct: false }];
+  function seed(force) {
+    try {
+      const all = JSON.parse(localStorage.getItem('gq-demo-quizzes') || '{}');
+      if (force || !all[ID]) { all[ID] = { k: K, quiz, answers }; localStorage.setItem('gq-demo-quizzes', JSON.stringify(all)); }
+      const mine = JSON.parse(localStorage.getItem('gq-mine-demo') || '[]').filter(m => m.id !== ID);
+      mine.unshift({ id: ID, k: K, title: all[ID].quiz.title, type: 'pachinko', at: Date.now() }); localStorage.setItem('gq-mine-demo', JSON.stringify(mine));
+    } catch (e) { document.querySelector('.lead').insertAdjacentHTML('beforeend', '<br><b>This browser is blocking storage, so the demo can\'t run here.</b>'); }
+  }
+  seed(false);
+  document.getElementById('editLink').href = `../grid/edit.html?demo=1#${ID}.${K}`;
+  document.getElementById('resetDemo').onclick = () => { seed(true); location.reload(); };
+
+  // Relay messages between the frames (the demo's stand-in for a database)
+  const frames = ['host', 'p1', 'p2'].map(id => document.getElementById(id));
+  window.addEventListener('message', ev => {
+    if (!ev.data || !ev.data.__gq) return;
+    frames.forEach(f => { if (f.contentWindow && f.contentWindow !== ev.source) f.contentWindow.postMessage(ev.data, '*'); });
+  });
+  // A fresh game code for this page, so demos open in other tabs don't interfere
+  const RUN = Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+  frames[0].src = `host.html?demo=1&quiz=${ID}&run=${RUN}&v=${Date.now()}`;
+  setTimeout(() => {
+    frames[1].src = `play.html?demo=1&g=${RUN}&p=1&v=${Date.now()}`;
+    frames[2].src = `play.html?demo=1&g=${RUN}&p=2&v=${Date.now()}`;
+  }, 900);
+</script>
+</body>
+</html>

@@ -21,6 +21,9 @@
 // Periodic Table Quest only: "Elements: Na, K" (the question only appears on those
 // elements; without it, it can appear on any) and "Steal" (a harder question, used
 // for taking an element from the other team).
+//
+// Pachinko only: "Multiplier: 2" (or "×2") makes a right answer's ball worth double.
+// Other quiz types accept the line and ignore it, so questions move freely between them.
 (function () {
   const W = typeof window !== 'undefined' ? window : globalThis;
   const S = W.GQ_SETTINGS || { maxQuestions: 30, maxOptions: 6, labelLength: 40 };
@@ -55,18 +58,22 @@
   }
 
   function parse(text, type) {
-    const ptq = type === 'ptq';
+    const ptq = type === 'ptq', pach = type === 'pachinko', maxMult = (W.GQ_SETTINGS && W.GQ_SETTINGS.pachinko && W.GQ_SETTINGS.pachinko.maxMultiplier) || 5;
     const blocks = String(text || '').replace(/\r\n?/g, '\n').split(/\n\s*\n/)
       .map(b => b.split('\n').filter(l => !/^\s*#/.test(l)).join('\n').trim()).filter(Boolean);
     const qs = [], errors = [];
     blocks.forEach((block, b) => {
-      const n = b + 1, q = { text: '', kind: 'mc', opts: [], label: '', answer: null, unit: '', steal: false, els: [] }, textLines = [];
-      let numLines = 0, badNum = '', badEls = [], ptqOnly = '';
+      const n = b + 1, q = { text: '', kind: 'mc', opts: [], label: '', answer: null, unit: '', steal: false, els: [], mult: 1 }, textLines = [];
+      let numLines = 0, badNum = '', badEls = [], ptqOnly = '', badMult = '';
       for (const raw of block.split('\n')) {
         const line = raw.trim();
         if (!line) continue;
         let m;
         if ((m = line.match(/^label\s*:\s*(.*)$/i))) q.label = m[1].trim();
+        else if ((m = line.match(/^(?:multiplier|mult)\s*:?\s*[x×*]?\s*(\S*?)\s*[x×]?\s*$/i)) || (m = line.match(/^[x×]\s*(\d+)$/))) {
+          const v = +m[1];
+          if (Number.isInteger(v) && v >= 1 && v <= maxMult) q.mult = v; else badMult = m[1];
+        }
         else if ((m = line.match(/^steal(?:\s+question)?\s*(?::\s*(\S+))?\s*$/i))) {
           q.steal = !m[1] || /^(y|yes|true|1)$/i.test(m[1]);
           if (!ptq) ptqOnly = 'Steal';
@@ -94,6 +101,8 @@
       const short = q.text ? `"${q.text.slice(0, 40)}${q.text.length > 40 ? '…' : ''}"` : '';
       const where = `Question ${n}${short ? ' ' + short : ''}`;
       if (!q.text) errors.push(`${where}: there is no question text above the answers.`);
+      if (badMult && pach) errors.push(`${where}: the multiplier "${badMult}" should be a whole number from 1 to ${maxMult}.`);
+      if (!pach) q.mult = 1;
       if (ptqOnly) errors.push(`${where}: "${ptqOnly}" lines are only for Periodic Table Quest quizzes. Remove the line.`);
       if (badEls.length) errors.push(`${where}: ${badEls.map(x => `"${x}"`).join(', ')} ${badEls.length === 1 ? 'isn\'t an element symbol' : 'aren\'t element symbols'}.`);
       if (numLines) {
@@ -131,6 +140,7 @@
         ...(q.label && q.label.trim() ? ['Label: ' + q.label.trim()] : []),
         ...(els.length ? ['Elements: ' + els.join(', ')] : []),
         ...(type === 'ptq' && q.steal ? ['Steal'] : []),
+        ...(type === 'pachinko' && +q.mult > 1 ? ['Multiplier: ' + Math.round(+q.mult)] : []),
         ...(q.kind === 'num'
           ? [answers[i] && isFinite(answers[i].v) ? '= ' + numText(answers[i], (q.unit || '').trim()) : '= ?']
           : q.opts.map((o, j) => o.trim() ? (j === answers[i] ? '* ' : '- ') + o.trim() : null).filter(Boolean))
@@ -143,7 +153,7 @@
   function cleanAI(text) {
     const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n')
       .filter(l => !/^\s*```/.test(l))
-      .map(l => l.replace(/\*\*|__/g, '').replace(/^\s*#+\s+(?=\S)/, '').replace(/^(\s*)\*\s*(label|elements?|steal)\b/i, '$1$2'));
+      .map(l => l.replace(/\*\*|__/g, '').replace(/^\s*#+\s+(?=\S)/, '').replace(/^(\s*)\*\s*(label|elements?|steal|multiplier)\b/i, '$1$2'));
     const blocks = lines.join('\n').split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
     const keep = blocks.filter(b => b.split('\n').some(l => /^\s*([*\-–•]\s*\S|=\s*\S)/.test(l)));
     return { text: keep.join('\n\n'), dropped: blocks.length - keep.length };

@@ -41,7 +41,7 @@
   // Firebase may hand back { "8": true, "9": true } as an array, so turn element lists back into objects
   const elsObj = v => { const o = {}; if (v) Object.keys(v).forEach(k => { if (v[k] && +k >= 1 && +k <= 118) o[k] = true; }); return o; };
   const cleanQuiz = q => ({ title: (q && q.title) || '', type: (q && q.type) || 'grid',
-    qs: asArray(q && q.qs).map(x => ({ text: '', label: '', img: '', kind: 'mc', unit: '', ...x, opts: optsOf(x && x.opts), els: elsObj(x && x.els), steal: !!(x && x.steal) })) });
+    qs: asArray(q && q.qs).map(x => ({ text: '', label: '', img: '', kind: 'mc', unit: '', ...x, opts: optsOf(x && x.opts), els: elsObj(x && x.els), steal: !!(x && x.steal), mult: Math.max(1, Math.round(+(x && x.mult) || 1)) })) });
   // A quiz ready to store: drop empty extras so old readers and the rules see what they expect
   const storeQuiz = quiz => ({ title: quiz.title || 'Untitled quiz', type: quiz.type || 'grid',
     qs: quiz.qs.map(q => {
@@ -49,6 +49,7 @@
       if (q.kind === 'num') { o.kind = 'num'; o.unit = q.unit || ''; }
       if (q.steal) o.steal = true;
       if (q.els && Object.keys(q.els).length) o.els = elsObj(q.els);
+      if (quiz.type === 'pachinko' && +q.mult > 1) o.mult = Math.min(10, Math.round(+q.mult));
       return o;
     }) });
   // Answers ready to store: { a: {i: option}, n: {i: {v, tol, pct}}, lo: {i: …}, hi: {i: …} }
@@ -124,6 +125,7 @@
       updateMeta: (code, patch) => D.update(r(`runs/${code}/meta`), patch),
       async clearRun(code) {
         await D.remove(r(`runs/${code}/pts`)); await D.remove(r(`runs/${code}/cells`));
+        await D.remove(r(`runs/${code}/drops`)); await D.remove(r(`runs/${code}/scores`));
         await D.remove(r(`proofs/${code}`)); await D.remove(r(`eproofs/${code}`));
       },
       async deleteRun(code) {
@@ -131,8 +133,8 @@
         await D.remove(r(`runs/${code}`));
       },
       watchRun(code, cb) {
-        const st = { meta: undefined, players: {}, pts: {}, cells: {}, mine: {} };
-        const offs = ['meta', 'players', 'pts', 'cells'].map(part => D.onValue(r(`runs/${code}/${part}`), s => {
+        const st = { meta: undefined, players: {}, pts: {}, cells: {}, drops: {}, scores: {}, mine: {} };
+        const offs = ['meta', 'players', 'pts', 'cells', 'drops', 'scores'].map(part => D.onValue(r(`runs/${code}/${part}`), s => {
           st[part] = part === 'meta' ? s.val() : (s.val() || {}); cb(st, part);
         }));
         offs.push(D.onValue(r(`proofs/${code}/${user.uid}`), s => { st.mine = s.val() || {}; cb(st, 'mine'); }, () => {}));
@@ -173,6 +175,25 @@
           return 'refused';
         }
       },
+
+      // ----- Pachinko -----
+      // After a right answer to question q: drop a ball for team t. Returns 'dropped', 'already',
+      // 'closed' or 'refused'. The drop's id is "<uid>_<q>".
+      async drop(code, q, t) {
+        const id = `${user.uid}_${q}`;
+        try { await timeout(D.set(r(`runs/${code}/drops/${id}`), { q: String(q), t, at: D.serverTimestamp() })); return 'dropped'; }
+        catch (e) {
+          if (!isDenied(e)) throw e;
+          const mine = await D.get(r(`runs/${code}/drops/${id}`)).catch(() => null);
+          if (mine && mine.exists()) return 'already';
+          const m = (await D.get(r(`runs/${code}/meta`))).val();
+          if (!m || m.status !== 'open') return 'closed';
+          console.warn('Pachinko: the database refused this ball. If this keeps happening, publish the latest database.rules.json in the Firebase console.', e);
+          return 'refused';
+        }
+      },
+      // Projector only: where a ball landed. p = the zone's points, m = the question's multiplier
+      setScore: (code, id, s) => D.set(r(`runs/${code}/scores/${id}`), s),
 
       // ----- Periodic Table Quest -----
       // Answer question q while trying to claim element z. Returns 'right', 'wrong', 'closed' or 'notjoined'.
@@ -260,6 +281,15 @@
         reply({ result: ok ? 'scored' : 'already' });
         if (ok) publish();
       }
+      if (msg.type === 'drop') {
+        const p = S.players[msg.uid], id = `${msg.uid}_${msg.q}`, now = Date.now();
+        let result = 'dropped';
+        if (S.drops[id]) result = 'already';
+        else if (S.meta.status !== 'open' || now >= S.meta.endsAt + (S.meta.grace || 5000)) result = 'closed';
+        else if (!p || p.t !== msg.t || !(S.proofs[msg.uid] && S.proofs[msg.uid][msg.q])) result = 'refused';
+        if (result === 'dropped') { S.drops[id] = { q: String(msg.q), t: msg.t, at: now }; publish(); }
+        reply({ result });
+      }
       if (msg.type === 'answerEl') {
         const entry = all()[S.meta.quiz], q = entry && entry.quiz.qs[msg.q];
         const live = S.meta.status === 'lobby' || (S.meta.status === 'open' && Date.now() < S.meta.endsAt);
@@ -325,16 +355,17 @@
 
       newRunCode,
       async createRun(code, quizId, extra) {
-        server = { code, state: { meta: { host: uid, quiz: quizId, status: 'lobby', endsAt: 0, created: Date.now(), ...(extra || {}) }, players: {}, pts: {}, cells: {}, proofs: {}, eproofs: {} } };
+        server = { code, state: { meta: { host: uid, quiz: quizId, status: 'lobby', endsAt: 0, created: Date.now(), ...(extra || {}) }, players: {}, pts: {}, cells: {}, drops: {}, scores: {}, proofs: {}, eproofs: {} } };
         publish();
       },
       async getRunMeta(code) { return server && server.code === code ? server.state.meta : null; },
       async updateMeta(code, patch) { Object.assign(server.state.meta, patch); publish(); },
-      async clearRun() { Object.assign(server.state, { pts: {}, cells: {}, proofs: {}, eproofs: {} }); publish(); send({ type: 'cleared', code: server.code }); },
+      async clearRun() { Object.assign(server.state, { pts: {}, cells: {}, drops: {}, scores: {}, proofs: {}, eproofs: {} }); publish(); send({ type: 'cleared', code: server.code }); },
+      async setScore(code, id, s) { server.state.scores[id] = s; publish(); },
       async deleteRun() { server = null; },
       watchRun(code, cb) {
         if (server && server.code === code) {
-          const w = st => ['meta', 'players', 'pts', 'cells'].forEach(p => cb({ ...st, mine: {} }, p));
+          const w = st => ['meta', 'players', 'pts', 'cells', 'drops', 'scores'].forEach(p => cb({ ...st, mine: {} }, p));
           watchers.push(w); w(JSON.parse(JSON.stringify(server.state)));
           return () => watchers.splice(watchers.indexOf(w), 1);
         }
@@ -344,19 +375,20 @@
           if (m.type === 'state' && m.code === code) {
             got = true;
             myProofs = (m.state.proofs && m.state.proofs[uid]) || {};
-            const st = { meta: m.state.meta, players: m.state.players || {}, pts: m.state.pts || {}, cells: m.state.cells || {}, mine: myProofs };
-            ['meta', 'players', 'pts', 'cells', 'mine'].forEach(p => cb(st, p));
+            const st = { meta: m.state.meta, players: m.state.players || {}, pts: m.state.pts || {}, cells: m.state.cells || {}, drops: m.state.drops || {}, scores: m.state.scores || {}, mine: myProofs };
+            ['meta', 'players', 'pts', 'cells', 'drops', 'scores', 'mine'].forEach(p => cb(st, p));
           }
         });
         const ask = () => { if (!got) { send({ type: 'hello', code }); setTimeout(ask, 1500); } };
         ask();
-        setTimeout(() => { if (!got) cb({ meta: null, players: {}, pts: {}, cells: {}, mine: {} }, 'meta'); }, 5000);
+        setTimeout(() => { if (!got) cb({ meta: null, players: {}, pts: {}, cells: {}, drops: {}, scores: {}, mine: {} }, 'meta'); }, 5000);
         return off;
       },
       async join(code) { return (await request({ type: 'join', code })).t; },
       async answer(code, q, a) { const m = await request({ type: 'answer', code, q, a }); return m.result; },
       async award(code, q, t) { return (await request({ type: 'award', code, q, t })).result; },
       async answerEl(code, z, q, a) { return (await request({ type: 'answerEl', code, z, q, a })).result; },
+      async drop(code, q, t) { return (await request({ type: 'drop', code, q, t })).result; },
       async claim(code, z, t) { return (await request({ type: 'claim', code, z, t })).result; }
     };
   }

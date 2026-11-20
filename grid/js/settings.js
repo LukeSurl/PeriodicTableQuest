@@ -31,7 +31,21 @@ window.GQ_SETTINGS = {
     wrongCooldownSeconds: 8,
     aiDefaultCount: 20,
     aiDefaultSteals: 4
+  },
+
+  // Pachinko (the pachinko/ folder): students tap for a random question; a right answer drops a
+  // ball of their team's colour down a board, and the zone it lands in sets the points.
+  pachinko: {
+    title: 'Pachinko',
+    maxQuestions: 50,
+    maxMultiplier: 5,               // a question can be worth ×1 up to ×5
+    zones: [100, 30, 50, 20, 10, 20, 50, 30, 100],   // points for each landing zone, left to right
+    wrongCooldownSeconds: 8,
+    dropGraceSeconds: 5             // a right answer just before time up can still drop its ball
   }
 };
+// Where each quiz type is presented, from the site root
+window.GQ_SETTINGS.hostPages = { grid: 'grid/host.html', ptq: 'quest/host.html', pachinko: 'pachinko/host.html' };
 // The settings for one quiz type: 'grid' (the default) or 'ptq'
-window.GQ_SETTINGS.forType = type => (type === 'ptq' ? { ...window.GQ_SETTINGS, ...window.GQ_SETTINGS.ptq, type: 'ptq' } : { ...window.GQ_SETTINGS, type: 'grid' });
+window.GQ_SETTINGS.forType = type => (type === 'ptq' || type === 'pachinko'
+  ? { ...window.GQ_SETTINGS, ...window.GQ_SETTINGS[type], type } : { ...window.GQ_SETTINGS, type: 'grid' });

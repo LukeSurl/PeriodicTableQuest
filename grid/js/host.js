@@ -22,6 +22,7 @@
   B.watchQuiz(quizId, q => {
     quiz = q; quizLoaded = true;
     if (!q) return fatal('No quiz found for this link. It may have been deleted, or the link was copied incompletely.');
+    if (q.type && q.type !== 'grid') return fatal(`This quiz isn't a Quiz Grid quiz. <a href="../${GQ_SETTINGS.hostPages[q.type]}${location.search}">Open it in the right game</a>.`);
     $('topic').textContent = q.title || '';
     draw(false);
     if (state.meta) renderMeta();

@@ -105,7 +105,7 @@ Question text is tidied automatically before it is shown: numbers in standard fo
 
 The site's front page (`index.html`, with its files in `plq/`) is the home page for every quiz type: `https://lukesurl.github.io/PeriodicTableQuest/`. The old `plq/` address redirects there. At the top, **Create new quiz** shows a card for each type (Quiz Grid and Periodic Table Quest); clicking one starts a new quiz of that type. Below, **Your saved quizzes** lists every quiz made or opened in this browser, of any type, newest first, with Edit, Present and Forget. Copyright and other "about" details sit quietly at the bottom. The name, the card text and the footer are in `plq/settings.js`.
 
-Both quiz types share one editor (`grid/edit.html`), the same private edit links and the same database. A quiz's type (`grid` or `ptq`) is stored with it.
+All three quiz types share one editor (`grid/edit.html`), the same private edit links and the same database. A quiz's type (`grid` or `ptq`) is stored with it.
 
 ## Periodic Table Quest (new, in `quest/`)
 
@@ -120,6 +120,14 @@ Up to 200 questions per quiz. Text import accepts `Elements: Na, K` and `Steal` 
 As in Quiz Grid, phones never download the answers. To claim element z, a phone first writes its answer to `eproofs/<code>/<uid>/<z>`; the database rules accept it only if it is right and the question fits that element, and a claim (`runs/<code>/cells/<z>`) needs a proof from the last minute that is newer than the element's last change. Before the timer starts, students can practise on any element.
 
 The classic Periodic Table Quest (the site root, `questions/*.js`) is unchanged. `quest/topics/` holds its question sets as text files ready to import, made by `node tools/export-ptq-topics.js`: hand-written questions as they are, plus fixed examples from each question generator (six per generator, four per steal generator), each tied to the element it was made for. Explanations are kept as `#` note lines, which the import ignores.
+
+## Pachinko (in `pachinko/`)
+
+Students don't pick questions: they tap **Get a question** and get a random one from the lecturer's set that they haven't yet answered correctly. A right answer drops a ball in their team's colour down a pachinko board on the projector; the zone it lands in (10 to 100 points, set in `grid/js/settings.js` as `pachinko.zones`) scores for their team. A question can carry a multiplier (×2 to ×5): its ball is marked and scores that many times its zone. Each student can answer each question correctly once; when they have done the whole set the phone congratulates them and offers no repeats. Balls only bounce off pegs, walls and dividers, never each other. When the timer ends, answers stop, every ball still falling lands, and only then is the winner declared (a few seconds' grace covers answers given just before time).
+
+The projector runs the board. A phone's right answer is a proof (as in Quiz Grid), then a drop at `runs/<code>/drops/<uid>_<q>`, which the rules accept only with that proof and until 5 seconds after time; the projector drops the ball and writes where it landed to `runs/<code>/scores/<id>`. `pachinko/demo.html` runs the projector and two phones with no database.
+
+Text import: `Multiplier: 2` (or `×2`) on its own line. Quiz Grid and Periodic Table Quest accept the line and ignore it, and Pachinko accepts Quiz Grid's `Label:` lines, so questions copy between the two in either direction.
 
 ## Number answers (both quiz types)
 
@@ -158,6 +166,7 @@ Not yet: explanations after answering, deleting a quiz, and a list of a lecturer
 | `play.html` | Student phone view (the QR code points here) |
 | `index.html`, `plq/` | Pre-Lecture Quizzes home page (`home.js`, `plq.css`, `settings.js`); `plq/index.html` redirects to it |
 | `quest/` | Periodic Table Quest (new): `host.html`, `play.html`, `demo.html`, `js/`, and `topics/` (the classic question sets as text) |
+| `pachinko/` | Pachinko: `host.html`, `play.html`, `demo.html`; `js/board.js` is the board, its physics and drawing |
 | `tools/export-ptq-topics.js` | Writes `quest/topics/*.txt` from `questions/*.js` |
 | `demo.html` | Projector and two phones in one page, for trying it out |
 | `js/config.js` | Settings: Firebase, teams, timings, starting topics |

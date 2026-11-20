@@ -4,7 +4,7 @@
 window.GQ_AI = { init(S) {
   const { $, esc, toast } = GQ;
   if (!$('aiBox')) return;
-  const ptq = S.type === 'ptq';
+  const ptq = S.type === 'ptq', pach = S.type === 'pachinko';
   $('aiAdvice').textContent = S.aiAdvice || '';
   $('aiAdvice').classList.toggle('hidden', !S.aiAdvice);
   $('aiCount').value = S.aiDefaultCount || 8;
@@ -26,33 +26,31 @@ Rules for the questions:
 - For multiple choice, give 3 or 4 answers per question (never more than ${S.maxOptions}), with exactly one correct answer.
 - Make the wrong answers believable mistakes a student might make, and about the same length as the correct answer. Do not use "all of the above" or "none of the above".${num ? '\n- For number answers, say in the question what units and precision you want (e.g. "to 3 significant figures"). The answer must be a single number.' : ''}
 - Keep each question short enough to read on a phone in about 15 seconds. No pictures or diagrams.
-- Give each question a label of 1 to 3 words naming its topic (under ${S.labelLength} characters). The label must not give away the answer.
+${pach ? '- Mark the two or three hardest questions as worth more: for those, add a line "Multiplier: 2" (or "Multiplier: 3" for the very hardest). Leave the others without a multiplier.' : `- Give each question a label of 1 to 3 words naming its topic (under ${S.labelLength} characters). The label must not give away the answer.`}
 - Vary the position of the correct answer.
 
 Format the reply exactly like this, because a computer will read it:
 - Put all the questions together in ONE code block, and nothing else inside the code block.
 - Leave a blank line between questions.
-- For each question: first the question on one line, then a line starting "Label: ", then each answer on its own line starting with "- ". Start the correct answer with "* " instead of "- ".${num ? '\n- ' + numFormat : ''}
+- For each question: first the question on one line, then ${pach ? 'a "Multiplier: " line if it has one' : 'a line starting "Label: "'}, then each answer on its own line starting with "- ". Start the correct answer with "* " instead of "- ".${num ? '\n- ' + numFormat : ''}
 - Plain text only: no numbering, no bold, no letters such as A) or B), and no explanations inside the code block. You may use Unicode characters such as ² ³ ⁻ ₂ × for formulae and units.
 
 Here is an example of the format:
 
 \`\`\`
 What is the C–C bond length in benzene?
-Label: Bond lengths
-- 134 pm
+${pach ? '' : 'Label: Bond lengths\n'}- 134 pm
 * 140 pm
 - 151 pm
 
 Which of these molecules is aromatic?
-Label: Aromaticity
+${pach ? 'Multiplier: 2' : 'Label: Aromaticity'}
 * Pyridine
 - Cyclohexene
 - Cyclooctatetraene${num ? `
 
 How many moles are in 9.0 g of water? Give 2 significant figures.
-Label: Moles
-= 0.50 ± 0.005 mol` : ''}
+${pach ? '' : 'Label: Moles\n'}= 0.50 ± 0.005 mol` : ''}
 \`\`\`
 
 After the code block, briefly tell me about any question where you were unsure of the correct answer.

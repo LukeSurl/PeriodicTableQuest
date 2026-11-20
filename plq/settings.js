@@ -19,6 +19,13 @@ window.PLQ_SETTINGS = {
       blurb: 'For chemistry. Teams claim elements on a periodic table by answering your questions, and steal them back with harder ones. Questions can be tied to particular elements.',
       icon: 'ptable',
       demo: 'quest/demo.html'
+    },
+    {
+      id: 'pachinko',
+      name: 'Pachinko',
+      blurb: 'Students tap for a question. Each right answer drops a ball of their team\'s colour down a pachinko board, scoring 10 to 100 points where it lands. Tricky questions can be worth double or triple.',
+      icon: 'pachinko',
+      demo: 'pachinko/demo.html'
     }
   ],
 

@@ -24,7 +24,7 @@
   B.watchQuiz(quizId, q => {
     quiz = q;
     if (!q) return fatal('No quiz found for this link. It may have been deleted, or the link was copied incompletely.');
-    if (q.type !== 'ptq') return fatal(`This is a Quiz Grid quiz. <a href="../grid/host.html${location.search}">Open it in Quiz Grid</a>.`);
+    if (q.type !== 'ptq') return fatal(`This quiz isn't a Periodic Table Quest quiz. <a href="../${GQ_SETTINGS.hostPages[q.type] || 'grid/host.html'}${location.search}">Open it in the right game</a>.`);
     $('topic').textContent = q.title || '';
     playableEls = PTQ.markPlayable(cells, q);
     if (state.meta) renderMeta();

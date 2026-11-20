@@ -190,3 +190,9 @@ body.ptq .preview { aspect-ratio: auto; max-height: none; }
 .ptprev .cell { opacity: .55; }
 .ptprev .cell.hasq { opacity: 1; font-weight: 700; background: #fff; border-color: var(--ink); }
 .ptprev .cell.noq { opacity: .2; }
+
+/* Pachinko in the editor */
+.multsel { font: inherit; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: .4rem .5rem; }
+.multtag { background: var(--ink); }
+body.pach .preview { aspect-ratio: auto; max-height: none; height: 420px; }
+.pachprev { width: 100%; height: 100%; display: block; }

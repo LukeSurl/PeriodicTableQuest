@@ -34,6 +34,13 @@
       }));
       return `<svg viewBox="0 0 100 60" aria-hidden="true">${s}</svg>`;
     }
+    if (kind === 'pachinko') {
+      let s = '<rect x="22" y="2" width="56" height="56" rx="3" fill="' + paper + '" stroke="' + line + '"/>';
+      for (let r = 0; r < 5; r++) for (let k = 0; k < (r % 2 ? 5 : 6); k++) s += `<circle cx="${(r % 2 ? 30.5 : 26) + k * 9.5}" cy="${8 + r * 8}" r="1.2" fill="var(--ink)"/>`;
+      for (let k = 1; k < 6; k++) s += `<line x1="${22 + k * 56 / 6}" y1="48" x2="${22 + k * 56 / 6}" y2="58" stroke="var(--ink)" stroke-width=".8"/>`;
+      s += `<circle cx="40" cy="20" r="3" fill="${A}"/><circle cx="58" cy="35" r="3" fill="${B}"/><circle cx="33" cy="53" r="3" fill="${B}"/>`;
+      return `<svg viewBox="0 0 100 60" aria-hidden="true">${s}</svg>`;
+    }
     return '';
   }
 
@@ -62,12 +69,13 @@
 
   // ---------- Saved quizzes ----------
   let filter = 'all';
-  const presentPage = { grid: 'grid/host.html', ptq: 'quest/host.html' };
+  const pages = GQ_SETTINGS.hostPages;
   function allSaved() {
-    return store.get(GKEY, []).map((m, i) => ({
-      type: m.type === 'ptq' ? 'ptq' : 'grid', key: m.id, at: m.at || 0, order: i, title: m.title || 'Untitled quiz', detail: '',
-      edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo(presentPage[m.type === 'ptq' ? 'ptq' : 'grid'] + '?quiz=' + m.id)
-    })).sort((a, b) => b.at - a.at || a.order - b.order);   // most recent first; older entries (no date) keep their order
+    return store.get(GKEY, []).map((m, i) => {
+      const type = pages[m.type] ? m.type : 'grid';
+      return { type, key: m.id, at: m.at || 0, order: i, title: m.title || 'Untitled quiz', detail: '',
+        edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo(pages[type] + '?quiz=' + m.id) };
+    }).sort((a, b) => b.at - a.at || a.order - b.order);   // most recent first; older entries (no date) keep their order
   }
 
   // Delete a quiz for good, then take it off this browser's list

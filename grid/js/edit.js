@@ -22,8 +22,8 @@
   }
 
   // Settings for this kind of quiz
-  const S = GQ_SETTINGS.forType(quiz.type), ptq = S.type === 'ptq';
-  document.body.classList.toggle('ptq', ptq);
+  const S = GQ_SETTINGS.forType(quiz.type), ptq = S.type === 'ptq', pach = S.type === 'pachinko';
+  document.body.classList.toggle('ptq', ptq); document.body.classList.toggle('pach', pach);
   $('home').textContent = S.title; $('home').href = home;
   document.title = `Edit: ${S.title}`;
   if (ptq) {
@@ -32,6 +32,12 @@
     $('qsHelp').textContent = 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Questions can be tied to particular elements, or left for any element. Changes save automatically.';
     $('previewHead').textContent = 'Which elements have element-specific questions';
   }
+  if (pach) {
+    $('qTitle').placeholder = 'e.g. Lecture 1 warm-up';
+    $('presentHelp').innerHTML = 'Open the <b>present link</b> on the lectern PC. It shows the Pachinko board and a QR code for students. Anyone with it can run the quiz but not change it.';
+    $('qsHelp').textContent = 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Students get the questions in a random order and can answer each one correctly once. Give tricky questions a multiplier. Changes save automatically.';
+    $('previewHead').textContent = 'The board';
+  }
   showImportHelp();
   GQ_AI.init(S);
 
@@ -39,7 +45,7 @@
   $('editor').classList.remove('hidden');
 
   const base = new URL('.', location.href).href;
-  const presentUrl = withDemo(ptq ? new URL('../quest/host.html?quiz=' + id, base).href : base + 'host.html?quiz=' + id);
+  const presentUrl = withDemo(new URL('../' + GQ_SETTINGS.hostPages[S.type] + '?quiz=' + id, base).href);
   $('presentLink').value = presentUrl; $('presentBtn').href = presentUrl;
   $('editLink').value = location.href.split('#')[0] + '#' + id + '.' + k;
   document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
@@ -49,7 +55,8 @@
   });
   remember();
 
-  function blankQ() { return { text: '', kind: 'mc', opts: ['', '', '', ''], label: '', img: '', unit: '', steal: false, els: {} }; }
+  function blankQ() { return { text: '', kind: 'mc', opts: ['', '', '', ''], label: '', img: '', unit: '', steal: false, els: {}, mult: 1 }; }
+  const multTag = q => (pach && +q.mult > 1 ? ` <span class="stealtag multtag">×${+q.mult}</span>` : '');
   function remember() {
     const mine = store.get(KEY, []).filter(m => m.id !== id);
     mine.unshift({ id, k, title: quiz.title || 'Untitled quiz', type: S.type, at: Date.now() });
@@ -148,7 +155,7 @@
   function card(q, i) {
     const n = quiz.qs.length, probs = problems(q, i);
     return `<div class="qcard${probs.length ? ' incomplete' : ''}${q.steal ? ' steal' : ''}" data-i="${i}">
-      <div class="qtop"><h3>Question ${i + 1}${q.steal ? ' <span class="stealtag">Steal</span>' : ''}</h3>
+      <div class="qtop"><h3>Question ${i + 1}${q.steal ? ' <span class="stealtag">Steal</span>' : ''}${multTag(q)}</h3>
         <button class="btn" data-act="up" ${i === 0 ? 'disabled' : ''} title="Move up" aria-label="Move question ${i + 1} up">↑</button>
         <button class="btn" data-act="down" ${i === n - 1 ? 'disabled' : ''} title="Move down" aria-label="Move question ${i + 1} down">↓</button>
         <button class="btn" data-act="dup" title="Make a copy">Copy</button>
@@ -166,6 +173,9 @@
       <div class="elsrow"><input type="text" id="e${i}" data-els value="${esc(elsText(q))}" placeholder="Any element (or type symbols, e.g. Na, K, Rb)" spellcheck="false">
         <button class="btn" data-act="pickels">Pick on a table</button></div>
       <label class="stealbox"><input type="checkbox" data-bool="steal" ${q.steal ? 'checked' : ''}> <b>Steal question</b> <small class="muted">a harder question, asked when a student tries to take an element from the other team</small></label>`
+      : pach ? `
+      <label class="lbl" for="m${i}">Points multiplier <small>for tricky questions: the ball is marked and scores this many times the points where it lands</small></label>
+      <select id="m${i}" data-f="mult" class="multsel">${Array.from({ length: S.maxMultiplier }, (_, k) => `<option value="${k + 1}" ${+q.mult === k + 1 ? 'selected' : ''}>${k ? '×' + (k + 1) : '×1 (normal)'}</option>`).join('')}</select>`
       : `
       <label class="lbl" for="l${i}">On the big screen <small>optional; without these the tile shows the question itself</small></label>
       <input type="text" id="l${i}" data-f="label" value="${esc(q.label)}" maxlength="${S.labelLength}" placeholder="Short label, e.g. Bond angles">`}
@@ -173,7 +183,7 @@
         <div class="paste" tabindex="0" role="button" data-act="pic" aria-label="Add a picture: click to choose a file, or paste one">${q.img ? 'Paste, drop or click to replace the picture' : 'Picture: click here and paste one (Ctrl+V), drag one in, or click to choose a file'}</div>
         ${q.img ? `<div><img class="picprev" src="${q.img}" alt="Picture for question ${i + 1}"><button class="btn" data-act="nopic" style="margin-top:.3rem">Remove picture</button></div>` : ''}
       </div>
-      <p class="small muted" style="margin:.3rem 0 0">${ptq ? 'A picture is shown above the question on phones.' : 'A picture is shown on the tile and above the question on phones.'}</p>
+      <p class="small muted" style="margin:.3rem 0 0">${ptq || pach ? 'A picture is shown above the question on phones.' : 'A picture is shown on the tile and above the question on phones.'}</p>
       ${probs.map(p => `<p class="warnline">${p}</p>`).join('')}
     </div>`;
   }
@@ -198,6 +208,13 @@
   // ---------- Preview ----------
   let tableCells = null;
   function drawPreview() {
+    if (pach) {
+      if (!$('preview').querySelector('canvas')) { $('preview').innerHTML = '<canvas class="pachprev"></canvas>'; window.addEventListener('resize', () => PACH.draw($('preview').querySelector('canvas'), [], [])); }
+      PACH.draw($('preview').querySelector('canvas'), [], []);
+      const ready = quiz.qs.filter((q, i) => !problems(q, i).length), mults = ready.filter(q => +q.mult > 1).length;
+      $('previewNote').innerHTML = `${ready.length} question${ready.length === 1 ? '' : 's'} ready${mults ? `, ${mults} with a multiplier` : ''}. Each student can drop one ball per question they answer correctly, so at most ${ready.length} each. The numbers along the bottom are the points for landing in each zone.`;
+      return;
+    }
     if (!ptq) return GQ.drawGrid($('preview'), { qs: quiz.qs.map(q => ({ ...q, ready: true })) }, {}, { aspect: 2 });
     const ready = quiz.qs.map((q, i) => ({ ...q, ready: !problems(q, i).length }));
     const pq = { qs: ready };
@@ -228,7 +245,8 @@
   $('qs').addEventListener('input', ev => {
     const c = ev.target.closest('.qcard'); if (!c) return;
     const i = +c.dataset.i, q = quiz.qs[i], t = ev.target;
-    if (t.dataset.f) q[t.dataset.f] = t.value;
+    if (t.dataset.f === 'mult') { q.mult = +t.value; c.querySelector('h3').innerHTML = `Question ${i + 1}${multTag(q)}`; }
+    else if (t.dataset.f) q[t.dataset.f] = t.value;
     else if (t.dataset.opt != null) q.opts[+t.dataset.opt] = t.value;
     else if (t.dataset.right != null) {
       answers[i] = +t.dataset.right;
@@ -384,9 +402,12 @@
   // ---------- Import and export as text ----------
   function showImportHelp() {
     $('importHelp').innerHTML = `Put a blank line between questions. Write the question, then each answer on its own line starting with <code>-</code>. Start the correct answer with <code>*</code> instead. For a number answer, write one line starting with <code>=</code>: the value, then optionally how close an answer must be (<code>± 0.1</code> or <code>± 1%</code>) and a unit. `
-      + (ptq ? 'An <code>Elements:</code> line ties a question to those elements, and a line saying <code>Steal</code> makes it a steal question. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.'
-        : 'A <code>Label:</code> line for the big screen is optional. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.');
-    $('importEg').textContent = ptq
+      + (pach ? `A <code>Multiplier: 2</code> line (up to ×${S.maxMultiplier}) makes a question's ball worth that many times its points. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`
+        : ptq ? 'An <code>Elements:</code> line ties a question to those elements, and a line saying <code>Steal</code> makes it a steal question. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.'
+        : 'A <code>Label:</code> line for the big screen is optional. Pachinko\'s <code>Multiplier:</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.');
+    $('importEg').textContent = pach
+      ? 'What is the C–C bond length in benzene?\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nMultiplier: 2\n= 0.50 ± 0.005 mol'
+      : ptq
       ? 'Which ion does sodium usually form?\nElements: Na\n- Na⁻\n* Na⁺\n- Na²⁺\n\nCalculate the relative atomic mass of chlorine (75.8% ³⁵Cl, 24.2% ³⁷Cl) to 3 s.f.\nElements: Cl\nSteal\n= 35.5 ± 0.05'
       : 'What is the C–C bond length in benzene?\nLabel: Bond lengths\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nLabel: Moles\n= 0.50 ± 0.005 mol';
   }
@@ -413,7 +434,7 @@
   $('importText').addEventListener('input', checkImport);
   function doImport(replace) {
     if (!parsed) return;
-    const fresh = parsed.map(p => ({ text: p.text, kind: p.kind, opts: p.kind === 'num' ? ['', '', '', ''] : p.opts, label: p.label, img: '', unit: p.unit || '', steal: !!p.steal, els: Object.fromEntries((p.els || []).map(z => [z, true])) }));
+    const fresh = parsed.map(p => ({ text: p.text, kind: p.kind, opts: p.kind === 'num' ? ['', '', '', ''] : p.opts, label: p.label, img: '', unit: p.unit || '', steal: !!p.steal, els: Object.fromEntries((p.els || []).map(z => [z, true])), mult: p.mult || 1 }));
     if (replace) { quiz.qs = fresh; answers = parsed.map(p => p.answer); }
     else {
       const keep = quiz.qs.map((q, i) => [q, answers[i], i]).filter(([q, , i]) => !isBlank(q, i));
