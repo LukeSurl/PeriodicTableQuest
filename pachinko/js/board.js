@@ -78,8 +78,7 @@
 
   // Each question always gets the same decoration: a shape chosen from a hash of its text.
   // Every shape looks different when turned, so the spin shows.
-  const SHAPE_NAMES = ['Stripe', 'Cross', 'Triangle', 'Square', 'Half disc', 'Chevron', 'Star', 'Arrow', 'Crescent', 'Heart',
-    'Lightning bolt', 'L shape', 'Quarter slice', 'Bow tie', 'T shape', 'Teardrop'];
+  const SHAPE_NAMES = ['Stripe', 'Cross', 'Triangle', 'Square', 'Half disc', 'Star', 'Crescent', 'Heart', 'Lightning bolt', 'Bow tie'];
   const SHAPES = SHAPE_NAMES.length;
   function shapeFor(text) {
     let h = 5381;
@@ -92,27 +91,34 @@
     const k = r;
     const poly = pts => { g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x * k, y * k) : g.moveTo(x * k, y * k))); g.closePath(); g.fill(); };
     const line = (w, pts) => { g.lineWidth = w * k; g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x * k, y * k) : g.moveTo(x * k, y * k))); g.stroke(); };
-    switch (shape) {
-      case 0: line(0.28, [[-0.62, 0], [0.62, 0]]); break;                                                   // stripe
-      case 1: line(0.24, [[-0.55, 0], [0.55, 0]]); line(0.24, [[0, -0.55], [0, 0.55]]); break;               // cross
-      case 2: poly([[0, -0.6], [0.52, 0.32], [-0.52, 0.32]]); break;                                         // triangle
-      case 3: poly([[-0.4, -0.4], [0.4, -0.4], [0.4, 0.4], [-0.4, 0.4]]); break;                             // square
-      case 4: g.beginPath(); g.arc(0, 0, 0.62 * k, 0, Math.PI); g.closePath(); g.fill(); break;              // half disc
-      case 5: line(0.26, [[-0.45, -0.35], [0.3, 0], [-0.45, 0.35]]); break;                                  // chevron
-      case 6: poly(Array.from({ length: 10 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? 0.27 : 0.66; return [Math.cos(a) * rr, Math.sin(a) * rr]; })); break; // star
-      case 7: line(0.22, [[-0.55, 0], [0.3, 0]]); poly([[0.62, 0], [0.18, -0.34], [0.18, 0.34]]); break;     // arrow
-      case 8: g.save(); g.beginPath(); g.rect(-k, -k, 2 * k, 2 * k); g.arc(0.26 * k, -0.16 * k, 0.48 * k, 0, Math.PI * 2); g.clip('evenodd'); // crescent:
-        g.beginPath(); g.arc(0, 0, 0.6 * k, 0, Math.PI * 2); g.fill(); g.restore(); break;                     // a disc with a bite out of it
-      case 9: g.beginPath(); g.moveTo(0, 0.55 * k);                                                          // heart
+    switch (SHAPE_NAMES[shape] || SHAPE_NAMES[0]) {
+      case 'Stripe': line(0.28, [[-0.62, 0], [0.62, 0]]); break;
+      case 'Cross': line(0.24, [[-0.55, 0], [0.55, 0]]); line(0.24, [[0, -0.55], [0, 0.55]]); break;
+      case 'Triangle': poly([[0, -0.6], [0.52, 0.32], [-0.52, 0.32]]); break;
+      case 'Square': poly([[-0.4, -0.4], [0.4, -0.4], [0.4, 0.4], [-0.4, 0.4]]); break;
+      case 'Half disc': g.beginPath(); g.arc(0, 0, 0.62 * k, 0, Math.PI); g.closePath(); g.fill(); break;
+      case 'Star': poly(Array.from({ length: 10 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? 0.27 : 0.66; return [Math.cos(a) * rr, Math.sin(a) * rr]; })); break;
+      case 'Crescent':   // a disc with a bite out of it
+        g.save(); g.beginPath(); g.rect(-k, -k, 2 * k, 2 * k); g.arc(0.26 * k, -0.16 * k, 0.48 * k, 0, Math.PI * 2); g.clip('evenodd');
+        g.beginPath(); g.arc(0, 0, 0.6 * k, 0, Math.PI * 2); g.fill(); g.restore(); break;
+      case 'Heart': g.beginPath(); g.moveTo(0, 0.55 * k);
         g.bezierCurveTo(-0.75 * k, 0.05 * k, -0.4 * k, -0.6 * k, 0, -0.22 * k);
         g.bezierCurveTo(0.4 * k, -0.6 * k, 0.75 * k, 0.05 * k, 0, 0.55 * k); g.fill(); break;
-      case 10: poly([[0.12, -0.62], [-0.38, 0.06], [-0.02, 0.06], [-0.14, 0.62], [0.38, -0.08], [0.02, -0.08]]); break; // lightning bolt
-      case 11: line(0.24, [[-0.25, -0.55], [-0.25, 0.4], [0.4, 0.4]]); break;                               // L shape
-      case 12: g.beginPath(); g.moveTo(0, 0); g.arc(0, 0, 0.62 * k, -Math.PI / 2, 0); g.closePath(); g.fill(); break; // quarter slice
-      case 13: poly([[-0.55, -0.4], [0, 0], [-0.55, 0.4]]); poly([[0.55, -0.4], [0, 0], [0.55, 0.4]]); break; // bow tie
-      case 14: line(0.24, [[-0.5, -0.45], [0.5, -0.45]]); line(0.24, [[0, -0.45], [0, 0.55]]); break;        // T shape
-      default: g.beginPath(); g.arc(0, 0.15 * k, 0.38 * k, -Math.PI * 0.18, Math.PI * 1.18); g.lineTo(0, -0.62 * k); g.closePath(); g.fill(); // teardrop
+      case 'Lightning bolt': poly([[0.12, -0.62], [-0.38, 0.06], [-0.02, 0.06], [-0.14, 0.62], [0.38, -0.08], [0.02, -0.08]]); break;
+      case 'Bow tie': poly([[-0.55, -0.4], [0, 0], [-0.55, 0.4]]); poly([[0.55, -0.4], [0, 0], [0.55, 0.4]]); break;
     }
+  }
+  // One ball on its own, e.g. a phone's preview of the ball it will drop: colour, multiplier or shape, angle
+  function drawBall(g, x, y, r, colour, mult, shape, angle) {
+    g.save(); g.translate(x, y);
+    g.beginPath(); g.arc(0, 0, r, 0, Math.PI * 2); g.fillStyle = colour; g.fill();
+    g.lineWidth = r * 0.12; g.strokeStyle = '#fff'; g.stroke();
+    g.rotate(angle || 0);
+    if (mult > 1) {
+      g.fillStyle = '#fff'; g.font = `800 ${r * 1.15}px Segoe UI, system-ui, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText('×' + mult, 0, r * 0.04);
+    } else decorate(g, shape, r);
+    g.restore();
   }
 
   // ---------- Drawing ----------
@@ -154,18 +160,7 @@
     g.fillStyle = ink;
     for (const p of pegs) { g.beginPath(); g.arc(p.x, p.y, PEG_R, 0, Math.PI * 2); g.fill(); }
     // Balls
-    for (const b of balls || []) {
-      g.beginPath(); g.arc(b.x, b.y, BALL_R, 0, Math.PI * 2);
-      g.fillStyle = team[b.t] || ink; g.fill();
-      g.lineWidth = 0.5; g.strokeStyle = '#fff'; g.stroke();
-      // The decoration turns with the ball: its multiplier, or else its question's shape
-      g.save(); g.translate(b.x, b.y); g.rotate(b.a || 0);
-      if (b.mult > 1) {
-        g.fillStyle = '#fff'; g.font = `800 ${BALL_R * 1.15}px Segoe UI, system-ui, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
-        g.fillText('×' + b.mult, 0, 0.1);
-      } else decorate(g, b.shape, BALL_R);
-      g.restore();
-    }
+    for (const b of balls || []) drawBall(g, b.x, b.y, BALL_R, team[b.t] || ink, b.mult, b.shape, b.a);
     // Points floating up from where a ball landed
     for (const fl of flashes || []) {
       const left = fl.until - now; if (left <= 0 || !fl.text) continue;
@@ -181,5 +176,5 @@
     g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
   }
 
-  window.PACH = { W, H, ZONES, zoneOf, newBall, step, draw, fit, shapeFor, decorate, SHAPE_NAMES };
+  window.PACH = { W, H, ZONES, zoneOf, newBall, step, draw, fit, shapeFor, decorate, drawBall, SHAPE_NAMES };
 })();
