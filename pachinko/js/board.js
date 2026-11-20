@@ -78,7 +78,7 @@
 
   // Each question gets a shape in order: question 1 the first shape, question 2 the second, and so
   // on, starting again after the last. Every shape looks different when turned, so the spin shows.
-  const SHAPE_NAMES = ['Stripe', 'Cross', 'Triangle', 'Square', 'Half disc', 'Star', 'Crescent', 'Heart', 'Lightning bolt', 'Bow tie'];
+  const SHAPE_NAMES = ['Hollow star', 'Hollow diamond', 'Triangle', 'Square', 'Half disc', 'Star', 'Crescent', 'Heart', 'Lightning bolt', 'Bow tie'];
   const SHAPES = SHAPE_NAMES.length;
   const shapeFor = i => ((+i || 0) % SHAPES + SHAPES) % SHAPES;   // i = the question's position, from 0
   // Draw a shape in white on a disc of radius r centred at the origin (already rotated)
@@ -88,8 +88,12 @@
     const poly = pts => { g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x * k, y * k) : g.moveTo(x * k, y * k))); g.closePath(); g.fill(); };
     const line = (w, pts) => { g.lineWidth = w * k; g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x * k, y * k) : g.moveTo(x * k, y * k))); g.stroke(); };
     switch (SHAPE_NAMES[shape] || SHAPE_NAMES[0]) {
-      case 'Stripe': line(0.28, [[-0.62, 0], [0.62, 0]]); break;
-      case 'Cross': line(0.24, [[-0.55, 0], [0.55, 0]]); line(0.24, [[0, -0.55], [0, 0.55]]); break;
+      case 'Hollow star': g.lineWidth = 0.13 * k; g.beginPath();
+        Array.from({ length: 10 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? 0.28 : 0.64; return [Math.cos(a) * rr * k, Math.sin(a) * rr * k]; })
+          .forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)));
+        g.closePath(); g.stroke(); break;
+      case 'Hollow diamond': g.lineWidth = 0.15 * k; g.beginPath();   // taller than wide, so its turning shows
+        g.moveTo(0, -0.62 * k); g.lineTo(0.4 * k, 0); g.lineTo(0, 0.62 * k); g.lineTo(-0.4 * k, 0); g.closePath(); g.stroke(); break;
       case 'Triangle': poly([[0, -0.6], [0.52, 0.32], [-0.52, 0.32]]); break;
       case 'Square': poly([[-0.4, -0.4], [0.4, -0.4], [0.4, 0.4], [-0.4, 0.4]]); break;
       case 'Half disc': g.beginPath(); g.arc(0, 0, 0.62 * k, 0, Math.PI); g.closePath(); g.fill(); break;
