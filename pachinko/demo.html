@@ -9,8 +9,9 @@
   h1 { margin: 0 0 4px; font-size: 1.3rem; }
   p.lead { margin: 0 0 10px; color: var(--muted); max-width: 80ch; }
   .stage { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: start; }
-  .proj { border: 2px solid var(--ink); border-radius: 10px; overflow: hidden; background: #000; }
-  .proj iframe { width: 100%; aspect-ratio: 16 / 9; display: block; border: 0; }
+  .proj { border: 2px solid var(--ink); border-radius: 10px; overflow: hidden; background: #000; aspect-ratio: 16 / 9; position: relative; }
+  /* The projector page runs at a real projector's size (1280 × 720) and is shrunk to fit, so everything scales together */
+  .proj iframe { width: 1280px; height: 720px; display: block; border: 0; transform-origin: 0 0; position: absolute; top: 0; left: 0; }
   .phones { display: flex; gap: 12px; }
   .phone { width: 300px; border: 8px solid var(--ink); border-radius: 26px; overflow: hidden; background: var(--bg); }
   .phone iframe { width: 100%; height: 600px; display: block; border: 0; }
@@ -72,6 +73,14 @@
     frames[1].src = `play.html?demo=1&g=${RUN}&p=1&v=${Date.now()}`;
     frames[2].src = `play.html?demo=1&g=${RUN}&p=2&v=${Date.now()}`;
   }, 900);
+</script>
+<script>
+  // Shrink the full-size projector page to fit its box
+  (function () {
+    const box = document.querySelector('.proj'), frame = document.getElementById('host');
+    const fit = () => { frame.style.transform = `scale(${box.clientWidth / 1280})`; };
+    fit(); if (window.ResizeObserver) new ResizeObserver(fit).observe(box); else window.addEventListener('resize', fit);
+  })();
 </script>
 </body>
 </html>
