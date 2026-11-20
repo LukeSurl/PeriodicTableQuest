@@ -36,7 +36,7 @@
   function blankQ() { return { text: '', opts: ['', '', '', ''], label: '', img: '' }; }
   function remember() {
     const mine = store.get(KEY, []).filter(m => m.id !== id);
-    mine.unshift({ id, k, title: quiz.title || 'Untitled quiz' });
+    mine.unshift({ id, k, title: quiz.title || 'Untitled quiz', at: Date.now() });
     store.set(KEY, mine.slice(0, 50));
   }
 

@@ -150,3 +150,10 @@ label.lbl small { font-weight: 400; color: var(--muted); }
 #aiReply { margin-top: .4rem; font-family: ui-monospace, Consolas, monospace; font-size: .9rem; }
 kbd { font: inherit; font-size: .85em; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 .3em; background: #fff; }
 @media (max-width: 560px) { .aiopts { grid-template-columns: 1fr; } }
+
+/* Link back to the Pre-Lecture Quizzes home page, in the header of every editing page */
+.page header.top a.homelink { color: var(--bg); opacity: .8; font-size: .9rem; text-decoration: none; padding-right: 1rem; border-right: 1px solid #ffffff55; }
+.page header.top a.homelink::before { content: "← "; }
+.page header.top a.homelink:hover { opacity: 1; text-decoration: underline; }
+a.btn.disabled { opacity: .5; pointer-events: auto; cursor: default; }
+.numin { width: 5em; font: inherit; padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }

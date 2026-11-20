@@ -101,6 +101,12 @@ Every answer is followed by a short explanation. Stealing an element the other t
 
 Question text is tidied automatically before it is shown: numbers in standard form (3.00 × 10⁸), a number and its unit (0.10 g, 10⁸ m) and the parts of compound units (mol dm⁻³, J s, g cm⁻³) are held together with non-breaking spaces so they never split across lines. You can type ordinary spaces when writing questions.
 
+## Pre-Lecture Quizzes (home page)
+
+`plq/` is the home page for every quiz type: `https://lukesurl.github.io/PeriodicTableQuest/plq/`. At the top, **Create new quiz** shows a card for each type (Quiz Grid and Periodic Table Quest); clicking one starts a new quiz of that type. Below, **Your saved quizzes** lists every quiz made or opened in this browser, of any type, newest first, with Edit, Present and Forget. Copyright and other "about" details sit quietly at the bottom. The name, the card text and the footer are in `plq/settings.js`.
+
+A **Periodic Table Quest quiz** is a name, a topic mix and a countdown, set up on `setup.html` and saved in the browser. Its present link (`index.html?name=…&mix=atoms3:70,atoms2:30&mins=10`) carries all three, so it works on any computer; the projector shows the quiz name in its header and still lets you change topics with the Topics button. Opening `index.html` with no link settings works exactly as before.
+
 ## Quiz Grid (version 0.1)
 
 A simpler, general-purpose spin-off in the `grid/` folder, meant for colleagues who don't want to touch code. A lecturer types a handful of multiple-choice questions into a web page; the projector shows them as a grid of tiles with a QR code; students join in two teams as before. Each student can answer every question once. The team with more correct answers on a question wins that question (its tile shows each team's count and is outlined in the leading team's colour), and the team that wins the most questions wins the game, with total correct answers as the tie-break. The big screen shows these rules, with a large QR code before the game starts.
@@ -132,6 +138,8 @@ Not yet in version 0.1: typed numeric answers, explanations after answering, ste
 |---|---|
 | `index.html` | Projector view |
 | `play.html` | Student phone view (the QR code points here) |
+| `plq/` | Pre-Lecture Quizzes home page (`index.html`, `home.js`, `plq.css`, `settings.js`) |
+| `setup.html`, `js/setup.js`, `js/saved.js` | Set up and save a Periodic Table Quest quiz |
 | `demo.html` | Projector and two phones in one page, for trying it out |
 | `js/config.js` | Settings: Firebase, teams, timings, starting topics |
 | `questions/*.js` | Question sets, one per topic |

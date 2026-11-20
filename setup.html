@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set up Periodic Table Quest</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="grid/css/grid.css">
+<link rel="stylesheet" href="plq/plq.css">
+</head>
+<body class="page">
+<header class="top">
+  <a href="plq/" class="homelink">Pre-Lecture Quizzes</a>
+  <h1>Periodic Table Quest</h1>
+  <span class="spacer"></span>
+  <span class="savestate" id="saveState"></span>
+</header>
+<main>
+  <div class="panel titlebox">
+    <label class="lbl" for="title" style="margin-top:0">Quiz name <small>(shown on your list of quizzes and at the top of the projector)</small></label>
+    <input type="text" id="title" maxlength="80" placeholder="e.g. BIO1347 Lecture 6 warm-up">
+  </div>
+
+  <h2>Topics</h2>
+  <p>Tick the question sets this quiz should use and give each a share of the questions. You can still change them on the projector with the <b>Topics</b> button.</p>
+  <div class="panel">
+    <div class="tlist" id="topicList"><p class="muted">Loading the question sets…</p></div>
+    <p class="modal-total" id="topicTotal"></p>
+    <div class="row">
+      <button class="btn" id="tEqual">Share equally</button>
+      <button class="btn" id="tNone">Deselect all</button>
+    </div>
+    <p class="modal-note" id="topicSource" style="margin-bottom:0"></p>
+  </div>
+
+  <h2>Countdown</h2>
+  <div class="panel">
+    <label class="row">Minutes before the lecture starts <input type="number" id="mins" min="1" max="60" step="1" class="numin"></label>
+    <p class="small muted" style="margin:.5rem 0 0">This is the starting value; you can change it, or type an end time, on the projector.</p>
+  </div>
+
+  <h2>Present it</h2>
+  <div class="panel">
+    <div class="linkbox"><input type="text" id="presentLink" readonly aria-label="Present link"><button class="btn" id="copyLink">Copy</button>
+      <a class="btn primary" id="presentBtn" target="_blank" rel="noopener">Present</a></div>
+    <p class="small muted" id="presentNote" style="margin:.6rem 0 0">Saved on this computer. The present link holds the topics and countdown, so it works on any computer: open it on the lectern PC, or email it to yourself.</p>
+  </div>
+</main>
+<script src="js/config.js"></script>
+<script src="js/elements.js"></script>
+<script src="js/engine/tools.js"></script>
+<script src="js/engine/quiz.js"></script>
+<script src="js/engine/loader.js"></script>
+<script src="js/saved.js"></script>
+<script src="js/setup.js"></script>
+</body>
+</html>
