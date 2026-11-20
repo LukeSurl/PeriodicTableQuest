@@ -38,7 +38,8 @@
       let s = '<rect x="22" y="2" width="56" height="56" rx="3" fill="' + paper + '" stroke="' + line + '"/>';
       for (let r = 0; r < 5; r++) for (let k = 0; k < (r % 2 ? 5 : 6); k++) s += `<circle cx="${(r % 2 ? 30.5 : 26) + k * 9.5}" cy="${8 + r * 8}" r="1.2" fill="var(--ink)"/>`;
       for (let k = 1; k < 6; k++) s += `<line x1="${22 + k * 56 / 6}" y1="48" x2="${22 + k * 56 / 6}" y2="58" stroke="var(--ink)" stroke-width=".8"/>`;
-      s += `<circle cx="40" cy="20" r="3" fill="${A}"/><circle cx="58" cy="35" r="3" fill="${B}"/><circle cx="33" cy="53" r="3" fill="${B}"/>`;
+      // Balls sit in the gaps between pegs, and the landed one inside a zone, clear of every line
+      s += `<circle cx="44.83" cy="18.67" r="2.8" fill="${A}"/><circle cx="63.83" cy="34.67" r="2.8" fill="${B}"/><circle cx="36" cy="53.5" r="2.8" fill="${B}"/>`;
       return `<svg viewBox="0 0 100 60" aria-hidden="true">${s}</svg>`;
     }
     return '';
