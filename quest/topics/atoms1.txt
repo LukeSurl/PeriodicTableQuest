@@ -1,0 +1,608 @@
+# Atoms 1: the atom, isotopes and relative mass
+# Exported from the classic Periodic Table Quest (questions/atoms1.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+Isotopes of the same element have the same number of ___ but a different number of ___.
+- neutrons; protons
+* protons; neutrons
+- electrons; protons
+- protons; electrons
+# Explanation: The number of protons (atomic number) defines the element. Isotopes differ only in their number of neutrons, and so in mass.
+
+Which number tells you which element an atom is?
+- The mass number
+* The atomic number (number of protons)
+- The number of neutrons
+- The relative atomic mass
+# Explanation: Every atom with 6 protons is carbon, whatever its neutron count. Change the proton number and you change the element.
+
+The mass number of an atom is equal to…
+- protons + electrons
+- neutrons only
+- protons only
+* protons + neutrons
+# Explanation: Protons and neutrons (nucleons) each have a mass of about 1 u; electrons contribute almost nothing.
+
+Two isotopes of the same element will generally…
+- have different chemical properties
+- have different numbers of electrons in the neutral atom
+- sit in different places on the periodic table
+* react in the same way chemically, but differ slightly in mass
+# Explanation: Chemistry is governed by electrons. Isotopes have the same number of protons, so the same number of electrons in the neutral atom, and the same chemistry.
+
+The relative atomic mass printed on the periodic table is…
+- the mass of the most common isotope
+* an abundance-weighted average of the masses of the naturally occurring isotopes
+- the simple average of all known isotopes
+- the number of protons plus neutrons in one atom
+# Explanation: It is a weighted mean, which is why chlorine is 35.45 even though no single chlorine atom has that mass.
+
+Relative atomic mass (Aᵣ) has units of…
+- grams
+* none: it is a ratio
+- g mol⁻¹
+- kilograms per atom
+# Explanation: Aᵣ compares the average atomic mass with 1/12 of the mass of a ¹²C atom, so the units cancel. Molar mass (g mol⁻¹) has the same number but does have units.
+
+One dalton (1 Da, also written 1 u) is defined as…
+- the mass of one proton exactly
+- the mass of one hydrogen atom exactly
+- 1/16 of the mass of an ¹⁶O atom
+* 1/12 of the mass of a ¹²C atom
+# Explanation: The unified atomic mass unit and the dalton are the same thing: 1/12 of the mass of a carbon-12 atom.
+
+Hen egg-white lysozyme has a mass of about 14.3 kDa. In daltons, that is…
+* 14,300 Da
+- 1,430 Da
+- 143,000 Da
+- 14.3 Da
+# Explanation: k means 10³, so 14.3 kDa = 14,300 Da. Protein masses are nearly always quoted in kDa.
+
+Which of these would change if you swapped an atom for a heavier isotope of the same element?
+* The mass of the atom
+- The number of protons
+- The charge on the nucleus
+- The number of electrons in the neutral atom
+# Explanation: Only the neutron count changes, so only the mass changes. Nuclear charge, and therefore electron count, stay the same.
+
+A sample from a different source has a slightly different relative atomic mass for the same element. The best explanation is…
+- its atoms contain a different number of protons
+* its isotopic composition is different
+- it has been weighed less accurately
+- its atoms have lost electrons
+# Explanation: Relative atomic mass is a property of a sample, not a constant of nature. Change the mix of isotopes and the weighted average changes.
+
+Deuterium (²H) is an isotope of hydrogen. How many neutrons does a deuterium atom contain?
+Elements: H
+- 0
+* 1
+- 2
+- 3
+# Explanation: Mass number 2 minus 1 proton leaves 1 neutron. Ordinary hydrogen, ¹H, has none.
+
+Compared with an ordinary ¹H atom, a tritium (³H) atom has…
+Elements: H
+- two extra protons
+- two extra electrons
+* two extra neutrons
+- one extra proton and one extra neutron
+# Explanation: All hydrogen isotopes have one proton. Tritium has mass number 3, so it carries two neutrons.
+
+Biochemists run NMR spectra in solvents such as D₂O and CDCl₃. What is the "D"?
+Elements: H
+- Dysprosium
+- A hydrogen ion, H⁺
+- Tritium, ³H
+* Deuterium, the hydrogen isotope ²H
+# Explanation: Deuterium behaves chemically like hydrogen but does not show up in a ¹H NMR spectrum, so the solvent does not swamp the sample.
+
+Helium-3 and helium-4 differ in their number of…
+Elements: He
+- protons
+* neutrons
+- electrons
+- protons and electrons
+# Explanation: Both have 2 protons (that is what makes them helium). ³He has 1 neutron and ⁴He has 2.
+
+Carbon's relative atomic mass is 12.011, just above 12. What does that tell you?
+Elements: C
+- Every carbon atom has a mass of 12.011 u
+- Some carbon atoms have 7 protons
+- Electrons add 0.011 u to each atom
+* A small fraction of carbon atoms are heavier than ¹²C
+# Explanation: About 1.1% of carbon is ¹³C, which pulls the weighted average slightly above 12.
+
+The atomic mass unit is defined relative to which isotope?
+Elements: C
+* ¹²C
+- ¹H
+- ¹⁶O
+- ¹³C
+# Explanation: 1 u (1 Da) is exactly 1/12 of the mass of a carbon-12 atom.
+
+Meselson and Stahl grew E. coli on ¹⁵N to show that DNA replication is semiconservative. How does ¹⁵N differ from ¹⁴N?
+Elements: N
+- It has one more proton
+* It has one more neutron
+- It has one more electron
+- It is radioactive
+# Explanation: ¹⁵N is a stable isotope with 8 neutrons rather than 7. Same chemistry, slightly heavier.
+
+Why could Meselson and Stahl separate DNA made with ¹⁵N from DNA made with ¹⁴N?
+Elements: N
+- ¹⁵N-DNA is radioactive
+- ¹⁵N-DNA base-pairs differently
+- ¹⁵N-DNA carries more negative charge
+* ¹⁵N-DNA is denser
+# Explanation: The extra neutrons make the DNA slightly denser, so heavy, hybrid and light DNA settle at different positions in a caesium chloride density gradient.
+
+Neon is roughly 90% ²⁰Ne and 10% ²²Ne. Estimate its relative atomic mass.
+Elements: Ne
+- 21.0
+- 21.8
+- 20.0
+* 20.2
+# Explanation: (0.90 × 20) + (0.10 × 22) = 18.0 + 2.2 = 20.2. The real value is 20.18.
+
+Chlorine's relative atomic mass is 35.45, yet no chlorine atom has a mass of 35.45 u. Why?
+Elements: Cl
+- Chlorine atoms have half a neutron on average
+* It is an abundance-weighted average of ³⁵Cl and ³⁷Cl
+- Electrons add 0.45 u
+- It is the simple average of 35 and 37, rounded
+# Explanation: About 76% ³⁵Cl and 24% ³⁷Cl gives a weighted average of 35.5. The simple average (36) would be wrong.
+
+In a mass spectrum, a molecule containing one Cl atom shows peaks at M and M+2 in a ratio of roughly…
+Elements: Cl
+- 1 : 1
+- 1 : 3
+* 3 : 1
+- 9 : 1
+# Explanation: Roughly three quarters of chlorine atoms are ³⁵Cl and one quarter ³⁷Cl.
+
+Argon (Aᵣ 39.95) comes before potassium (Aᵣ 39.10) in the periodic table even though it is heavier. Why?
+Elements: Ar
+- Argon's mass was measured wrongly
+- Noble gases are always placed first
+- Potassium has more neutrons
+* The table is ordered by atomic number, not mass
+# Explanation: Argon has 18 protons and potassium 19. Argon's high mass comes from its abundance of the heavy isotope ⁴⁰Ar.
+
+Most argon on Earth is ⁴⁰Ar, made by decay of ⁴⁰K in rocks. Argon from elsewhere in the Solar System has a quite different Aᵣ. This shows that…
+Elements: Ar
+- argon atoms on other planets have more protons
+- Aᵣ values on the periodic table are wrong
+* relative atomic mass depends on where the sample came from
+- isotopes have different chemistry
+# Explanation: Aᵣ is a property of a sample. Different histories give different isotope mixtures.
+
+Why can't ²³⁵U and ²³⁸U be separated by an ordinary chemical reaction?
+Elements: U
+* Isotopes have the same electron arrangement, so the same chemistry
+- Uranium is chemically unreactive
+- They have different numbers of protons
+- They are both radioactive
+# Explanation: Chemistry depends on electrons. Separating isotopes needs a method that exploits their small mass difference instead.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+How many neutrons are in one atom of neon-20 (²⁰Ne)?
+Elements: Ne
+- 9
+* 10
+- 11
+- 20
+# Explanation: Neutrons = mass number − atomic number = 20 − 10 = 10.
+
+How many neutrons are in one atom of phosphorus-31 (³¹P)?
+Elements: P
+- 31
+* 16
+- 15
+- 46
+# Explanation: Neutrons = mass number − atomic number = 31 − 15 = 16.
+
+How many neutrons are in one atom of cobalt-59 (⁵⁹Co)?
+Elements: Co
+- 33
+* 32
+- 27
+- 34
+# Explanation: Neutrons = mass number − atomic number = 59 − 27 = 32.
+
+How many neutrons are in one atom of gallium-71 (⁷¹Ga)?
+Elements: Ga
+- 31
+- 41
+* 40
+- 102
+# Explanation: Neutrons = mass number − atomic number = 71 − 31 = 40.
+
+How many neutrons are in one atom of selenium-78 (⁷⁸Se)?
+Elements: Se
+- 112
+- 46
+- 45
+* 44
+# Explanation: Neutrons = mass number − atomic number = 78 − 34 = 44.
+
+How many neutrons are in one atom of bromine-79 (⁷⁹Br)?
+Elements: Br
+* 44
+- 79
+- 35
+- 114
+# Explanation: Neutrons = mass number − atomic number = 79 − 35 = 44.
+
+How many protons are in the nucleus of ⁴He?
+Elements: He
+- 3
+- 1
+- 4
+* 2
+# Explanation: Helium has atomic number 2, so every helium atom has 2 protons, whatever its mass number.
+
+How many protons are in the nucleus of ¹⁶O?
+Elements: O
+- 16
+* 8
+- 15
+- 9
+# Explanation: Oxygen has atomic number 8, so every oxygen atom has 8 protons, whatever its mass number.
+
+How many protons are in the nucleus of ⁶⁹Ga?
+Elements: Ga
+* 31
+- 32
+- 68
+- 30
+# Explanation: Gallium has atomic number 31, so every gallium atom has 31 protons, whatever its mass number.
+
+How many protons are in the nucleus of ¹⁰²Ru?
+Elements: Ru
+* 44
+- 58
+- 43
+- 45
+# Explanation: Ruthenium has atomic number 44, so every ruthenium atom has 44 protons, whatever its mass number.
+
+How many protons are in the nucleus of ¹¹⁴Sn?
+Elements: Sn
+- 49
+- 51
+- 114
+* 50
+# Explanation: Tin has atomic number 50, so every tin atom has 50 protons, whatever its mass number.
+
+How many protons are in the nucleus of ¹²⁷I?
+Elements: I
+- 54
+- 52
+- 127
+* 53
+# Explanation: Iodine has atomic number 53, so every iodine atom has 53 protons, whatever its mass number.
+
+Which symbol represents an atom with 1 proton and 0 neutrons?
+- ⁰₁H
+- ¹₀H
+* ¹₁H
+- ²₁H
+# Explanation: Mass number (top) = 1 + 0 = 1; atomic number (bottom) = 1.
+
+Which symbol represents an atom with 9 protons and 10 neutrons?
+- ¹⁰₉F
+- ⁹₁₉F
+* ¹⁹₉F
+- ¹⁹₁₀F
+# Explanation: Mass number (top) = 9 + 10 = 19; atomic number (bottom) = 9.
+
+Which symbol represents an atom with 34 protons and 44 neutrons?
+- ⁴⁴₃₄Se
+- ³⁴₇₈Se
+* ⁷⁸₃₄Se
+- ⁷⁸₄₄Se
+# Explanation: Mass number (top) = 34 + 44 = 78; atomic number (bottom) = 34.
+
+Which symbol represents an atom with 39 protons and 50 neutrons?
+- ⁵⁰₃₉Y
+* ⁸⁹₃₉Y
+- ³⁹₈₉Y
+- ⁸⁹₅₀Y
+# Explanation: Mass number (top) = 39 + 50 = 89; atomic number (bottom) = 39.
+
+Which symbol represents an atom with 40 protons and 52 neutrons?
+- ⁵²₄₀Zr
+* ⁹²₄₀Zr
+- ⁴⁰₉₂Zr
+- ⁹²₅₂Zr
+# Explanation: Mass number (top) = 40 + 52 = 92; atomic number (bottom) = 40.
+
+Which symbol represents an atom with 44 protons and 58 neutrons?
+- ⁵⁸₄₄Ru
+- ⁴⁴₁₀₂Ru
+- ¹⁰²₅₈Ru
+* ¹⁰²₄₄Ru
+# Explanation: Mass number (top) = 44 + 58 = 102; atomic number (bottom) = 44.
+
+How many electrons are in one ¹H⁺ ion?
+Elements: H
+- 1
+* 0
+- 2
+- 3
+# Explanation: A neutral hydrogen atom has 1 electrons. A charge of + means 1 electron lost: 1 − 1 = 0. The mass number does not matter here.
+
+How many electrons are in one ²³Na⁺ ion?
+Elements: Na
+- 11
+- 13
+* 10
+- 12
+# Explanation: A neutral sodium atom has 11 electrons. A charge of + means 1 electron lost: 11 − 1 = 10. The mass number does not matter here.
+
+How many electrons are in one ³²S²⁻ ion?
+Elements: S
+* 18
+- 16
+- 17
+- 19
+# Explanation: A neutral sulfur atom has 16 electrons. A charge of 2− means 2 electrons gained: 16 + 2 = 18. The mass number does not matter here.
+
+How many electrons are in one ⁴²Ca²⁺ ion?
+Elements: Ca
+- 17
+* 18
+- 24
+- 20
+# Explanation: A neutral calcium atom has 20 electrons. A charge of 2+ means 2 electrons lost: 20 − 2 = 18. The mass number does not matter here.
+
+How many electrons are in one ⁵⁷Fe²⁺ ion?
+Elements: Fe
+- 31
+- 33
+- 23
+* 24
+# Explanation: A neutral iron atom has 26 electrons. A charge of 2+ means 2 electrons lost: 26 − 2 = 24. The mass number does not matter here.
+
+How many electrons are in one ¹³³Cs⁺ ion?
+Elements: Cs
+- 55
+- 56
+- 53
+* 54
+# Explanation: A neutral caesium atom has 55 electrons. A charge of + means 1 electron lost: 55 − 1 = 54. The mass number does not matter here.
+
+Carbon is 98.9% ¹²C, 1.1% ¹³C. Using mass numbers as the isotope masses, what is its relative atomic mass (1 d.p.)?
+Elements: C
+- 13.0
+- 12.5
+- 12.3
+* 12.0
+# Explanation: [(12 × 98.9) + (13 × 1.1)] ÷ 100 = 12.01, so 12.0. (With precise isotope masses the value is 12.01.)
+
+Nitrogen is 99.6% ¹⁴N, 0.4% ¹⁵N. Using mass numbers as the isotope masses, what is its relative atomic mass (1 d.p.)?
+Elements: N
+- 15.0
+- 14.5
+* 14.0
+- 14.3
+# Explanation: [(14 × 99.6) + (15 × 0.4)] ÷ 100 = 14.00, so 14.0. (With precise isotope masses the value is 14.01.)
+
+Oxygen is 99.8% ¹⁶O, 0.2% ¹⁸O. Using mass numbers as the isotope masses, what is its relative atomic mass (1 d.p.)?
+Elements: O
+* 16.0
+- 18.0
+- 17.0
+- 16.3
+# Explanation: [(16 × 99.8) + (18 × 0.2)] ÷ 100 = 16.00, so 16.0. (With precise isotope masses the value is 16.00.)
+
+Neon is 90.4% ²⁰Ne, 9.3% ²²Ne, 0.3% ²¹Ne. Using mass numbers as the isotope masses, what is its relative atomic mass (1 d.p.)?
+Elements: Ne
+* 20.2
+- 21.1
+- 21.0
+- 20.5
+# Explanation: [(20 × 90.4) + (22 × 9.3) + (21 × 0.3)] ÷ 100 = 20.19, so 20.2. (With precise isotope masses the value is 20.18.)
+
+Magnesium is 79.0% ²⁴Mg, 11.0% ²⁶Mg, 10.0% ²⁵Mg. Using mass numbers as the isotope masses, what is its relative atomic mass (1 d.p.)?
+Elements: Mg
+- 25.0
+- 24.6
+* 24.3
+- 24.0
+# Explanation: [(24 × 79.0) + (26 × 11.0) + (25 × 10.0)] ÷ 100 = 24.32, so 24.3. (With precise isotope masses the value is 24.30.)
+
+Chlorine is 75.8% ³⁵Cl, 24.2% ³⁷Cl. Using mass numbers as the isotope masses, what is its relative atomic mass (1 d.p.)?
+Elements: Cl
+- 36.5
+- 36.0
+* 35.5
+- 35.8
+# Explanation: [(35 × 75.8) + (37 × 24.2)] ÷ 100 = 35.48, so 35.5. (With precise isotope masses the value is 35.45.)
+
+Lithium is almost entirely ⁶Li and ⁷Li. Its relative atomic mass is 6.94. Which isotope is more abundant?
+Elements: Li
+- ⁶Li
+- Roughly equal amounts of each
+- You can't tell from the relative atomic mass
+* ⁷Li
+# Explanation: The weighted average (6.94) lies nearer 7, so ⁷Li is the major isotope (95.15%).
+
+Chlorine is almost entirely ³⁵Cl and ³⁷Cl. Its relative atomic mass is 35.45. Which isotope is more abundant?
+Elements: Cl
+- ³⁷Cl
+- Roughly equal amounts of each
+* ³⁵Cl
+- You can't tell from the relative atomic mass
+# Explanation: The weighted average (35.45) lies nearer 35, so ³⁵Cl is the major isotope (75.8%).
+
+Bromine is almost entirely ⁷⁹Br and ⁸¹Br. Its relative atomic mass is 79.90. Which isotope is more abundant?
+Elements: Br
+- ⁷⁹Br
+- ⁸¹Br
+- You can't tell from the relative atomic mass
+* Roughly equal amounts of each
+# Explanation: 79.90 sits close to the midpoint of 79 and 81, so the two are present in similar amounts (50.65% and 49.35%).
+
+Rubidium is almost entirely ⁸⁵Rb and ⁸⁷Rb. Its relative atomic mass is 85.47. Which isotope is more abundant?
+Elements: Rb
+- ⁸⁷Rb
+- Roughly equal amounts of each
+* ⁸⁵Rb
+- You can't tell from the relative atomic mass
+# Explanation: The weighted average (85.47) lies nearer 85, so ⁸⁵Rb is the major isotope (72.17%).
+
+Indium is almost entirely ¹¹³In and ¹¹⁵In. Its relative atomic mass is 114.82. Which isotope is more abundant?
+Elements: In
+* ¹¹⁵In
+- ¹¹³In
+- Roughly equal amounts of each
+- You can't tell from the relative atomic mass
+# Explanation: The weighted average (114.82) lies nearer 115, so ¹¹⁵In is the major isotope (95.719%).
+
+Antimony is almost entirely ¹²¹Sb and ¹²³Sb. Its relative atomic mass is 121.76. Which isotope is more abundant?
+Elements: Sb
+- ¹²³Sb
+* ¹²¹Sb
+- Roughly equal amounts of each
+- You can't tell from the relative atomic mass
+# Explanation: The weighted average (121.76) lies nearer 121, so ¹²¹Sb is the major isotope (57.21%).
+
+The relative atomic mass of fluorine is 19.00, very close to a whole number. The most likely reason is that…
+Elements: F
+- fluorine atoms contain no neutrons
+* fluorine occurs naturally as essentially a single isotope, ¹⁹F
+- the electrons make up the rest of the mass
+- all fluorine isotopes have the same mass number
+# Explanation: With only one isotope in the sample there is nothing to average, so Aᵣ is close to that isotope's mass number, 19.
+
+The relative atomic mass of phosphorus is 30.97, very close to a whole number. The most likely reason is that…
+Elements: P
+- phosphorus atoms contain no neutrons
+* phosphorus occurs naturally as essentially a single isotope, ³¹P
+- the electrons make up the rest of the mass
+- all phosphorus isotopes have the same mass number
+# Explanation: With only one isotope in the sample there is nothing to average, so Aᵣ is close to that isotope's mass number, 31.
+
+The relative atomic mass of manganese is 54.94, very close to a whole number. The most likely reason is that…
+Elements: Mn
+- manganese atoms contain no neutrons
+* manganese occurs naturally as essentially a single isotope, ⁵⁵Mn
+- the electrons make up the rest of the mass
+- all manganese isotopes have the same mass number
+# Explanation: With only one isotope in the sample there is nothing to average, so Aᵣ is close to that isotope's mass number, 55.
+
+The relative atomic mass of arsenic is 74.92, very close to a whole number. The most likely reason is that…
+Elements: As
+- arsenic atoms contain no neutrons
+- the electrons make up the rest of the mass
+- all arsenic isotopes have the same mass number
+* arsenic occurs naturally as essentially a single isotope, ⁷⁵As
+# Explanation: With only one isotope in the sample there is nothing to average, so Aᵣ is close to that isotope's mass number, 75.
+
+The relative atomic mass of iodine is 126.90, very close to a whole number. The most likely reason is that…
+Elements: I
+- iodine atoms contain no neutrons
+- the electrons make up the rest of the mass
+* iodine occurs naturally as essentially a single isotope, ¹²⁷I
+- all iodine isotopes have the same mass number
+# Explanation: With only one isotope in the sample there is nothing to average, so Aᵣ is close to that isotope's mass number, 127.
+
+The relative atomic mass of caesium is 132.91, very close to a whole number. The most likely reason is that…
+Elements: Cs
+- caesium atoms contain no neutrons
+- the electrons make up the rest of the mass
+* caesium occurs naturally as essentially a single isotope, ¹³³Cs
+- all caesium isotopes have the same mass number
+# Explanation: With only one isotope in the sample there is nothing to average, so Aᵣ is close to that isotope's mass number, 133.
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+A sample of neon is 90.5% ²⁰Ne, 0.3% ²¹Ne and 9.3% ²²Ne. Calculate its relative atomic mass to 2 decimal places. Take each isotope's mass as its mass number.
+Elements: Ne
+Steal
+= 20.19 ± 0.011
+# Explanation: Aᵣ = [(20 × 90.5) + (21 × 0.3) + (22 × 9.3)] ÷ 100.1 = 20.19
+
+A sample of silicon is 92.3% ²⁸Si, 4.7% ²⁹Si and 3.1% ³⁰Si. Calculate its relative atomic mass to 2 decimal places. Take each isotope's mass as its mass number.
+Elements: Si
+Steal
+= 28.11 ± 0.011
+# Explanation: Aᵣ = [(28 × 92.3) + (29 × 4.7) + (30 × 3.1)] ÷ 100.1 = 28.11
+
+A sample of gallium is 60.1% ⁶⁹Ga and 39.9% ⁷¹Ga. Calculate its relative atomic mass to 2 decimal places. Take each isotope's mass as its mass number.
+Elements: Ga
+Steal
+= 69.8 ± 0.011
+# Explanation: Aᵣ = [(69 × 60.1) + (71 × 39.9)] ÷ 100.0 = 69.80
+
+A sample of bromine is 50.7% ⁷⁹Br and 49.4% ⁸¹Br. Calculate its relative atomic mass to 2 decimal places. Take each isotope's mass as its mass number.
+Elements: Br
+Steal
+= 79.99 ± 0.011
+# Explanation: Aᵣ = [(79 × 50.7) + (81 × 49.4)] ÷ 100.1 = 79.99
+
+The mass spectrum of a sample of magnesium has peaks at m/z 24, 25 and 26 with relative heights 100.0, 12.7 and 14.0. Calculate the relative atomic mass to 2 decimal places.
+Elements: Mg
+Steal
+= 24.32 ± 0.011
+# Explanation: Aᵣ = [(24 × 100.0) + (25 × 12.7) + (26 × 14.0)] ÷ 126.7 = 24.32. Divide by the total peak height, not by 100.
+
+The mass spectrum of a sample of gallium has peaks at m/z 69 and 71 with relative heights 100.0 and 66.4. Calculate the relative atomic mass to 2 decimal places.
+Elements: Ga
+Steal
+= 69.8 ± 0.011
+# Explanation: Aᵣ = [(69 × 100.0) + (71 × 66.4)] ÷ 166.4 = 69.80. Divide by the total peak height, not by 100.
+
+The mass spectrum of a sample of strontium has peaks at m/z 86, 87 and 88 with relative heights 11.9, 8.5 and 100.0. Calculate the relative atomic mass to 2 decimal places.
+Elements: Sr
+Steal
+= 87.73 ± 0.011
+# Explanation: Aᵣ = [(86 × 11.9) + (87 × 8.5) + (88 × 100.0)] ÷ 120.4 = 87.73. Divide by the total peak height, not by 100.
+
+The mass spectrum of a sample of antimony has peaks at m/z 121 and 123 with relative heights 100.0 and 74.8. Calculate the relative atomic mass to 2 decimal places.
+Elements: Sb
+Steal
+= 121.86 ± 0.011
+# Explanation: Aᵣ = [(121 × 100.0) + (123 × 74.8)] ÷ 174.8 = 121.86. Divide by the total peak height, not by 100.
+
+An isotopically enriched sample of sulfur contains only ³²S and ³⁴S, and has a relative atomic mass of 32.54. What percentage of its atoms are ³⁴S? Take the isotope masses as 32 and 34; give your answer to 1 d.p.
+Elements: S
+Steal
+= 27 ± 0.11 %
+# Explanation: Let x be the percentage of ³⁴S: 32(100 − x) + 34x = 100 × 32.54, so x = (32.54 − 32) ÷ 2 × 100 = 27.0%.
+
+An isotopically enriched sample of chlorine contains only ³⁵Cl and ³⁷Cl, and has a relative atomic mass of 36.66. What percentage of its atoms are ³⁷Cl? Take the isotope masses as 35 and 37; give your answer to 1 d.p.
+Elements: Cl
+Steal
+= 83 ± 0.11 %
+# Explanation: Let x be the percentage of ³⁷Cl: 35(100 − x) + 37x = 100 × 36.66, so x = (36.66 − 35) ÷ 2 × 100 = 83.0%.
+
+A natural sample of gallium contains only ⁶⁹Ga and ⁷¹Ga, and has a relative atomic mass of 69.80. What percentage of its atoms are ⁷¹Ga? Take the isotope masses as 69 and 71; give your answer to 1 d.p.
+Elements: Ga
+Steal
+= 40 ± 0.11 %
+# Explanation: Let x be the percentage of ⁷¹Ga: 69(100 − x) + 71x = 100 × 69.80, so x = (69.80 − 69) ÷ 2 × 100 = 40.0%.
+
+A natural sample of silver contains only ¹⁰⁷Ag and ¹⁰⁹Ag, and has a relative atomic mass of 107.96. What percentage of its atoms are ¹⁰⁹Ag? Take the isotope masses as 107 and 109; give your answer to 1 d.p.
+Elements: Ag
+Steal
+= 48 ± 0.11 %
+# Explanation: Let x be the percentage of ¹⁰⁹Ag: 107(100 − x) + 109x = 100 × 107.96, so x = (107.96 − 107) ÷ 2 × 100 = 48.0%.
+
+Assume chlorine is 75% ³⁵Cl and 25% ³⁷Cl. In the mass spectrum of Cl₂, the molecular ion peak at m/z 70 has a relative height of 100. What is the relative height of the peak at m/z 72? Give a whole number.
+Elements: Cl
+Steal
+= 67 ± 0.6
+# Explanation: Probabilities: ³⁵Cl³⁵Cl = 0.75² = 0.5625; ³⁵Cl³⁷Cl (either way round) = 2 × 0.75 × 0.25 = 0.3750; ³⁷Cl³⁷Cl = 0.25² = 0.0625. Scaling so m/z 70 = 100 gives 100 : 66.7 : 11.1, so the answer is 67.
+
+Assume bromine is 50% ⁷⁹Br and 50% ⁸¹Br. In the mass spectrum of Br₂, the molecular ion peak at m/z 158 has a relative height of 100. What is the relative height of the peak at m/z 160? Give a whole number.
+Elements: Br
+Steal
+= 200 ± 0.6
+# Explanation: Probabilities: ⁷⁹Br⁷⁹Br = 0.50² = 0.2500; ⁷⁹Br⁸¹Br (either way round) = 2 × 0.50 × 0.50 = 0.5000; ⁸¹Br⁸¹Br = 0.50² = 0.2500. Scaling so m/z 158 = 100 gives 100 : 200.0 : 100.0, so the answer is 200.

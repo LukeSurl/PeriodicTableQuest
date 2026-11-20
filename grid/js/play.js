@@ -110,10 +110,23 @@
       <p class="qhead"><b>Question ${qNumber(sheetQ)}</b> · Team ${esc(team(myTeam).name)}</p>
       ${q.img ? `<img class="qimg" src="${q.img}" alt="">` : ''}
       <div class="q">${esc(q.text).replace(/\n/g, '<br>')}</div>
-      <div class="opts">${q.opts.map((o, j) => o ? `<button class="opt" data-j="${j}" ${canAnswer ? '' : 'disabled'}>${esc(o)}</button>` : '').join('')}</div>
+      ${GQ.isNum(q) ? numForm(q, canAnswer) : `<div class="opts">${q.opts.map((o, j) => o ? `<button class="opt" data-j="${j}" ${canAnswer ? '' : 'disabled'}>${esc(o)}</button>` : '').join('')}</div>`}
       <div id="res">${note ? `<div class="result">${note}</div>` : ''}<button class="btn close" id="closeBtn">Back to the questions</button></div>`;
     $('closeBtn').onclick = close;
     $('sheet').querySelectorAll('.opt').forEach(b => b.onclick = () => choose(sheetQ, +b.dataset.j, b));
+    if ($('numform')) $('numform').onsubmit = ev => {
+      ev.preventDefault();
+      const v = GQ.parseNum($('numIn').value);
+      if (!isFinite(v)) return toast('Type a number, e.g. 35.5 or 6.02 × 10^23');
+      choose(sheetQ, v, $('numIn'));
+    };
+  }
+  // A box to type a number answer in
+  function numForm(q, can) {
+    return `<form class="numform" id="numform" autocomplete="off">
+        <input id="numIn" inputmode="decimal" enterkeyhint="done" placeholder="Your answer" aria-label="Your answer" ${can ? '' : 'disabled'}>${q.unit ? `<span class="unit">${esc(q.unit)}</span>` : ''}
+        <button class="btn primary" ${can ? '' : 'disabled'}>Submit</button></form>
+      <p class="hint">Type a number. For standard form, type e.g. 6.02e23 or 6.02 × 10^23.</p>`;
   }
   function close() { if (busy) return; sheetQ = null; $('sheetBg').classList.add('hidden'); draw(); }
   $('sheetBg').addEventListener('click', ev => { if (ev.target === $('sheetBg')) close(); });
@@ -122,7 +135,7 @@
     if (busy) return;
     if (!isOpen()) { toast('The game isn\'t running right now.'); return refreshSheet(true); }
     busy = true; $('sheet').dataset.answered = '1';
-    const btns = [...$('sheet').querySelectorAll('.opt')];
+    const btns = [...$('sheet').querySelectorAll('.opt, #numform input, #numform button')];
     btns.forEach(b => b.disabled = true);
     const res = $('res');
     res.innerHTML = '<div class="result"><h3>Checking…</h3></div>';

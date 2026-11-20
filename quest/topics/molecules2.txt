@@ -1,0 +1,403 @@
+# Molecules 2: Molecular orbital theory
+# Exported from the classic Periodic Table Quest (questions/molecules2.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+Which of these can molecular orbital theory explain, but the Lewis model can't?
+Elements: O
+- Why H₂ has a single bond
+- Why F₂ has three lone pairs on each atom
+* Why O₂ is paramagnetic
+- Why HF is polar
+# Explanation: Paramagnetism needs unpaired electrons, which the Lewis structure of O₂ doesn't have. The others are all fine in the Lewis model.
+
+Which bonding theory uses orbitals that can spread out over the entire molecule?
+- Valence bond theory
+* Molecular orbital theory
+- The Lewis model
+- None of them: orbitals always belong to one atom
+# Explanation: Valence bond theory builds tidy bonds from overlapping orbitals on neighbouring atoms. MO theory is more quantitative and lets orbitals span the whole molecule.
+
+What is the orbital approximation?
+- Molecular orbitals are made by adding and subtracting atomic orbitals
+- Each electron stays in an orbital belonging to its own atom
+* The molecule's overall electronic state is a product of one wavefunction for each electron
+- Only the core electrons need to be considered
+# Explanation: Ψ(molecule) = ψ(electron 1) × ψ(electron 2) × … Each single-electron wavefunction ψ is a molecular orbital. Adding and subtracting atomic orbitals is the other approximation, LCAO.
+
+In the linear combination of atomic orbitals (LCAO) approach, how are molecular orbitals made?
+- By multiplying together one wavefunction per electron
+- By hybridising the orbitals of one atom
+* By adding and subtracting atomic orbitals
+- By counting bonding pairs
+# Explanation: Adding gives an in-phase combination; subtracting gives an out-of-phase combination.
+
+Adding the 1s orbitals of two hydrogen atoms (an in-phase combination) gives…
+Elements: H
+* A bonding orbital, with a lot of electron density between the nuclei
+- An antibonding orbital, with a nodal plane between the nuclei
+- A 2s orbital on one of the atoms
+- Nothing: the two orbitals cancel out
+# Explanation: The wavefunctions reinforce each other between the nuclei. Electron density there attracts both nuclei and holds the molecule together.
+
+Subtracting the 1s orbitals of two hydrogen atoms (an out-of-phase combination) gives…
+Elements: H
+* An antibonding orbital, with a nodal plane halfway between the nuclei
+- A bonding orbital, with a lot of electron density between the nuclei
+- A second bonding orbital of the same energy
+- Nothing: you can only add orbitals
+# Explanation: One half of the orbital is positive and the other negative, so ψ is zero on the plane where they meet.
+
+In the antibonding orbital of H₂, what is the probability of finding the electron on the plane exactly halfway between the nuclei?
+- Higher than anywhere else
+- The same as for the bonding orbital
+* Zero
+- 50%
+# Explanation: That is the nodal plane: ψ = 0 there, so ψ² = 0 too.
+
+Why does an electron in an antibonding orbital weaken a bond?
+- It has the opposite spin to the bonding electrons
+- It repels the bonding electrons out of the molecule
+* Its density is mostly outside the region between the nuclei, pulling the atoms apart
+- It is shared by only one of the atoms
+# Explanation: With little density between the nuclei, the nuclei are pulled outwards rather than together.
+
+Two atomic orbitals combine. How many molecular orbitals are formed?
+- 1
+* 2
+- 4
+- It depends on how many electrons there are
+# Explanation: The number of molecular orbitals always equals the number of atomic orbitals combined: one in-phase and one out-of-phase combination.
+
+The six 2pz orbitals of the carbon atoms in benzene's ring combine. How many molecular orbitals form?
+Elements: C
+- 3
+- 2
+* 6
+- 12
+# Explanation: There are six different ways of combining them, one molecular orbital for each atomic orbital that went in.
+
+Compared with the 1s orbitals of separate H atoms, where are the H₂ molecular orbitals on an energy diagram?
+Elements: H
+* The bonding orbital is lower, and the antibonding orbital higher by about the same amount
+- Both are lower
+- Both are higher
+- Both are at the same energy as the 1s orbitals
+# Explanation: A lower-energy bonding orbital matches H + H → H₂ releasing energy. (The antibonding orbital is raised slightly more, but you can ignore that.)
+
+What is the most electrons a single molecular orbital can hold?
+- 1
+- 2, with the same spin
+* 2, with opposite spins
+- 4
+# Explanation: The Pauli exclusion principle applies to molecular orbitals just as to atomic ones. Lower-energy orbitals are filled first.
+
+Which orbital do both electrons of H₂ occupy?
+Elements: H
+- 1σᵤ*, the antibonding orbital
+- One in each
+- The 1s orbital of one hydrogen atom
+* 1σg, the bonding orbital
+# Explanation: Both go into the lower, bonding orbital with opposite spins: that is what holds H₂ together.
+
+Why doesn't He₂ exist?
+Elements: He
+* Its 2 bonding and 2 antibonding electrons cancel out: bond order 0
+- Helium atoms are too small for their orbitals to overlap
+- Helium has no electrons to share
+- Its electrons all go into the antibonding orbital
+# Explanation: The extra two electrons have to go into the antibonding orbital, which undoes the effect of the bonding pair.
+
+In molecular orbital theory, how is bond order calculated?
+* (Electrons in bonding orbitals − electrons in antibonding orbitals) ÷ 2
+- Electrons in bonding orbitals − electrons in antibonding orbitals
+- Electrons in bonding orbitals ÷ 2
+- (Electrons in bonding orbitals + electrons in antibonding orbitals) ÷ 2
+# Explanation: Some sources use filled bonding orbitals − filled antibonding orbitals, counting a half-filled orbital as ½. It gives the same answer.
+
+For a molecule to be stable, its bond order must be…
+- At least 1
+- A whole number
+* Greater than 0
+- Exactly 1
+# Explanation: Even a bond order of ½ (as in H₂⁺) gives a stable, if weak, bond.
+
+H₂⁺ and H₂⁻ both have a bond order of ½. Compared with H₂, they…
+Elements: H
+* Have weaker bonds, and are paramagnetic
+- Have stronger bonds, and are paramagnetic
+- Have weaker bonds, and are not paramagnetic
+- Can't exist
+# Explanation: Lower bond order, lower dissociation energy. Each has an odd number of electrons, so one is unpaired.
+
+Why can we usually ignore lithium's 1s electrons when building the MO diagram of Li₂?
+Elements: Li
+- 1s orbitals can't combine with each other
+- They are lost when Li₂ forms
+* They overlap very little, and their filled bonding and antibonding orbitals cancel out
+- They are part of the nucleus
+# Explanation: Core orbitals sit close to their own nucleus, so the core bonding and antibonding orbitals barely shift in energy, and with both full their effects cancel. Only the valence 2s orbitals matter.
+
+H₂ and Li₂ both have a bond order of 1, but H₂'s bond is far stronger (436 vs 105 kJ mol⁻¹). Why?
+Elements: Li
+* Hydrogen's compact 1s orbitals overlap more than lithium's diffuse 2s orbitals
+- H₂ has more bonding electrons
+- The core electrons of Li₂ are in antibonding orbitals and weaken it
+- Lithium is a metal, so it can't bond covalently
+# Explanation: Weaker overlap means the bonding orbital is lowered less, so less energy is released when the bond forms. The core electrons cancel out, so they don't explain it.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+According to molecular orbital theory, could H₂⁻ exist as a stable species?
+Elements: H
+- Yes: bond order 1
+- No: bond order 0
+* Yes: bond order ½
+# Explanation: H₂⁻ has 3 valence electrons (one from each H, plus one for the charge): 2 in 1σg (bonding) and 1 in 1σᵤ* (antibonding). Bond order = (2 − 1) ÷ 2 = ½. Bond order above 0, so it can exist, though the bond is weak.
+
+Using molecular orbital theory, what is the bond order of Li₂⁺?
+Elements: Li
+- 0
+- 1
+- 1½
+* ½
+# Explanation: Li₂⁺ has 1 valence electron (one from each Li, minus one for the charge): 1 in 2σg (bonding). Bond order = (1 − 0) ÷ 2 = ½.
+
+Using molecular orbital theory, what is the bond order of Na₂⁻?
+Elements: Na
+- 0
+- 1
+- 1½
+* ½
+# Explanation: Na₂⁻ has 3 valence electrons (one from each Na, plus one for the charge): 2 in σg (bonding) and 1 in σᵤ* (antibonding). Bond order = (2 − 1) ÷ 2 = ½. Treat it like Li₂: only the valence 3s orbitals matter.
+
+According to molecular orbital theory, could Mg₂ exist as a stable species?
+Elements: Mg
+* No: bond order 0
+- Yes: bond order 1
+- Yes: bond order ½
+# Explanation: Mg₂ has 4 valence electrons (two from each Mg): 2 in σg (bonding) and 2 in σᵤ* (antibonding). Bond order = (2 − 2) ÷ 2 = 0. The bonding and antibonding effects cancel, so it is not stable. Treat it like Be₂: only the valence 3s orbitals matter.
+
+Using molecular orbital theory, what is the bond order of Ca₂?
+Elements: Ca
+- ½
+- 1
+- 1½
+* 0
+# Explanation: Ca₂ has 4 valence electrons (two from each Ca): 2 in σg (bonding) and 2 in σᵤ* (antibonding). Bond order = (2 − 2) ÷ 2 = 0. Treat it like Be₂: only the valence 4s orbitals matter.
+
+According to molecular orbital theory, could Sr₂ exist as a stable species?
+Elements: Sr
+- Yes: bond order 1
+* No: bond order 0
+- Yes: bond order ½
+# Explanation: Sr₂ has 4 valence electrons (two from each Sr): 2 in σg (bonding) and 2 in σᵤ* (antibonding). Bond order = (2 − 2) ÷ 2 = 0. The bonding and antibonding effects cancel, so it is not stable. Treat it like Be₂: only the valence 5s orbitals matter.
+
+Molecular orbital theory predicts that He₂⁺ is…
+Elements: He
+- Not paramagnetic: all its electrons are paired
+- Not paramagnetic: it has no antibonding electrons
+* Paramagnetic: it has an unpaired electron
+# Explanation: He₂⁺ has 3 valence electrons (two from each He, minus one for the charge): 2 in 1σg (bonding) and 1 in 1σᵤ* (antibonding). Bond order = (2 − 1) ÷ 2 = ½. An odd number of electrons means one is unpaired, so it is paramagnetic.
+
+Molecular orbital theory predicts that Na₂⁺ is…
+Elements: Na
+- Not paramagnetic: all its electrons are paired
+* Paramagnetic: it has an unpaired electron
+- Not paramagnetic: it has no antibonding electrons
+# Explanation: Na₂⁺ has 1 valence electron (one from each Na, minus one for the charge): 1 in σg (bonding). Bond order = (1 − 0) ÷ 2 = ½. An odd number of electrons means one is unpaired, so it is paramagnetic.
+
+Molecular orbital theory predicts that Mg₂⁺ is…
+Elements: Mg
+* Paramagnetic: it has an unpaired electron
+- Not paramagnetic: all its electrons are paired
+- Not paramagnetic: it has no antibonding electrons
+# Explanation: Mg₂⁺ has 3 valence electrons (two from each Mg, minus one for the charge): 2 in σg (bonding) and 1 in σᵤ* (antibonding). Bond order = (2 − 1) ÷ 2 = ½. An odd number of electrons means one is unpaired, so it is paramagnetic.
+
+Molecular orbital theory predicts that Rb₂ is…
+Elements: Rb
+- Paramagnetic: it has an unpaired electron
+- Paramagnetic: it has electrons in a bonding orbital
+* Not paramagnetic: all its electrons are paired
+# Explanation: Rb₂ has 2 valence electrons (one from each Rb): 2 in σg (bonding). Bond order = (2 − 0) ÷ 2 = 1. Each orbital holds a pair with opposite spins, so there are no unpaired electrons.
+
+Molecular orbital theory predicts that Cs₂⁺ is…
+Elements: Cs
+- Not paramagnetic: all its electrons are paired
+- Not paramagnetic: it has no antibonding electrons
+* Paramagnetic: it has an unpaired electron
+# Explanation: Cs₂⁺ has 1 valence electron (one from each Cs, minus one for the charge): 1 in σg (bonding). Bond order = (1 − 0) ÷ 2 = ½. An odd number of electrons means one is unpaired, so it is paramagnetic.
+
+Molecular orbital theory predicts that Ba₂⁺ is…
+Elements: Ba
+* Paramagnetic: it has an unpaired electron
+- Not paramagnetic: all its electrons are paired
+- Not paramagnetic: it has no antibonding electrons
+# Explanation: Ba₂⁺ has 3 valence electrons (two from each Ba, minus one for the charge): 2 in σg (bonding) and 1 in σᵤ* (antibonding). Bond order = (2 − 1) ÷ 2 = ½. An odd number of electrons means one is unpaired, so it is paramagnetic.
+
+Which does molecular orbital theory predict has the higher bond order: He₂ or He₂⁺?
+Elements: He
+* He₂⁺
+- He₂
+- They have the same bond order: they are made of the same atoms
+# Explanation: He₂: bond order 0; He₂⁺: bond order ½. Removing an electron here takes it out of an antibonding orbital, so the bond order goes up.
+
+Which does molecular orbital theory predict has the higher bond order: Li₂⁻ or Li₂?
+Elements: Li
+* Li₂
+- Li₂⁻
+- They have the same bond order: they are made of the same atoms
+# Explanation: Li₂: bond order 1; Li₂⁻: bond order ½. The extra electron goes into an antibonding orbital, so the bond order goes down.
+
+Which does molecular orbital theory predict has the higher bond order: Be₂ or Be₂⁺?
+Elements: Be
+- Be₂
+* Be₂⁺
+- They have the same bond order: they are made of the same atoms
+# Explanation: Be₂: bond order 0; Be₂⁺: bond order ½. Removing an electron here takes it out of an antibonding orbital, so the bond order goes up.
+
+Which does molecular orbital theory predict has the higher bond order: Mg₂⁺ or Mg₂?
+Elements: Mg
+- Mg₂
+* Mg₂⁺
+- They have the same bond order: they are made of the same atoms
+# Explanation: Mg₂: bond order 0; Mg₂⁺: bond order ½. Removing an electron here takes it out of an antibonding orbital, so the bond order goes up.
+
+Which does molecular orbital theory predict has the higher bond order: Sr₂⁺ or Sr₂?
+Elements: Sr
+- Sr₂
+* Sr₂⁺
+- They have the same bond order: they are made of the same atoms
+# Explanation: Sr₂: bond order 0; Sr₂⁺: bond order ½. Removing an electron here takes it out of an antibonding orbital, so the bond order goes up.
+
+Which does molecular orbital theory predict has the higher bond order: Cs₂⁻ or Cs₂?
+Elements: Cs
+* Cs₂
+- Cs₂⁻
+- They have the same bond order: they are made of the same atoms
+# Explanation: Cs₂: bond order 1; Cs₂⁻: bond order ½. The extra electron goes into an antibonding orbital, so the bond order goes down.
+
+Li₂ and H₂ both have a bond order of 1. Which has the stronger bond?
+Elements: H
+* H₂
+- Li₂
+- They are equally strong: same bond order
+# Explanation: Hydrogen's valence 1s orbital is smaller and less diffuse than lithium's 2s, so it overlaps more strongly with its neighbour's. That lowers the bonding orbital further, giving a stronger bond (as with H₂ 436 vs Li₂ 105 kJ mol⁻¹).
+
+K₂ and Na₂ both have a bond order of 1. Which has the stronger bond?
+Elements: Na
+* Na₂
+- K₂
+- They are equally strong: same bond order
+# Explanation: Sodium's valence 3s orbital is smaller and less diffuse than potassium's 4s, so it overlaps more strongly with its neighbour's. That lowers the bonding orbital further, giving a stronger bond (as with H₂ 436 vs Li₂ 105 kJ mol⁻¹).
+
+K₂ and Li₂ both have a bond order of 1. Which has the stronger bond?
+Elements: K
+- K₂
+- They are equally strong: same bond order
+* Li₂
+# Explanation: Lithium's valence 2s orbital is smaller and less diffuse than potassium's 4s, so it overlaps more strongly with its neighbour's. That lowers the bonding orbital further, giving a stronger bond (as with H₂ 436 vs Li₂ 105 kJ mol⁻¹).
+
+Rb₂ and H₂ both have a bond order of 1. Which has the stronger bond?
+Elements: Rb
+- Rb₂
+* H₂
+- They are equally strong: same bond order
+# Explanation: Hydrogen's valence 1s orbital is smaller and less diffuse than rubidium's 5s, so it overlaps more strongly with its neighbour's. That lowers the bonding orbital further, giving a stronger bond (as with H₂ 436 vs Li₂ 105 kJ mol⁻¹).
+
+Cs₂ and Na₂ both have a bond order of 1. Which has the stronger bond?
+Elements: Cs
+- Cs₂
+- They are equally strong: same bond order
+* Na₂
+# Explanation: Sodium's valence 3s orbital is smaller and less diffuse than caesium's 6s, so it overlaps more strongly with its neighbour's. That lowers the bonding orbital further, giving a stronger bond (as with H₂ 436 vs Li₂ 105 kJ mol⁻¹).
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+The bond dissociation energy of H₂ is 435.8 kJ mol⁻¹. How much energy, in kJ, is needed to break the bonds in 1.00 g of H₂ gas into separate atoms? Relative atomic mass of H: 1.01. Give 3 s.f.
+Elements: H
+Steal
+= 216 ± 0.6% kJ
+# Shown answer: 216 kJ
+# Explanation: M(H₂) = 2 × 1.01 = 2.02 g mol⁻¹; n = 1.00 ÷ 2.02 = 0.4950 mol of bonds; E = 0.4950 × 435.8 = 216 kJ.
+
+20.0 g of gas-phase nitrogen atoms all pair up to form N₂. The bond dissociation energy of N₂ is 944.9 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of N: 14.01. Give 3 s.f.
+Elements: N
+Steal
+= 674 ± 0.6% kJ
+# Shown answer: 674 kJ
+# Explanation: n(atoms) = 20.0 ÷ 14.01 = 1.428 mol. Two atoms make one bond, so 0.7138 mol of bonds form, releasing 0.7138 × 944.9 = 674 kJ.
+
+The bond dissociation energy of O₂ is 498.5 kJ mol⁻¹. How much energy, in kJ, is needed to break the bonds in 50.0 g of O₂ gas into separate atoms? Relative atomic mass of O: 16.00. Give 3 s.f.
+Elements: O
+Steal
+= 779 ± 0.6% kJ
+# Shown answer: 779 kJ
+# Explanation: M(O₂) = 2 × 16.00 = 32.00 g mol⁻¹; n = 50.0 ÷ 32.00 = 1.563 mol of bonds; E = 1.563 × 498.5 = 779 kJ.
+
+10.0 g of gas-phase chlorine atoms all pair up to form Cl₂. The bond dissociation energy of Cl₂ is 242.9 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of Cl: 35.45. Give 3 s.f.
+Elements: Cl
+Steal
+= 34.3 ± 0.6% kJ
+# Shown answer: 34.3 kJ
+# Explanation: n(atoms) = 10.0 ÷ 35.45 = 0.2821 mol. Two atoms make one bond, so 0.1410 mol of bonds form, releasing 0.1410 × 242.9 = 34.3 kJ.
+
+The bond dissociation energy of H₂ is 435.8 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one H₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: H
+Steal
+= 275 ± 0.6% nm
+# Shown answer: 275 nm
+# Explanation: 435.8 × 10³ J mol⁻¹ ÷ NA = 7.24 × 10⁻¹⁹ J per bond; ν = E/h = 1.09 × 10¹⁵ s⁻¹; λ = c/ν = 2.75 × 10⁻⁷ m = 275 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of Li₂ is 105 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one Li₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Li
+Steal
+= 1140 ± 0.6% nm
+# Shown answer: 1140 nm
+# Explanation: 105 × 10³ J mol⁻¹ ÷ NA = 1.74 × 10⁻¹⁹ J per bond; ν = E/h = 2.63 × 10¹⁴ s⁻¹; λ = c/ν = 1.14 × 10⁻⁶ m = 1140 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of N₂ is 944.9 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one N₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: N
+Steal
+= 127 ± 0.6% nm
+# Shown answer: 127 nm
+# Explanation: 944.9 × 10³ J mol⁻¹ ÷ NA = 1.57 × 10⁻¹⁸ J per bond; ν = E/h = 2.37 × 10¹⁵ s⁻¹; λ = c/ν = 1.27 × 10⁻⁷ m = 127 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of Cl₂ is 242.9 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one Cl₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Cl
+Steal
+= 493 ± 0.6% nm
+# Shown answer: 493 nm
+# Explanation: 242.9 × 10³ J mol⁻¹ ÷ NA = 4.03 × 10⁻¹⁹ J per bond; ν = E/h = 6.09 × 10¹⁴ s⁻¹; λ = c/ν = 4.93 × 10⁻⁷ m = 493 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The first ionisation energy of boron is 801 kJ mol⁻¹. How much energy does it take to remove the outer electron from one boron atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: B
+Steal
+= 13.3 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 13.3 × 10⁻¹⁹ J
+# Explanation: 801 kJ mol⁻¹ = 801 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.33 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of titanium is 659 kJ mol⁻¹. How much energy does it take to remove the outer electron from one titanium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Ti
+Steal
+= 10.9 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 10.9 × 10⁻¹⁹ J
+# Explanation: 659 kJ mol⁻¹ = 659 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.09 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of vanadium is 651 kJ mol⁻¹. How much energy does it take to remove the outer electron from one vanadium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: V
+Steal
+= 10.8 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 10.8 × 10⁻¹⁹ J
+# Explanation: 651 kJ mol⁻¹ = 651 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.08 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of tellurium is 869 kJ mol⁻¹. How much energy does it take to remove the outer electron from one tellurium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Te
+Steal
+= 14.4 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 14.4 × 10⁻¹⁹ J
+# Explanation: 869 kJ mol⁻¹ = 869 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.44 × 10⁻¹⁸ J per atom.

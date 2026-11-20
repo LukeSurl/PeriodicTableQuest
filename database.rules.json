@@ -43,7 +43,7 @@
         },
         "qs": {
           "$i": {
-            ".validate": "$i.matches(/^([0-9]|[12][0-9])$/)",
+            ".validate": "$i.matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/)",
             "text": {
               ".validate": "newData.isString() && newData.val().length <= 1000"
             },
@@ -61,6 +61,20 @@
                 ".validate": "$j.matches(/^[0-9]$/) && newData.isString() && newData.val().length <= 300"
               }
             },
+            "kind": {
+              ".validate": "newData.val() === 'mc' || newData.val() === 'num'"
+            },
+            "unit": {
+              ".validate": "newData.isString() && newData.val().length <= 40"
+            },
+            "steal": {
+              ".validate": "newData.isBoolean()"
+            },
+            "els": {
+              "$z": {
+                ".validate": "$z.matches(/^([1-9]|[1-9][0-9]|10[0-9]|11[0-8])$/) && newData.val() === true"
+              }
+            },
             "$other": {
               ".validate": false
             }
@@ -68,6 +82,9 @@
         },
         "$other": {
           ".validate": false
+        },
+        "type": {
+          ".validate": "newData.val() === 'grid' || newData.val() === 'ptq'"
         }
       }
     },
@@ -80,7 +97,22 @@
         },
         "a": {
           "$i": {
-            ".validate": "$i.matches(/^([0-9]|[12][0-9])$/) && newData.isNumber() && newData.val() >= 0 && newData.val() <= 9"
+            ".validate": "$i.matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/) && newData.isNumber() && newData.val() >= 0 && newData.val() <= 9"
+          }
+        },
+        "n": {
+          "$i": {
+            ".validate": "$i.matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/) && newData.child('v').isNumber()"
+          }
+        },
+        "lo": {
+          "$i": {
+            ".validate": "$i.matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/) && newData.isNumber()"
+          }
+        },
+        "hi": {
+          "$i": {
+            ".validate": "$i.matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/) && newData.isNumber()"
           }
         },
         "$other": {
@@ -111,13 +143,22 @@
         },
         "pts": {
           "$q": {
-            ".validate": "$q.matches(/^([0-9]|[12][0-9])$/)",
+            ".validate": "$q.matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/)",
             "$uid": {
               ".write": "auth != null && auth.uid === $uid && !data.exists() && newData.child('t').val() === root.child('runs').child($code).child('players').child(auth.uid).child('t').val() && root.child('proofs').child($code).child(auth.uid).child($q).exists() && root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val() + 5000",
               ".validate": "newData.hasChildren(['t', 'at']) && newData.child('t').val().matches(/^[ab]$/) && newData.child('at').val() === now",
               "$other": {
                 ".validate": "$other === 't' || $other === 'at'"
               }
+            }
+          }
+        },
+        "cells": {
+          "$z": {
+            ".write": "auth != null && newData.exists() && root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val() && newData.child('by').val() === auth.uid && newData.child('t').val() === root.child('runs').child($code).child('players').child(auth.uid).child('t').val() && root.child('eproofs').child($code).child(auth.uid).child($z).child('at').val() > now - 60000 && (!data.exists() || (data.child('t').val() !== newData.child('t').val() && now > data.child('at').val() + root.child('runs').child($code).child('meta/shield').val() && root.child('eproofs').child($code).child(auth.uid).child($z).child('at').val() > data.child('at').val()))",
+            ".validate": "$z.matches(/^([1-9]|[1-9][0-9]|10[0-9]|11[0-8])$/) && newData.hasChildren(['t', 'by', 'at']) && newData.child('at').val() === now",
+            "$other": {
+              ".validate": "$other === 't' || $other === 'by' || $other === 'at'"
             }
           }
         },
@@ -132,8 +173,23 @@
         "$uid": {
           ".read": "auth != null && auth.uid === $uid",
           "$q": {
-            ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('runs').child($code).child('players').child($uid).exists() && root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val() && newData.child('a').val() === root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('a').child($q).val()",
-            ".validate": "newData.hasChildren(['a', 'at']) && newData.child('at').val() === now"
+            ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('runs').child($code).child('players').child($uid).exists() && root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val() && (newData.child('a').val() === root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('a').child($q).val() || (root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('lo').child($q).exists() && newData.child('a').val() >= root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('lo').child($q).val() && newData.child('a').val() <= root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('hi').child($q).val()))",
+            ".validate": "newData.hasChildren(['a', 'at']) && newData.child('a').isNumber() && newData.child('at').val() === now"
+          }
+        }
+      }
+    },
+    "eproofs": {
+      "$code": {
+        ".write": "auth != null && root.child('runs').child($code).child('meta/host').val() === auth.uid && !newData.exists()",
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          "$z": {
+            ".write": "auth != null && auth.uid === $uid && root.child('runs').child($code).child('players').child($uid).exists() && (root.child('runs').child($code).child('meta/status').val() === 'lobby' || (root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val())) && newData.child('q').isString() && (newData.child('a').val() === root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('a').child(newData.child('q').val()).val() || (root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('lo').child(newData.child('q').val()).exists() && newData.child('a').val() >= root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('lo').child(newData.child('q').val()).val() && newData.child('a').val() <= root.child('answers').child(root.child('runs').child($code).child('meta/quiz').val()).child('hi').child(newData.child('q').val()).val())) && (!root.child('quizzes').child(root.child('runs').child($code).child('meta/quiz').val()).child('qs').child(newData.child('q').val()).child('els').exists() || root.child('quizzes').child(root.child('runs').child($code).child('meta/quiz').val()).child('qs').child(newData.child('q').val()).child('els').child($z).exists())",
+            ".validate": "$z.matches(/^([1-9]|[1-9][0-9]|10[0-9]|11[0-8])$/) && newData.hasChildren(['q', 'a', 'at']) && newData.child('q').val().matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/) && newData.child('a').isNumber() && newData.child('at').val() === now",
+            "$other": {
+              ".validate": "$other === 'q' || $other === 'a' || $other === 'at'"
+            }
           }
         }
       }

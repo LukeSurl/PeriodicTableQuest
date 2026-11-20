@@ -7,9 +7,16 @@
 //   quizzes/<id>         title and questions, without answers: anyone can read
 //   answers/<id>         the secret edit key and the correct answers: only editors can read
 //   owners/<id>/<uid>    devices that have opened the edit link
-//   runs/<code>          one game: meta, players and points (pts)
-//   proofs/<code>/<uid>  a player's correct answers; the database checks each against
-//                        answers/<id>, so phones never need to see the answers
+//   runs/<code>          one game: meta, players, and points (pts, Quiz Grid) or the
+//                        elements each team holds (cells, Periodic Table Quest)
+//   proofs/<code>/<uid>  a player's correct answers (Quiz Grid); the database checks each
+//                        against answers/<id>, so phones never need to see the answers
+//   eproofs/<code>/<uid>/<z>  the latest correct answer a player gave for element z
+//                        (Periodic Table Quest); claiming z needs a fresh one
+//
+// Answers: a multiple-choice answer is the position of the correct option (answers/<id>/a/<i>);
+// a number answer is { v, tol, pct } (answers/<id>/n/<i>) plus the range the database accepts
+// (answers/<id>/lo/<i> and hi/<i>). In this file an answer is either a number or { v, tol, pct }.
 (function () {
   const CFG = window.PQ_CONFIG || {};
   const FB_VER = '10.12.2';
@@ -31,7 +38,35 @@
   const indexed = v => { const out = []; if (v) Object.keys(v).forEach(k => { if (v[k] != null) out[+k] = v[k]; }); return out; };
   // Options keep their positions (the answer is stored as a position), with any gaps as empty strings
   const optsOf = v => { const o = indexed(v); for (let j = 0; j < o.length; j++) if (o[j] == null) o[j] = ''; return o; };
-  const cleanQuiz = q => ({ title: (q && q.title) || '', qs: asArray(q && q.qs).map(x => ({ text: '', label: '', img: '', ...x, opts: optsOf(x && x.opts) })) });
+  // Firebase may hand back { "8": true, "9": true } as an array, so turn element lists back into objects
+  const elsObj = v => { const o = {}; if (v) Object.keys(v).forEach(k => { if (v[k] && +k >= 1 && +k <= 118) o[k] = true; }); return o; };
+  const cleanQuiz = q => ({ title: (q && q.title) || '', type: (q && q.type) || 'grid',
+    qs: asArray(q && q.qs).map(x => ({ text: '', label: '', img: '', kind: 'mc', unit: '', ...x, opts: optsOf(x && x.opts), els: elsObj(x && x.els), steal: !!(x && x.steal) })) });
+  // A quiz ready to store: drop empty extras so old readers and the rules see what they expect
+  const storeQuiz = quiz => ({ title: quiz.title || 'Untitled quiz', type: quiz.type || 'grid',
+    qs: quiz.qs.map(q => {
+      const o = { text: q.text, opts: q.kind === 'num' ? [] : q.opts, label: q.label || '', img: q.img || '', ready: !!q.ready };
+      if (q.kind === 'num') { o.kind = 'num'; o.unit = q.unit || ''; }
+      if (q.steal) o.steal = true;
+      if (q.els && Object.keys(q.els).length) o.els = elsObj(q.els);
+      return o;
+    }) });
+  // Answers ready to store: { a: {i: option}, n: {i: {v, tol, pct}}, lo: {i: …}, hi: {i: …} }
+  function storeAnswers(answers) {
+    const out = { a: {}, n: {}, lo: {}, hi: {} };
+    answers.forEach((v, i) => {
+      if (typeof v === 'number') out.a[i] = v;
+      else if (v && isFinite(v.v)) {
+        const r = window.GQ.numRange(v);
+        out.n[i] = { v: +v.v, tol: Math.abs(+v.tol || 0), pct: !!v.pct }; out.lo[i] = r.lo; out.hi[i] = r.hi;
+      }
+    });
+    return out;
+  }
+  const readAnswers = (a, n) => { const out = indexed(a); indexed(n).forEach((v, i) => { if (v) out[i] = { v: v.v, tol: v.tol || 0, pct: !!v.pct }; }); return out; };
+  // Is answer a right? (demo mode; Firebase checks this in its rules)
+  const isRight = (ans, a) => typeof ans === 'number' ? ans === a
+    : !!ans && typeof a === 'number' && (r => a >= r.lo && a <= r.hi)(window.GQ.numRange(ans));
 
   // ---------- Firebase ----------
   async function firebaseBackend() {
@@ -55,39 +90,45 @@
       onConnection(cb) { connCb = cb; cb(connected); },
 
       // ----- Quizzes -----
-      async createQuiz(title) {
+      async createQuiz(title, type) {
         const id = newQuizId(), k = newKey();
         await D.set(r(`answers/${id}`), { k });
         await D.set(r(`owners/${id}/${user.uid}`), k);
-        await D.set(r(`quizzes/${id}`), { title: title || 'Untitled quiz', updated: D.serverTimestamp() });
+        await D.set(r(`quizzes/${id}`), { title: title || 'Untitled quiz', type: type || 'grid', updated: D.serverTimestamp() });
         return { id, k };
       },
       async openQuiz(id, k) {
         try { await D.set(r(`owners/${id}/${user.uid}`), k); }
         catch (e) { throw new Error(isDenied(e) ? 'badlink' : e.message); }
-        const [q, a] = await Promise.all([D.get(r(`quizzes/${id}`)), D.get(r(`answers/${id}/a`))]);
+        const [q, a, n] = await Promise.all([D.get(r(`quizzes/${id}`)), D.get(r(`answers/${id}/a`)), D.get(r(`answers/${id}/n`))]);
         if (!q.exists()) throw new Error('badlink');
-        return { quiz: cleanQuiz(q.val()), answers: indexed(a.val()) };
+        return { quiz: cleanQuiz(q.val()), answers: readAnswers(a.val(), n.val()) };
       },
       async saveQuiz(id, quiz, answers) {
-        await timeout(D.set(r(`quizzes/${id}`), { title: quiz.title || 'Untitled quiz', qs: quiz.qs, updated: D.serverTimestamp() }));
-        await timeout(D.set(r(`answers/${id}/a`), Object.fromEntries(answers.map((v, i) => [i, v]).filter(([, v]) => v != null))));
+        await timeout(D.set(r(`quizzes/${id}`), { ...storeQuiz(quiz), updated: D.serverTimestamp() }));
+        await timeout(D.update(r(`answers/${id}`), storeAnswers(answers)));
       },
       async deleteQuiz(id) { await D.remove(r(`quizzes/${id}`)); },
       watchQuiz(id, cb) { return D.onValue(r(`quizzes/${id}`), s => cb(s.exists() ? cleanQuiz(s.val()) : null)); },
 
       // ----- Games -----
       newRunCode,
-      async createRun(code, quizId) {
-        await D.set(r(`runs/${code}`), { meta: { host: user.uid, quiz: quizId, status: 'lobby', endsAt: 0, created: D.serverTimestamp() } });
+      async createRun(code, quizId, extra) {
+        await D.set(r(`runs/${code}`), { meta: { host: user.uid, quiz: quizId, status: 'lobby', endsAt: 0, created: D.serverTimestamp(), ...(extra || {}) } });
       },
       async getRunMeta(code) { return (await D.get(r(`runs/${code}/meta`))).val(); },
       updateMeta: (code, patch) => D.update(r(`runs/${code}/meta`), patch),
-      async clearRun(code) { await D.remove(r(`runs/${code}/pts`)); await D.remove(r(`proofs/${code}`)); },
-      async deleteRun(code) { await D.remove(r(`proofs/${code}`)).catch(() => {}); await D.remove(r(`runs/${code}`)); },
+      async clearRun(code) {
+        await D.remove(r(`runs/${code}/pts`)); await D.remove(r(`runs/${code}/cells`));
+        await D.remove(r(`proofs/${code}`)); await D.remove(r(`eproofs/${code}`));
+      },
+      async deleteRun(code) {
+        await D.remove(r(`proofs/${code}`)).catch(() => {}); await D.remove(r(`eproofs/${code}`)).catch(() => {});
+        await D.remove(r(`runs/${code}`));
+      },
       watchRun(code, cb) {
-        const st = { meta: undefined, players: {}, pts: {}, mine: {} };
-        const offs = ['meta', 'players', 'pts'].map(part => D.onValue(r(`runs/${code}/${part}`), s => {
+        const st = { meta: undefined, players: {}, pts: {}, cells: {}, mine: {} };
+        const offs = ['meta', 'players', 'pts', 'cells'].map(part => D.onValue(r(`runs/${code}/${part}`), s => {
           st[part] = part === 'meta' ? s.val() : (s.val() || {}); cb(st, part);
         }));
         offs.push(D.onValue(r(`proofs/${code}/${user.uid}`), s => { st.mine = s.val() || {}; cb(st, 'mine'); }, () => {}));
@@ -125,6 +166,36 @@
           const mine = await D.get(r(`runs/${code}/pts/${q}/${user.uid}`)).catch(() => null);
           if (mine && mine.exists()) return 'already';
           console.warn('Quiz Grid: the database refused this point. If this keeps happening, publish the latest database.rules.json in the Firebase console.', e);
+          return 'refused';
+        }
+      },
+
+      // ----- Periodic Table Quest -----
+      // Answer question q while trying to claim element z. Returns 'right', 'wrong', 'closed' or 'notjoined'.
+      async answerEl(code, z, q, a) {
+        try { await timeout(D.set(r(`eproofs/${code}/${user.uid}/${z}`), { q: String(q), a, at: D.serverTimestamp() })); return 'right'; }
+        catch (e) {
+          if (!isDenied(e)) throw e;
+          const [meta, me] = await Promise.all([D.get(r(`runs/${code}/meta`)), D.get(r(`runs/${code}/players/${user.uid}`))]);
+          const m = meta.val();
+          if (!m || m.status === 'ended' || (m.status === 'open' && Date.now() + offset >= m.endsAt)) return 'closed';
+          if (!me.exists()) return 'notjoined';
+          return 'wrong';
+        }
+      },
+      // After a right answer: take element z for team t. Returns 'ok', or why not:
+      // 'yours', 'shielded', 'ended', 'lobby' or 'refused'
+      async claim(code, z, t) {
+        try { await timeout(D.set(r(`runs/${code}/cells/${z}`), { t, by: user.uid, at: D.serverTimestamp() })); return 'ok'; }
+        catch (e) {
+          if (!isDenied(e)) throw e;
+          const [meta, cell] = await Promise.all([D.get(r(`runs/${code}/meta`)), D.get(r(`runs/${code}/cells/${z}`))]);
+          const m = meta.val() || {}, c = cell.val();
+          if (m.status === 'lobby') return 'lobby';
+          if (m.status !== 'open' || Date.now() + offset >= m.endsAt) return 'ended';
+          if (c && c.t === t) return 'yours';
+          if (c && Date.now() + offset < c.at + (m.shield || 0) + 500) return 'shielded';
+          console.warn('Periodic Table Quest: the database refused this claim. If this keeps happening, publish the latest database.rules.json in the Firebase console.', e);
           return 'refused';
         }
       }
@@ -174,7 +245,7 @@
       if (msg.type === 'answer') {
         const entry = all()[S.meta.quiz];
         const open = S.meta.status === 'open' && Date.now() < S.meta.endsAt;
-        const right = open && S.players[msg.uid] && entry && entry.answers[msg.q] === msg.a;
+        const right = open && S.players[msg.uid] && entry && isRight(entry.answers[msg.q], msg.a);
         if (right) { S.proofs[msg.uid] = S.proofs[msg.uid] || {}; S.proofs[msg.uid][msg.q] = { a: msg.a, at: Date.now() }; }
         reply({ result: right ? 'right' : !open ? 'closed' : !S.players[msg.uid] ? 'notjoined' : 'wrong' });
         if (right) publish();
@@ -184,6 +255,26 @@
         if (ok) { S.pts[msg.q] = S.pts[msg.q] || {}; S.pts[msg.q][msg.uid] = { t: msg.t, at: Date.now() }; }
         reply({ result: ok ? 'scored' : 'already' });
         if (ok) publish();
+      }
+      if (msg.type === 'answerEl') {
+        const entry = all()[S.meta.quiz], q = entry && entry.quiz.qs[msg.q];
+        const live = S.meta.status === 'lobby' || (S.meta.status === 'open' && Date.now() < S.meta.endsAt);
+        const fits = q && (!q.els || !Object.keys(q.els).length || q.els[msg.z]);
+        const right = live && S.players[msg.uid] && fits && isRight(entry.answers[msg.q], msg.a);
+        if (right) { S.eproofs[msg.uid] = S.eproofs[msg.uid] || {}; S.eproofs[msg.uid][msg.z] = { q: String(msg.q), a: msg.a, at: Date.now() }; }
+        reply({ result: right ? 'right' : !live ? 'closed' : !S.players[msg.uid] ? 'notjoined' : 'wrong' });
+      }
+      if (msg.type === 'claim') {
+        const p = S.players[msg.uid], c = S.cells[msg.z], now = Date.now();
+        const proof = S.eproofs[msg.uid] && S.eproofs[msg.uid][msg.z];
+        let result = 'ok';
+        if (S.meta.status === 'lobby') result = 'lobby';
+        else if (S.meta.status !== 'open' || now >= S.meta.endsAt) result = 'ended';
+        else if (c && c.t === msg.t) result = 'yours';
+        else if (c && now < c.at + (S.meta.shield || 0)) result = 'shielded';
+        else if (!p || p.t !== msg.t || !proof || proof.at < now - 60000 || (c && proof.at <= c.at)) result = 'refused';
+        if (result === 'ok') { S.cells[msg.z] = { t: msg.t, by: msg.uid, at: now }; publish(); }
+        reply({ result });
       }
     });
     function request(msg) {
@@ -204,9 +295,9 @@
       now: () => Date.now(),
       onConnection(cb) { cb(true); },
 
-      async createQuiz(title) {
+      async createQuiz(title, type) {
         const id = newQuizId(), k = newKey(), q = all();
-        q[id] = { k, quiz: { title: title || 'Untitled quiz', qs: [] }, answers: [] }; putAll(q);
+        q[id] = { k, quiz: { title: title || 'Untitled quiz', type: type || 'grid', qs: [] }, answers: [] }; putAll(q);
         return { id, k };
       },
       async openQuiz(id, k) {
@@ -216,7 +307,7 @@
       },
       async saveQuiz(id, quiz, answers) {
         const q = all(); if (!q[id]) throw new Error('This quiz no longer exists.');
-        q[id].quiz = JSON.parse(JSON.stringify(quiz)); q[id].answers = answers; putAll(q);
+        q[id].quiz = JSON.parse(JSON.stringify(storeQuiz(quiz))); q[id].answers = answers; putAll(q);
         (quizWatchers[id] || []).forEach(cb => cb(cleanQuiz(q[id].quiz)));
       },
       async deleteQuiz(id) { const q = all(); delete q[id]; putAll(q); },
@@ -229,17 +320,17 @@
       seedQuiz(id, k, quiz, answers) { const q = all(); q[id] = { k, quiz, answers }; putAll(q); },
 
       newRunCode,
-      async createRun(code, quizId) {
-        server = { code, state: { meta: { host: uid, quiz: quizId, status: 'lobby', endsAt: 0, created: Date.now() }, players: {}, pts: {}, proofs: {} } };
+      async createRun(code, quizId, extra) {
+        server = { code, state: { meta: { host: uid, quiz: quizId, status: 'lobby', endsAt: 0, created: Date.now(), ...(extra || {}) }, players: {}, pts: {}, cells: {}, proofs: {}, eproofs: {} } };
         publish();
       },
       async getRunMeta(code) { return server && server.code === code ? server.state.meta : null; },
       async updateMeta(code, patch) { Object.assign(server.state.meta, patch); publish(); },
-      async clearRun() { server.state.pts = {}; server.state.proofs = {}; publish(); send({ type: 'cleared', code: server.code }); },
+      async clearRun() { Object.assign(server.state, { pts: {}, cells: {}, proofs: {}, eproofs: {} }); publish(); send({ type: 'cleared', code: server.code }); },
       async deleteRun() { server = null; },
       watchRun(code, cb) {
         if (server && server.code === code) {
-          const w = st => ['meta', 'players', 'pts'].forEach(p => cb({ ...st, mine: {} }, p));
+          const w = st => ['meta', 'players', 'pts', 'cells'].forEach(p => cb({ ...st, mine: {} }, p));
           watchers.push(w); w(JSON.parse(JSON.stringify(server.state)));
           return () => watchers.splice(watchers.indexOf(w), 1);
         }
@@ -249,18 +340,20 @@
           if (m.type === 'state' && m.code === code) {
             got = true;
             myProofs = (m.state.proofs && m.state.proofs[uid]) || {};
-            const st = { meta: m.state.meta, players: m.state.players || {}, pts: m.state.pts || {}, mine: myProofs };
-            ['meta', 'players', 'pts', 'mine'].forEach(p => cb(st, p));
+            const st = { meta: m.state.meta, players: m.state.players || {}, pts: m.state.pts || {}, cells: m.state.cells || {}, mine: myProofs };
+            ['meta', 'players', 'pts', 'cells', 'mine'].forEach(p => cb(st, p));
           }
         });
         const ask = () => { if (!got) { send({ type: 'hello', code }); setTimeout(ask, 1500); } };
         ask();
-        setTimeout(() => { if (!got) cb({ meta: null, players: {}, pts: {}, mine: {} }, 'meta'); }, 5000);
+        setTimeout(() => { if (!got) cb({ meta: null, players: {}, pts: {}, cells: {}, mine: {} }, 'meta'); }, 5000);
         return off;
       },
       async join(code) { return (await request({ type: 'join', code })).t; },
       async answer(code, q, a) { const m = await request({ type: 'answer', code, q, a }); return m.result; },
-      async award(code, q, t) { return (await request({ type: 'award', code, q, t })).result; }
+      async award(code, q, t) { return (await request({ type: 'award', code, q, t })).result; },
+      async answerEl(code, z, q, a) { return (await request({ type: 'answerEl', code, z, q, a })).result; },
+      async claim(code, z, t) { return (await request({ type: 'claim', code, z, t })).result; }
     };
   }
 

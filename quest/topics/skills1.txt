@@ -1,0 +1,861 @@
+# Chemistry Skills 1: Maths for chemists
+# Exported from the classic Periodic Table Quest (questions/skills1.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+Which is larger, 10⁻⁹ or 10⁻¹²?
+- 10⁻¹²
+- They are equal
+* 10⁻⁹
+- It depends on the units
+# Explanation: 10⁻⁹ is 0.000 000 001 and 10⁻¹² is 0.000 000 000 001, so 10⁻⁹ is a thousand times larger.
+
+In standard form, a × 10ⁿ, what values can a take?
+- 0 < a < 1
+- 1 ≤ a < 100
+- Any whole number
+* 1 ≤ a < 10
+# Explanation: The number in front is from 1 up to (but not including) 10, and n is a whole number, positive or negative.
+
+Typing 3.00 × 10 ^ 8 ÷ 4.57 × 10 ^ 14 into a calculator gives 6.56 × 10²¹, not 6.56 × 10⁻⁷. Why?
+- The calculator is in the wrong angle mode
+* It divides by 4.57, then multiplies by 10¹⁴
+- 10 ^ 14 is too large for the calculator
+- Standard form cannot be divided
+# Explanation: Use the ×10ˣ key, or put brackets round the whole denominator, so the calculator divides by 4.57 × 10¹⁴ as one number.
+
+The safest way to enter 4.57 × 10¹⁴ on a scientific calculator is…
+- 4.57 × 10 ^ 14 with no brackets
+* 4.57 [×10ˣ] 14
+- 4.57 ^ 14
+- 4.57 × 14
+# Explanation: The ×10ˣ (or EXP) key keeps the number together as one value.
+
+A student calculates the mass of one water molecule. Which answer is realistic?
+* 2.99 × 10⁻²³ g
+- 2.99 × 10²³ g
+- 18.02 g
+- 1.08 × 10²⁵ g
+# Explanation: 18.02 g mol⁻¹ ÷ 6.022 × 10²³ mol⁻¹ = 2.99 × 10⁻²³ g. 2.99 × 10²³ g would be heavier than Mount Everest.
+
+Which is a realistic frequency for green light (550 nm)?
+* 5.45 × 10¹⁴ Hz
+- 545 kHz
+- 5.45 × 10⁵ Hz
+- 1.65 × 10¹⁷ Hz
+# Explanation: ν = c/λ = 3.00 × 10⁸ ÷ 5.50 × 10⁻⁷ m. 545 kHz comes from forgetting to convert nm to m, and is an AM radio frequency.
+
+Before pressing any calculator keys, what habit catches most exponent errors?
+- Round every input to 1 s.f.
+* Estimate the power of ten of the answer
+- Work in decimals rather than standard form
+- Repeat the calculation twice the same way
+# Explanation: A quick estimate tells you roughly what to expect, so an answer out by a factor of 10²⁸ stands out immediately.
+
+Which SI base unit already contains a prefix?
+- The metre
+- The mole
+- The kelvin
+* The kilogram
+# Explanation: The kilogram is the only SI base unit with a prefix built in, so energy in joules needs mass in kg, not g.
+
+Which of these is the same as 1 L?
+* 1 dm³
+- 1 m³
+- 1 cm³
+- 100 cm³
+# Explanation: 1 L = 1 dm³ = 1000 cm³ = 0.001 m³. So mol L⁻¹ and mol dm⁻³ are the same unit.
+
+In biochemistry, a concentration written as "0.10 M" means…
+- 0.10 mol m⁻³
+- 0.10 mega-moles
+- 0.10 mg per mL
+* 0.10 mol dm⁻³
+# Explanation: M is shorthand for mol dm⁻³ (mol L⁻¹).
+
+The prefixes m (milli) and M (mega) differ by a factor of…
+- 10³
+- 10⁶
+- 1: they mean the same
+* 10⁹
+# Explanation: milli is 10⁻³ and mega is 10⁶. Prefix symbols are case sensitive.
+
+1 µL is equal to…
+* 10⁻³ mL
+- 10⁻⁶ mL
+- 10³ mL
+- 10⁻³ L
+# Explanation: 1 µL = 10⁻⁶ L = 10⁻³ mL (= 1 mm³). Micropipettes such as the P200 are labelled in µL.
+
+Which prefix is 10⁻¹², used for bond lengths?
+- nano (n)
+* pico (p)
+- micro (µ)
+- femto (f)
+# Explanation: Bond lengths are typically tens to hundreds of pm, for example 74 pm for H₂.
+
+A temperature change of 1 °C is the same as a change of…
+* 1 K
+- 273.15 K
+- 274.15 K
+- −272.15 K
+# Explanation: The degree Celsius and the kelvin are the same size; only the zero point differs (0 °C = 273.15 K). Absolute temperatures in equations must be in kelvin.
+
+One ångström (Å) is…
+* 10⁻¹⁰ m
+- 10⁻⁹ m
+- 10⁻¹² m
+- 10⁻⁶ m
+# Explanation: 1 Å = 10⁻¹⁰ m = 0.1 nm = 100 pm.
+
+1 cm³ is how many m³?
+- 10⁻² m³
+- 10⁻³ m³
+- 10⁶ m³
+* 10⁻⁶ m³
+# Explanation: 1 cm = 10⁻² m, so 1 cm³ = (10⁻² m)³ = 10⁻⁶ m³. The conversion factor is cubed too.
+
+Gold has a density of 19.3 g cm⁻³. What is that in kg m⁻³?
+- 1.93 kg m⁻³
+* 1.93 × 10⁴ kg m⁻³
+- 1.93 × 10⁻² kg m⁻³
+- 1.93 × 10⁷ kg m⁻³
+# Explanation: × (1 kg / 1000 g) × (10⁶ cm³ / 1 m³). Using 10² instead of 10⁶ gives 1.93 kg m⁻³: a cubic metre of gold weighing as much as a bag of sugar.
+
+The molar absorption coefficient ε has units mol⁻¹ dm³ cm⁻¹. Why is dm³ on the top line?
+- Because ε is a volume
+* Dividing by a concentration (mol dm⁻³) puts dm³ on top
+- It is a typing convention with no meaning
+- Because the cuvette is 1 dm long
+# Explanation: Units come from the calculation that produces the quantity. Dividing by mol dm⁻³ gives mol⁻¹ dm³.
+
+Enzyme specific activity has units of µmol min⁻¹ mg⁻¹. Which formula fits? (n = product formed, t = time, m = enzyme mass)
+- n × t / m
+- m / (n × t)
+- n × m / t
+* n / (t × m)
+# Explanation: µmol is on top, so an amount goes on top. min⁻¹ and mg⁻¹ are negative powers, so time and mass both go underneath.
+
+Using n = m/M with m in g and M in g mol⁻¹, what are the units of n?
+- g² mol⁻¹
+- mol⁻¹
+- g mol
+* mol
+# Explanation: g ÷ g mol⁻¹ = mol. If the units of your answer are not what you wanted, you have rearranged something incorrectly.
+
+In E = hν, h is in J s and ν in s⁻¹. What are the units of E?
+* J
+- J s²
+- J s⁻¹
+- s⁻¹
+# Explanation: J s × s⁻¹ = J. Units are a free check on your algebra.
+
+To find ν from c = λν, you should calculate…
+- ν = cλ
+* ν = c / λ
+- ν = λ / c
+- ν = c − λ
+# Explanation: Divide both sides by λ. Check with units: m s⁻¹ ÷ m = s⁻¹.
+
+How many significant figures does "1500 g" have?
+* You can't tell: it could be 2, 3 or 4
+- 2
+- 4
+- 0
+# Explanation: Trailing zeros in a whole number are ambiguous. Standard form removes the doubt: 1.5 × 10³, 1.50 × 10³ or 1.500 × 10³ g.
+
+0.0230 has how many significant figures and how many decimal places?
+- 4 s.f. and 4 d.p.
+- 3 s.f. and 3 d.p.
+* 3 s.f. and 4 d.p.
+- 5 s.f. and 4 d.p.
+# Explanation: Leading zeros never count as significant figures, but the trailing zero after the decimal point does.
+
+n = cV = 0.10 mol dm⁻³ × 0.02357 dm³. The calculator shows 0.002357. How should n be reported?
+* 2.4 × 10⁻³ mol
+- 2.357 × 10⁻³ mol
+- 2 × 10⁻³ mol
+- 0.002357 mol
+# Explanation: When multiplying, keep the fewest significant figures of the inputs: 0.10 has 2 s.f.
+
+Reporting a result as 2.4 × 10⁻³ mol tells the reader the true value is probably between…
+- 2.3565 and 2.3575 × 10⁻³ mol
+* 2.35 and 2.45 × 10⁻³ mol
+- 1.5 and 2.5 × 10⁻³ mol
+- 2.0 and 3.0 × 10⁻³ mol
+# Explanation: The number of figures you quote communicates how much tolerance to put around the value.
+
+A dinosaur skeleton was "70 million years old" twelve years ago. Why is "70 million and twelve years" wrong?
+- Twelve years is too short to measure
+- Ages must be in standard form
+- You can only add numbers with the same units
+* Adding a precise number cannot make an imprecise one more precise
+# Explanation: The uncertainty is millions of years. When adding or subtracting, keep the fewest decimal places (here, the least precise place value).
+
+Subtracting 25.5 cm³ from 29.2 cm³ gives 3.7 cm³. What has happened to the precision?
+- It gains a significant figure
+- Nothing: it is still 3 s.f.
+- It becomes exact
+* Still 1 d.p., but only 2 s.f.: subtracting similar numbers loses significant figures
+# Explanation: A ±0.1 cm³ reading error is small next to 29.2 but large next to 3.7. That is why a bigger sample gives a better density.
+
+In a formula like 2AgNO₃ + MgCl₂ → …, does the "2" limit the significant figures of your answer?
+- Yes: it has 1 s.f.
+- Yes: it has 2 s.f.
+* No: stoichiometric numbers are exact
+- Only when multiplying
+# Explanation: Exact numbers (counts, stoichiometries, defined constants) have unlimited significant figures.
+
+To get a more precise final answer, which measurement should you improve first?
+* The least precise one
+- The most precise one
+- The largest one
+- The one measured last
+# Explanation: Your answer is only as good as your worst measurement.
+
+To find the energy of one mole of 280 nm photons, what is the first step?
+- Multiply by NA
+- Calculate E = hν
+- Divide by h
+* Convert 280 nm to metres
+# Explanation: Plan backwards (J mol⁻¹ ← E × NA ← E = hν ← ν = c/λ ← λ in m), then work forwards starting with the unit conversion.
+
+Rounding each step of the 280 nm calculation to 2 s.f. gives 4.4 × 10⁵ J mol⁻¹ instead of 4.28 × 10⁵. What is the lesson?
+- Always use 2 s.f.
+* Keep values in the calculator and round only at the end
+- Round to 1 s.f. instead
+- The constants are wrong
+# Explanation: Rounding errors build up along a chain. Carry results forward with Ans or the memory; write values down, but do not retype them.
+
+What is the energy of one mole of 280 nm photons? (the chain from the lecture)
+- 7.10 × 10⁻¹⁹ kJ mol⁻¹
+- 0.428 kJ mol⁻¹
+* 428 kJ mol⁻¹
+- 4.28 × 10⁸ kJ mol⁻¹
+# Explanation: ν = 1.071 × 10¹⁵ s⁻¹; E = 7.10 × 10⁻¹⁹ J per photon; × 6.022 × 10²³ = 4.28 × 10⁵ J mol⁻¹ = 428 kJ mol⁻¹.
+
+For n = cV with c in mol dm⁻³, V must be in…
+- mL
+- cm³
+- m³
+* dm³
+# Explanation: The volume unit must match the concentration unit. 9.85 mL = 9.85 × 10⁻³ dm³.
+
+A student works out moles in 9.85 mL of 0.0100 M AgNO₃ as 0.01 × 9.85 = 0.0985 mol. What went wrong?
+- Nothing: 0.0985 mol is right
+* The volume wasn't converted to dm³: the answer is 1000 times too big
+- M should have been converted to mol m⁻³
+- They should have divided instead of multiplied
+# Explanation: n = 0.0100 mol dm⁻³ × 9.85 × 10⁻³ dm³ = 9.85 × 10⁻⁵ mol.
+
+2AgNO₃ + MgCl₂·6H₂O → 2AgCl + … If 9.85 × 10⁻⁵ mol AgNO₃ reacted, how much MgCl₂·6H₂O was present?
+- 1.97 × 10⁻⁴ mol
+- 9.85 × 10⁻⁵ mol
+* 4.93 × 10⁻⁵ mol
+- 5.91 × 10⁻⁴ mol
+# Explanation: 2 mol AgNO₃ react with 1 mol MgCl₂·6H₂O, so divide by 2.
+
+Why must the "·6H₂O" be included in the molar mass of MgCl₂·6H₂O?
+- It is only there to show the salt is wet
+* Six water molecules are part of every formula unit
+- Water has no mass on the atomic scale
+- It only matters for concentrations
+# Explanation: MgCl₂·6H₂O is 203.31 g mol⁻¹; MgCl₂ alone is 95.21. Leaving the water out sends an identification to the wrong answer.
+
+In the chloride titration, Ag⁺ + Cl⁻ → AgCl. For a group 2 chloride XCl₂, moles of salt are…
+- equal to the moles of Ag⁺ used
+- twice the moles of Ag⁺ used
+* half the moles of Ag⁺ used
+- impossible to find
+# Explanation: Each Ag⁺ removes one Cl⁻, and each XCl₂ supplies two Cl⁻.
+
+The titration gives M = 0.10 ÷ 4.93 × 10⁻⁴ = 202.8… g mol⁻¹. With 0.10 g and 0.10 mol dm⁻³, how should it be reported?
+- 202.8 g mol⁻¹
+- 203 g mol⁻¹
+* 2.0 × 10² g mol⁻¹
+- 200.0 g mol⁻¹
+# Explanation: The mass and concentration are both known to only 2 s.f., so the answer is 2 s.f. Standard form shows that clearly.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+Write 578 000 000 mol in standard form.
+- 5.78 × 10⁻⁸ mol
+- 5.78 × 10⁹ mol
+- 5.78 × 10⁷ mol
+* 5.78 × 10⁸ mol
+# Explanation: The decimal point moves 8 places left, so the power is positive: 5.78 × 10⁸ mol.
+
+Write 0.000 176 mol in standard form.
+* 1.76 × 10⁻⁴ mol
+- 1.76 × 10⁴ mol
+- 1.76 × 10⁻³ mol
+- 1.76 × 10⁻⁵ mol
+# Explanation: The decimal point moves 4 places right, so the power is negative: 1.76 × 10⁻⁴ mol.
+
+Write 0.000 000 891 m in standard form.
+- 8.91 × 10⁷ m
+- 8.91 × 10⁻⁶ m
+- 8.91 × 10⁻⁸ m
+* 8.91 × 10⁻⁷ m
+# Explanation: The decimal point moves 7 places right, so the power is negative: 8.91 × 10⁻⁷ m.
+
+Write 0.000 000 096 1 m in standard form.
+- 9.61 × 10⁸ m
+- 9.61 × 10⁻⁷ m
+* 9.61 × 10⁻⁸ m
+- 9.61 × 10⁻⁹ m
+# Explanation: The decimal point moves 8 places right, so the power is negative: 9.61 × 10⁻⁸ m.
+
+Write 0.000 034 8 s in standard form.
+- 3.48 × 10⁵ s
+- 3.48 × 10⁻⁴ s
+* 3.48 × 10⁻⁵ s
+- 3.48 × 10⁻⁶ s
+# Explanation: The decimal point moves 5 places right, so the power is negative: 3.48 × 10⁻⁵ s.
+
+Write 4 960 000 J in standard form.
+- 4.96 × 10⁻⁶ J
+* 4.96 × 10⁶ J
+- 4.96 × 10⁷ J
+- 4.96 × 10⁵ J
+# Explanation: The decimal point moves 6 places left, so the power is positive: 4.96 × 10⁶ J.
+
+Without a calculator, what is (2 × 10⁵) × (8 × 10⁻⁹)?
+- 1.6 × 10⁻⁴
+* 1.6 × 10⁻³
+- 1.6 × 10⁻²
+- 1.6 × 10¹⁵
+# Explanation: Multiply the numbers (2 × 8 = 16) and add the powers: 5 + (−9) = −4. That gives 16 × 10⁻⁴ = 1.6 × 10⁻³.
+
+Without a calculator, what is (3 × 10³) × (7 × 10³)?
+- 2.1 × 10⁶
+* 2.1 × 10⁷
+- 2.1 × 10⁸
+- 2.1 × 10¹
+# Explanation: Multiply the numbers (3 × 7 = 21) and add the powers: 3 + 3 = 6. That gives 21 × 10⁶ = 2.1 × 10⁷.
+
+Without a calculator, what is (6 × 10⁻²⁷) ÷ (3 × 10⁵)?
+- 2 × 10⁻²²
+* 2 × 10⁻³²
+- 2 × 10³²
+- 2 × 10⁻³³
+# Explanation: Divide the numbers (6 ÷ 3 = 2) and subtract the powers: (−27) − 5 = −32.
+
+Without a calculator, what is (6 × 10³) × (5 × 10⁻⁴)?
+- 3 × 10⁻¹
+* 3 × 10⁰
+- 3 × 10¹
+- 3 × 10⁸
+# Explanation: Multiply the numbers (6 × 5 = 30) and add the powers: 3 + (−4) = −1. That gives 30 × 10⁻¹ = 3 × 10⁰.
+
+Without a calculator, what is (9 × 10⁻³) ÷ (3 × 10²³)?
+* 3 × 10⁻²⁶
+- 3 × 10²⁰
+- 3 × 10²⁶
+- 3 × 10⁻²⁷
+# Explanation: Divide the numbers (9 ÷ 3 = 3) and subtract the powers: (−3) − 23 = −26.
+
+Without a calculator, what is (4 × 10¹⁴) ÷ (2 × 10⁸)?
+- 2 × 10²²
+- 2 × 10⁻⁶
+- 2 × 10⁵
+* 2 × 10⁶
+# Explanation: Divide the numbers (4 ÷ 2 = 2) and subtract the powers: 14 − 8 = 6.
+
+What is (1.5 × 10²) + (3.6 × 10¹)?
+- 5.1 × 10²
+* 1.9 × 10²
+- 5.1 × 10³
+- 1.9 × 10¹
+# Explanation: Match the powers first: 3.6 × 10¹ = 0.36 × 10². Then add: 1.5 + 0.36 = 1.86, reported to 1 d.p. as 1.9 because 1.5 is only known to 1 d.p.
+
+What is (1.9 × 10⁴) + (5.5 × 10³)?
+- 7.4 × 10⁴
+- 7.4 × 10⁷
+- 2.5 × 10³
+* 2.5 × 10⁴
+# Explanation: Match the powers first: 5.5 × 10³ = 0.55 × 10⁴. Then add: 1.9 + 0.55 = 2.45, reported to 1 d.p. as 2.5 because 1.9 is only known to 1 d.p.
+
+What is (3.6 × 10⁻¹) + (3.9 × 10⁻²)?
+- 7.5 × 10⁻¹
+- 7.5 × 10⁻³
+- 4.0 × 10⁻²
+* 4.0 × 10⁻¹
+# Explanation: Match the powers first: 3.9 × 10⁻² = 0.39 × 10⁻¹. Then add: 3.6 + 0.39 = 3.99, reported to 1 d.p. as 4.0 because 3.6 is only known to 1 d.p.
+
+What is (1.3 × 10⁻²) + (8.2 × 10⁻³)?
+- 9.5 × 10⁻²
+- 9.5 × 10⁻⁵
+* 2.1 × 10⁻²
+- 2.1 × 10⁻³
+# Explanation: Match the powers first: 8.2 × 10⁻³ = 0.82 × 10⁻². Then add: 1.3 + 0.82 = 2.12, reported to 1 d.p. as 2.1 because 1.3 is only known to 1 d.p.
+
+What is (2.9 × 10⁵) + (6.5 × 10⁴)?
+* 3.6 × 10⁵
+- 9.4 × 10⁵
+- 9.4 × 10⁹
+- 3.6 × 10⁴
+# Explanation: Match the powers first: 6.5 × 10⁴ = 0.65 × 10⁵. Then add: 2.9 + 0.65 = 3.55, reported to 1 d.p. as 3.6 because 2.9 is only known to 1 d.p.
+
+What is (3.5 × 10¹) + (7.1 × 10⁰)?
+* 4.2 × 10¹
+- 10.6 × 10¹
+- 4.2 × 10⁰
+# Explanation: Match the powers first: 7.1 × 10⁰ = 0.71 × 10¹. Then add: 3.5 + 0.71 = 4.21, reported to 1 d.p. as 4.2 because 3.5 is only known to 1 d.p.
+
+Convert 1.5 µL (a pipetted volume) into mL.
+- 1500 mL
+- 1.5 mL
+* 0.0015 mL
+- 1.5 × 10⁻⁶ mL
+# Explanation: 1 µL = 0.001 mL, so 1.5 µL = 0.0015 mL. mL is the bigger unit, so the number gets smaller.
+
+Convert 74 g (a sample mass) into mg.
+* 74000 mg
+- 0.074 mg
+- 7.4 × 10⁷ mg
+- 74 mg
+# Explanation: 1 g = 1000 mg, so 74 g = 74000 mg. mg is the smaller unit, so the number gets bigger.
+
+Convert 0.75 µM (a concentration) into mM.
+- 750 mM
+* 7.5 × 10⁻⁴ mM
+- 0.75 mM
+- 7.5 × 10⁻⁷ mM
+# Explanation: 1 µM = 0.001 mM, so 0.75 µM = 7.5 × 10⁻⁴ mM. mM is the bigger unit, so the number gets smaller.
+
+Convert 1.5 mmol (an amount) into plain mol (no prefix).
+- 1500 mol
+- 1.5 mol
+* 0.0015 mol
+- 1.5 × 10⁻⁶ mol
+# Explanation: 1 mmol = 0.001 mol, so 1.5 mmol = 0.0015 mol. mol is the bigger unit, so the number gets smaller.
+
+Convert 0.25 MHz (a radio frequency) into plain Hz (no prefix).
+- 2.5 × 10⁻⁷ Hz
+* 2.5 × 10⁵ Hz
+- 2.5 × 10⁸ Hz
+- 250 Hz
+# Explanation: 1 MHz = 1 × 10⁶ Hz, so 0.25 MHz = 2.5 × 10⁵ Hz. Hz is the smaller unit, so the number gets bigger.
+
+Convert 3.2 THz (a light frequency) into plain Hz (no prefix).
+- 3.2 × 10⁻¹² Hz
+- 3.2 × 10¹⁵ Hz
+- 3.2 × 10⁹ Hz
+* 3.2 × 10¹² Hz
+# Explanation: 1 THz = 1 × 10¹² Hz, so 3.2 THz = 3.2 × 10¹² Hz. Hz is the smaller unit, so the number gets bigger.
+
+Convert 12.5 cm³ into m³.
+- 0.125 m³
+* 1.25 × 10⁻⁵ m³
+- 1.25 × 10⁷ m³
+- 0.00125 m³
+# Explanation: When a unit is cubed, so is its conversion factor: 1 cm³ = 1 × 10⁻⁶ m³. Forgetting to cube is the classic slip.
+
+Convert 25.0 cm³ into m³.
+- 0.250 m³
+- 2.50 × 10⁷ m³
+- 0.00250 m³
+* 2.50 × 10⁻⁵ m³
+# Explanation: When a unit is cubed, so is its conversion factor: 1 cm³ = 1 × 10⁻⁶ m³. Forgetting to cube is the classic slip.
+
+Convert 25.0 mm³ into cm³.
+* 0.0250 cm³
+- 2.50 cm³
+- 25000 cm³
+- 0.250 cm³
+# Explanation: When a unit is cubed, so is its conversion factor: 1 mm³ = 0.001 cm³. Forgetting to cube is the classic slip.
+
+Convert 250 m³ into dm³.
+- 2500 dm³
+- 0.250 dm³
+- 25000 dm³
+* 2.50 × 10⁵ dm³
+# Explanation: When a unit is cubed, so is its conversion factor: 1 m³ = 1000 dm³. Forgetting to cube is the classic slip.
+
+Convert 12.5 cm³ into dm³.
+- 1.25 dm³
+- 12500 dm³
+- 0.125 dm³
+* 0.0125 dm³
+# Explanation: When a unit is cubed, so is its conversion factor: 1 cm³ = 0.001 dm³. Forgetting to cube is the classic slip.
+
+Convert 50.0 mL into dm³.
+- 5.00 dm³
+- 50000 dm³
+* 0.0500 dm³
+- 0.500 dm³
+# Explanation: When a unit is cubed, so is its conversion factor: 1 mL = 0.001 dm³. Forgetting to cube is the classic slip.
+
+How many significant figures does 8.80 × 10³ have?
+* 3
+- 4
+- 2
+- 5
+# Explanation: 3: every digit written in standard form is significant.
+
+How many significant figures does 2.720 × 10⁻⁴ have?
+- 6
+- 5
+- 2
+* 4
+# Explanation: 4: every digit written in standard form is significant.
+
+How many significant figures does 31.30 have?
+- 6
+- 2
+- 5
+* 4
+# Explanation: 4: a trailing zero after the decimal point counts.
+
+How many significant figures does 0.0690 have?
+- 1
+* 3
+- 5
+- 2
+# Explanation: 3: leading zeros never count, but a trailing zero after the decimal point does.
+
+How many significant figures does 0.0870 have?
+- 1
+* 3
+- 5
+- 4
+# Explanation: 3: leading zeros never count, but a trailing zero after the decimal point does.
+
+How many significant figures does 0.9 have?
+* 1
+- 3
+- 2
+# Explanation: 1: the leading zero does not count.
+
+A metal sample weighs 45.90 g and has a volume of 25 cm³. How should its density be reported?
+- 1.836 g cm⁻³
+- 1.84 g cm⁻³
+- 2 g cm⁻³
+* 1.8 g cm⁻³
+# Explanation: 45.90 (4 s.f.) ÷ 25 (2 s.f.): keep the fewest significant figures of the inputs, so 2 s.f. Your answer is only as good as your worst measurement.
+
+A metal sample weighs 89.99 g and has a volume of 28 cm³. How should its density be reported?
+- 3.214 g cm⁻³
+* 3.2 g cm⁻³
+- 3.21 g cm⁻³
+- 3 g cm⁻³
+# Explanation: 89.99 (4 s.f.) ÷ 28 (2 s.f.): keep the fewest significant figures of the inputs, so 2 s.f. Your answer is only as good as your worst measurement.
+
+A metal sample weighs 36.85 g and has a volume of 20 cm³. How should its density be reported?
+- 1.843 g cm⁻³
+- 1.84 g cm⁻³
+- 2 g cm⁻³
+* 1.8 g cm⁻³
+# Explanation: 36.85 (4 s.f.) ÷ 20 (2 s.f.): keep the fewest significant figures of the inputs, so 2 s.f. Your answer is only as good as your worst measurement.
+
+A metal sample weighs 86.15 g and has a volume of 12 cm³. How should its density be reported?
+- 7.179 g cm⁻³
+- 7.18 g cm⁻³
+- 7 g cm⁻³
+* 7.2 g cm⁻³
+# Explanation: 86.15 (4 s.f.) ÷ 12 (2 s.f.): keep the fewest significant figures of the inputs, so 2 s.f. Your answer is only as good as your worst measurement.
+
+A metal sample weighs 38.64 g and has a volume of 36 cm³. How should its density be reported?
+* 1.1 g cm⁻³
+- 1.073 g cm⁻³
+- 1.07 g cm⁻³
+- 1 g cm⁻³
+# Explanation: 38.64 (4 s.f.) ÷ 36 (2 s.f.): keep the fewest significant figures of the inputs, so 2 s.f. Your answer is only as good as your worst measurement.
+
+A metal sample weighs 55.12 g and has a volume of 17 cm³. How should its density be reported?
+- 3.242 g cm⁻³
+- 3.24 g cm⁻³
+* 3.2 g cm⁻³
+- 3 g cm⁻³
+# Explanation: 55.12 (4 s.f.) ÷ 17 (2 s.f.): keep the fewest significant figures of the inputs, so 2 s.f. Your answer is only as good as your worst measurement.
+
+A burette reading of 32.14 mL is added to 8.8 mL from a measuring cylinder. How should the total be reported?
+- 40.94 mL
+* 40.9 mL
+- 41 mL
+- 40.940 mL
+# Explanation: When adding, keep the fewest decimal places: 8.8 mL is only known to 0.1 mL, so the total is too.
+
+A burette reading of 21.33 mL is added to 8.5 mL from a measuring cylinder. How should the total be reported?
+* 29.8 mL
+- 29.83 mL
+- 30 mL
+- 29.830 mL
+# Explanation: When adding, keep the fewest decimal places: 8.5 mL is only known to 0.1 mL, so the total is too.
+
+A burette reading of 13.42 mL is added to 6.1 mL from a measuring cylinder. How should the total be reported?
+- 19.52 mL
+- 20 mL
+* 19.5 mL
+- 19.520 mL
+# Explanation: When adding, keep the fewest decimal places: 6.1 mL is only known to 0.1 mL, so the total is too.
+
+A burette reading of 39.80 mL is added to 5.6 mL from a measuring cylinder. How should the total be reported?
+- 45.40 mL
+- 45 mL
+* 45.4 mL
+- 45.400 mL
+# Explanation: When adding, keep the fewest decimal places: 5.6 mL is only known to 0.1 mL, so the total is too.
+
+A burette reading of 43.74 mL is added to 6.7 mL from a measuring cylinder. How should the total be reported?
+- 50.44 mL
+- 50 mL
+* 50.4 mL
+- 50.440 mL
+# Explanation: When adding, keep the fewest decimal places: 6.7 mL is only known to 0.1 mL, so the total is too.
+
+A burette reading of 49.89 mL is added to 3.7 mL from a measuring cylinder. How should the total be reported?
+- 53.59 mL
+- 54 mL
+- 53.590 mL
+* 53.6 mL
+# Explanation: When adding, keep the fewest decimal places: 3.7 mL is only known to 0.1 mL, so the total is too.
+
+How many moles of hydrogen atoms are in 1.28 g of hydrogen (Aᵣ 1.01)?
+Elements: H
+- 1.29 mol
+- 0.788 mol
+- 1270 mol
+* 1.27 mol
+# Explanation: n = m / M = 1.28 g ÷ 1.01 g mol⁻¹ = 1.27 mol.
+
+How many moles of magnesium atoms are in 2.21 g of magnesium (Aᵣ 24.30)?
+Elements: Mg
+- 53.7 mol
+- 11.0 mol
+- 90.9 mol
+* 0.0909 mol
+# Explanation: n = m / M = 2.21 g ÷ 24.30 g mol⁻¹ = 0.0909 mol.
+
+How many moles of cobalt atoms are in 6.95 g of cobalt (Aᵣ 58.93)?
+Elements: Co
+* 0.118 mol
+- 410 mol
+- 8.48 mol
+- 118 mol
+# Explanation: n = m / M = 6.95 g ÷ 58.93 g mol⁻¹ = 0.118 mol.
+
+How many moles of cadmium atoms are in 84.6 g of cadmium (Aᵣ 112.41)?
+Elements: Cd
+* 0.753 mol
+- 9510 mol
+- 1.33 mol
+- 753 mol
+# Explanation: n = m / M = 84.6 g ÷ 112.41 g mol⁻¹ = 0.753 mol.
+
+How many moles of indium atoms are in 8.93 g of indium (Aᵣ 114.82)?
+Elements: In
+- 1030 mol
+- 12.9 mol
+- 77.8 mol
+* 0.0778 mol
+# Explanation: n = m / M = 8.93 g ÷ 114.82 g mol⁻¹ = 0.0778 mol.
+
+How many moles of caesium atoms are in 12.2 g of caesium (Aᵣ 132.91)?
+Elements: Cs
+- 1620 mol
+- 10.9 mol
+* 0.0918 mol
+- 91.8 mol
+# Explanation: n = m / M = 12.2 g ÷ 132.91 g mol⁻¹ = 0.0918 mol.
+
+How many moles of solute are in 41.31 mL of a 0.0500 mol dm⁻³ solution?
+- 2.07 mol
+* 0.00207 mol
+- 2.07 × 10⁻⁶ mol
+- 0.826 mol
+# Explanation: Convert the volume first: 41.31 mL = 0.04131 dm³. Then n = cV = 0.0500 × 0.04131 = 0.00207 mol. Forgetting the conversion makes the answer 1000 times too big.
+
+How many moles of solute are in 20.67 mL of a 0.0100 mol dm⁻³ solution?
+* 2.07 × 10⁻⁴ mol
+- 0.207 mol
+- 2.07 × 10⁻⁷ mol
+- 2.07 mol
+# Explanation: Convert the volume first: 20.67 mL = 0.02067 dm³. Then n = cV = 0.0100 × 0.02067 = 2.07 × 10⁻⁴ mol. Forgetting the conversion makes the answer 1000 times too big.
+
+How many moles of solute are in 18.41 mL of a 0.0100 mol dm⁻³ solution?
+- 0.184 mol
+* 1.84 × 10⁻⁴ mol
+- 1.84 × 10⁻⁷ mol
+- 1.84 mol
+# Explanation: Convert the volume first: 18.41 mL = 0.01841 dm³. Then n = cV = 0.0100 × 0.01841 = 1.84 × 10⁻⁴ mol. Forgetting the conversion makes the answer 1000 times too big.
+
+How many moles of solute are in 39.21 mL of a 0.0100 mol dm⁻³ solution?
+* 3.92 × 10⁻⁴ mol
+- 0.392 mol
+- 3.92 × 10⁻⁷ mol
+- 3.92 mol
+# Explanation: Convert the volume first: 39.21 mL = 0.03921 dm³. Then n = cV = 0.0100 × 0.03921 = 3.92 × 10⁻⁴ mol. Forgetting the conversion makes the answer 1000 times too big.
+
+How many moles of solute are in 24.27 mL of a 0.250 mol dm⁻³ solution?
+- 6.07 mol
+- 6.07 × 10⁻⁶ mol
+- 0.0971 mol
+* 0.00607 mol
+# Explanation: Convert the volume first: 24.27 mL = 0.02427 dm³. Then n = cV = 0.250 × 0.02427 = 0.00607 mol. Forgetting the conversion makes the answer 1000 times too big.
+
+How many moles of solute are in 43.71 mL of a 0.200 mol dm⁻³ solution?
+- 8.74 mol
+- 8.74 × 10⁻⁶ mol
+- 0.219 mol
+* 0.00874 mol
+# Explanation: Convert the volume first: 43.71 mL = 0.04371 dm³. Then n = cV = 0.200 × 0.04371 = 0.00874 mol. Forgetting the conversion makes the answer 1000 times too big.
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+What mass of iron (Aᵣ 55.84), in mg, contains 3.32 mmol of atoms? Give 3 s.f.
+Elements: Fe
+Steal
+= 185 ± 0.6% mg
+# Shown answer: 185 mg
+# Explanation: m = nM = 3.32 × 10⁻³ mol × 55.84 g mol⁻¹ = 0.185 g = 185 mg.
+
+What mass of gallium (Aᵣ 69.72), in mg, contains 6.87 mmol of atoms? Give 3 s.f.
+Elements: Ga
+Steal
+= 479 ± 0.6% mg
+# Shown answer: 479 mg
+# Explanation: m = nM = 6.87 × 10⁻³ mol × 69.72 g mol⁻¹ = 0.479 g = 479 mg.
+
+How many millimoles of selenium atoms are in 0.233 g of selenium (Aᵣ 78.97)? Give 3 s.f.
+Elements: Se
+Steal
+= 2.95 ± 0.6% mmol
+# Shown answer: 2.95 mmol
+# Explanation: n = m / M = 0.233 ÷ 78.97 = 2.95 × 10⁻³ mol = 2.95 mmol.
+
+What mass of silver (Aᵣ 107.87), in mg, contains 6.35 mmol of atoms? Give 3 s.f.
+Elements: Ag
+Steal
+= 685 ± 0.6% mg
+# Shown answer: 685 mg
+# Explanation: m = nM = 6.35 × 10⁻³ mol × 107.87 g mol⁻¹ = 0.685 g = 685 mg.
+
+A cube of beryllium has sides of 2.19 cm. Its density is 1.85 g cm⁻³. What is its mass in grams? Give 3 s.f.
+Elements: Be
+Steal
+= 19.4 ± 0.6% g
+# Shown answer: 19.4 g
+# Explanation: V = 2.19³ = 10.5 cm³; m = ρV = 1.85 × 10.5 = 19.4 g.
+
+The density of scandium is 2.99 g cm⁻³. What is it in kg m⁻³?
+Elements: Sc
+Steal
+= 2990 ± 0.6% kg m⁻³
+# Shown answer: 2990 kg m⁻³
+# Explanation: 2.99 g cm⁻³ × (1 kg / 1000 g) × (10⁶ cm³ / 1 m³) = 2990 kg m⁻³. The cm³ factor is cubed: 10⁶, not 10².
+
+A cube of selenium has sides of 1.68 cm. Its density is 4.81 g cm⁻³. What is its mass in grams? Give 3 s.f.
+Elements: Se
+Steal
+= 22.8 ± 0.6% g
+# Shown answer: 22.8 g
+# Explanation: V = 1.68³ = 4.74 cm³; m = ρV = 4.81 × 4.74 = 22.8 g.
+
+The density of strontium is 2.64 g cm⁻³. What is it in kg m⁻³?
+Elements: Sr
+Steal
+= 2640 ± 0.6% kg m⁻³
+# Shown answer: 2640 kg m⁻³
+# Explanation: 2.64 g cm⁻³ × (1 kg / 1000 g) × (10⁶ cm³ / 1 m³) = 2640 kg m⁻³. The cm³ factor is cubed: 10⁶, not 10².
+
+0.100 g of an unknown group 2 chloride (XCl₂, possibly hydrated) is titrated with 0.100 mol dm⁻³ AgNO₃. The end point is at 9.84 mL. What is the molar mass of the salt? Give 3 s.f.
+Steal
+= 203 ± 0.6% g mol⁻¹
+# Shown answer: 203 g mol⁻¹
+# Explanation: n(Ag⁺) = n(Cl⁻) = 0.100 × 0.009840 dm³ = 9.84 × 10⁻⁴ mol. Two Cl⁻ per formula unit, so n(salt) = 4.92 × 10⁻⁴ mol. M = 0.100 ÷ 4.92 × 10⁻⁴ = 203 g mol⁻¹, consistent with MgCl₂·6H₂O (203.31).
+
+0.100 g of an unknown group 1 chloride (XCl) is titrated with 0.100 mol dm⁻³ AgNO₃. The end point is at 23.59 mL. What is the molar mass of the salt? Give 3 s.f.
+Steal
+= 42.4 ± 0.6% g mol⁻¹
+# Shown answer: 42.4 g mol⁻¹
+# Explanation: n(Ag⁺) = n(Cl⁻) = 0.100 × 0.02359 dm³ = 2.36 × 10⁻³ mol. M = 0.100 ÷ 2.36 × 10⁻³ = 42.4 g mol⁻¹, consistent with LiCl (42.39).
+
+0.100 g of an unknown group 2 chloride (XCl₂, possibly hydrated) is titrated with 0.100 mol dm⁻³ AgNO₃. The end point is at 7.50 mL. What is the molar mass of the salt? Give 3 s.f.
+Steal
+= 267 ± 0.6% g mol⁻¹
+# Shown answer: 267 g mol⁻¹
+# Explanation: n(Ag⁺) = n(Cl⁻) = 0.100 × 0.007500 dm³ = 7.50 × 10⁻⁴ mol. Two Cl⁻ per formula unit, so n(salt) = 3.75 × 10⁻⁴ mol. M = 0.100 ÷ 3.75 × 10⁻⁴ = 267 g mol⁻¹, consistent with SrCl₂·6H₂O (266.62).
+
+0.100 g of an unknown group 2 chloride (XCl₂, possibly hydrated) is titrated with 0.100 mol dm⁻³ AgNO₃. The end point is at 8.19 mL. What is the molar mass of the salt? Give 3 s.f.
+Steal
+= 244 ± 0.6% g mol⁻¹
+# Shown answer: 244 g mol⁻¹
+# Explanation: n(Ag⁺) = n(Cl⁻) = 0.100 × 0.008190 dm³ = 8.19 × 10⁻⁴ mol. Two Cl⁻ per formula unit, so n(salt) = 4.09 × 10⁻⁴ mol. M = 0.100 ÷ 4.09 × 10⁻⁴ = 244 g mol⁻¹, consistent with BaCl₂·2H₂O (244.26).
+
+2AgNO₃ + MgCl₂·6H₂O → 2AgCl + Mg(NO₃)₂ + 6H₂O. 10.36 mL of 0.0200 mol dm⁻³ AgNO₃ reacts completely. What mass of MgCl₂·6H₂O (203.31 g mol⁻¹) reacted, in mg? Give 3 s.f.
+Steal
+= 21.1 ± 0.6% mg
+# Shown answer: 21.1 mg
+# Explanation: n(AgNO₃) = 0.0200 × 0.01036 = 2.07 × 10⁻⁴ mol; ÷ 2 = 1.04 × 10⁻⁴ mol of MgCl₂·6H₂O; × 203.31 = 0.0211 g = 21.1 mg.
+
+2AgNO₃ + MgCl₂·6H₂O → 2AgCl + Mg(NO₃)₂ + 6H₂O. 6.39 mL of 0.0100 mol dm⁻³ AgNO₃ reacts completely. What mass of MgCl₂·6H₂O (203.31 g mol⁻¹) reacted, in mg? Give 3 s.f.
+Steal
+= 6.5 ± 0.6% mg
+# Shown answer: 6.50 mg
+# Explanation: n(AgNO₃) = 0.0100 × 0.006390 = 6.39 × 10⁻⁵ mol; ÷ 2 = 3.19 × 10⁻⁵ mol of MgCl₂·6H₂O; × 203.31 = 0.00650 g = 6.50 mg.
+
+2AgNO₃ + MgCl₂·6H₂O → 2AgCl + Mg(NO₃)₂ + 6H₂O. 17.97 mL of 0.0200 mol dm⁻³ AgNO₃ reacts completely. What mass of MgCl₂·6H₂O (203.31 g mol⁻¹) reacted, in mg? Give 3 s.f.
+Steal
+= 36.5 ± 0.6% mg
+# Shown answer: 36.5 mg
+# Explanation: n(AgNO₃) = 0.0200 × 0.01797 = 3.59 × 10⁻⁴ mol; ÷ 2 = 1.80 × 10⁻⁴ mol of MgCl₂·6H₂O; × 203.31 = 0.0365 g = 36.5 mg.
+
+2AgNO₃ + MgCl₂·6H₂O → 2AgCl + Mg(NO₃)₂ + 6H₂O. 9.55 mL of 0.0100 mol dm⁻³ AgNO₃ reacts completely. What mass of MgCl₂·6H₂O (203.31 g mol⁻¹) reacted, in mg? Give 3 s.f.
+Steal
+= 9.71 ± 0.6% mg
+# Shown answer: 9.71 mg
+# Explanation: n(AgNO₃) = 0.0100 × 0.009550 = 9.55 × 10⁻⁵ mol; ÷ 2 = 4.78 × 10⁻⁵ mol of MgCl₂·6H₂O; × 203.31 = 0.00971 g = 9.71 mg.
+
+What is the frequency of 604 nm light, in THz? Use c = 3.00 × 10⁸ m s⁻¹. Give 3 s.f.
+Steal
+= 497 ± 0.6% THz
+# Shown answer: 497 THz
+# Explanation: ν = c/λ = 3.00 × 10⁸ ÷ 6.04 × 10⁻⁷ = 4.97 × 10¹⁴ s⁻¹ = 497 THz (1 THz = 10¹² Hz).
+
+What is the energy of one mole of 315 nm photons, in kJ mol⁻¹? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s and NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Steal
+= 380 ± 0.6% kJ mol⁻¹
+# Shown answer: 380 kJ mol⁻¹
+# Explanation: λ = 3.15 × 10⁻⁷ m; ν = c/λ = 9.524 × 10¹⁴ s⁻¹; E = hν = 6.310 × 10⁻¹⁹ J; × NA = 3.80 × 10⁵ J mol⁻¹ = 380 kJ mol⁻¹. Round only at the end.
+
+What is the energy of one mole of 456 nm photons, in kJ mol⁻¹? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s and NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Steal
+= 263 ± 0.6% kJ mol⁻¹
+# Shown answer: 263 kJ mol⁻¹
+# Explanation: λ = 4.56 × 10⁻⁷ m; ν = c/λ = 6.579 × 10¹⁴ s⁻¹; E = hν = 4.359 × 10⁻¹⁹ J; × NA = 2.63 × 10⁵ J mol⁻¹ = 263 kJ mol⁻¹. Round only at the end.
+
+What is the frequency of 248 nm light, in THz? Use c = 3.00 × 10⁸ m s⁻¹. Give 3 s.f.
+Steal
+= 1210 ± 0.6% THz
+# Shown answer: 1210 THz
+# Explanation: ν = c/λ = 3.00 × 10⁸ ÷ 2.48 × 10⁻⁷ = 1.21 × 10¹⁵ s⁻¹ = 1210 THz (1 THz = 10¹² Hz).
+
+What is the molar mass of Na₂CO₃·10H₂O? Use Aᵣ: Na 22.99, C 12.01, O 16.00, H 1.008. Give 2 d.p.
+Steal
+= 286.15 ± 0.02 g mol⁻¹
+# Shown answer: 286.15 g mol⁻¹
+# Explanation: 2 × 22.99 + 1 × 12.01 + 13 × 16.00 + 20 × 1.008 = 286.15 g mol⁻¹. The water after the dot is part of the formula unit, so it counts.
+
+What is the molar mass of NiCl₂·6H₂O? Use Aᵣ: Ni 58.69, Cl 35.45, O 16.00, H 1.008. Give 2 d.p.
+Steal
+= 237.69 ± 0.02 g mol⁻¹
+# Shown answer: 237.69 g mol⁻¹
+# Explanation: 1 × 58.69 + 2 × 35.45 + 6 × 16.00 + 12 × 1.008 = 237.69 g mol⁻¹. The water after the dot is part of the formula unit, so it counts.
+
+What is the molar mass of ZnSO₄·7H₂O? Use Aᵣ: Zn 65.38, S 32.06, O 16.00, H 1.008. Give 2 d.p.
+Steal
+= 287.55 ± 0.02 g mol⁻¹
+# Shown answer: 287.55 g mol⁻¹
+# Explanation: 1 × 65.38 + 1 × 32.06 + 11 × 16.00 + 14 × 1.008 = 287.55 g mol⁻¹. The water after the dot is part of the formula unit, so it counts.
+
+What is the molar mass of CuSO₄·5H₂O? Use Aᵣ: Cu 63.55, S 32.06, O 16.00, H 1.008. Give 2 d.p.
+Steal
+= 249.69 ± 0.02 g mol⁻¹
+# Shown answer: 249.69 g mol⁻¹
+# Explanation: 1 × 63.55 + 1 × 32.06 + 9 × 16.00 + 10 × 1.008 = 249.69 g mol⁻¹. The water after the dot is part of the formula unit, so it counts.

@@ -34,3 +34,6 @@ span.btn.disabled { opacity: .45; cursor: default; }
 footer.about { border-top: 1px solid var(--line); color: var(--muted); font-size: .8rem; text-align: center; padding: 1rem 16px 1.4rem; line-height: 1.5; }
 footer.about p { margin: .2rem auto; max-width: 900px; }
 footer.about a { color: var(--muted); }
+.pwrap { display: flex; flex-direction: column; }
+.pwrap .product { flex: 1; }
+.pdemo { align-self: center; margin-top: .4rem; font-size: .9rem; color: var(--muted); }

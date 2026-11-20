@@ -1,0 +1,459 @@
+# Molecules 4: s–p mixing and heteronuclear diatomics
+# Exported from the classic Periodic Table Quest (questions/molecules4.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+When an electron is removed from a diatomic molecule, what decides whether the bond order goes up or down?
+* Whether the HOMO it comes from is a bonding or an antibonding orbital
+- Whether the molecule is homonuclear or heteronuclear
+- Whether the electron was paired
+- Removing an electron always lowers the bond order
+# Explanation: Losing a bonding electron lowers the bond order by ½ (N₂ → N₂⁺); losing an antibonding electron raises it by ½ (O₂ → O₂⁺).
+
+O₂⁺ has a shorter, stronger bond than O₂ (112 pm and 643 kJ mol⁻¹, against 120.7 pm and 498.5 kJ mol⁻¹). Why?
+Elements: O
+- The electron removed came from a bonding orbital, so the bond order rises
+* The electron removed came from an antibonding 1πg* orbital, so the bond order rises to 2½
+- Positive ions always have stronger bonds
+- O₂⁺ has more electrons in bonding orbitals
+# Explanation: 8 bonding and 3 antibonding electrons: (8 − 3) ÷ 2 = 2½.
+
+Which molecular orbitals can interact with each other in s–p mixing?
+- Any σ orbital with any π orbital
+* σ orbitals with the same symmetry label (σg with σg, σᵤ with σᵤ)
+- σg with σᵤ
+- Only the core orbitals
+# Explanation: The σ orbitals from s–s overlap and from pz–pz overlap can interact, but only if they share a symmetry label.
+
+When two σ molecular orbitals interact through s–p mixing, what happens to their energies?
+* The lower one is pushed further down and the higher one further up
+- Both are pushed up
+- Both are pushed down
+- They end up at the same energy
+# Explanation: The lower orbital is stabilised and the higher one destabilised. In N₂ this pushes 3σg up above 1πᵤ.
+
+What makes s–p mixing between two σ molecular orbitals stronger?
+- The σ orbitals being further apart in energy
+- More electrons in the molecule
+* The σ orbitals being closer in energy
+- The atoms being further apart
+# Explanation: The closer in energy the σ molecular orbitals are, the greater the effect.
+
+Why could we ignore s–p mixing for O₂ and F₂?
+Elements: F
+- O and F have no 2s electrons
+- O₂ and F₂ have no σ orbitals
+- Their 2p orbitals are already full
+* The 2s–2p energy gap grows across the period, so by O and F the σ orbitals are too far apart to mix much
+# Explanation: Some mixing still happens in O₂, but not enough to push 3σg above 1πᵤ.
+
+Why don't the σ orbitals made from the 1s core orbitals take part in s–p mixing?
+- They have the wrong symmetry label
+* There is a huge energy gap between them and the σ orbitals from 2s and 2p
+- They are empty
+- Core orbitals don't form molecular orbitals at all
+# Explanation: The bigger the energy gap, the weaker the mixing, and here it is essentially zero.
+
+Which orbital is the HOMO of N₂?
+Elements: N
+- 1πᵤ
+* 3σg
+- 1πg*
+- 2σᵤ*
+# Explanation: s–p mixing pushes 3σg above 1πᵤ, so the last two of N₂'s 10 valence electrons go into 3σg.
+
+B₂ is paramagnetic. Why is this evidence for s–p mixing?
+Elements: B
+* With mixing, 3σg rises above 1πᵤ, so B₂'s last two electrons go singly into the two 1πᵤ orbitals
+- Without mixing, B₂ would have no bonding electrons
+- s–p mixing adds an extra electron to B₂
+- Mixing turns 1πᵤ into an antibonding orbital
+# Explanation: Without mixing, 3σg would be the HOMO, doubly occupied, and B₂ would have no unpaired electrons.
+
+How does valence bond theory deal with s orbitals interacting with p orbitals?
+Elements: C
+- It ignores them completely
+* It assumes the s and p orbitals of an atom hybridise (e.g. sp³) before bonding
+- It treats every bond as ionic
+- It adds extra electrons to the s orbitals
+# Explanation: You'll meet sp, sp² and sp³ hybrid orbitals in organic chemistry. MO theory reaches a similar result by a different route.
+
+In a heteronuclear diatomic, a molecular orbital is much closer in energy to one atom's orbital than the other's. What follows?
+* It has a larger contribution from that orbital, and its electrons are mostly on that atom
+- It has a larger contribution from the other atom's orbital
+- Its electrons are shared exactly equally
+- It must be a non-bonding orbital
+# Explanation: That is how MO theory explains bond polarity.
+
+In LiH, both electrons occupy a σ bonding orbital that is very similar to hydrogen's 1s orbital. What does this tell you?
+Elements: Li
+- The bond is perfectly covalent
+* The bond has high ionic character: it is almost Li⁺H⁻
+- It is almost Li⁻H⁺
+- LiH has no bond
+# Explanation: It is almost as if lithium simply gave its electron to hydrogen.
+
+In LiH, which atomic orbital contributes most to the σ antibonding orbital?
+Elements: Li
+* Li 2s
+- H 1s
+- Li 1s
+- Both equally
+# Explanation: The antibonding orbital is close in energy to Li 2s, which is higher than H 1s, so it looks mostly like the Li 2s orbital.
+
+In HF, why does fluorine's 2s orbital stay non-bonding?
+Elements: F
+* It is too far below the H 1s orbital in energy to interact
+- It has the wrong symmetry
+- It is empty
+- It is too far away in space
+# Explanation: Similar energy is needed for a strong interaction. F 2s is much lower than H 1s.
+
+In HF, why do fluorine's 2pₓ and 2py orbitals stay non-bonding?
+Elements: F
+* They have the wrong symmetry to interact with hydrogen's 1s orbital
+- They are too far from H 1s in energy
+- They are empty
+- They bond with each other instead
+# Explanation: Their in-phase and out-of-phase overlaps with H 1s cancel. Only F 2pz, pointing at the hydrogen, can interact.
+
+In a diatomic, can an s orbital on one atom interact with the pz orbital on the other?
+- No: s and p orbitals can never interact
+- Only to form π orbitals
+* Yes: it forms σ bonding and σ antibonding orbitals
+- Only if both atoms are the same element
+# Explanation: pz points along the axis towards the s orbital, so they can overlap end-on. s can't interact with pₓ or py.
+
+How are electrons in non-bonding orbitals counted when working out bond order?
+- As bonding electrons
+- As antibonding electrons
+* They are ignored
+- As half a bonding electron each
+# Explanation: HF: 2 bonding, 0 antibonding (the six non-bonding electrons don't count), so the bond order is 1.
+
+In molecular orbital terms, why is the H–F bond polar?
+Elements: H
+- The σ bonding orbital has a bigger contribution from H 1s
+- Hydrogen's electron goes into a non-bonding orbital
+- The bonding orbital is empty
+* The filled σ bonding orbital has a bigger contribution from the lower-energy F 2pz, so its electrons are mostly on F
+# Explanation: Fluorine is more electronegative, so its 2p orbitals are lower in energy than H 1s: F is δ−.
+
+What bond order does molecular orbital theory give carbon monoxide?
+Elements: C
+- 2
+- 2½
+* 3
+- 1
+# Explanation: 10 valence electrons fill four bonding orbitals (8 electrons) and one antibonding orbital (2): (8 − 2) ÷ 2 = 3, matching the Lewis triple bond.
+
+In the molecular orbital diagram of CO, which atom's valence atomic orbitals are lower in energy?
+Elements: O
+- Carbon
+* Oxygen
+- Neither: they are at the same energy
+# Explanation: Oxygen is more electronegative. C and O orbitals are fairly close in energy, so they still interact strongly, with s–p mixing as in N₂.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+According to molecular orbital theory, how many unpaired electrons does B₂ have?
+Elements: B
+- 0
+* 2
+- 1
+- 3
+# Explanation: B₂ has 6 valence electrons: 2σg² 2σᵤ*² 1πᵤ². (s–p mixing pushes 3σg above 1πᵤ.) 2 unpaired (degenerate orbitals fill singly first), so it is paramagnetic.
+
+According to molecular orbital theory, how many unpaired electrons does C₂ have?
+Elements: C
+- 1
+- 2
+* 0
+- 3
+# Explanation: C₂ has 8 valence electrons: 2σg² 2σᵤ*² 1πᵤ⁴. (s–p mixing pushes 3σg above 1πᵤ.) All the electrons are paired, so it is not paramagnetic.
+
+Which molecular orbital is the HOMO of N₂⁺?
+Elements: N
+* 3σg
+- 3σᵤ*
+- 1πᵤ
+- 1πg*
+# Explanation: N₂⁺ has 9 valence electrons: 2σg² 2σᵤ*² 1πᵤ⁴ 3σg¹. (s–p mixing pushes 3σg above 1πᵤ.)
+
+Which molecular orbital is the HOMO of O₂⁺?
+Elements: O
+- 1πᵤ
+* 1πg*
+- 3σᵤ*
+- 2σᵤ*
+# Explanation: O₂⁺ has 11 valence electrons: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*¹.
+
+According to molecular orbital theory, how many unpaired electrons does F₂⁺ have?
+Elements: F
+- 0
+* 1
+- 2
+- 3
+# Explanation: F₂⁺ has 13 valence electrons: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*³. 1 unpaired (degenerate orbitals fill singly first), so it is paramagnetic.
+
+B₂ loses an electron to form B₂⁺. What happens to the bond order?
+Elements: B
+- It goes up by ½
+- It stays the same
+- It goes down by 1
+* It goes down by ½
+# Explanation: The electron is removed from the HOMO, 1πᵤ, which is bonding. Bond order 1 → ½. (s–p mixing pushes 3σg above 1πᵤ.)
+
+C₂ loses an electron to form C₂⁺. What happens to the bond order?
+Elements: C
+- It goes up by ½
+- It stays the same
+* It goes down by ½
+- It goes down by 1
+# Explanation: The electron is removed from the HOMO, 1πᵤ, which is bonding. Bond order 2 → 1½. (s–p mixing pushes 3σg above 1πᵤ.)
+
+Which has the stronger bond: N₂ or N₂⁺?
+Elements: N
+- N₂⁺
+* N₂
+- They are equally strong: same atoms
+# Explanation: The electron is removed from the HOMO, 3σg, which is bonding. Bond order 3 → 2½. (s–p mixing pushes 3σg above 1πᵤ.) Data: N₂ 944.9 kJ mol⁻¹, 109.8 pm; N₂⁺ 840 kJ mol⁻¹, 112 pm.
+
+O₂ loses an electron to form O₂⁺. What happens to the bond order?
+Elements: O
+- It goes down by ½
+- It stays the same
+- It goes up by 1
+* It goes up by ½
+# Explanation: The electron is removed from the HOMO, 1πg*, which is antibonding. Bond order 2 → 2½. Data: O₂ 498.5 kJ mol⁻¹, 120.7 pm; O₂⁺ 643 kJ mol⁻¹, 112 pm.
+
+F₂ gains an electron to form F₂⁻. What happens to the bond order?
+Elements: F
+- It goes up by ½
+* It goes down by ½
+- It stays the same
+- It goes down by 1
+# Explanation: The extra electron goes into the LUMO, 3σᵤ*, which is antibonding. Bond order 1 → ½.
+
+Which has more s–p mixing: F₂ or Li₂?
+Elements: Li
+- F₂
+* Li₂
+- They have the same amount
+# Explanation: The 2s–2p energy gap increases across the period, so the σ molecular orbitals formed from them get further apart and mix less. Lithium is further left than fluorine.
+
+Which has more s–p mixing: Be₂ or Li₂?
+Elements: Be
+* Li₂
+- Be₂
+- They have the same amount
+# Explanation: The 2s–2p energy gap increases across the period, so the σ molecular orbitals formed from them get further apart and mix less. Lithium is further left than beryllium.
+
+Which has more s–p mixing: B₂ or Li₂?
+Elements: B
+- B₂
+- They have the same amount
+* Li₂
+# Explanation: The 2s–2p energy gap increases across the period, so the σ molecular orbitals formed from them get further apart and mix less. Lithium is further left than boron.
+
+Which has more s–p mixing: C₂ or Li₂?
+Elements: C
+- C₂
+- They have the same amount
+* Li₂
+# Explanation: The 2s–2p energy gap increases across the period, so the σ molecular orbitals formed from them get further apart and mix less. Lithium is further left than carbon.
+
+In the molecular orbital diagram of N₂, is the 3σg orbital above or below the 1πᵤ orbitals?
+Elements: N
+* Above
+- Below
+- At exactly the same energy
+# Explanation: For N₂ the 2s and 2p orbitals are close in energy, so s–p mixing is large: it pushes 3σg up above 1πᵤ.
+
+In the molecular orbital diagram of F₂, is the 3σg orbital above or below the 1πᵤ orbitals?
+Elements: F
+- Above
+* Below
+- At exactly the same energy
+# Explanation: Across period 2 the 2s–2p gap grows, so s–p mixing gets weaker. By F₂ it is too small to push 3σg above 1πᵤ.
+
+In the molecular orbital diagram of HBr, which atom's valence atomic orbitals are lower in energy?
+Elements: H
+- Hydrogen
+* Bromine
+- Neither: they are at the same energy
+# Explanation: Bromine is more electronegative (2.96 vs 2.20), so its valence orbitals are lower in energy. The bonding orbital is closer in energy to bromine's orbital, so it has a larger contribution from it and its electrons are mostly on bromine: Br is δ−.
+
+In the molecular orbital diagram of LiH, which atom's valence atomic orbitals are lower in energy?
+Elements: Li
+* Hydrogen
+- Lithium
+- Neither: they are at the same energy
+# Explanation: Hydrogen is more electronegative (2.20 vs 0.98), so its valence orbitals are lower in energy. The bonding orbital is closer in energy to hydrogen's orbital, so it has a larger contribution from it and its electrons are mostly on hydrogen: H is δ−.
+
+In NaH, the two bonding electrons are in a σ molecular orbital. Where are they mostly located?
+Elements: Na
+- On the sodium atom
+* On the hydrogen atom
+- Shared exactly equally between the two atoms
+# Explanation: Hydrogen is more electronegative (2.20 vs 0.93), so its valence orbitals are lower in energy. The bonding orbital is closer in energy to hydrogen's orbital, so it has a larger contribution from it and its electrons are mostly on hydrogen: H is δ−.
+
+In the molecular orbital diagram of HCl, which atom's valence atomic orbitals are lower in energy?
+* Chlorine
+- Hydrogen
+- Neither: they are at the same energy
+# Explanation: Chlorine is more electronegative (3.16 vs 2.20), so its valence orbitals are lower in energy. The bonding orbital is closer in energy to chlorine's orbital, so it has a larger contribution from it and its electrons are mostly on chlorine: Cl is δ−.
+
+In the molecular orbital diagram of BrCl, which atom's valence atomic orbitals are lower in energy?
+Elements: Br
+* Chlorine
+- Bromine
+- Neither: they are at the same energy
+# Explanation: Chlorine is more electronegative (3.16 vs 2.96), so its valence orbitals are lower in energy. The bonding orbital is closer in energy to chlorine's orbital, so it has a larger contribution from it and its electrons are mostly on chlorine: Cl is δ−.
+
+In HI, the two bonding electrons are in a σ molecular orbital. Where are they mostly located?
+- On the hydrogen atom
+* On the iodine atom
+- Shared exactly equally between the two atoms
+# Explanation: Iodine is more electronegative (2.66 vs 2.20), so its valence orbitals are lower in energy. The bonding orbital is closer in energy to iodine's orbital, so it has a larger contribution from it and its electrons are mostly on iodine: I is δ−.
+
+In the molecular orbital diagram of HF, how many electrons are in non-bonding orbitals?
+* 6
+- 8
+- 2
+- 0
+# Explanation: Fluorine's 2s orbital is too far below hydrogen's 1s in energy to interact, and its 2pₓ and 2py have the wrong symmetry. Those three orbitals stay non-bonding, holding 6 electrons. Only 2pz + H 1s form σ bonding and antibonding orbitals: 2 bonding electrons, bond order (2 − 0) ÷ 2 = 1.
+
+In the molecular orbital diagram of HCl, how many electrons are in non-bonding orbitals?
+- 0
+* 6
+- 2
+- 8
+# Explanation: Chlorine's 3s orbital is too far below hydrogen's 1s in energy to interact, and its 3pₓ and 3py have the wrong symmetry. Those three orbitals stay non-bonding, holding 6 electrons. Only 3pz + H 1s form σ bonding and antibonding orbitals: 2 bonding electrons, bond order (2 − 0) ÷ 2 = 1.
+
+In the molecular orbital diagram of HBr, how many electrons are in non-bonding orbitals?
+- 8
+- 4
+- 2
+* 6
+# Explanation: Bromine's 4s orbital is too far below hydrogen's 1s in energy to interact, and its 4pₓ and 4py have the wrong symmetry. Those three orbitals stay non-bonding, holding 6 electrons. Only 4pz + H 1s form σ bonding and antibonding orbitals: 2 bonding electrons, bond order (2 − 0) ÷ 2 = 1.
+
+In the molecular orbital diagram of HI, how many electrons are in non-bonding orbitals?
+* 6
+- 0
+- 2
+- 4
+# Explanation: Iodine's 5s orbital is too far below hydrogen's 1s in energy to interact, and its 5pₓ and 5py have the wrong symmetry. Those three orbitals stay non-bonding, holding 6 electrons. Only 5pz + H 1s form σ bonding and antibonding orbitals: 2 bonding electrons, bond order (2 − 0) ÷ 2 = 1.
+
+Using molecular orbital theory, what is the bond order of CO?
+Elements: C
+- 2
+- 1½
+- 2½
+* 3
+# Explanation: CO has 10 valence electrons (4 + 6). They fill orbitals like those of N₂: 8 in the four bonding orbitals and 2 in the σ antibonding orbital from the 2s orbitals. Bonding 8, antibonding 2: (8 − 2) ÷ 2 = 3.
+
+How many unpaired electrons does NO⁻ have?
+Elements: N
+- 0
+- 1
+* 2
+- 3
+# Explanation: NO⁻ has 12 valence electrons (5 + 6 + 1). They fill orbitals like those of N₂: 8 in the four bonding orbitals and 2 in the σ antibonding orbital from the 2s orbitals, then 2 in the π antibonding pair. 2 unpaired, so it is paramagnetic.
+
+How many unpaired electrons does NO⁺ have?
+- 1
+- 2
+* 0
+- 3
+# Explanation: NO⁺ has 10 valence electrons (5 + 6 − 1). They fill orbitals like those of N₂: 8 in the four bonding orbitals and 2 in the σ antibonding orbital from the 2s orbitals. All paired.
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+50.0 g of gas-phase oxygen atoms all pair up to form O₂. The bond dissociation energy of O₂ is 498.5 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of O: 16.00. Give 3 s.f.
+Elements: O
+Steal
+= 779 ± 0.6% kJ
+# Shown answer: 779 kJ
+# Explanation: n(atoms) = 50.0 ÷ 16.00 = 3.125 mol. Two atoms make one bond, so 1.563 mol of bonds form, releasing 1.563 × 498.5 = 779 kJ.
+
+25.0 g of gas-phase chlorine atoms all pair up to form Cl₂. The bond dissociation energy of Cl₂ is 242.9 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of Cl: 35.45. Give 3 s.f.
+Elements: Cl
+Steal
+= 85.6 ± 0.6% kJ
+# Shown answer: 85.6 kJ
+# Explanation: n(atoms) = 25.0 ÷ 35.45 = 0.7052 mol. Two atoms make one bond, so 0.3526 mol of bonds form, releasing 0.3526 × 242.9 = 85.6 kJ.
+
+12.5 g of gas-phase bromine atoms all pair up to form Br₂. The bond dissociation energy of Br₂ is 193.9 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of Br: 79.90. Give 3 s.f.
+Elements: Br
+Steal
+= 15.2 ± 0.6% kJ
+# Shown answer: 15.2 kJ
+# Explanation: n(atoms) = 12.5 ÷ 79.90 = 0.1564 mol. Two atoms make one bond, so 0.07822 mol of bonds form, releasing 0.07822 × 193.9 = 15.2 kJ.
+
+The bond dissociation energy of I₂ is 152.3 kJ mol⁻¹. How much energy, in kJ, is needed to break the bonds in 2.00 g of I₂ gas into separate atoms? Relative atomic mass of I: 126.90. Give 3 s.f.
+Elements: I
+Steal
+= 1.2 ± 0.6% kJ
+# Shown answer: 1.20 kJ
+# Explanation: M(I₂) = 2 × 126.90 = 253.80 g mol⁻¹; n = 2.00 ÷ 253.80 = 0.007880 mol of bonds; E = 0.007880 × 152.3 = 1.20 kJ.
+
+The bond dissociation energy of Li₂ is 105 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one Li₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Li
+Steal
+= 1140 ± 0.6% nm
+# Shown answer: 1140 nm
+# Explanation: 105 × 10³ J mol⁻¹ ÷ NA = 1.74 × 10⁻¹⁹ J per bond; ν = E/h = 2.63 × 10¹⁴ s⁻¹; λ = c/ν = 1.14 × 10⁻⁶ m = 1140 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of F₂ is 158.7 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one F₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: F
+Steal
+= 754 ± 0.6% nm
+# Shown answer: 754 nm
+# Explanation: 158.7 × 10³ J mol⁻¹ ÷ NA = 2.64 × 10⁻¹⁹ J per bond; ν = E/h = 3.98 × 10¹⁴ s⁻¹; λ = c/ν = 7.54 × 10⁻⁷ m = 754 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of P₂ is 489.1 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one P₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: P
+Steal
+= 245 ± 0.6% nm
+# Shown answer: 245 nm
+# Explanation: 489.1 × 10³ J mol⁻¹ ÷ NA = 8.12 × 10⁻¹⁹ J per bond; ν = E/h = 1.23 × 10¹⁵ s⁻¹; λ = c/ν = 2.45 × 10⁻⁷ m = 245 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of I₂ is 152.3 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one I₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: I
+Steal
+= 786 ± 0.6% nm
+# Shown answer: 786 nm
+# Explanation: 152.3 × 10³ J mol⁻¹ ÷ NA = 2.53 × 10⁻¹⁹ J per bond; ν = E/h = 3.82 × 10¹⁴ s⁻¹; λ = c/ν = 7.86 × 10⁻⁷ m = 786 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The first ionisation energy of aluminium is 578 kJ mol⁻¹. How much energy does it take to remove the outer electron from one aluminium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Al
+Steal
+= 9.6 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 9.60 × 10⁻¹⁹ J
+# Explanation: 578 kJ mol⁻¹ = 578 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 9.60 × 10⁻¹⁹ J per atom.
+
+The first ionisation energy of phosphorus is 1012 kJ mol⁻¹. How much energy does it take to remove the outer electron from one phosphorus atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: P
+Steal
+= 16.8 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 16.8 × 10⁻¹⁹ J
+# Explanation: 1012 kJ mol⁻¹ = 1012 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.68 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of gallium is 579 kJ mol⁻¹. How much energy does it take to remove the outer electron from one gallium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Ga
+Steal
+= 9.61 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 9.61 × 10⁻¹⁹ J
+# Explanation: 579 kJ mol⁻¹ = 579 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 9.61 × 10⁻¹⁹ J per atom.
+
+The first ionisation energy of zirconium is 640 kJ mol⁻¹. How much energy does it take to remove the outer electron from one zirconium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Zr
+Steal
+= 10.6 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 10.6 × 10⁻¹⁹ J
+# Explanation: 640 kJ mol⁻¹ = 640 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.06 × 10⁻¹⁸ J per atom.

@@ -105,7 +105,25 @@ Question text is tidied automatically before it is shown: numbers in standard fo
 
 `plq/` is the home page for every quiz type: `https://lukesurl.github.io/PeriodicTableQuest/plq/`. At the top, **Create new quiz** shows a card for each type (Quiz Grid and Periodic Table Quest); clicking one starts a new quiz of that type. Below, **Your saved quizzes** lists every quiz made or opened in this browser, of any type, newest first, with Edit, Present and Forget. Copyright and other "about" details sit quietly at the bottom. The name, the card text and the footer are in `plq/settings.js`.
 
-A **Periodic Table Quest quiz** is a name, a topic mix and a countdown, set up on `setup.html` and saved in the browser. Its present link (`index.html?name=…&mix=atoms3:70,atoms2:30&mins=10`) carries all three, so it works on any computer; the projector shows the quiz name in its header and still lets you change topics with the Topics button. Opening `index.html` with no link settings works exactly as before.
+Both quiz types share one editor (`grid/edit.html`), the same private edit links and the same database. A quiz's type (`grid` or `ptq`) is stored with it.
+
+## Periodic Table Quest (new, in `quest/`)
+
+The Quiz Grid way of working applied to Periodic Table Quest: a lecturer writes a question bank for one topic in the editor (no code, no topic mixes), and presents it with its present link (`quest/host.html?quiz=…`). Students tap an element on their phone, answer a question and claim the element; tapping an element the other team holds asks a **steal question**. In the editor each question can be:
+
+- tied to particular **elements** (typed as symbols, or picked on a periodic table); a question with no elements can come up on any element. Elements with no question at all are greyed out and can't be claimed;
+- a **steal question**, used only for steals (if there are none for an element, an ordinary question is used);
+- multiple choice, or a **number answer** with a tolerance (e.g. ± 0.05, or ± 1%) and an optional unit.
+
+Up to 200 questions per quiz. Text import accepts `Elements: Na, K` and `Steal` lines, and the AI prompt asks for element-tied and steal questions. `quest/demo.html` runs the projector and two phones with no database.
+
+As in Quiz Grid, phones never download the answers. To claim element z, a phone first writes its answer to `eproofs/<code>/<uid>/<z>`; the database rules accept it only if it is right and the question fits that element, and a claim (`runs/<code>/cells/<z>`) needs a proof from the last minute that is newer than the element's last change. Before the timer starts, students can practise on any element.
+
+The classic Periodic Table Quest (the site root, `questions/*.js`) is unchanged. `quest/topics/` holds its question sets as text files ready to import, made by `node tools/export-ptq-topics.js`: hand-written questions as they are, plus fixed examples from each question generator (six per generator, four per steal generator), each tied to the element it was made for. Explanations are kept as `#` note lines, which the import ignores.
+
+## Number answers (both quiz types)
+
+A question can have a typed number answer instead of options. The lecturer gives the value, how close an answer must be (in the same units, or as a percentage) and an optional unit shown by the answer box. Students can type `6.02e23`, `6.02 × 10^23` or a decimal comma. In text, a number answer is one line: `= 35.5 ± 0.05 g mol⁻¹`. The database stores the accepted range (`answers/<id>/lo` and `hi`) and checks each answer against it.
 
 ## Quiz Grid (version 0.1)
 
@@ -124,7 +142,7 @@ Each tile shows the question's picture and short label if it has them, otherwise
 
 **Free-plan limit:** the 100 simultaneous connections are shared between Periodic Table Quest and every Quiz Grid game running at the same moment. If colleagues use it in parallel lectures, move the project to the Blaze plan (see "Class size and the free plan").
 
-Not yet in version 0.1: typed numeric answers, explanations after answering, steals, deleting a quiz, and a list of a lecturer's quizzes across computers.
+Not yet: explanations after answering, deleting a quiz, and a list of a lecturer's quizzes across computers.
 
 ## Things to know
 
@@ -139,7 +157,8 @@ Not yet in version 0.1: typed numeric answers, explanations after answering, ste
 | `index.html` | Projector view |
 | `play.html` | Student phone view (the QR code points here) |
 | `plq/` | Pre-Lecture Quizzes home page (`index.html`, `home.js`, `plq.css`, `settings.js`) |
-| `setup.html`, `js/setup.js`, `js/saved.js` | Set up and save a Periodic Table Quest quiz |
+| `quest/` | Periodic Table Quest (new): `host.html`, `play.html`, `demo.html`, `js/`, and `topics/` (the classic question sets as text) |
+| `tools/export-ptq-topics.js` | Writes `quest/topics/*.txt` from `questions/*.js` |
 | `demo.html` | Projector and two phones in one page, for trying it out |
 | `js/config.js` | Settings: Firebase, teams, timings, starting topics |
 | `questions/*.js` | Question sets, one per topic |

@@ -1,0 +1,570 @@
+# Atoms 3: Orbitals and quantum numbers
+# Exported from the classic Periodic Table Quest (questions/atoms3.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+Which observation shows that a beam of electrons behaves as a wave?
+* Electron diffraction: the beam gives an interference pattern
+- Electrons are deflected by a magnet
+- Electrons carry a negative charge
+- Electrons are ejected from metals by UV light
+# Explanation: Diffraction and interference (constructive and destructive) are wave behaviours. A stream of electrons shows them, just as light does.
+
+The wavelengths of electron beams are typically similar to…
+- the wavelength of visible light
+* the lengths of bonds between atoms
+- the width of a human hair
+- the size of an atomic nucleus
+# Explanation: Because the wavelengths are comparable to bond lengths, electron diffraction can be used to measure bond lengths in molecules.
+
+C₆₀ "buckyball" molecules have been shown to diffract. What does this demonstrate?
+Elements: C
+- Carbon atoms have no mass
+* Even large molecules show wave-like behaviour
+- Only charged particles behave as waves
+- C₆₀ molecules are smaller than electrons
+# Explanation: In theory any moving object has a wavelength. C₆₀ is among the largest objects in which wave behaviour has been observed experimentally.
+
+An electron held in an atom behaves as a standing wave. Why does this lead to quantised energy levels?
+- The electron slows down as it orbits
+- The nucleus absorbs some wavelengths
+* Only certain wavelengths fit around the atom
+- Standing waves have no energy
+# Explanation: The wave has to join up with itself all the way round. Only some wavelengths do this, and each allowed pattern corresponds to a value of n and an energy.
+
+Which statement best describes an electron in an atom?
+- It follows a circular path around the nucleus
+- It sits still at a fixed distance from the nucleus
+- It jumps between fixed points on a circle
+* It exists as the whole wave around the atom at once, more in some places than others
+# Explanation: Diagrams of standing waves are not pictures of the electron's path. The wave is the electron.
+
+What is an electron's wavefunction, ψ?
+- The path the electron follows around the nucleus
+- The energy needed to remove the electron
+- The speed of the electron at each moment
+* A mathematical function that gives a value at every point in space around the nucleus
+# Explanation: Feed in a position (x, y, z) and the wavefunction gives out a number. In the lecture, ψ(0.1, 0.2, 0.1) = 0.44 for hydrogen's 1s electron.
+
+A wavefunction can be positive in one region and negative in another. What does the sign tell you?
+- Whether the electron is there or not
+* The phase of the wave in that region
+- The charge of the electron there
+- Whether that region is inside or outside the atom
+# Explanation: Positive and negative regions are out of phase with each other. The sign matters when orbitals combine to form bonds.
+
+The probability of finding an electron in a small region is proportional to…
+- ψ
+* ψ² (the wavefunction squared)
+- √ψ
+- 1/ψ
+# Explanation: Squaring removes the sign: |ψ|² is always positive or zero, as a probability must be.
+
+At one point ψ = +0.4 and at another ψ = −0.4. How do the chances of finding the electron at the two points compare?
+- It is more likely at the +0.4 point
+* They are equal
+- It is more likely at the −0.4 point
+- The electron can't be at the −0.4 point
+# Explanation: Probability depends on ψ², and (+0.4)² = (−0.4)² = 0.16. The sign is phase, not likelihood.
+
+Can we work out exactly where an electron is at a particular moment?
+* No: we can only find the probability of it being in a region
+- Yes, from its wavefunction
+- Yes, if we know its energy
+- Only for the 1s orbital
+# Explanation: It is fundamentally impossible to pin down an electron's position. The best we can do is a probability, for example 12% that it is inside a particular cube.
+
+Can electron density ever be negative?
+- Yes, wherever ψ is negative
+* No: it is always positive or zero
+- Yes, at a node
+- Only in p orbitals
+# Explanation: Electron density follows ψ², which is never negative, even where ψ itself is negative. Unlike ψ, density has no phase.
+
+An orbital is drawn as a "balloon" (boundary surface). Is the electron contained inside that surface?
+- Yes: the electron cannot leave the surface
+* No: the surface marks an arbitrary value of ψ, and the wavefunction extends beyond it
+- Yes, but only in the ground state
+- No: the electron is only ever on the surface itself
+# Explanation: The lecture's example used a threshold of ±0.5. Choosing ±0.25 would give bigger balloons for the same orbital. Wavefunctions approach zero far from the nucleus but never reach a hard edge.
+
+What are the two main things you can get from an atom's wavefunction?
+- Its charge and its mass
+* Where the electron is likely to be, and its energy
+- Its speed and its direction of travel
+- Its age and its spin
+# Explanation: The wavefunction gives the probability distribution (so electron density) and the electron's energy.
+
+Why is there no 1p orbital?
+- 1p orbitals exist but are too high in energy
+* For n = 1, l can only be 0, which is an s orbital
+- p orbitals can only hold one electron
+- The 1p orbital is the same as 2s
+# Explanation: l can be any whole number from 0 to n − 1. For n = 1 that is just l = 0 (s).
+
+Which letter is used for an orbital with l = 2?
+- p
+* d
+- f
+- s
+# Explanation: s, p, d and f stand for l = 0, 1, 2 and 3.
+
+What does the principal quantum number n mostly tell you about an orbital?
+* Its energy level and how far it extends from the nucleus
+- Its shape
+- Its orientation in space
+- The direction of the electron's spin
+# Explanation: Higher n means a higher energy level and a more spread-out wavefunction. Shape is set by l and orientation by mₗ.
+
+Which quantum number sets the shape of an orbital (s, p, d, f)?
+- n, the principal quantum number
+* l, the secondary quantum number
+- mₗ, the magnetic quantum number
+- mₛ, the spin quantum number
+# Explanation: l gives the subshell letter and so the shape. mₗ picks out the individual orbitals within it, such as the three 2p orbitals.
+
+What is an angular node (nodal plane)?
+* A plane through the nucleus where ψ = 0, so the electron is never found there
+- The point where the electron is most likely to be
+- The outer edge of the orbital
+- A plane where ψ is largest
+# Explanation: On one side of the plane ψ is positive and on the other negative. Because ψ varies smoothly, it must pass through zero at the plane.
+
+In a 2pz orbital, how do the two lobes above and below the xy plane differ?
+- One contains the electron and the other doesn't
+- One is much larger than the other
+* They have opposite signs of ψ (opposite phases)
+- They are identical in every way
+# Explanation: ψ is positive above the xy plane and negative below it, with a nodal plane between. ψ² is the same shape in both lobes.
+
+What does a radial distribution function (RDF) show?
+* How likely the electron is to be found at a given distance from the nucleus, in any direction
+- The shape of the orbital
+- How the electron's energy changes with time
+- The sign of the wavefunction at each point
+# Explanation: The peak of the RDF is the most likely distance. Larger n puts the peak further out.
+
+At about what distance from the nucleus is the peak of hydrogen's 1s radial distribution function?
+Elements: H
+- 0 pm
+* 53 pm
+- 5.3 pm
+- 530 pm
+# Explanation: The peak, about 53 pm, is the most likely distance. The RDF is zero at the nucleus itself.
+
+Which has the greater chance of being found very close to the nucleus?
+- A 2p electron
+* A 2s electron
+- They are the same
+- Neither: both have zero probability close to the nucleus
+# Explanation: The 2s RDF has a small inner hump close to the nucleus; 2p has none. Next lecture uses this to explain why 2s is lower in energy than 2p.
+
+In a one-electron atom such as hydrogen, how do the energies of the 2s and 2p orbitals compare?
+Elements: H
+- 2s is lower
+- 2p is lower
+- 2p doesn't exist in hydrogen
+* They are the same (degenerate)
+# Explanation: With only one electron, the energy depends only on n, proportional to −1/n².
+
+In atoms with more than one electron, how do the 2s and 2p subshells compare in energy?
+- They are the same
+* 2s is lower than 2p
+- 2p is lower than 2s
+- 2s is higher than 3s
+# Explanation: With more than one electron, the subshells within a shell split apart in energy. Next lecture explains why.
+
+What does the Pauli exclusion principle say?
+* No two electrons in an atom may have exactly the same set of quantum numbers
+- Electrons always fill the highest orbital first
+- Each orbital can hold any number of electrons
+- Electrons in the same atom must have the same spin
+# Explanation: This is why electrons can't all crowd into 1s: each orbital takes at most two, with opposite spins.
+
+Helium has two electrons in its 1s orbital. How can that satisfy the Pauli exclusion principle?
+Elements: He
+- They have different values of n
+* They have different spin quantum numbers, +½ and −½
+- One is in a 1p orbital
+- The principle doesn't apply to helium
+# Explanation: Both have n = 1, l = 0, mₗ = 0. The fourth quantum number, mₛ, differs: one ↑ (+½), one ↓ (−½).
+
+What values can the spin quantum number mₛ take?
+- 0 or 1
+* +½ or −½
+- −1, 0 or +1
+- Any value from −l to +l
+# Explanation: Spin has only two directions, drawn as ↑ (+½) and ↓ (−½).
+
+Why does lithium's third electron go into the 2s orbital?
+Elements: Li
+- 2s is lower in energy than 1s
+- Lithium has no 1s orbital
+* The 1s orbital is full (one ↑ and one ↓), and 2s is the next lowest in energy
+- Electrons always go into the largest orbital
+# Explanation: Pauli allows only two electrons in 1s. The next one goes into the lowest-energy orbital with a vacancy, which is 2s.
+
+Which set of quantum numbers could describe lithium's outermost (2s) electron?
+Elements: Li
+- n = 1, l = 0, mₗ = 0, mₛ = +½
+* n = 2, l = 0, mₗ = 0, mₛ = +½
+- n = 2, l = 1, mₗ = 0, mₛ = +½
+- n = 2, l = 0, mₗ = 1, mₛ = +½
+# Explanation: 2s means n = 2 and l = 0, so mₗ can only be 0. The first option is 1s, the third is 2p, and the fourth isn't allowed because mₗ can't exceed l.
+
+Why is helium's 1s orbital lower in energy than hydrogen's?
+Elements: He
+- Helium has more neutrons
+- Helium's 1s orbital holds more electrons
+* Helium's nucleus has a greater positive charge
+- Helium is a noble gas
+# Explanation: As the nuclear charge increases, the "same" orbitals become smaller and lower in energy.
+
+In the configuration 1s² 2s¹, what does the superscript 2 mean?
+- The 1s orbital is squared
+* Two electrons are in the 1s subshell
+- It is the second shell
+- There are two 1s orbitals
+# Explanation: 1s² 2s¹ (lithium) means two electrons in 1s and one in 2s.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+Which of these orbitals cannot exist?
+- 4f
+- 3s
+- 5p
+* 2d
+# Explanation: l can be any whole number from 0 to n − 1. For 2d, n = 2 and d means l = 2, but l can only go up to 1.
+
+Which of these orbitals can exist?
+* 2s
+- 3f
+- 2f
+- 2d
+# Explanation: l can be any whole number from 0 to n − 1. For 2s, n = 2 and s means l = 0, which is allowed (l can go up to 1).
+
+Which of these orbitals can exist?
+- 2f
+* 3d
+- 1d
+- 1p
+# Explanation: l can be any whole number from 0 to n − 1. For 3d, n = 3 and d means l = 2, which is allowed (l can go up to 2).
+
+Which of these orbitals can exist?
+- 1f
+- 3f
+- 2d
+* 1s
+# Explanation: l can be any whole number from 0 to n − 1. For 1s, n = 1 and s means l = 0, which is allowed (l can go up to 0).
+
+Which of these orbitals cannot exist?
+- 1s
+- 5s
+* 1f
+- 2s
+# Explanation: l can be any whole number from 0 to n − 1. For 1f, n = 1 and f means l = 3, but l can only go up to 0.
+
+Which of these orbitals can exist?
+* 5s
+- 3f
+- 1f
+- 2f
+# Explanation: l can be any whole number from 0 to n − 1. For 5s, n = 5 and s means l = 0, which is allowed (l can go up to 4).
+
+How many orbitals are there in the 1s subshell?
+- 3
+* 1
+- 5
+- 7
+# Explanation: s means l = 0, so mₗ can only be 0: one orbital.
+
+How many orbitals are there in the 3s subshell?
+* 1
+- 3
+- 5
+- 7
+# Explanation: s means l = 0, so mₗ can only be 0: one orbital.
+
+How many orbitals are there in the 3p subshell?
+- 1
+- 5
+* 3
+- 7
+# Explanation: p means l = 1, and mₗ runs from −1 to +1 (−1, 0, +1): that is 3 values, so 3 orbitals.
+
+How many orbitals are there in the 3d subshell?
+* 5
+- 1
+- 3
+- 7
+# Explanation: d means l = 2, and mₗ runs from −2 to +2 (−2, −1, 0, +1, +2): that is 5 values, so 5 orbitals.
+
+How many orbitals are there in the 4d subshell?
+- 1
+* 5
+- 3
+- 7
+# Explanation: d means l = 2, and mₗ runs from −2 to +2 (−2, −1, 0, +1, +2): that is 5 values, so 5 orbitals.
+
+How many orbitals are there in the 5f subshell?
+- 1
+* 7
+- 3
+- 5
+# Explanation: f means l = 3, and mₗ runs from −3 to +3 (−3, −2, −1, 0, +1, +2, +3): that is 7 values, so 7 orbitals.
+
+How many orbitals are there in total in the n = 2 shell?
+* 4
+- 8
+- 2
+- 5
+# Explanation: l can be 0 to 1, giving 1 2s + 3 2p = 4 orbitals (n² in general). 8 is the number of electrons they can hold.
+
+How many orbitals are there in total in the n = 4 shell?
+- 32
+* 16
+- 4
+- 9
+# Explanation: l can be 0 to 3, giving 1 4s + 3 4p + 5 4d + 7 4f = 16 orbitals (n² in general). 32 is the number of electrons they can hold.
+
+How many orbitals are there in total in the n = 3 shell?
+* 9
+- 18
+- 3
+- 7
+# Explanation: l can be 0 to 2, giving 1 3s + 3 3p + 5 3d = 9 orbitals (n² in general). 18 is the number of electrons they can hold.
+
+For the shell n = 1, which values can l take?
+* 0
+- 1
+- 0, 1
+# Explanation: l can be any whole number from 0 to n − 1, so for n = 1: 0.
+
+For a d subshell (l = 2), which values can mₗ take?
+- 0, 1, 2
+- 1, 2, 3, 4, 5
+* −2, −1, 0, +1, +2
+- −1, 0, +1
+# Explanation: mₗ can be any whole number from −l to +l, so for l = 2: −2, −1, 0, +1, +2 (5 orbitals).
+
+For the shell n = 2, which values can l take?
+* 0, 1
+- 1, 2
+- 0, 1, 2
+- −1 to +1
+# Explanation: l can be any whole number from 0 to n − 1, so for n = 2: 0, 1.
+
+For the shell n = 3, which values can l take?
+- 1, 2, 3
+* 0, 1, 2
+- 0, 1, 2, 3
+- −2 to +2
+# Explanation: l can be any whole number from 0 to n − 1, so for n = 3: 0, 1, 2.
+
+For a f subshell (l = 3), which values can mₗ take?
+- 0, 1, 2, 3
+- 1, 2, 3, 4, 5, 6, 7
+* −3, −2, −1, 0, +1, +2, +3
+- −2, −1, 0, +1, +2
+# Explanation: mₗ can be any whole number from −l to +l, so for l = 3: −3, −2, −1, 0, +1, +2, +3 (7 orbitals).
+
+For a p subshell (l = 1), which values can mₗ take?
+- 0, 1
+- 1, 2, 3
+- 0
+* −1, 0, +1
+# Explanation: mₗ can be any whole number from −l to +l, so for l = 1: −1, 0, +1 (3 orbitals).
+
+What are the quantum numbers n and l for a 2p orbital?
+- n = 2, l = 2
+- n = 1, l = 1
+- n = 3, l = 1
+* n = 2, l = 1
+# Explanation: The number is n = 2; the letter p means l = 1.
+
+What is the name of the subshell with n = 3 and l = 2?
+- 3f
+- 4d
+* 3d
+- 3p
+# Explanation: The number is n and the letter shows l (s = 0, p = 1, d = 2, f = 3), so n = 3, l = 2 is 3d.
+
+What is the name of the subshell with n = 2 and l = 1?
+* 2p
+- 2d
+- 3p
+- 2s
+# Explanation: The number is n and the letter shows l (s = 0, p = 1, d = 2, f = 3), so n = 2, l = 1 is 2p.
+
+What are the quantum numbers n and l for a 3p orbital?
+* n = 3, l = 1
+- n = 3, l = 2
+- n = 3, l = 3
+- n = 2, l = 1
+# Explanation: The number is n = 3; the letter p means l = 1.
+
+What is the name of the subshell with n = 3 and l = 0?
+- 3p
+- 4s
+* 3s
+- 3d
+# Explanation: The number is n and the letter shows l (s = 0, p = 1, d = 2, f = 3), so n = 3, l = 0 is 3s.
+
+What are the quantum numbers n and l for a 5d orbital?
+- n = 5, l = 3
+- n = 5, l = 5
+* n = 5, l = 2
+- n = 4, l = 2
+# Explanation: The number is n = 5; the letter d means l = 2.
+
+How many angular nodes (nodal planes through the nucleus) does a 5f orbital have?
+* 3
+- 0
+- 1
+- 2
+# Explanation: The number of angular nodes equals l: s has none, p one, d two, f three. 5f has 3.
+
+How many angular nodes (nodal planes through the nucleus) does a 1s orbital have?
+- 1
+* 0
+- 2
+- 3
+# Explanation: The number of angular nodes equals l: s has none, p one, d two, f three. 1s has 0.
+
+How many angular nodes (nodal planes through the nucleus) does a 3s orbital have?
+* 0
+- 1
+- 2
+- 3
+# Explanation: The number of angular nodes equals l: s has none, p one, d two, f three. 3s has 0.
+
+How many angular nodes (nodal planes through the nucleus) does a 4f orbital have?
+* 3
+- 0
+- 1
+- 2
+# Explanation: The number of angular nodes equals l: s has none, p one, d two, f three. 4f has 3.
+
+How many angular nodes (nodal planes through the nucleus) does a 4p orbital have?
+- 0
+- 2
+* 1
+- 3
+# Explanation: The number of angular nodes equals l: s has none, p one, d two, f three. 4p has 1.
+
+How many angular nodes (nodal planes through the nucleus) does a 5p orbital have?
+* 1
+- 0
+- 2
+- 3
+# Explanation: The number of angular nodes equals l: s has none, p one, d two, f three. 5p has 1.
+
+What is the ground-state electron configuration of hydrogen?
+Elements: H
+- 1s¹ 2s¹
+- 2s¹
+- 1s² 2s¹
+* 1s¹
+# Explanation: Hydrogen has 1 electron. 1s holds at most two (one ↑, one ↓), so they all fit in 1s: 1s¹.
+
+What is the ground-state electron configuration of helium?
+Elements: He
+* 1s²
+- 1s² 2s¹
+- 1s¹ 2s¹
+- 1s³
+# Explanation: Helium has 2 electrons. 1s holds at most two (one ↑, one ↓), so they all fit in 1s: 1s².
+
+What is the ground-state electron configuration of lithium?
+Elements: Li
+- 2s¹
+* 1s² 2s¹
+- 1s² 2s²
+- 1s²
+# Explanation: Lithium has 3 electrons. 1s holds at most two (one ↑, one ↓), so the rest go into 2s, the next lowest energy orbital: 1s² 2s¹.
+
+What is the ground-state electron configuration of beryllium?
+Elements: Be
+* 1s² 2s²
+- 1s¹
+- 1s³
+- 1s¹ 2s¹
+# Explanation: Beryllium has 4 electrons. 1s holds at most two (one ↑, one ↓), so the rest go into 2s, the next lowest energy orbital: 1s² 2s².
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+What is the maximum number of electrons that a 2p subshell can hold?
+Steal
+= 6 electrons
+# Shown answer: 6 electrons
+# Explanation: p means l = 1, so mₗ = −1, 0, +1: 3 orbitals. Each holds two electrons, so 6.
+
+What is the maximum number of electrons that a 4d subshell can hold?
+Steal
+= 10 electrons
+# Shown answer: 10 electrons
+# Explanation: d means l = 2, so mₗ = −2, −1, 0, +1, +2: 5 orbitals. Each holds two electrons, so 10.
+
+What is the maximum number of electrons that a 4f subshell can hold?
+Steal
+= 14 electrons
+# Shown answer: 14 electrons
+# Explanation: f means l = 3, so mₗ = −3, −2, −1, 0, +1, +2, +3: 7 orbitals. Each holds two electrons, so 14.
+
+What is the maximum number of electrons that a 5f subshell can hold?
+Steal
+= 14 electrons
+# Shown answer: 14 electrons
+# Explanation: f means l = 3, so mₗ = −3, −2, −1, 0, +1, +2, +3: 7 orbitals. Each holds two electrons, so 14.
+
+How many d orbitals are there altogether in the shells n = 1 to n = 5?
+Steal
+= 15 orbitals
+# Shown answer: 15 orbitals
+# Explanation: d subshells (l = 2) exist only from n = 3 upwards: 3d, 4d, 5d. That is 3 subshells × 5 orbitals = 15.
+
+How many orbitals are there altogether in the shells n = 1 to n = 3?
+Steal
+= 14 orbitals
+# Shown answer: 14 orbitals
+# Explanation: Each shell has n² orbitals: 1 + 4 + 9 = 14.
+
+How many orbitals are there in total in the n = 6 shell?
+Steal
+= 36 orbitals
+# Shown answer: 36 orbitals
+# Explanation: l = 0 to 5: 1 + 3 + 5 + 7 + 9 + 11 = 36.
+
+How many d orbitals are there altogether in the shells n = 1 to n = 4?
+Steal
+= 10 orbitals
+# Shown answer: 10 orbitals
+# Explanation: d subshells (l = 2) exist only from n = 3 upwards: 3d, 4d. That is 2 subshells × 5 orbitals = 10.
+
+At point A an electron's wavefunction has ψ = 0.76; at point B, ψ = 0.56. How many times more likely (per unit volume) is the electron to be found at A than at B? Give 3 s.f.
+Steal
+= 1.84 ± 0.6%
+# Shown answer: 1.84
+# Explanation: Probability density is proportional to ψ², and the sign (phase) doesn't matter: 0.76² ÷ 0.56² = 0.5776 ÷ 0.3136 = 1.84.
+
+At point A an electron's wavefunction has ψ = −0.61; at point B, ψ = 0.54. How many times more likely (per unit volume) is the electron to be found at A than at B? Give 3 s.f.
+Steal
+= 1.28 ± 0.6%
+# Shown answer: 1.28
+# Explanation: Probability density is proportional to ψ², and the sign (phase) doesn't matter: 0.61² ÷ 0.54² = 0.3721 ÷ 0.2916 = 1.28.
+
+At point A an electron's wavefunction has ψ = −0.41; at point B, ψ = 0.16. How many times more likely (per unit volume) is the electron to be found at A than at B? Give 3 s.f.
+Steal
+= 6.57 ± 0.6%
+# Shown answer: 6.57
+# Explanation: Probability density is proportional to ψ², and the sign (phase) doesn't matter: 0.41² ÷ 0.16² = 0.1681 ÷ 0.0256 = 6.57.
+
+At point A an electron's wavefunction has ψ = 0.75; at point B, ψ = 0.39. How many times more likely (per unit volume) is the electron to be found at A than at B? Give 3 s.f.
+Steal
+= 3.7 ± 0.6%
+# Shown answer: 3.70
+# Explanation: Probability density is proportional to ψ², and the sign (phase) doesn't matter: 0.75² ÷ 0.39² = 0.5625 ÷ 0.1521 = 3.70.

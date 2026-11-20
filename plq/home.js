@@ -1,7 +1,7 @@
 // Pre-Lecture Quizzes: the home page. "Create new quiz" lists the quiz types; below it,
 // every quiz of every type saved in this browser.
 (function () {
-  const P = window.PLQ_SETTINGS, SAVED = window.PQ_SAVED;
+  const P = window.PLQ_SETTINGS;
   const { $, esc, store, withDemo, isDemo, theme } = GQ;
   theme();
   document.title = $('title').textContent = P.title;
@@ -38,52 +38,40 @@
   }
 
   // ---------- Create new quiz ----------
-  $('products').innerHTML = P.products.map(p => `<button type="button" class="product" data-id="${p.id}">
+  $('products').innerHTML = P.products.map(p => `<div class="pwrap"><button type="button" class="product" data-id="${p.id}">
       <span class="pic">${icon(p.icon)}</span>
       <span class="pname">${esc(p.name)}</span>
       <span class="pblurb">${esc(p.blurb)}</span>
-      <span class="pgo">Create a ${esc(p.name)} quiz</span></button>`).join('');
+      <span class="pgo">Create a ${esc(p.name)} quiz</span></button>
+      ${p.demo ? `<a class="pdemo" href="${p.demo}" target="_blank" rel="noopener">or try the demo first</a>` : ''}</div>`).join('');
   $('products').querySelectorAll('.product').forEach(b => b.onclick = () => create(b));
 
   async function create(btn) {
-    const id = btn.dataset.id;
-    if (id === 'ptq') { location.href = withDemo('../setup.html'); return; }
-    if (id === 'grid') {
-      btn.disabled = true; btn.querySelector('.pgo').textContent = 'Creating…'; $('createMsg').textContent = '';
-      try {
-        const B = await GQ_BACKEND.create();
-        const { id: qid, k } = await B.createQuiz('Untitled quiz');
-        const mine = store.get(GKEY, []); mine.unshift({ id: qid, k, title: 'Untitled quiz', at: Date.now() }); store.set(GKEY, mine);
-        location.href = withDemo('../grid/edit.html') + `#${qid}.${k}`;
-      } catch (e) {
-        btn.disabled = false; btn.querySelector('.pgo').textContent = 'Create a Quiz Grid quiz';
-        $('createMsg').innerHTML = `<b>Couldn't create the quiz.</b> Check your internet connection. <small>(${esc(e.message)})</small>`;
-      }
+    const type = btn.dataset.id, name = product(type).name;
+    btn.disabled = true; btn.querySelector('.pgo').textContent = 'Creating…'; $('createMsg').textContent = '';
+    try {
+      const B = await GQ_BACKEND.create();
+      const { id: qid, k } = await B.createQuiz('Untitled quiz', type);
+      const mine = store.get(GKEY, []); mine.unshift({ id: qid, k, title: 'Untitled quiz', type, at: Date.now() }); store.set(GKEY, mine);
+      location.href = withDemo('../grid/edit.html') + `#${qid}.${k}`;
+    } catch (e) {
+      btn.disabled = false; btn.querySelector('.pgo').textContent = `Create a ${name} quiz`;
+      $('createMsg').innerHTML = `<b>Couldn't create the quiz.</b> Check your internet connection. <small>(${esc(e.message)})</small>`;
     }
   }
 
   // ---------- Saved quizzes ----------
   let filter = 'all';
+  const presentPage = { grid: '../grid/host.html', ptq: '../quest/host.html' };
   function allSaved() {
-    const grid = store.get(GKEY, []).map((m, i) => ({
-      type: 'grid', key: m.id, at: m.at || 0, order: i, title: m.title || 'Untitled quiz', detail: '',
-      edit: withDemo('../grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo('../grid/host.html?quiz=' + m.id)
-    }));
-    const ptq = isDemo() ? [] : SAVED.list().map((q, i) => {
-      const n = Object.keys(q.mix || {}).length;
-      return {
-        type: 'ptq', key: q.id, at: q.at || 0, order: i, title: q.title || 'Untitled quiz',
-        detail: `${n} topic${n === 1 ? '' : 's'} · ${q.mins} min`,
-        edit: '../setup.html?id=' + q.id, present: n ? '../index.html' + SAVED.presentQuery(q) : ''
-      };
-    });
-    // Most recently made or opened first; older Quiz Grid entries (no date) keep their order at the end
-    return [...grid, ...ptq].sort((a, b) => b.at - a.at || a.type.localeCompare(b.type) || a.order - b.order);
+    return store.get(GKEY, []).map((m, i) => ({
+      type: m.type === 'ptq' ? 'ptq' : 'grid', key: m.id, at: m.at || 0, order: i, title: m.title || 'Untitled quiz', detail: '',
+      edit: withDemo('../grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo(presentPage[m.type === 'ptq' ? 'ptq' : 'grid'] + '?quiz=' + m.id)
+    })).sort((a, b) => b.at - a.at || a.order - b.order);   // most recent first; older entries (no date) keep their order
   }
 
   function forget(item) {
-    if (item.type === 'grid') store.set(GKEY, store.get(GKEY, []).filter(m => m.id !== item.key));
-    else SAVED.remove(item.key);
+    store.set(GKEY, store.get(GKEY, []).filter(m => m.id !== item.key));
     draw();
   }
 
@@ -107,7 +95,7 @@
       const item = shown[+b.dataset.forget];
       if (b.dataset.armed) return forget(item);
       b.dataset.armed = 1;
-      b.textContent = item.type === 'grid' ? 'Sure? Keep the edit link first' : 'Sure? Click again';
+      b.textContent = 'Sure? Keep the edit link first';
       setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = 'Forget'; } }, 4000);
     });
   }

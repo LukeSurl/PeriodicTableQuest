@@ -22,8 +22,67 @@
     r.setProperty('--tb', S.teams.b.colour);
   }
 
-  // Questions that are complete enough to play
-  const playable = quiz => ((quiz && quiz.qs) || []).map((q, i) => ({ ...q, i })).filter(q => q && q.ready && q.text && (q.opts || []).filter(o => o).length >= 2);
+  // Questions that are complete enough to play. kind 'num' questions have a typed number answer.
+  const isNum = q => q && q.kind === 'num';
+  const playable = quiz => ((quiz && quiz.qs) || []).map((q, i) => ({ ...q, i })).filter(q => q && q.ready && q.text && (isNum(q) || (q.opts || []).filter(o => o).length >= 2));
+
+  // A typed number: "35.5", "35,5", "−3", "6.02e23", "6.02 × 10^23", "6.02x10²³", "1,234.5", "24.2 %".
+  // Returns NaN if it isn't one.
+  const SUPS = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+  function parseNum(text, strict) {   // strict: no unit allowed after the number
+    let t = String(text == null ? '' : text).trim().replace(/[\s\u00A0\u202F]+/g, '').replace(/[−–]/g, '-').replace(/⁻/g, '-').replace(/⁺/g, '');
+    t = t.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPS.indexOf(c));
+    if (t.includes(',')) t = t.includes('.') || /^-?[1-9]\d{0,2}(,\d{3})+$/.test(t) ? t.replace(/,/g, '') : t.replace(',', '.');
+    t = t.replace(/^(-?[\d.]+)(?:[×xX*·]|\\times)10\^?\(?([+-]?\d+)\)?/, '$1e$2');
+    if (/^[+-]?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?$/i.test(t)) return Number(t);
+    const m = t.match(/^([+-]?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?)(%|[A-Za-zµ°Å][\w°µ⁻⁰-⁹\-\/^]*)$/i);   // a number followed by a unit
+    return m && !strict ? Number(m[1]) : NaN;
+  }
+  // A number written for people: up to 6 significant figures, standard form when very big or small
+  function fmtNum(v) {
+    if (!isFinite(v)) return '';
+    const a = Math.abs(v);
+    if (a !== 0 && (a >= 1e6 || a < 1e-3)) {
+      const [m, e] = v.toExponential(5).split('e');
+      return `${String(+m).replace('-', '−')} × 10${String(+e).replace('-', '⁻').replace(/\d/g, d => SUPS[d])}`;
+    }
+    return String(+v.toPrecision(6)).replace('-', '−');
+  }
+  // The range of answers accepted for a number question { v, tol, pct }
+  function numRange(n) {
+    const v = +n.v, tol = Math.abs(+n.tol || 0) * (n.pct ? Math.abs(v) / 100 : 1);
+    const slack = Math.max(Math.abs(v) * 1e-9, 1e-12);   // so that typing the exact value always counts
+    return { lo: v - tol - slack, hi: v + tol + slack };
+  }
+
+  // Elements (needs ../js/elements.js). "Na, cl Fe" → [11, 17, 26]; unknown symbols in bad
+  const ELS = window.PQ_ELEMENTS || [];
+  const BY_SYM = {}; ELS.forEach(e => { BY_SYM[e.s.toLowerCase()] = e; BY_SYM[e.n.toLowerCase()] = e; });
+  if (BY_SYM.aluminium) BY_SYM.aluminum = BY_SYM.aluminium;
+  if (BY_SYM.sulfur) BY_SYM.sulphur = BY_SYM.sulfur;
+  function parseEls(text) {
+    const zs = [], bad = [];
+    String(text || '').split(/[\s,;/]+/).map(w => w.trim()).filter(Boolean).forEach(w => {
+      if (/^(any|all|none|-)$/i.test(w)) return;
+      const e = BY_SYM[w.toLowerCase()];
+      if (e) { if (!zs.includes(e.z)) zs.push(e.z); } else bad.push(w);
+    });
+    return { zs: zs.sort((a, b) => a - b), bad };
+  }
+  const elSym = z => (ELS.find(e => e.z === +z) || {}).s || String(z);
+  // A question's elements as a sorted list of atomic numbers (stored as { "8": true, … })
+  const elsOf = q => Object.keys((q && q.els) || {}).map(Number).filter(z => z >= 1 && z <= 118).sort((a, b) => a - b);
+
+  // Periodic Table Quest: the playable questions that can be asked on element z.
+  // steal: true for steal questions (falling back to ordinary ones if there are none for z).
+  const fitsEl = (q, z) => !q.els || !Object.keys(q.els).length || !!q.els[z];
+  function poolFor(quiz, z, steal) {
+    const all = playable(quiz).filter(q => fitsEl(q, z));
+    const ordinary = all.filter(q => !q.steal);
+    if (!steal) return ordinary;
+    const st = all.filter(q => q.steal);
+    return st.length ? st : ordinary;
+  }
 
   // What a tile shows: picture and/or short label, otherwise the question itself
   function tileInner(q, n) {
@@ -112,5 +171,5 @@
     t.innerHTML = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 2800);
   }
 
-  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, tileInner, drawGrid, counts, score, winner, resultText, rulesList, qrSvg, toast };
+  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, tileInner, drawGrid, counts, score, winner, resultText, rulesList, qrSvg, toast };
 })();

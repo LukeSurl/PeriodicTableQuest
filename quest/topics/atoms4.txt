@@ -1,0 +1,651 @@
+# Atoms 4: Building atoms and the periodic table
+# Exported from the classic Periodic Table Quest (questions/atoms4.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+In a many-electron atom, what is the order of the subshells in a shell, from lowest to highest energy?
+- f, d, p, s
+- They all have the same energy
+* s, p, d, f
+- p, s, d, f
+# Explanation: In hydrogen they are degenerate. With more than one electron they split, with s lowest, then p, then d, then f.
+
+He⁺ and H both have one electron in 1s. Why is the He⁺ electron lower in energy?
+Elements: He
+- He⁺ has more neutrons
+- He⁺ has a second electron to shield it
+* Helium's nucleus has a +2 charge, so the electron is attracted more strongly
+- Its 1s orbital is bigger
+# Explanation: The greater the effective charge of the nucleus felt by an electron, the closer and lower in energy its orbital.
+
+What is shielding?
+- The nucleus repelling its own electrons
+* Electrons closer to the nucleus repel an outer electron, cancelling some of the nucleus's attraction
+- Outer electrons protecting the nucleus from radiation
+- Electrons in the same orbital cancelling each other's spin
+# Explanation: Shielding reduces the effective nuclear charge that an outer electron feels.
+
+Lithium's nucleus has a +3 charge, but its 2s electron feels an effective nuclear charge of only about +1.3. Why?
+Elements: Li
+- The 2s electron shields itself
+* The two 1s electrons sit mostly closer to the nucleus and shield it
+- Lithium's neutrons cancel some of the charge
+- The 2s electron is outside the atom
+# Explanation: The point is not the exact number but that it is much less than +3: the two 1s electrons cancel most of the nucleus's pull.
+
+Why is 2s lower in energy than 2p in a many-electron atom?
+- 2s can hold more electrons
+* 2s penetrates closer to the nucleus, so it feels a greater effective nuclear charge
+- 2p is further from the nucleus at its main peak
+- 2s electrons are not shielded at all
+# Explanation: The small inner hump of the 2s radial distribution function puts some 2s density very close to the nucleus, inside most of the 1s electrons, where it feels more of the nuclear charge.
+
+The main peak of the 2p radial distribution function (about 210 pm) is actually closer to the nucleus than the main 2s peak (about 280 pm). So what makes 2s more penetrating?
+- The main 2s peak
+* The small inner hump of 2s, very close to the nucleus
+- The nodal plane of 2p
+- Nothing: 2p is more penetrating
+# Explanation: It is the inner hump, not the main peak, that lets a 2s electron spend some time inside the 1s electrons and feel more of the nucleus.
+
+Sodium has electrons in its third shell. Which order is correct for the energies of its n = 3 subshells?
+Elements: Na
+- 3s = 3p = 3d
+- 3d < 3p < 3s
+* 3s < 3p < 3d
+- 3p < 3s < 3d
+# Explanation: s orbitals are the most penetrating, so an s electron feels the most nuclear charge; d orbitals are the least penetrating.
+
+What does Hund's rule say?
+* Electrons occupy orbitals of the same energy singly, with parallel spins, before any pairing
+- Each orbital holds at most two electrons
+- Electrons fill the lowest-energy orbitals first
+- Electrons in the same orbital have the same spin
+# Explanation: The other two rules are real too, but they are Pauli (two per orbital) and the aufbau idea (lowest energy first).
+
+Carbon has two 2p electrons. How are they arranged in its ground state?
+Elements: C
+* In two different 2p orbitals, with parallel spins
+- Paired in the same 2p orbital
+- In two different 2p orbitals, with opposite spins
+- One in 2p and one in 3s
+# Explanation: Hund's rule: singly, with parallel spins. The other arrangements are possible but higher in energy.
+
+How many unpaired electrons does a nitrogen atom have?
+Elements: N
+* 3
+- 1
+- 2
+- 0
+# Explanation: Nitrogen is 1s² 2s² 2p³: one electron in each 2p orbital, all with parallel spins.
+
+Oxygen (1s² 2s² 2p⁴) is the first atom in which…
+Elements: O
+* two 2p electrons have to pair up in the same orbital
+- a 2p electron appears
+- the n = 2 shell is full
+- a 3s electron appears
+# Explanation: Three 2p electrons go in singly; the fourth must pair up.
+
+Boron (1s² 2s² 2p¹) is the first atom to…
+Elements: B
+- have a full n = 2 shell
+- have a 2s electron
+- need Hund's rule to place its electrons
+* have an electron in a 2p orbital
+# Explanation: Lithium and beryllium fill 2s; boron's fifth electron starts on 2p.
+
+Neon (1s² 2s² 2p⁶) completes the n = 2 shell. What follows from this?
+Elements: Ne
+- Neon is very reactive
+- Sodium's next electron goes into 2d
+* Neon is very unreactive, and sodium starts a new row of the periodic table
+- Neon has two unpaired electrons
+# Explanation: With 2s and 2p both full, the next electron (sodium's) has to go into 3s, the start of a new shell and a new period.
+
+In a shorthand configuration such as [Ne] 3s¹, which electrons are the valence electrons?
+* Those outside the noble-gas core: here the 3s electron
+- Those in the [Ne] core
+- All of them
+- Only the electrons in 1s
+# Explanation: Core electrons are arranged like the previous noble gas. Valence electrons are the ones outside it, and are far more likely to take part in reactions.
+
+Why do elements in the same group of the periodic table behave alike?
+- They have the same number of electrons
+* They have the same valence configuration
+- They have the same atomic mass
+- They have the same number of shells
+# Explanation: Li [He] 2s¹, Na [Ne] 3s¹ and K [Ar] 4s¹: same outer arrangement, similar chemistry.
+
+After argon you might expect 3d to fill next. Why does potassium's outer electron go into 4s instead?
+Elements: K
+- 3d orbitals don't exist until n = 4
+- 4s holds more electrons than 3d
+* 4s is penetrating enough to be marginally lower in energy than 3d
+- Hund's rule forbids 3d
+# Explanation: So K is [Ar] 4s¹ and Ca is [Ar] 4s². 3d fills next, in the transition metals.
+
+What is the shorthand configuration of calcium?
+Elements: Ca
+- [Ar] 3d²
+* [Ar] 4s²
+- [Ne] 3s²
+- [Ar] 4s¹ 3d¹
+# Explanation: 4s is marginally below 3d, so calcium's last two electrons both go into 4s.
+
+Why is the d-block of the periodic table 10 elements wide?
+- There are 10 d orbitals in each shell
+- d orbitals have 10 angular nodes
+- It is a historical convention
+* A d subshell has 5 orbitals, each holding 2 electrons
+# Explanation: Block widths match subshell capacities: s 2, p 6, d 10, f 14.
+
+How wide is the p-block of the periodic table?
+- 3 elements
+- 8 elements
+- 10 elements
+* 6 elements
+# Explanation: A p subshell has 3 orbitals, each holding 2 electrons, so 6.
+
+Across a period atoms gain electrons, yet they get smaller. Why?
+- The extra electrons are in a lower shell
+- Electrons repel each other less as they are added
+* Electrons in the same shell shield each other poorly, so the effective nuclear charge rises
+- The nucleus gets physically larger
+# Explanation: Each step adds a proton and an electron to the same shell. Inner-shell electrons shield well; same-shell electrons don't, so the outer electrons are pulled in closer.
+
+Carbon's 2p electrons feel an effective nuclear charge of about +2.9, fluorine's about +5.2. Which atom is smaller?
+Elements: C, F
+- Carbon
+* Fluorine
+- They are the same size
+- You can't tell
+# Explanation: Same subshell, greater pull from the nucleus, so fluorine's electrons are held closer: F 64 pm, C 77 pm.
+
+Ionisation energy is the energy needed for which process?
+- X + e⁻ → X⁻
+- X⁺ + e⁻ → X
+* X → X⁺ + e⁻
+- X₂ → 2X
+# Explanation: It always takes energy, so ionisation energies are positive, usually in kJ mol⁻¹.
+
+Where is the biggest drop in first ionisation energy as you go along the periodic table?
+Elements: Na
+- Straight before each noble gas
+- In the middle of each period
+* Straight after each noble gas, e.g. from neon to sodium
+- Between the two elements in period 1
+# Explanation: Sodium's outer electron starts a new shell (3s), further out and well shielded by the full n = 2 shell, so it is easy to remove.
+
+Electron gain energy refers to which process?
+- X → X⁺ + e⁻
+* X + e⁻ → X⁻
+- X⁻ → X + e⁻
+- X₂ + 2e⁻ → 2X
+# Explanation: Usually exothermic, so electron gain energies are usually negative. The bigger the negative number, the more favourable.
+
+Electron gain energies: Cl −349, Br −325, I −295 kJ mol⁻¹. Why is adding an electron to iodine less favourable than adding one to chlorine?
+Elements: Cl, I
+* Iodine is the biggest atom, so the added electron is held furthest from the nucleus
+- Iodine has the most protons
+- Iodine's 5p subshell is already full
+- Iodine is a solid
+# Explanation: Chlorine (99 pm) holds the new electron close to the nucleus and low in energy; iodine (133 pm) holds it further away.
+
+Which halogen, Cl₂, Br₂ or I₂, displaces neither of the other two halides?
+Elements: I
+- Cl₂
+* I₂
+- Br₂
+- All three displace each other
+# Explanation: Iodine gains an electron least favourably (−295 kJ mol⁻¹), so it can't take electrons from bromide or chloride. This matches Experiment B.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+What is the ground-state electron configuration of beryllium (4 electrons)?
+Elements: Be
+- 1s² 2s² 2p¹
+- 1s² 2s¹
+* 1s² 2s²
+# Explanation: Fill the lowest-energy subshells first, at most two electrons per orbital: 1s, 2s, 2p, 3s, 3p, then 4s (just below 3d). Beryllium: 1s² 2s².
+
+What is the ground-state electron configuration of boron (5 electrons)?
+Elements: B
+- 1s² 2p³
+- 1s² 2s² 2p²
+- 1s² 2s²
+* 1s² 2s² 2p¹
+# Explanation: Fill the lowest-energy subshells first, at most two electrons per orbital: 1s, 2s, 2p, 3s, 3p, then 4s (just below 3d). Boron: 1s² 2s² 2p¹.
+
+What is the ground-state electron configuration of carbon (6 electrons)?
+Elements: C
+* 1s² 2s² 2p²
+- 1s² 2p⁴
+- 1s² 2s² 2p³
+- 1s² 2s² 2p¹
+# Explanation: Fill the lowest-energy subshells first, at most two electrons per orbital: 1s, 2s, 2p, 3s, 3p, then 4s (just below 3d). Carbon: 1s² 2s² 2p².
+
+What is the ground-state electron configuration of nitrogen (7 electrons)?
+Elements: N
+- 1s² 2p⁵
+* 1s² 2s² 2p³
+- 1s² 2s² 2p⁴
+- 1s² 2s² 2p²
+# Explanation: Fill the lowest-energy subshells first, at most two electrons per orbital: 1s, 2s, 2p, 3s, 3p, then 4s (just below 3d). Nitrogen: 1s² 2s² 2p³.
+
+What is the ground-state electron configuration of oxygen (8 electrons)?
+Elements: O
+- 1s² 2p⁶
+- 1s² 2s² 2p⁵
+- 1s² 2s² 2p³
+* 1s² 2s² 2p⁴
+# Explanation: Fill the lowest-energy subshells first, at most two electrons per orbital: 1s, 2s, 2p, 3s, 3p, then 4s (just below 3d). Oxygen: 1s² 2s² 2p⁴.
+
+What is the ground-state electron configuration of silicon (14 electrons)?
+Elements: Si
+- 1s² 2s² 2p⁶ 3p⁴
+- 1s² 2s² 2p⁶ 3s² 3p³
+* 1s² 2s² 2p⁶ 3s² 3p²
+- 1s² 2s² 2p⁶ 3s² 3p¹
+# Explanation: Fill the lowest-energy subshells first, at most two electrons per orbital: 1s, 2s, 2p, 3s, 3p, then 4s (just below 3d). Silicon: 1s² 2s² 2p⁶ 3s² 3p².
+
+What is the shorthand (noble-gas core) configuration of boron?
+Elements: B
+* [He] 2s² 2p¹
+- [He] 2s² 2p²
+- [He] 2s²
+- [He] 2s² 2p³
+# Explanation: Boron's first 2 electrons are arranged exactly as in helium (1s²), so write [He] and add the rest: [He] 2s² 2p¹.
+
+What is the shorthand (noble-gas core) configuration of nitrogen?
+Elements: N
+- [He] 2s² 2p⁴
+- [He] 2s² 2p²
+- [He] 2s² 2p⁵
+* [He] 2s² 2p³
+# Explanation: Nitrogen's first 2 electrons are arranged exactly as in helium (1s²), so write [He] and add the rest: [He] 2s² 2p³.
+
+What is the shorthand (noble-gas core) configuration of silicon?
+Elements: Si
+- [Ne] 3s² 3p³
+* [Ne] 3s² 3p²
+- [Ne] 3s² 3p¹
+- [Ne] 3s² 3p⁴
+# Explanation: Silicon's first 10 electrons are arranged exactly as in neon (1s² 2s² 2p⁶), so write [Ne] and add the rest: [Ne] 3s² 3p².
+
+What is the shorthand (noble-gas core) configuration of sulfur?
+Elements: S
+- [Ne] 3s² 3p⁵
+- [Ne] 3s² 3p³
+- [Ne] 3s² 3p⁶
+* [Ne] 3s² 3p⁴
+# Explanation: Sulfur's first 10 electrons are arranged exactly as in neon (1s² 2s² 2p⁶), so write [Ne] and add the rest: [Ne] 3s² 3p⁴.
+
+What is the shorthand (noble-gas core) configuration of argon?
+Elements: Ar
+- [Ar] 4s¹
+* [Ne] 3s² 3p⁶
+- [Ne] 3s² 3p⁵
+- [Ar] 4s²
+# Explanation: Argon's first 10 electrons are arranged exactly as in neon (1s² 2s² 2p⁶), so write [Ne] and add the rest: [Ne] 3s² 3p⁶.
+
+What is the shorthand (noble-gas core) configuration of calcium?
+Elements: Ca
+- [Ar] 3d²
+- [Ar] 4s¹
+- [Ne] 3s² 3p⁶
+* [Ar] 4s²
+# Explanation: Calcium's first 18 electrons are arranged exactly as in argon (1s² 2s² 2p⁶ 3s² 3p⁶), so write [Ar] and add the rest: [Ar] 4s².
+
+Which element has the ground-state configuration [He] 2s²?
+- Lithium
+- Boron
+- Magnesium
+* Beryllium
+# Explanation: Count the electrons: 2 + 2 = 4, so atomic number 4: beryllium.
+
+Which element has the ground-state configuration 1s² 2s² 2p⁴?
+* Oxygen
+- Nitrogen
+- Fluorine
+- Sulfur
+# Explanation: Count the electrons: 2 + 2 + 4 = 8, so atomic number 8: oxygen.
+
+Which element has the ground-state configuration 1s² 2s² 2p⁵?
+- Oxygen
+* Fluorine
+- Neon
+- Chlorine
+# Explanation: Count the electrons: 2 + 2 + 5 = 9, so atomic number 9: fluorine.
+
+Which element has the ground-state configuration 1s² 2s² 2p⁶?
+- Fluorine
+* Neon
+- Sodium
+- Argon
+# Explanation: Count the electrons: 2 + 2 + 6 = 10, so atomic number 10: neon.
+
+Which element has the ground-state configuration [Ne] 3s¹?
+- Neon
+- Magnesium
+- Potassium
+* Sodium
+# Explanation: Count the electrons: 2 + 2 + 6 + 1 = 11, so atomic number 11: sodium.
+
+Which element has the ground-state configuration [Ne] 3s²?
+- Sodium
+- Aluminium
+- Calcium
+* Magnesium
+# Explanation: Count the electrons: 2 + 2 + 6 + 2 = 12, so atomic number 12: magnesium.
+
+How many unpaired electrons does a hydrogen atom have in its ground state?
+Elements: H
+- 0
+- 2
+- 3
+* 1
+# Explanation: Hydrogen is 1s¹. The single 1s electron is unpaired.
+
+How many unpaired electrons does an oxygen atom have in its ground state?
+Elements: O
+- 0
+- 1
+- 3
+* 2
+# Explanation: Oxygen ends 2p⁴. By Hund's rule the three 2p orbitals fill singly with parallel spins before any pair up, so 1 of the 4 have to pair, leaving 2 unpaired.
+
+How many unpaired electrons does a fluorine atom have in its ground state?
+Elements: F
+- 0
+- 2
+* 1
+- 3
+# Explanation: Fluorine ends 2p⁵. By Hund's rule the three 2p orbitals fill singly with parallel spins before any pair up, so 2 of the 5 have to pair, leaving 1 unpaired.
+
+How many unpaired electrons does a silicon atom have in its ground state?
+Elements: Si
+* 2
+- 0
+- 1
+- 3
+# Explanation: Silicon ends 3p². By Hund's rule the three 3p orbitals fill singly with parallel spins before any pair up, so all 2 are unpaired.
+
+How many unpaired electrons does a phosphorus atom have in its ground state?
+Elements: P
+- 0
+- 1
+- 2
+* 3
+# Explanation: Phosphorus ends 3p³. By Hund's rule the three 3p orbitals fill singly with parallel spins before any pair up, so all 3 are unpaired.
+
+How many unpaired electrons does a potassium atom have in its ground state?
+Elements: K
+* 1
+- 0
+- 2
+- 3
+# Explanation: Potassium is 1s² 2s² 2p⁶ 3s² 3p⁶ 4s¹. The single 4s electron is unpaired.
+
+Which element has the same valence (outer-shell) configuration as lithium?
+Elements: Li
+- Strontium
+* Rubidium
+# Explanation: Elements in the same group have the same valence configuration, which is why they behave alike. Lithium and rubidium are both in group 1.
+
+Which element has the same valence (outer-shell) configuration as carbon?
+Elements: C
+- Bromine
+- Arsenic
+* Germanium
+- Selenium
+# Explanation: Elements in the same group have the same valence configuration, which is why they behave alike. Carbon and germanium are both in group 14.
+
+Which element has the same valence (outer-shell) configuration as neon?
+Elements: Ne
+* Argon
+- Chlorine
+- Phosphorus
+- Sulfur
+# Explanation: Elements in the same group have the same valence configuration, which is why they behave alike. Neon and argon are both in group 18.
+
+Which element has the same valence (outer-shell) configuration as magnesium?
+Elements: Mg
+* Beryllium
+- Lithium
+# Explanation: Elements in the same group have the same valence configuration, which is why they behave alike. Magnesium and beryllium are both in group 2.
+
+Which element has the same valence (outer-shell) configuration as silicon?
+Elements: Si
+- Indium
+- Tellurium
+- Antimony
+* Tin
+# Explanation: Elements in the same group have the same valence configuration, which is why they behave alike. Silicon and tin are both in group 14.
+
+Which element has the same valence (outer-shell) configuration as chlorine?
+Elements: Cl
+* Fluorine
+- Carbon
+- Neon
+- Nitrogen
+# Explanation: Elements in the same group have the same valence configuration, which is why they behave alike. Chlorine and fluorine are both in group 17.
+
+In an atom with many electrons, which subshell is lower in energy: 4f or 4d?
+- 4f
+* 4d
+- They have the same energy
+# Explanation: Within a shell, the more penetrating subshell feels more nuclear charge and is lower: s, then p, then d, then f.
+
+In an atom with many electrons, which subshell is lower in energy: 3s or 3d?
+* 3s
+- 3d
+- They have the same energy
+# Explanation: Within a shell, the more penetrating subshell feels more nuclear charge and is lower: s, then p, then d, then f.
+
+In an atom with many electrons, which subshell is lower in energy: 2s or 2p?
+- 2p
+- They have the same energy
+* 2s
+# Explanation: Within a shell, the more penetrating subshell feels more nuclear charge and is lower: s, then p, then d, then f.
+
+In an atom with many electrons, which subshell is lower in energy: 3d or 4s?
+- 3d
+- They have the same energy
+* 4s
+# Explanation: 4s is so penetrating that it ends up marginally below 3d, which is why potassium and calcium fill 4s before 3d.
+
+In an atom with many electrons, which subshell is lower in energy: 3d or 3p?
+* 3p
+- 3d
+- They have the same energy
+# Explanation: Within a shell, the more penetrating subshell feels more nuclear charge and is lower: s, then p, then d, then f.
+
+In an atom with many electrons, which subshell is lower in energy: 3p or 3s?
+* 3s
+- 3p
+- They have the same energy
+# Explanation: Within a shell, the more penetrating subshell feels more nuclear charge and is lower: s, then p, then d, then f.
+
+Which atom is bigger: lithium or hydrogen?
+Elements: Li
+- Hydrogen
+* Lithium
+- They are the same size
+# Explanation: Down a group atoms get bigger: the outer electrons are in a shell with higher n, mostly further from the nucleus. Lithium 157 pm, hydrogen 37 pm.
+
+Which atom is bigger: potassium or sodium?
+Elements: K
+- Sodium
+- They are the same size
+* Potassium
+# Explanation: Down a group atoms get bigger: the outer electrons are in a shell with higher n, mostly further from the nucleus. Potassium 235 pm, sodium 191 pm.
+
+Which atom is bigger: gallium or boron?
+Elements: Ga
+* Gallium
+- Boron
+- They are the same size
+# Explanation: Down a group atoms get bigger: the outer electrons are in a shell with higher n, mostly further from the nucleus. Gallium 153 pm, boron 88 pm.
+
+Which atom is bigger: rubidium or potassium?
+Elements: Rb
+- Potassium
+- They are the same size
+* Rubidium
+# Explanation: Down a group atoms get bigger: the outer electrons are in a shell with higher n, mostly further from the nucleus. Rubidium 250 pm, potassium 235 pm.
+
+Which atom is bigger: antimony or nitrogen?
+Elements: Sb
+- Nitrogen
+* Antimony
+- They are the same size
+# Explanation: Down a group atoms get bigger: the outer electrons are in a shell with higher n, mostly further from the nucleus. Antimony 141 pm, nitrogen 74 pm.
+
+Which atom is bigger: iodine or indium?
+Elements: I
+- Iodine
+- They are the same size
+* Indium
+# Explanation: Across a period atoms get smaller: each step adds a proton, and electrons in the same shell shield each other poorly, so the effective nuclear charge rises and pulls the outer electrons in. Indium 167 pm, iodine 133 pm.
+
+Which has the higher first ionisation energy: hydrogen or caesium?
+Elements: H
+* Hydrogen
+- Caesium
+- They are the same
+# Explanation: Down a group ionisation energy decreases: the outer electron is in a higher shell, further from the nucleus, so it is held less tightly. Hydrogen 1312, caesium 376 kJ mol⁻¹.
+
+Which has the higher first ionisation energy: neon or beryllium?
+Elements: Ne
+- Beryllium
+- They are the same
+* Neon
+# Explanation: Across a period ionisation energy generally increases: the effective nuclear charge rises, so the outer electron is held more tightly. Neon 2081, beryllium 900 kJ mol⁻¹.
+
+Which has the higher first ionisation energy: magnesium or argon?
+Elements: Mg
+- Magnesium
+- They are the same
+* Argon
+# Explanation: Across a period ionisation energy generally increases: the effective nuclear charge rises, so the outer electron is held more tightly. Argon 1521, magnesium 738 kJ mol⁻¹.
+
+Which has the higher first ionisation energy: chlorine or argon?
+Elements: Cl
+* Argon
+- Chlorine
+- They are the same
+# Explanation: Across a period ionisation energy generally increases: the effective nuclear charge rises, so the outer electron is held more tightly. Argon 1521, chlorine 1251 kJ mol⁻¹.
+
+Which has the higher first ionisation energy: gallium or selenium?
+Elements: Ga
+- Gallium
+- They are the same
+* Selenium
+# Explanation: Across a period ionisation energy generally increases: the effective nuclear charge rises, so the outer electron is held more tightly. Selenium 941, gallium 579 kJ mol⁻¹.
+
+Which has the higher first ionisation energy: antimony or indium?
+Elements: Sb
+- Indium
+* Antimony
+- They are the same
+# Explanation: Across a period ionisation energy generally increases: the effective nuclear charge rises, so the outer electron is held more tightly. Antimony 831, indium 558 kJ mol⁻¹.
+
+Electron gain energies: Cl −349, Br −325, I −295 kJ mol⁻¹. Does Cl₂ react with I⁻ ions?
+Elements: Cl
+* Yes: I₂ forms
+- No reaction
+- Yes, but only if heated
+# Explanation: Gain: Cl + e⁻ → Cl⁻ releases 349; loss: I⁻ → I + e⁻ costs 295 kJ mol⁻¹. Overall −54 kJ mol⁻¹, so chlorine takes the electron and I₂ forms.
+
+Electron gain energies: Cl −349, Br −325, I −295 kJ mol⁻¹. Does Cl₂ react with Br⁻ ions?
+Elements: Br
+* Yes: Br₂ forms
+- No reaction
+- Yes, but only if heated
+# Explanation: Gain: Cl + e⁻ → Cl⁻ releases 349; loss: Br⁻ → Br + e⁻ costs 325 kJ mol⁻¹. Overall −24 kJ mol⁻¹, so chlorine takes the electron and Br₂ forms.
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+How many core electrons does a beryllium atom have?
+Elements: Be
+Steal
+= 2 electrons
+# Shown answer: 2
+# Explanation: Beryllium is [He] 2s²: the [He] core holds 2 electrons. The rest are valence electrons.
+
+How many electrons are in p orbitals in a carbon atom?
+Elements: C
+Steal
+= 2 electrons
+# Shown answer: 2
+# Explanation: Carbon is 1s² 2s² 2p²: 2 in 2p = 2.
+
+How many electrons are in p orbitals in a sodium atom?
+Elements: Na
+Steal
+= 6 electrons
+# Shown answer: 6
+# Explanation: Sodium is 1s² 2s² 2p⁶ 3s¹: 6 in 2p = 6.
+
+How many electrons are in p orbitals in a potassium atom?
+Elements: K
+Steal
+= 12 electrons
+# Shown answer: 12
+# Explanation: Potassium is 1s² 2s² 2p⁶ 3s² 3p⁶ 4s¹: 6 in 2p + 6 in 3p = 12.
+
+Electron gain energies: I −295 kJ mol⁻¹, Br −325 kJ mol⁻¹. For I₂ + 2Br⁻ → 2I⁻ + Br₂, what is the overall energy per mole of electrons transferred (gain plus loss)? Include the sign.
+Steal
+= 30 ± 0.5 kJ mol⁻¹
+# Shown answer: +30 kJ mol⁻¹
+# Explanation: Gain −295 (I + e⁻ → I⁻) plus loss +325 (Br⁻ → Br + e⁻) = +30 kJ mol⁻¹. Positive, so no reaction.
+
+Electron gain energies: I −295 kJ mol⁻¹, Cl −349 kJ mol⁻¹. For I₂ + 2Cl⁻ → 2I⁻ + Cl₂, what is the overall energy per mole of electrons transferred (gain plus loss)? Include the sign.
+Steal
+= 54 ± 0.5 kJ mol⁻¹
+# Shown answer: +54 kJ mol⁻¹
+# Explanation: Gain −295 (I + e⁻ → I⁻) plus loss +349 (Cl⁻ → Cl + e⁻) = +54 kJ mol⁻¹. Positive, so no reaction.
+
+Electron gain energies: Br −325 kJ mol⁻¹, I −295 kJ mol⁻¹. For Br₂ + 2I⁻ → 2Br⁻ + I₂, what is the overall energy per mole of electrons transferred (gain plus loss)? Include the sign.
+Steal
+= -30 ± 0.5 kJ mol⁻¹
+# Shown answer: −30 kJ mol⁻¹
+# Explanation: Gain −325 (Br + e⁻ → Br⁻) plus loss +295 (I⁻ → I + e⁻) = −30 kJ mol⁻¹. Negative, so the reaction happens.
+
+Electron gain energies: Cl −349 kJ mol⁻¹, I −295 kJ mol⁻¹. For Cl₂ + 2I⁻ → 2Cl⁻ + I₂, what is the overall energy per mole of electrons transferred (gain plus loss)? Include the sign.
+Steal
+= -54 ± 0.5 kJ mol⁻¹
+# Shown answer: −54 kJ mol⁻¹
+# Explanation: Gain −349 (Cl + e⁻ → Cl⁻) plus loss +295 (I⁻ → I + e⁻) = −54 kJ mol⁻¹. Negative, so the reaction happens.
+
+The first ionisation energy of helium is 2372 kJ mol⁻¹. How much energy does it take to remove the outer electron from one helium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: He
+Steal
+= 39.4 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 39.4 × 10⁻¹⁹ J
+# Explanation: 2372 kJ mol⁻¹ = 2372 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 3.94 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of beryllium is 900 kJ mol⁻¹. How much energy does it take to remove the outer electron from one beryllium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Be
+Steal
+= 14.9 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 14.9 × 10⁻¹⁹ J
+# Explanation: 900 kJ mol⁻¹ = 900 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.49 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of copper is 745 kJ mol⁻¹. How much energy does it take to remove the outer electron from one copper atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Cu
+Steal
+= 12.4 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 12.4 × 10⁻¹⁹ J
+# Explanation: 745 kJ mol⁻¹ = 745 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.24 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of gallium is 579 kJ mol⁻¹. How much energy does it take to remove the outer electron from one gallium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Ga
+Steal
+= 9.61 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 9.61 × 10⁻¹⁹ J
+# Explanation: 579 kJ mol⁻¹ = 579 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 9.61 × 10⁻¹⁹ J per atom.

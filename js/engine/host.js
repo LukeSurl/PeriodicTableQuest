@@ -11,21 +11,16 @@
   T.applyTheme();
   $('title').textContent = CFG.title;
   // ---------- Question topics ----------
-  // A quiz saved on setup.html arrives as ?name=…&mix=atoms3:70,atoms2:30&mins=10
-  const fromLink = window.PQ_SAVED ? PQ_SAVED.fromQuery(location.search) : {};
-  let currentMix = { ...(fromLink.mix || CFG.mix || {}) };
+  let currentMix = { ...(CFG.mix || {}) };
   let topicIds = [];
   const setName = k => (PQ.sets[k] && PQ.sets[k].short) || k;
   const activeMix = mix => Object.entries(mix || {}).filter(([k, w]) => PQ.sets[k] && +w > 0);
   function showTopic(mix) {
     const on = activeMix(mix);
     const tot = on.reduce((s, [, w]) => s + +w, 0);
-    const mixText = !on.length ? 'No topics chosen'
+    $('topic').textContent = `${CFG.moduleCode} · ` + (!on.length ? 'No topics chosen'
       : on.length === 1 ? PQ.sets[on[0][0]].title
-      : on.map(([k, w]) => `${setName(k)} ${Math.round(w / tot * 100)}%`).join(' · ');
-    // A named quiz shows its name; the topics are in the tooltip and the Topics window
-    $('topic').textContent = fromLink.name && fromLink.name.includes(CFG.moduleCode) ? fromLink.name : `${CFG.moduleCode} · ` + (fromLink.name || mixText);
-    $('topic').title = fromLink.name ? mixText : '';
+      : on.map(([k, w]) => `${setName(k)} ${Math.round(w / tot * 100)}%`).join(' · '));
   }
   // Find every set in the questions/ folder and load it, so the Topics window can list them
   async function loadTopics() {
@@ -110,7 +105,7 @@
   await loadTopics();
   showTopic(currentMix);
   $('nameA').textContent = TEAM('a').name; $('nameB').textContent = TEAM('b').name;
-  $('mins').value = fromLink.mins || CFG.defaultMinutes;
+  $('mins').value = CFG.defaultMinutes;
 
   const cells = T.build($('table'));
 
@@ -139,8 +134,6 @@
         code = newCode();
         await B.createGame(code, freshMeta());
         store.set('pq-code', code);
-      } else if (fromLink.mix) {
-        await B.updateMeta(code, { mix: currentMix });   // carrying on a game: use this link's topics
       }
     }
     if (unwatch) unwatch();

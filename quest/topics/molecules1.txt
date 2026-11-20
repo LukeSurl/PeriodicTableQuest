@@ -1,0 +1,551 @@
+# Molecules 1: Why do molecules stick together?
+# Exported from the classic Periodic Table Quest (questions/molecules1.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+What holds the two atoms of H₂ together?
+Elements: H
+- The two electrons attract each other
+* Both nuclei are attracted to the shared electron density between them
+- The two nuclei attract each other
+- The electrons' spins attract each other like magnets
+# Explanation: The shared electrons sit mostly between the nuclei. Each positive nucleus is pulled towards that negative charge, so the two nuclei are held together.
+
+The bond length of H₂ is 74.1 pm. Why don't the two nuclei get any closer?
+Elements: H
+- The electrons are physically in the way
+* The nuclei repel each other; the bond length is where attraction and repulsion balance
+- The shared electrons repel the nuclei
+- There is no attraction at distances shorter than 74.1 pm
+# Explanation: Both nuclei are positive. Closer than 74.1 pm their mutual repulsion wins; further apart the attraction to the shared electrons wins.
+
+On a potential energy curve for two atoms, what energy is given to atoms that are too far apart to interact?
+- The bond dissociation energy
+- The lowest energy on the curve
+- Infinite
+* Zero
+# Explanation: Separated atoms are the zero. As the bond forms the energy drops below zero; the bottom of the dip is the bonded molecule.
+
+On a potential energy curve, what happens to the energy if the atoms are pushed closer together than the bond length?
+* It rises sharply, because repulsion between the nuclei dominates
+- It keeps falling, because the attraction gets stronger
+- It stays the same
+- It drops straight to zero
+# Explanation: That steep wall on the left of the curve is the nuclei repelling each other.
+
+Which statement about bonds and energy is right?
+- Breaking a bond releases energy; forming a bond needs energy
+- Breaking and forming bonds both release energy
+* Breaking a bond needs energy; forming a bond lowers the energy
+- Breaking and forming bonds both need energy
+# Explanation: A bonded pair is lower in energy than two separate atoms, which is why H(g) + H(g) → H₂(g) is favourable. Heat, radiation or a chemical reaction can supply the energy to break it.
+
+On a potential energy curve, what does the bond dissociation energy correspond to?
+- The distance between the nuclei at the minimum
+- How steeply the curve rises at short distances
+- The energy when the nuclei are at zero separation
+* How far the minimum dips below zero
+# Explanation: The bond dissociation energy is the energy difference between two non-interacting atoms (zero) and the bonded pair (the bottom of the dip). The distance at the bottom is the bond length.
+
+H₂: 435.8 kJ mol⁻¹, 74.1 pm. O₂: 498.5 kJ mol⁻¹, 120.7 pm. Compared with the H₂ potential energy curve, the minimum of the O₂ curve is…
+Elements: O
+- Shallower, and further to the right
+- Deeper, and further to the left
+- Shallower, and further to the left
+* Deeper, and further to the right
+# Explanation: A larger bond dissociation energy makes a deeper dip; a longer bond moves the minimum to a greater distance (to the right).
+
+How is bond length defined?
+- The greatest distance between the nuclei as the bond vibrates
+* The mean distance between the two nuclei
+- The distance between the atoms' outermost electrons
+- The sum of the two atoms' diameters
+# Explanation: Bonds vibrate like springs, so the distance keeps changing. The bond length is the average.
+
+A molecule gains energy, so its bond vibrates more (but doesn't break). What happens to its bond length?
+- It decreases
+* It increases
+- It stays exactly the same
+# Explanation: The curve is a steep wall on the short side and a gentle slope on the long side, so a more energetic vibration stretches out further than it squashes in: the mean separation grows. With enough energy the bond breaks entirely.
+
+In the Lewis model, why do atoms form covalent bonds?
+- To fill their inner shells
+- To pair up their protons
+* To get a full outer shell, like a noble gas
+- To get 8 electrons in every subshell
+# Explanation: Inner shells are already full, so only the outer (valence) shell changes. The Lewis model knows nothing about subshells.
+
+In the Lewis structure of Cl₂, how many electrons count towards each chlorine atom's outer shell?
+Elements: Cl
+- 7
+- 6
+- 14
+* 8
+# Explanation: 6 in three lone pairs plus the 2 shared electrons. Shared electrons count towards both atoms, so each gets 8.
+
+In the Lewis structure of H–F, how many lone pairs does the fluorine atom have?
+Elements: F
+* 3
+- 1
+- 2
+- 4
+# Explanation: Fluorine has 7 outer electrons. One is shared with hydrogen, leaving 6: three lone pairs.
+
+In the Lewis model, in a normal (non-dative) covalent bond, where do the two shared electrons come from?
+* One from each atom
+- Both from the same atom
+- Both from the more electronegative atom
+- Neither: they are extra electrons gained from outside
+# Explanation: Both from the same atom would be a dative bond.
+
+In the Lewis model, what is a dative bond?
+- A bond between two ions
+* A shared pair in which both electrons come from the same atom
+- A bond made of two shared pairs
+- A bond with only one electron
+# Explanation: A dative bond adds two electrons to the outer shell of the atom receiving them and none to the donor.
+
+In the Lewis model, suppose all three bonds in C≡O were normal bonds, one electron from each atom. How many electrons would carbon count in its outer shell?
+Elements: C
+- 8
+- 9
+* 7
+- 6
+# Explanation: 6 shared electrons plus carbon's 1 other electron makes 7 (and oxygen would have 9). That's why one of the three bonds has to be dative.
+
+In the Lewis model of carbon monoxide, one of the three bonds is a dative bond. Which way does it go?
+Elements: C, O
+- From carbon to oxygen
+* From oxygen to carbon
+- Neither: all three are normal bonds
+- It switches back and forth
+# Explanation: Of the 6 shared electrons, 4 come from oxygen and 2 from carbon. That gives both atoms 8 outer-shell electrons.
+
+What does the Lewis model not take into account?
+* Subshells (s, p, d)
+- Lone pairs
+- Outer-shell electrons
+- Double and triple bonds
+# Explanation: Lewis didn't know about subshells yet. We'll need molecular orbital theory for what the Lewis model can't explain.
+
+Nitrogen monoxide (NO) is a stable molecule. Why can't the Lewis model give it full outer shells on both atoms?
+Elements: N, O
+* N and O have 11 valence electrons between them, an odd number, so one must be unpaired
+- Nitrogen and oxygen can't form a double bond
+- NO is an ionic compound
+- Oxygen can only form one bond
+# Explanation: Nitrogen has 5 valence electrons and oxygen 6. However they share them, one electron is left unpaired: NO is a radical.
+
+PF₅ exists. Why does it contradict the Lewis model?
+Elements: P
+* Phosphorus would have 10 electrons in its outer shell
+- Phosphorus would only have 5 outer-shell electrons
+- Each fluorine would have 10 outer-shell electrons
+- Fluorine can't form covalent bonds
+# Explanation: P has 5 valence electrons. If each is in a bond with an F, it has 5 shared pairs: 10 electrons. This is hypervalency, which needs a more sophisticated model.
+
+Oxygen is paramagnetic. Why is that a problem for the Lewis structure of O₂?
+Elements: O
+- The Lewis structure has a triple bond
+- Paramagnetism needs ions, and O₂ is neutral
+* Paramagnetism needs unpaired electrons, but the Lewis structure puts all 12 valence electrons in pairs
+- Lewis structures can't show double bonds
+# Explanation: The Lewis model gives O=O with two lone pairs on each O: everything paired. Molecular orbital theory will explain the unpaired electrons.
+
+What is a polar bond?
+* A covalent bond where the electrons are shared unevenly
+- A bond between two atoms of the same element
+- A bond where one atom has completely taken the other's electrons
+- Any bond with a lone pair next to it
+# Explanation: There is a spectrum from purely covalent (even sharing) to ionic (all the bonding electron density on one atom). Polar bonds are in between.
+
+In a homonuclear diatomic, such as H₂ or Br₂, how is the bonding electron density arranged?
+* Symmetrically between the two atoms
+- More on one atom than the other
+- Entirely on one atom
+- Mostly outside the two nuclei
+# Explanation: Two atoms of the same element attract the electrons equally, so these bonds are not polar.
+
+At the far end of the spectrum, all the bonding electron density is on one atom. What do we call this bond?
+* Ionic
+- Polar covalent
+- Dative
+- Double
+# Explanation: X⁺Y⁻. Weaker cases, where the density is only shifted towards one atom, are polar covalent bonds.
+
+What does the Pauling electronegativity of an element describe?
+- How easily its atoms lose an electron when isolated
+* How strongly its atoms attract the electrons in a bond
+- How many bonds its atoms can form
+- How many electrons its atoms have
+# Explanation: The higher the number, the more strongly bonding electrons are pulled towards that atom.
+
+Which element is the most electronegative?
+Elements: F
+* Fluorine
+- Oxygen
+- Chlorine
+- Caesium
+# Explanation: Fluorine (3.98) is at the top of the Pauling scale. Caesium (0.79) is near the bottom: an electropositive element.
+
+Caesium has a Pauling electronegativity of 0.79. What does this mean?
+Elements: Cs
+- It attracts bonding electrons strongly
+- It can't form bonds at all
+- It has very few electrons
+* It attracts bonding electrons only weakly: it is electropositive
+# Explanation: Fluorine, at 3.98, is the opposite extreme. Bonds between very electropositive and very electronegative elements are close to ionic, e.g. CsF.
+
+In Li–H, which atom has more of the bonding electron density?
+Elements: Li
+* Hydrogen
+- Lithium
+- Neither: it is shared equally
+# Explanation: H (2.20) is more electronegative than Li (0.98), so the bond is part of the way towards Li⁺H⁻, the opposite way round from H–F.
+
+When HBr reacts with an alkene, which end of the HBr molecule approaches the C=C double bond first?
+Elements: Br
+- The bromine end, which is δ+
+* The hydrogen end, which is δ+
+- The bromine end, which is δ−
+- Either end: HBr is not polar
+# Explanation: Br (2.96) is more electronegative than H (2.20), so H is δ+ and is attracted to the electron-rich double bond.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+How many valence (outer-shell) electrons does a hydrogen atom have?
+Elements: H
+- 2
+- 0
+- 7
+* 1
+# Explanation: Hydrogen is in group 1, so it has 1 electron in its outer shell (n = 1).
+
+How many valence (outer-shell) electrons does a lithium atom have?
+Elements: Li
+- 2
+- 0
+- 7
+* 1
+# Explanation: Lithium is in group 1, so it has 1 electron in its outer shell (n = 2).
+
+In the Lewis model, how many more electrons does a chlorine atom need to get a full outer shell like a noble gas?
+Elements: Cl
+* 1
+- 7
+- 2
+- 0
+# Explanation: Chlorine is in group 17, so it has 7 outer-shell electrons and needs 1 more to make 8. In a Lewis structure it gets them by sharing: 1 bond.
+
+In the Lewis model, how many more electrons does a bromine atom need to get a full outer shell like a noble gas?
+Elements: Br
+- 7
+* 1
+- 2
+- 0
+# Explanation: Bromine is in group 17, so it has 7 outer-shell electrons and needs 1 more to make 8. In a Lewis structure it gets them by sharing: 1 bond.
+
+How many valence (outer-shell) electrons does an antimony atom have?
+Elements: Sb
+- 6
+- 4
+- 3
+* 5
+# Explanation: Antimony is in group 15, so it has 15 − 10 = 5 electrons in its outer shell (n = 5).
+
+In the Lewis model, how many more electrons does a tellurium atom need to get a full outer shell like a noble gas?
+Elements: Te
+* 2
+- 6
+- 3
+- 1
+# Explanation: Tellurium is in group 16, so it has 6 outer-shell electrons and needs 2 more to make 8. In a Lewis structure it gets them by sharing: 2 bonds.
+
+In the Lewis structure of N₂, how many lone pairs does each nitrogen atom have?
+Elements: N
+* 1
+- 0
+- 2
+- 3
+# Explanation: Nitrogen has 5 outer-shell electrons and needs 3 more, so the two atoms share 3 pairs: a triple bond. That leaves 2 unshared electrons on each atom: 1 lone pair.
+
+In the Lewis structure of F₂, how many lone pairs does each fluorine atom have?
+Elements: F
+- 0
+- 1
+* 3
+- 2
+# Explanation: Fluorine has 7 outer-shell electrons and needs 1 more, so the two atoms share 1 pair: a single bond. That leaves 6 unshared electrons on each atom: 3 lone pairs.
+
+In the Lewis structure of P₂, how many lone pairs does each phosphorus atom have?
+Elements: P
+- 0
+* 1
+- 2
+- 3
+# Explanation: Phosphorus has 5 outer-shell electrons and needs 3 more, so the two atoms share 3 pairs: a triple bond. That leaves 2 unshared electrons on each atom: 1 lone pair.
+
+In the Lewis structure of S₂, how many lone pairs does each sulfur atom have?
+Elements: S
+- 0
+* 2
+- 1
+- 3
+# Explanation: Sulfur has 6 outer-shell electrons and needs 2 more, so the two atoms share 2 pairs: a double bond. That leaves 4 unshared electrons on each atom: 2 lone pairs.
+
+In the Lewis structure of Cl₂, how many lone pairs does each chlorine atom have?
+Elements: Cl
+- 0
+- 1
+- 2
+* 3
+# Explanation: Chlorine has 7 outer-shell electrons and needs 1 more, so the two atoms share 1 pair: a single bond. That leaves 6 unshared electrons on each atom: 3 lone pairs.
+
+In the Lewis structure of HBr, how many lone pairs does the bromine atom have?
+Elements: Br
+- 0
+- 1
+- 2
+* 3
+# Explanation: Bromine has 7 outer-shell electrons. One is shared with hydrogen in a single bond, leaving 6: three lone pairs. Hydrogen has none.
+
+Li₂ has a bond length of 267.3 pm and a bond dissociation energy of 105 kJ mol⁻¹. Where is the minimum of its potential energy curve?
+Elements: Li
+* At 267.3 pm, 105 kJ mol⁻¹ below zero
+- At 267.3 pm, 105 kJ mol⁻¹ above zero
+- At 134 pm, 105 kJ mol⁻¹ below zero
+- At 267.3 pm, at zero energy
+# Explanation: Zero is two atoms too far apart to interact. Bonding lowers the energy, so the curve dips below zero; the bottom of the dip is at the bond length (the distance between the two nuclei, not the radius of one atom), and its depth is the bond dissociation energy.
+
+F₂ has a bond length of 141.2 pm and a bond dissociation energy of 158.7 kJ mol⁻¹. Where is the minimum of its potential energy curve?
+Elements: F
+- At 141.2 pm, 158.7 kJ mol⁻¹ above zero
+- At 70.6 pm, 158.7 kJ mol⁻¹ below zero
+- At 141.2 pm, at zero energy
+* At 141.2 pm, 158.7 kJ mol⁻¹ below zero
+# Explanation: Zero is two atoms too far apart to interact. Bonding lowers the energy, so the curve dips below zero; the bottom of the dip is at the bond length (the distance between the two nuclei, not the radius of one atom), and its depth is the bond dissociation energy.
+
+S₂ has a bond length of 188.9 pm and a bond dissociation energy of 430 kJ mol⁻¹. Where is the minimum of its potential energy curve?
+Elements: S
+- At 188.9 pm, 430 kJ mol⁻¹ above zero
+* At 188.9 pm, 430 kJ mol⁻¹ below zero
+- At 94.5 pm, 430 kJ mol⁻¹ below zero
+- At 188.9 pm, at zero energy
+# Explanation: Zero is two atoms too far apart to interact. Bonding lowers the energy, so the curve dips below zero; the bottom of the dip is at the bond length (the distance between the two nuclei, not the radius of one atom), and its depth is the bond dissociation energy.
+
+K₂ has a bond length of 390.5 pm and a bond dissociation energy of 57 kJ mol⁻¹. Where is the minimum of its potential energy curve?
+Elements: K
+* At 390.5 pm, 57 kJ mol⁻¹ below zero
+- At 390.5 pm, 57 kJ mol⁻¹ above zero
+- At 195 pm, 57 kJ mol⁻¹ below zero
+- At 390.5 pm, at zero energy
+# Explanation: Zero is two atoms too far apart to interact. Bonding lowers the energy, so the curve dips below zero; the bottom of the dip is at the bond length (the distance between the two nuclei, not the radius of one atom), and its depth is the bond dissociation energy.
+
+Br₂ has a bond length of 228.1 pm and a bond dissociation energy of 193.9 kJ mol⁻¹. Where is the minimum of its potential energy curve?
+Elements: Br
+* At 228.1 pm, 193.9 kJ mol⁻¹ below zero
+- At 228.1 pm, 193.9 kJ mol⁻¹ above zero
+- At 114 pm, 193.9 kJ mol⁻¹ below zero
+- At 228.1 pm, at zero energy
+# Explanation: Zero is two atoms too far apart to interact. Bonding lowers the energy, so the curve dips below zero; the bottom of the dip is at the bond length (the distance between the two nuclei, not the radius of one atom), and its depth is the bond dissociation energy.
+
+I₂ has a bond length of 266.6 pm and a bond dissociation energy of 152.3 kJ mol⁻¹. Where is the minimum of its potential energy curve?
+Elements: I
+* At 266.6 pm, 152.3 kJ mol⁻¹ below zero
+- At 266.6 pm, 152.3 kJ mol⁻¹ above zero
+- At 133 pm, 152.3 kJ mol⁻¹ below zero
+- At 266.6 pm, at zero energy
+# Explanation: Zero is two atoms too far apart to interact. Bonding lowers the energy, so the curve dips below zero; the bottom of the dip is at the bond length (the distance between the two nuclei, not the radius of one atom), and its depth is the bond dissociation energy.
+
+Bond dissociation energies: F₂ 158.7, O₂ 498.5 kJ mol⁻¹. Which molecule's potential energy curve has the deeper minimum?
+Elements: O
+* O₂
+- F₂
+- Both are the same depth: the depth depends only on bond length
+# Explanation: The depth of the dip below zero is the bond dissociation energy, so the stronger bond (O₂) has the deeper curve.
+
+Bond dissociation energies: Na₂ 74.8, P₂ 489.1 kJ mol⁻¹. Which molecule's potential energy curve has the deeper minimum?
+Elements: P
+- Na₂
+* P₂
+- Both are the same depth: the depth depends only on bond length
+# Explanation: The depth of the dip below zero is the bond dissociation energy, so the stronger bond (P₂) has the deeper curve.
+
+Bond dissociation energies: S₂ 430, Cl₂ 242.9 kJ mol⁻¹. Which molecule's potential energy curve has the deeper minimum?
+Elements: S
+* S₂
+- Cl₂
+- Both are the same depth: the depth depends only on bond length
+# Explanation: The depth of the dip below zero is the bond dissociation energy, so the stronger bond (S₂) has the deeper curve.
+
+Bond dissociation energies: I₂ 152.3, K₂ 57 kJ mol⁻¹. Which molecule's potential energy curve has the deeper minimum?
+Elements: K
+- K₂
+* I₂
+- Both are the same depth: the depth depends only on bond length
+# Explanation: The depth of the dip below zero is the bond dissociation energy, so the stronger bond (I₂) has the deeper curve.
+
+Bond dissociation energies: O₂ 498.5, Br₂ 193.9 kJ mol⁻¹. Which molecule's potential energy curve has the deeper minimum?
+Elements: Br
+* O₂
+- Br₂
+- Both are the same depth: the depth depends only on bond length
+# Explanation: The depth of the dip below zero is the bond dissociation energy, so the stronger bond (O₂) has the deeper curve.
+
+Bond dissociation energies: P₂ 489.1, I₂ 152.3 kJ mol⁻¹. Which molecule's potential energy curve has the deeper minimum?
+Elements: I
+* P₂
+- I₂
+- Both are the same depth: the depth depends only on bond length
+# Explanation: The depth of the dip below zero is the bond dissociation energy, so the stronger bond (P₂) has the deeper curve.
+
+S₂ has a bond length of 188.9 pm. Which of these is the bond length of O₂?
+Elements: O
+- 228.1 pm
+- 267.3 pm
+- 307.9 pm
+* 120.7 pm
+# Explanation: Oxygen is above sulfur in group 16. Atoms get bigger down a group (Atoms 4), so their nuclei sit further apart when bonded: O₂ must be shorter than 188.9 pm. It is 120.7 pm.
+
+Li₂ has a bond length of 267.3 pm. Which of these is the bond length of Na₂?
+Elements: Na
+* 307.9 pm
+- 109.8 pm
+- 188.9 pm
+- 189.3 pm
+# Explanation: Sodium is below lithium in group 1. Atoms get bigger down a group (Atoms 4), so their nuclei sit further apart when bonded: Na₂ must be longer than 267.3 pm. It is 307.9 pm.
+
+O₂ has a bond length of 120.7 pm. Which of these is the bond length of S₂?
+Elements: S
+* 188.9 pm
+- 74.1 pm
+- 109.8 pm
+# Explanation: Sulfur is below oxygen in group 16. Atoms get bigger down a group (Atoms 4), so their nuclei sit further apart when bonded: S₂ must be longer than 120.7 pm. It is 188.9 pm.
+
+Br₂ has a bond length of 228.1 pm. Which of these is the bond length of Cl₂?
+Elements: Cl
+- 266.6 pm
+- 307.9 pm
+* 198.8 pm
+- 390.5 pm
+# Explanation: Chlorine is above bromine in group 17. Atoms get bigger down a group (Atoms 4), so their nuclei sit further apart when bonded: Cl₂ must be shorter than 228.1 pm. It is 198.8 pm.
+
+Cl₂ has a bond length of 198.8 pm. Which of these is the bond length of Br₂?
+Elements: Br
+* 228.1 pm
+- 74.1 pm
+- 188.9 pm
+- 189.3 pm
+# Explanation: Bromine is below chlorine in group 17. Atoms get bigger down a group (Atoms 4), so their nuclei sit further apart when bonded: Br₂ must be longer than 198.8 pm. It is 228.1 pm.
+
+Br₂ has a bond length of 228.1 pm. Which of these is the bond length of I₂?
+Elements: I
+- 109.8 pm
+- 188.9 pm
+* 266.6 pm
+- 189.3 pm
+# Explanation: Iodine is below bromine in group 17. Atoms get bigger down a group (Atoms 4), so their nuclei sit further apart when bonded: I₂ must be longer than 228.1 pm. It is 266.6 pm.
+
+Pauling electronegativities: B 2.04, Cl 3.16. Which describes the B–Cl bond?
+Elements: B
+* δ+ on B, δ− on Cl
+- δ− on B, δ+ on Cl
+- Not polar
+# Explanation: Chlorine (3.16) is more electronegative than boron (2.04), so it pulls the bonding electrons towards itself and is δ−.
+
+Which describes the polarity of the N–N bond in N₂?
+Elements: N
+- δ+ on one N, δ− on the other
+* Not polar
+- Polar, but you can't tell which way round
+# Explanation: Both atoms have the same electronegativity, so the bonding electrons are shared evenly: a homonuclear diatomic is not polar.
+
+Pauling electronegativities: Si 1.90, N 3.04. Which describes the Si–N bond?
+Elements: Si
+- δ− on Si, δ+ on N
+* δ+ on Si, δ− on N
+- Not polar
+# Explanation: Nitrogen (3.04) is more electronegative than silicon (1.90), so it pulls the bonding electrons towards itself and is δ−.
+
+Pauling electronegativities: S 2.58, P 2.19. Which describes the S–P bond?
+Elements: P
+- δ+ on S, δ− on P
+- Not polar
+* δ− on S, δ+ on P
+# Explanation: Sulfur (2.58) is more electronegative than phosphorus (2.19), so it pulls the bonding electrons towards itself and is δ−.
+
+Pauling electronegativities: Co 1.88, H 2.20. Which describes the Co–H bond?
+Elements: Co
+- δ− on Co, δ+ on H
+* δ+ on Co, δ− on H
+- Not polar
+# Explanation: Hydrogen (2.20) is more electronegative than cobalt (1.88), so it pulls the bonding electrons towards itself and is δ−.
+
+Pauling electronegativities: Tc 2.10, S 2.58. Which describes the Tc–S bond?
+Elements: Tc
+* δ+ on Tc, δ− on S
+- δ− on Tc, δ+ on S
+- Not polar
+# Explanation: Sulfur (2.58) is more electronegative than technetium (2.10), so it pulls the bonding electrons towards itself and is δ−.
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+20.0 g of gas-phase nitrogen atoms all pair up to form N₂. The bond dissociation energy of N₂ is 944.9 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of N: 14.01. Give 3 s.f.
+Elements: N
+Steal
+= 674 ± 0.6% kJ
+# Shown answer: 674 kJ
+# Explanation: n(atoms) = 20.0 ÷ 14.01 = 1.428 mol. Two atoms make one bond, so 0.7138 mol of bonds form, releasing 0.7138 × 944.9 = 674 kJ.
+
+The bond dissociation energy of O₂ is 498.5 kJ mol⁻¹. How much energy, in kJ, is needed to break the bonds in 2.00 g of O₂ gas into separate atoms? Relative atomic mass of O: 16.00. Give 3 s.f.
+Elements: O
+Steal
+= 31.2 ± 0.6% kJ
+# Shown answer: 31.2 kJ
+# Explanation: M(O₂) = 2 × 16.00 = 32.00 g mol⁻¹; n = 2.00 ÷ 32.00 = 0.06250 mol of bonds; E = 0.06250 × 498.5 = 31.2 kJ.
+
+20.0 g of gas-phase fluorine atoms all pair up to form F₂. The bond dissociation energy of F₂ is 158.7 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of F: 19.00. Give 3 s.f.
+Elements: F
+Steal
+= 83.5 ± 0.6% kJ
+# Shown answer: 83.5 kJ
+# Explanation: n(atoms) = 20.0 ÷ 19.00 = 1.053 mol. Two atoms make one bond, so 0.5263 mol of bonds form, releasing 0.5263 × 158.7 = 83.5 kJ.
+
+25.0 g of gas-phase bromine atoms all pair up to form Br₂. The bond dissociation energy of Br₂ is 193.9 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of Br: 79.90. Give 3 s.f.
+Elements: Br
+Steal
+= 30.3 ± 0.6% kJ
+# Shown answer: 30.3 kJ
+# Explanation: n(atoms) = 25.0 ÷ 79.90 = 0.3129 mol. Two atoms make one bond, so 0.1564 mol of bonds form, releasing 0.1564 × 193.9 = 30.3 kJ.
+
+The bond dissociation energy of H₂ is 435.8 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one H₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: H
+Steal
+= 275 ± 0.6% nm
+# Shown answer: 275 nm
+# Explanation: 435.8 × 10³ J mol⁻¹ ÷ NA = 7.24 × 10⁻¹⁹ J per bond; ν = E/h = 1.09 × 10¹⁵ s⁻¹; λ = c/ν = 2.75 × 10⁻⁷ m = 275 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of S₂ is 430 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one S₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: S
+Steal
+= 278 ± 0.6% nm
+# Shown answer: 278 nm
+# Explanation: 430 × 10³ J mol⁻¹ ÷ NA = 7.14 × 10⁻¹⁹ J per bond; ν = E/h = 1.08 × 10¹⁵ s⁻¹; λ = c/ν = 2.78 × 10⁻⁷ m = 278 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of K₂ is 57 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one K₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: K
+Steal
+= 2100 ± 0.6% nm
+# Shown answer: 2100 nm
+# Explanation: 57 × 10³ J mol⁻¹ ÷ NA = 9.47 × 10⁻²⁰ J per bond; ν = E/h = 1.43 × 10¹⁴ s⁻¹; λ = c/ν = 2.10 × 10⁻⁶ m = 2100 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of I₂ is 152.3 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one I₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: I
+Steal
+= 786 ± 0.6% nm
+# Shown answer: 786 nm
+# Explanation: 152.3 × 10³ J mol⁻¹ ÷ NA = 2.53 × 10⁻¹⁹ J per bond; ν = E/h = 3.82 × 10¹⁴ s⁻¹; λ = c/ν = 7.86 × 10⁻⁷ m = 786 nm. Longer wavelengths carry less energy per photon, so can't break the bond.

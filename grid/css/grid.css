@@ -157,3 +157,36 @@ kbd { font: inherit; font-size: .85em; border: 1px solid var(--line); border-bot
 .page header.top a.homelink:hover { opacity: 1; text-decoration: underline; }
 a.btn.disabled { opacity: .5; pointer-events: auto; cursor: default; }
 .numin { width: 5em; font: inherit; padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
+
+/* ---------- Number answers, steal questions and elements (both quiz kinds) ---------- */
+.aiopts label.check { flex-direction: row; align-items: center; gap: .5rem; }
+.kindrow { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+.seg { display: inline-flex; border: 1px solid var(--ink); border-radius: 8px; overflow: hidden; font-weight: 400; font-size: .92rem; }
+.seg label { padding: .25rem .7rem; cursor: pointer; display: inline-flex; align-items: center; gap: .3rem; }
+.seg label + label { border-left: 1px solid var(--ink); }
+.seg input { margin: 0; accent-color: var(--ink); }
+.seg label:has(input:checked) { background: var(--ink); color: var(--bg); }
+.numgrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .6rem; }
+.numgrid label { display: flex; flex-direction: column; gap: .25rem; font-size: .9rem; font-weight: 600; }
+.numgrid label small { font-weight: 400; color: var(--muted); }
+.numgrid input, .numgrid select { font: inherit; font-weight: 400; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: .45rem .55rem; width: 100%; min-width: 0; }
+.tolrow { display: flex; gap: .3rem; }
+.tolrow select { width: auto; }
+.accepted { margin: .4rem 0 0; }
+@media (max-width: 640px) { .numgrid { grid-template-columns: 1fr; } }
+.elsrow { display: flex; gap: .5rem; }
+.elsrow input { flex: 1; }
+.stealbox { display: flex; align-items: baseline; gap: .45rem; margin-top: .8rem; flex-wrap: wrap; cursor: pointer; }
+.stealbox input { accent-color: var(--tb); width: 1.1rem; height: 1.1rem; align-self: center; }
+.qcard.steal { border-left: 6px solid var(--tb); }
+.stealtag { font-size: .75rem; background: var(--tb); color: #fff; border-radius: 99px; padding: .1rem .5rem; vertical-align: middle; margin-left: .3rem; }
+
+/* Element picker and the Periodic Table Quest preview */
+.pickbox { width: min(980px, 100%); }
+#pickTable { margin: .4rem 0; }
+#pickTable .cell { cursor: pointer; transition: none; }
+#pickTable .cell.sel { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+body.ptq .preview { aspect-ratio: auto; max-height: none; }
+.ptprev .cell { opacity: .55; }
+.ptprev .cell.hasq { opacity: 1; font-weight: 700; background: #fff; border-color: var(--ink); }
+.ptprev .cell.noq { opacity: .2; }

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#003C3B">
+<title>Periodic Table Quest</title>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../css/style.css', '../grid/css/grid.css', 'css/quest.css'].map(f => `<link rel="stylesheet" href="${f}?v=${GQ_V}">`).join(''));</script>
+</head>
+<body class="play">
+<div class="teambar" id="bar"><span class="you" id="you">Joining…</span><span class="clock" id="clock"></span></div>
+
+<form class="joinform hidden" id="joinform">
+  <h2 id="jtitle">Periodic Table Quest</h2>
+  <p>Enter the code shown on the screen</p>
+  <input id="codeIn" maxlength="4" autocomplete="off" autocapitalize="characters" required aria-label="Game code">
+  <p><button class="btn primary" style="font-size:1.1rem;padding:.6rem 1.4rem">Join</button></p>
+</form>
+
+<div class="wrap hidden" id="game">
+  <div class="mini">
+    <div class="s a"><span id="nameA"></span><span id="scoreA">0</span></div>
+    <div class="s b"><span id="nameB"></span><span id="scoreB">0</span></div>
+  </div>
+  <div class="status hidden" id="status"></div>
+  <div class="scroller"><div id="table"></div></div>
+  <div class="actions">
+    <button class="btn primary" id="rndFree">Random free element</button>
+    <button class="btn" id="rndSteal">Random steal</button>
+  </div>
+  <p class="hint">Tap an element and answer its question correctly to claim it for your team. Tap one of the other team's elements to try a steal. Greyed-out elements have no questions. Swipe sideways to see the whole table, or turn your phone sideways.</p>
+  <p class="hint" id="mine"></p>
+</div>
+
+<div class="sheet-bg hidden" id="sheetBg"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<div class="cooldown hidden" id="cool"></div>
+
+<script>/* Always fetch the latest version of these files, so an update shows at once */ document.write(['../js/config.js', '../js/elements.js', '../js/engine/table.js', '../grid/js/settings.js', '../grid/js/common.js', '../grid/js/backend.js', 'js/quest.js', 'js/play.js'].map(f => `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+</body>
+</html>

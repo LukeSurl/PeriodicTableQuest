@@ -1,0 +1,823 @@
+# Atoms 2: Electromagnetic radiation and energy levels
+# Exported from the classic Periodic Table Quest (questions/atoms2.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+Wavelength and frequency are inversely proportional for electromagnetic radiation. Why?
+- Longer waves carry more energy
+* All electromagnetic radiation travels at the same speed, c
+- Photons slow down as frequency rises
+- Frequency and wavelength are measured in the same units
+# Explanation: c = λν with c fixed, so if more waves pass each second (higher ν), each wave must be shorter (smaller λ).
+
+Which list is in order of increasing energy per photon?
+* Radio, infrared, visible, ultraviolet
+- Ultraviolet, visible, infrared, radio
+- Visible, radio, ultraviolet, infrared
+- Infrared, radio, visible, ultraviolet
+# Explanation: Energy per photon rises with frequency (E = hν), so it rises as wavelength falls: radio < microwave < infrared < visible < UV < X-rays.
+
+NMR spectroscopy uses radio waves. What transitions does it involve?
+* Between nuclear spin levels in a magnetic field
+- Between electronic energy levels
+- Between molecular vibrational states
+- Ejection of core electrons
+# Explanation: Radio photons have very little energy, enough only for the tiny gaps between nuclear spin levels.
+
+UV-visible spectroscopy probes transitions between…
+- nuclear spin levels
+- vibrational states
+* electronic energy levels
+- rotational states
+# Explanation: UV and visible photons have enough energy to move electrons between energy levels, which is also why atoms give coloured flames.
+
+Very bright visible light shines on potassium metal, but no electrons are ejected. Why not?
+Elements: K
+- The light is not bright enough yet
+- Potassium has no loosely held electrons
+* Each photon has too little energy, however many there are
+- Visible light cannot reach a metal surface
+# Explanation: Brighter light means more photons per second, not more energy per photon. Ionisation needs each photon to carry enough energy on its own.
+
+Shining UV light on potassium ejects electrons, but only above a threshold frequency of about…
+Elements: K
+- 5 × 10⁸ s⁻¹
+* 5 × 10¹⁴ s⁻¹
+- 5 × 10²⁰ s⁻¹
+- 5 × 10⁻¹⁴ s⁻¹
+# Explanation: Below about 5 × 10¹⁴ s⁻¹ (wavelength around 600 nm) each photon carries less than the 3.5 × 10⁻¹⁹ J needed per atom.
+
+Doubling the intensity of a beam of light, without changing its colour, doubles…
+* the number of photons per second
+- the energy of each photon
+- the frequency of the light
+- the wavelength of the light
+# Explanation: Intensity is the rate of photons. The energy of each photon depends only on its frequency, E = hν.
+
+When a photon has more energy than is needed to eject an electron, the excess energy…
+* becomes the kinetic energy of the ejected electron
+- is re-emitted as a second photon
+- is lost: only the threshold energy is used
+- ejects a second electron
+# Explanation: In the lecture, 250 nm light on potassium has about 4.5 × 10⁻¹⁹ J left over, which the electron carries away as kinetic energy.
+
+Which experiment shows light behaving as a stream of particles?
+- The double-slit experiment
+- Splitting light with a prism
+- Measuring the speed of light
+* The photoelectric effect
+# Explanation: The photoelectric effect only makes sense if light arrives in packets (photons). The double-slit experiment shows wave-like behaviour.
+
+Why can visible light not ionise DNA, while some UV light can?
+- Visible light is absorbed by the skin
+- UV light travels faster
+- DNA only absorbs radio waves
+* Visible photons have too little energy to remove an electron
+# Explanation: Guanine needs 780 kJ mol⁻¹, which means wavelengths of 153 nm or shorter (UV-C). Visible light (400–700 nm) falls well short.
+
+Excited hydrogen atoms emit light only at certain frequencies. What does this tell us?
+Elements: H
+- Hydrogen atoms can hold any amount of energy
+- Hydrogen only emits visible light
+* Only certain energy levels are allowed: the energy is quantised
+- The electron is stationary
+# Explanation: Each line is one transition between two allowed levels, and the photon energy exactly matches the gap.
+
+In the Bohr model, the quantum number n can be…
+* any positive whole number: 1, 2, 3…
+- any number, including fractions
+- 0, 1 or 2 only
+- any whole number, positive or negative
+# Explanation: Only certain orbits are allowed, numbered n = 1, 2, 3 and so on. n = 1 is the ground state.
+
+How does the spacing between hydrogen's energy levels change as n increases?
+Elements: H
+- The levels get further apart
+* The levels get closer together
+- The spacing stays the same
+- The levels swap order
+# Explanation: That is why the lines in each series crowd together at high frequency and merge into a continuum.
+
+Why are the Lyman lines (ending at n = 1) in the ultraviolet?
+Elements: H
+- n = 1 is the highest energy level
+* The drop to n = 1 is the biggest energy gap, so the photons have the most energy
+- Lyman lines involve two electrons
+- Ultraviolet light is emitted more slowly
+# Explanation: The gap between n = 1 and n = 2 is much larger than any gap above it, so every transition ending at n = 1 gives a high-energy UV photon.
+
+In an energy-level diagram, the energy of level n = ∞ is considered to be zero. So the other levels have energies that are…
+* negative
+- positive
+- all zero
+- equal to n
+# Explanation: A bound electron has less energy than a free one. Hydrogen's levels run from −1312 kJ mol⁻¹ (n = 1) up towards 0.
+
+What is the ionisation energy of hydrogen?
+Elements: H
+- 328 kJ mol⁻¹
+- 656 kJ mol⁻¹
+- 0 kJ mol⁻¹
+* 1312 kJ mol⁻¹
+# Explanation: It is the energy to move the electron from n = 1 to n = ∞: 0 − (−1312) = 1312 kJ mol⁻¹, or 2.18 × 10⁻¹⁸ J per atom.
+
+Which equation describes ionising a hydrogen atom?
+Elements: H
+* H → H⁺ + e⁻
+- H + e⁻ → H⁻
+- H₂ → 2H
+- H⁺ + e⁻ → H
+# Explanation: Removing the electron entirely leaves a bare proton, H⁺.
+
+Compared with its emission spectrum, an element's absorption spectrum has lines at…
+- completely different frequencies
+- half the frequencies
+* the same frequencies: they are the same transitions in reverse
+- only the lowest frequency
+# Explanation: Absorption moves an electron up a gap; emission moves it down the same gap. Same gap, same photon energy.
+
+What does an absorption spectrum look like?
+- Bright lines on a dark background
+* Dark lines on a bright background
+- A continuous rainbow with no gaps
+- A single bright line
+# Explanation: A continuum of light passes through the sample and only the wavelengths that match transitions are removed.
+
+Sunlight has very sharp "missing" wavelengths in its spectrum. What causes them?
+- The Earth's magnetic field
+* Atoms in the Sun's outer layers absorb those specific wavelengths
+- Gaps in the Sun's surface
+- Light slowing down in space
+# Explanation: Each element absorbs only at its own transition energies, so the dark lines are fingerprints of the elements present.
+
+Why do different elements give different flame colours?
+* Each element has its own set of energy levels, so different transitions
+- Different elements burn at different temperatures
+- Heavier atoms emit redder light
+- The flame colour comes from the anion
+# Explanation: Different energy gaps mean photons of different energies, so different colours. You will see this in the Week 3 flame tests.
+
+What does the Bohr model fail to explain?
+- The hydrogen emission spectrum
+* Atoms with more than one electron
+- That energy levels are quantised
+- The Balmer series
+# Explanation: Bohr works for hydrogen but breaks down for multi-electron atoms. What we keep: quantised energy levels described by quantum numbers.
+
+In a flame, sodium emits most strongly at 589 nm. What colour does the flame look?
+Elements: Na
+- Red
+- Green
+* Yellow
+- Violet
+# Explanation: 589 nm is in the yellow part of the visible spectrum (roughly: violet 400–450, blue 450–490, green 490–560, yellow 560–590, orange 590–620, red 620–700 nm).
+
+Lithium's strongest emission line is at 671 nm. What colour does a lithium flame look?
+Elements: Li
+- Yellow
+- Green
+- Blue
+* Red
+# Explanation: 671 nm is towards the long-wavelength (red) end of the visible spectrum, so lithium gives a crimson red flame.
+
+A barium flame emits mostly at wavelengths between about 510 and 555 nm. What colour does it look?
+Elements: Ba
+- Red
+- Yellow
+* Green
+- Violet
+# Explanation: 510–555 nm is the green part of the visible spectrum, so barium gives a green flame (and green fireworks).
+
+Potassium emits at 766 nm (deep red, at the edge of what we can see) and at 404 nm (violet). What colour does a potassium flame look?
+Elements: K
+- Yellow
+- Green
+- Orange
+* Lilac (pale purple)
+# Explanation: The eye mixes the two ends of the spectrum: red plus violet looks purple, so potassium gives a faint lilac flame.
+
+Strontium gives a red flame. Which emission wavelength best explains this?
+Elements: Sr
+* 650 nm
+- 450 nm
+- 520 nm
+- 580 nm
+# Explanation: 650 nm is red light. 450 nm would look blue, 520 nm green and 580 nm yellow.
+
+Calcium gives an orange-red flame. Around which wavelength is it emitting most strongly?
+Elements: Ca
+- 460 nm
+- 490 nm
+* 620 nm
+- 510 nm
+# Explanation: 620 nm sits between orange and red. The other wavelengths would give blue or green light.
+
+Copper(II) compounds give a blue-green flame. Around which wavelength is the light mostly emitted?
+Elements: Cu
+- 590 nm
+- 640 nm
+* 500 nm
+- 700 nm
+# Explanation: 500 nm is where blue meets green. 590 nm would look yellow-orange, and 640 and 700 nm red.
+
+Lithium's flame emits at 671 nm and sodium's at 589 nm. Which element's photons carry more energy?
+Elements: Li, Na
+- Lithium's
+- They are the same
+* Sodium's
+- You can't tell without knowing the brightness
+# Explanation: Shorter wavelength means higher frequency and more energy per photon (E = hc/λ). 589 nm is shorter than 671 nm.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+What is the frequency of infrared radiation with a wavelength of 3503 nm?
+- 8.56 × 10⁴ s⁻¹
+- 8.56 × 10¹⁰ s⁻¹
+- 8.56 × 10¹⁶ s⁻¹
+* 8.56 × 10¹³ s⁻¹
+# Explanation: ν = c / λ = 3.00 × 10⁸ m s⁻¹ ÷ 3.50 × 10⁻⁶ m = 8.56 × 10¹³ s⁻¹. Convert nm to m first.
+
+What is the frequency of infrared radiation with a wavelength of 3051 nm?
+- 9.83 × 10⁴ s⁻¹
+- 9.83 × 10¹⁰ s⁻¹
+- 9.83 × 10¹⁶ s⁻¹
+* 9.83 × 10¹³ s⁻¹
+# Explanation: ν = c / λ = 3.00 × 10⁸ m s⁻¹ ÷ 3.05 × 10⁻⁶ m = 9.83 × 10¹³ s⁻¹. Convert nm to m first.
+
+What is the frequency of infrared radiation with a wavelength of 1825 nm?
+- 1.64 × 10⁵ s⁻¹
+* 1.64 × 10¹⁴ s⁻¹
+- 1.64 × 10¹¹ s⁻¹
+- 1.64 × 10¹⁷ s⁻¹
+# Explanation: ν = c / λ = 3.00 × 10⁸ m s⁻¹ ÷ 1.83 × 10⁻⁶ m = 1.64 × 10¹⁴ s⁻¹. Convert nm to m first.
+
+What is the frequency of infrared radiation with a wavelength of 2757 nm?
+* 1.09 × 10¹⁴ s⁻¹
+- 1.09 × 10⁵ s⁻¹
+- 1.09 × 10¹¹ s⁻¹
+- 1.09 × 10¹⁷ s⁻¹
+# Explanation: ν = c / λ = 3.00 × 10⁸ m s⁻¹ ÷ 2.76 × 10⁻⁶ m = 1.09 × 10¹⁴ s⁻¹. Convert nm to m first.
+
+What is the frequency of infrared radiation with a wavelength of 3067 nm?
+* 9.78 × 10¹³ s⁻¹
+- 9.78 × 10⁴ s⁻¹
+- 9.78 × 10¹⁰ s⁻¹
+- 9.78 × 10¹⁶ s⁻¹
+# Explanation: ν = c / λ = 3.00 × 10⁸ m s⁻¹ ÷ 3.07 × 10⁻⁶ m = 9.78 × 10¹³ s⁻¹. Convert nm to m first.
+
+What is the frequency of ultraviolet light with a wavelength of 338 nm?
+* 8.88 × 10¹⁴ s⁻¹
+- 8.88 × 10⁵ s⁻¹
+- 8.88 × 10¹¹ s⁻¹
+- 8.88 × 10¹⁷ s⁻¹
+# Explanation: ν = c / λ = 3.00 × 10⁸ m s⁻¹ ÷ 3.38 × 10⁻⁷ m = 8.88 × 10¹⁴ s⁻¹. Convert nm to m first.
+
+Light has a frequency of 616 THz. What is its wavelength?
+- 4.87 × 10⁵ nm
+* 487 nm
+- 0.487 nm
+- 4870 nm
+# Explanation: λ = c / ν = 3.00 × 10⁸ ÷ 6.16 × 10¹⁴ s⁻¹ = 4.87 × 10⁻⁷ m = 487 nm. 1 THz = 10¹² Hz.
+
+Light has a frequency of 505 THz. What is its wavelength?
+- 5.94 × 10⁵ nm
+* 594 nm
+- 0.594 nm
+- 5940 nm
+# Explanation: λ = c / ν = 3.00 × 10⁸ ÷ 5.05 × 10¹⁴ s⁻¹ = 5.94 × 10⁻⁷ m = 594 nm. 1 THz = 10¹² Hz.
+
+Light has a frequency of 828 THz. What is its wavelength?
+- 3.62 × 10⁵ nm
+- 0.362 nm
+- 3620 nm
+* 362 nm
+# Explanation: λ = c / ν = 3.00 × 10⁸ ÷ 8.28 × 10¹⁴ s⁻¹ = 3.62 × 10⁻⁷ m = 362 nm. 1 THz = 10¹² Hz.
+
+Light has a frequency of 806 THz. What is its wavelength?
+- 3.72 × 10⁵ nm
+- 0.372 nm
+* 372 nm
+- 3720 nm
+# Explanation: λ = c / ν = 3.00 × 10⁸ ÷ 8.06 × 10¹⁴ s⁻¹ = 3.72 × 10⁻⁷ m = 372 nm. 1 THz = 10¹² Hz.
+
+Light has a frequency of 590 THz. What is its wavelength?
+- 5.08 × 10⁵ nm
+- 0.508 nm
+* 508 nm
+- 5080 nm
+# Explanation: λ = c / ν = 3.00 × 10⁸ ÷ 5.90 × 10¹⁴ s⁻¹ = 5.08 × 10⁻⁷ m = 508 nm. 1 THz = 10¹² Hz.
+
+Light has a frequency of 539 THz. What is its wavelength?
+- 5.57 × 10⁵ nm
+- 0.557 nm
+* 557 nm
+- 5570 nm
+# Explanation: λ = c / ν = 3.00 × 10⁸ ÷ 5.39 × 10¹⁴ s⁻¹ = 5.57 × 10⁻⁷ m = 557 nm. 1 THz = 10¹² Hz.
+
+Visible light has a frequency of 574 THz. What is the energy of one photon?
+- 3.80 × 10⁻³¹ J
+* 3.80 × 10⁻¹⁹ J
+- 8.66 × 10⁴⁷ J
+- 1.15 × 10⁻⁴⁸ J
+# Explanation: E = hν = 6.626 × 10⁻³⁴ J s × 5.74 × 10¹⁴ s⁻¹ = 3.80 × 10⁻¹⁹ J. Convert THz to Hz (s⁻¹) first.
+
+Radio Caroline broadcasts on 648 kHz MW in Suffolk. What is the energy of one of its photons?
+- 4.29 × 10⁻³¹ J
+* 4.29 × 10⁻²⁸ J
+- 9.78 × 10³⁸ J
+- 1.02 × 10⁻³⁹ J
+# Explanation: 648 kHz = 6.480 × 10⁵ s⁻¹, so E = hν = 6.626 × 10⁻³⁴ J s × 6.480 × 10⁵ s⁻¹ = 4.29 × 10⁻²⁸ J.
+
+Visible light has a frequency of 639 THz. What is the energy of one photon?
+* 4.23 × 10⁻¹⁹ J
+- 4.23 × 10⁻³¹ J
+- 9.64 × 10⁴⁷ J
+- 1.04 × 10⁻⁴⁸ J
+# Explanation: E = hν = 6.626 × 10⁻³⁴ J s × 6.39 × 10¹⁴ s⁻¹ = 4.23 × 10⁻¹⁹ J. Convert THz to Hz (s⁻¹) first.
+
+Visible light has a frequency of 649 THz. What is the energy of one photon?
+- 4.30 × 10⁻³¹ J
+- 9.79 × 10⁴⁷ J
+* 4.30 × 10⁻¹⁹ J
+- 1.02 × 10⁻⁴⁸ J
+# Explanation: E = hν = 6.626 × 10⁻³⁴ J s × 6.49 × 10¹⁴ s⁻¹ = 4.30 × 10⁻¹⁹ J. Convert THz to Hz (s⁻¹) first.
+
+Visible light has a frequency of 625 THz. What is the energy of one photon?
+* 4.14 × 10⁻¹⁹ J
+- 4.14 × 10⁻³¹ J
+- 9.43 × 10⁴⁷ J
+- 1.06 × 10⁻⁴⁸ J
+# Explanation: E = hν = 6.626 × 10⁻³⁴ J s × 6.25 × 10¹⁴ s⁻¹ = 4.14 × 10⁻¹⁹ J. Convert THz to Hz (s⁻¹) first.
+
+A microwave oven uses radiation at 1.7 GHz. What is the energy of one photon?
+- 1.13 × 10⁻³³ J
+* 1.13 × 10⁻²⁴ J
+- 2.57 × 10⁴² J
+- 3.90 × 10⁻⁴³ J
+# Explanation: E = hν = 6.626 × 10⁻³⁴ J s × 1.70 × 10⁹ s⁻¹ = 1.13 × 10⁻²⁴ J. Convert GHz to Hz (s⁻¹) first.
+
+BBC Radio Cornwall broadcasts on 103.9 MHz FM in West Cornwall. Until 2016, BBC Radio Bristol also broadcast on 1548 kHz MW. Which signal has (or had) the more energetic photons?
+- BBC Radio Bristol (1548 kHz MW)
+- Neither: they are the same, as both are radio waves
+* BBC Radio Cornwall (103.9 MHz FM)
+- It depends on the transmitter power
+# Explanation: E = hν, so the higher frequency wins: 103.9 MHz beats 1548 kHz (1 MHz = 1000 kHz). Transmitter power changes how many photons are sent, not the energy of each.
+
+Until 2021, BBC Radio Lancashire also broadcast on 855 kHz MW. BBC Radio Guernsey broadcasts on 93.2 MHz FM. Which signal has (or had) the more energetic photons?
+- BBC Radio Lancashire (855 kHz MW)
+* BBC Radio Guernsey (93.2 MHz FM)
+- Neither: they are the same, as both are radio waves
+- It depends on the transmitter power
+# Explanation: E = hν, so the higher frequency wins: 93.2 MHz beats 855 kHz (1 MHz = 1000 kHz). Transmitter power changes how many photons are sent, not the energy of each.
+
+Until 2016, BBC Radio Bristol also broadcast on 1548 kHz MW. Until 2021, BBC Radio Devon also broadcast on 990 kHz MW in Exeter. Which signal has (or had) the more energetic photons?
+- BBC Radio Devon (990 kHz MW)
+* BBC Radio Bristol (1548 kHz MW)
+- Neither: they are the same, as both are radio waves
+- It depends on the transmitter power
+# Explanation: E = hν, so the higher frequency wins: 1548 kHz beats 990 kHz. Transmitter power changes how many photons are sent, not the energy of each.
+
+BBC Radio Guernsey broadcasts on 93.2 MHz FM. BBC Radio Devon broadcasts on 95.8 MHz FM in Exeter. Which station has the more energetic photons?
+- BBC Radio Guernsey (93.2 MHz FM)
+- Neither: they are the same, as both are radio waves
+- It depends on the transmitter power
+* BBC Radio Devon (95.8 MHz FM)
+# Explanation: E = hν, so the higher frequency wins: 95.8 MHz beats 93.2 MHz. Transmitter power changes how many photons are sent, not the energy of each.
+
+BBC Radio Cornwall broadcasts on 95.2 MHz FM in East Cornwall. BBC Radio Devon broadcasts on 94.8 MHz FM in Barnstaple. Which station has the more energetic photons?
+- BBC Radio Devon (94.8 MHz FM)
+- Neither: they are the same, as both are radio waves
+- It depends on the transmitter power
+* BBC Radio Cornwall (95.2 MHz FM)
+# Explanation: E = hν, so the higher frequency wins: 95.2 MHz beats 94.8 MHz. Transmitter power changes how many photons are sent, not the energy of each.
+
+Until 2020, BBC Radio Solent also broadcast on 999 kHz MW. BBC Radio Bristol broadcasts on 94.9 MHz FM. Which signal has (or had) the more energetic photons?
+- BBC Radio Solent (999 kHz MW)
+- Neither: they are the same, as both are radio waves
+- It depends on the transmitter power
+* BBC Radio Bristol (94.9 MHz FM)
+# Explanation: E = hν, so the higher frequency wins: 94.9 MHz beats 999 kHz (1 MHz = 1000 kHz). Transmitter power changes how many photons are sent, not the energy of each.
+
+Hydrogen emits a red line at 656 nm, but nothing at 460 nm. What does the missing 460 nm line tell you?
+- Hydrogen atoms absorb all 460 nm light
+- 460 nm light is invisible
+- The 460 nm transition is too slow to see
+* No two of hydrogen's energy levels are 4.32 × 10⁻¹⁹ J apart
+# Explanation: A 460 nm photon would carry E = hc/λ = 4.32 × 10⁻¹⁹ J. Every emitted photon matches the gap between two levels, so no pair of hydrogen levels has that gap.
+
+Hydrogen emits a red line at 656 nm, but nothing at 520 nm. What does the missing 520 nm line tell you?
+- Hydrogen atoms absorb all 520 nm light
+- 520 nm light is invisible
+- The 520 nm transition is too slow to see
+* No two of hydrogen's energy levels are 3.82 × 10⁻¹⁹ J apart
+# Explanation: A 520 nm photon would carry E = hc/λ = 3.82 × 10⁻¹⁹ J. Every emitted photon matches the gap between two levels, so no pair of hydrogen levels has that gap.
+
+Hydrogen emits a red line at 656 nm, but nothing at 450 nm. What does the missing 450 nm line tell you?
+* No two of hydrogen's energy levels are 4.42 × 10⁻¹⁹ J apart
+- Hydrogen atoms absorb all 450 nm light
+- 450 nm light is invisible
+- The 450 nm transition is too slow to see
+# Explanation: A 450 nm photon would carry E = hc/λ = 4.42 × 10⁻¹⁹ J. Every emitted photon matches the gap between two levels, so no pair of hydrogen levels has that gap.
+
+Hydrogen emits a red line at 656 nm, but nothing at 680 nm. What does the missing 680 nm line tell you?
+* No two of hydrogen's energy levels are 2.92 × 10⁻¹⁹ J apart
+- Hydrogen atoms absorb all 680 nm light
+- 680 nm light is invisible
+- The 680 nm transition is too slow to see
+# Explanation: A 680 nm photon would carry E = hc/λ = 2.92 × 10⁻¹⁹ J. Every emitted photon matches the gap between two levels, so no pair of hydrogen levels has that gap.
+
+Hydrogen emits a red line at 656 nm, but nothing at 620 nm. What does the missing 620 nm line tell you?
+- Hydrogen atoms absorb all 620 nm light
+- 620 nm light is invisible
+* No two of hydrogen's energy levels are 3.21 × 10⁻¹⁹ J apart
+- The 620 nm transition is too slow to see
+# Explanation: A 620 nm photon would carry E = hc/λ = 3.21 × 10⁻¹⁹ J. Every emitted photon matches the gap between two levels, so no pair of hydrogen levels has that gap.
+
+Hydrogen emits a red line at 656 nm, but nothing at 640 nm. What does the missing 640 nm line tell you?
+* No two of hydrogen's energy levels are 3.11 × 10⁻¹⁹ J apart
+- Hydrogen atoms absorb all 640 nm light
+- 640 nm light is invisible
+- The 640 nm transition is too slow to see
+# Explanation: A 640 nm photon would carry E = hc/λ = 3.11 × 10⁻¹⁹ J. Every emitted photon matches the gap between two levels, so no pair of hydrogen levels has that gap.
+
+Electromagnetic radiation has a wavelength of 0.8 nm. Which part of the spectrum is it in?
+- Visible
+- Microwaves
+* X-rays
+- Radio waves
+# Explanation: From short to long wavelength: X-rays (below about 10 nm), ultraviolet (to about 400 nm), visible (about 400–700 nm), infrared (to about 1 mm), microwaves, then radio waves. 0.8 nm is X-rays.
+
+Electromagnetic radiation has a wavelength of 518 nm. Which part of the spectrum is it in?
+- Radio waves
+* Visible
+- Ultraviolet
+- X-rays
+# Explanation: From short to long wavelength: X-rays (below about 10 nm), ultraviolet (to about 400 nm), visible (about 400–700 nm), infrared (to about 1 mm), microwaves, then radio waves. 518 nm is visible.
+
+Electromagnetic radiation has a wavelength of 4 cm. Which part of the spectrum is it in?
+- Infrared
+- X-rays
+* Microwaves
+- Visible
+# Explanation: From short to long wavelength: X-rays (below about 10 nm), ultraviolet (to about 400 nm), visible (about 400–700 nm), infrared (to about 1 mm), microwaves, then radio waves. 4 cm is microwaves.
+
+Electromagnetic radiation has a wavelength of 243 nm. Which part of the spectrum is it in?
+* Ultraviolet
+- Infrared
+- Visible
+- Radio waves
+# Explanation: From short to long wavelength: X-rays (below about 10 nm), ultraviolet (to about 400 nm), visible (about 400–700 nm), infrared (to about 1 mm), microwaves, then radio waves. 243 nm is ultraviolet.
+
+Electromagnetic radiation has a wavelength of 292 nm. Which part of the spectrum is it in?
+* Ultraviolet
+- Microwaves
+- X-rays
+- Radio waves
+# Explanation: From short to long wavelength: X-rays (below about 10 nm), ultraviolet (to about 400 nm), visible (about 400–700 nm), infrared (to about 1 mm), microwaves, then radio waves. 292 nm is ultraviolet.
+
+Electromagnetic radiation has a wavelength of 598 nm. Which part of the spectrum is it in?
+- Infrared
+- Ultraviolet
+- Radio waves
+* Visible
+# Explanation: From short to long wavelength: X-rays (below about 10 nm), ultraviolet (to about 400 nm), visible (about 400–700 nm), infrared (to about 1 mm), microwaves, then radio waves. 598 nm is visible.
+
+Which wavelength has the lowest frequency?
+- 536 nm
+- 847 nm
+* 5924 nm
+- 223 nm
+# Explanation: ν = c/λ, so the longest wavelength (5924 nm) has the lowest frequency.
+
+Which wavelength has the highest energy per photon?
+- 468 nm
+- 861 nm
+* 283 nm
+- 5012 nm
+# Explanation: E = hν and ν = c/λ, so the shortest wavelength (283 nm) has the highest frequency and the most energetic photons.
+
+Which wavelength has the highest energy per photon?
+* 218 nm
+- 1091 nm
+- 513 nm
+- 3972 nm
+# Explanation: E = hν and ν = c/λ, so the shortest wavelength (218 nm) has the highest frequency and the most energetic photons.
+
+Which wavelength has the lowest frequency?
+- 511 nm
+* 5756 nm
+- 846 nm
+- 298 nm
+# Explanation: ν = c/λ, so the longest wavelength (5756 nm) has the lowest frequency.
+
+Which wavelength has the highest energy per photon?
+- 457 nm
+* 296 nm
+- 5637 nm
+- 1048 nm
+# Explanation: E = hν and ν = c/λ, so the shortest wavelength (296 nm) has the highest frequency and the most energetic photons.
+
+Which wavelength has the highest energy per photon?
+* 285 nm
+- 991 nm
+- 6028 nm
+- 481 nm
+# Explanation: E = hν and ν = c/λ, so the shortest wavelength (285 nm) has the highest frequency and the most energetic photons.
+
+The ionisation energy of potassium metal is 3.5 × 10⁻¹⁹ J per atom. Will 250 nm light eject electrons from it?
+- No: each photon has too little energy
+- Only if the light is bright enough
+* Yes: each photon has more energy than is needed
+- Yes, but only after energy has built up for a while
+# Explanation: Each photon carries E = hc/λ = 7.95 × 10⁻¹⁹ J, which is more than 3.5 × 10⁻¹⁹ J. Brightness only changes how many photons arrive, not the energy of each.
+
+The ionisation energy of potassium metal is 3.5 × 10⁻¹⁹ J per atom. Will 750 nm light eject electrons from it?
+- Yes: each photon has more energy than is needed
+- Only if the light is bright enough
+* No: each photon has too little energy
+- Yes, but only after energy has built up for a while
+# Explanation: Each photon carries E = hc/λ = 2.65 × 10⁻¹⁹ J, which is less than 3.5 × 10⁻¹⁹ J. Brightness only changes how many photons arrive, not the energy of each.
+
+The ionisation energy of potassium metal is 3.5 × 10⁻¹⁹ J per atom. Will 900 nm light eject electrons from it?
+* No: each photon has too little energy
+- Yes: each photon has more energy than is needed
+- Only if the light is bright enough
+- Yes, but only after energy has built up for a while
+# Explanation: Each photon carries E = hc/λ = 2.21 × 10⁻¹⁹ J, which is less than 3.5 × 10⁻¹⁹ J. Brightness only changes how many photons arrive, not the energy of each.
+
+The ionisation energy of potassium metal is 3.5 × 10⁻¹⁹ J per atom. Will 700 nm light eject electrons from it?
+- Yes: each photon has more energy than is needed
+* No: each photon has too little energy
+- Only if the light is bright enough
+- Yes, but only after energy has built up for a while
+# Explanation: Each photon carries E = hc/λ = 2.84 × 10⁻¹⁹ J, which is less than 3.5 × 10⁻¹⁹ J. Brightness only changes how many photons arrive, not the energy of each.
+
+The ionisation energy of potassium metal is 3.5 × 10⁻¹⁹ J per atom. Will 1000 nm light eject electrons from it?
+* No: each photon has too little energy
+- Yes: each photon has more energy than is needed
+- Only if the light is bright enough
+- Yes, but only after energy has built up for a while
+# Explanation: Each photon carries E = hc/λ = 1.99 × 10⁻¹⁹ J, which is less than 3.5 × 10⁻¹⁹ J. Brightness only changes how many photons arrive, not the energy of each.
+
+The ionisation energy of potassium metal is 3.5 × 10⁻¹⁹ J per atom. Will 300 nm light eject electrons from it?
+- No: each photon has too little energy
+- Only if the light is bright enough
+* Yes: each photon has more energy than is needed
+- Yes, but only after energy has built up for a while
+# Explanation: Each photon carries E = hc/λ = 6.63 × 10⁻¹⁹ J, which is more than 3.5 × 10⁻¹⁹ J. Brightness only changes how many photons arrive, not the energy of each.
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the photon energy when an atom in n = 3 absorbs a photon and moves to n = 5?
+- 198.5 kJ mol⁻¹
+- 146 kJ mol⁻¹
+* 93.5 kJ mol⁻¹
+- 52.5 kJ mol⁻¹
+# Explanation: The photon energy equals the gap between the levels: −52.5 − (−146) = 93.5 kJ mol⁻¹. Absorption uses the same gap in either direction.
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the photon energy when an atom in n = 3 absorbs a photon and moves to n = 4?
+* 64 kJ mol⁻¹
+- 228 kJ mol⁻¹
+- 146 kJ mol⁻¹
+- 82 kJ mol⁻¹
+# Explanation: The photon energy equals the gap between the levels: −82 − (−146) = 64 kJ mol⁻¹. Absorption uses the same gap in either direction.
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the photon energy when an atom in n = 2 absorbs a photon and moves to n = 5?
+- 380.5 kJ mol⁻¹
+- 328 kJ mol⁻¹
+* 275.5 kJ mol⁻¹
+- 52.5 kJ mol⁻¹
+# Explanation: The photon energy equals the gap between the levels: −52.5 − (−328) = 275.5 kJ mol⁻¹. Absorption uses the same gap in either direction.
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the photon energy when an atom in n = 1 absorbs a photon and moves to n = 3?
+- 1458 kJ mol⁻¹
+* 1166 kJ mol⁻¹
+- 1312 kJ mol⁻¹
+- 146 kJ mol⁻¹
+# Explanation: The photon energy equals the gap between the levels: −146 − (−1312) = 1166 kJ mol⁻¹. Absorption uses the same gap in either direction.
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the photon energy when an atom drops from n = 3 to n = 2?
+- 474 kJ mol⁻¹
+* 182 kJ mol⁻¹
+- 328 kJ mol⁻¹
+- 146 kJ mol⁻¹
+# Explanation: The photon energy equals the gap between the levels: −146 − (−328) = 182 kJ mol⁻¹. Emission uses the same gap in either direction.
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the photon energy when an atom in n = 1 absorbs a photon and moves to n = 4?
+- 1394 kJ mol⁻¹
+* 1230 kJ mol⁻¹
+- 1312 kJ mol⁻¹
+- 82 kJ mol⁻¹
+# Explanation: The photon energy equals the gap between the levels: −82 − (−1312) = 1230 kJ mol⁻¹. Absorption uses the same gap in either direction.
+
+Compared with ionising a hydrogen atom that is already excited to n = 4, ionising one in its ground state (n = 1) takes…
+- Less energy
+* More energy
+- The same amount of energy
+# Explanation: Ionising means taking the electron to n = ∞, where its energy is zero. From n = 1 (−1312 kJ mol⁻¹) that takes 1312 kJ mol⁻¹; from n = 4 (−82 kJ mol⁻¹) it takes only 82 kJ mol⁻¹, because the atom is already part of the way there.
+
+Compared with ionising a hydrogen atom in its ground state (n = 1), ionising one that is already excited to n = 5 takes…
+- More energy
+- The same amount of energy
+* Less energy
+# Explanation: Ionising means taking the electron to n = ∞, where its energy is zero. From n = 1 (−1312 kJ mol⁻¹) that takes 1312 kJ mol⁻¹; from n = 5 (−52.5 kJ mol⁻¹) it takes only 52.5 kJ mol⁻¹, because the atom is already part of the way there.
+
+Compared with ionising a hydrogen atom that is already excited to n = 3, ionising one in its ground state (n = 1) takes…
+- Less energy
+* More energy
+- The same amount of energy
+# Explanation: Ionising means taking the electron to n = ∞, where its energy is zero. From n = 1 (−1312 kJ mol⁻¹) that takes 1312 kJ mol⁻¹; from n = 3 (−146 kJ mol⁻¹) it takes only 146 kJ mol⁻¹, because the atom is already part of the way there.
+
+Compared with ionising a hydrogen atom in its ground state (n = 1), ionising one that is already excited to n = 2 takes…
+- More energy
+- The same amount of energy
+* Less energy
+# Explanation: Ionising means taking the electron to n = ∞, where its energy is zero. From n = 1 (−1312 kJ mol⁻¹) that takes 1312 kJ mol⁻¹; from n = 2 (−328 kJ mol⁻¹) it takes only 328 kJ mol⁻¹, because the atom is already part of the way there.
+
+Compared with ionising a hydrogen atom that is already excited to n = 5, ionising one in its ground state (n = 1) takes…
+* More energy
+- Less energy
+- The same amount of energy
+# Explanation: Ionising means taking the electron to n = ∞, where its energy is zero. From n = 1 (−1312 kJ mol⁻¹) that takes 1312 kJ mol⁻¹; from n = 5 (−52.5 kJ mol⁻¹) it takes only 52.5 kJ mol⁻¹, because the atom is already part of the way there.
+
+Compared with ionising a hydrogen atom that is already excited to n = 2, ionising one in its ground state (n = 1) takes…
+- Less energy
+* More energy
+- The same amount of energy
+# Explanation: Ionising means taking the electron to n = ∞, where its energy is zero. From n = 1 (−1312 kJ mol⁻¹) that takes 1312 kJ mol⁻¹; from n = 2 (−328 kJ mol⁻¹) it takes only 328 kJ mol⁻¹, because the atom is already part of the way there.
+
+The first ionisation energy of helium is 2372 kJ mol⁻¹. Roughly what is the longest wavelength of light that can ionise a gas-phase helium atom?
+Elements: He
+- 50500 nm
+- 0.0505 nm
+* 50.5 nm
+- 505 nm
+# Explanation: As in the guanine example: 2372 kJ mol⁻¹ × 10³ ÷ NA = 3.94 × 10⁻¹⁸ J per atom; ν = E/h = 5.94 × 10¹⁵ s⁻¹; λ = c/ν = 50.5 nm.
+
+The first ionisation energy of fluorine is 1681 kJ mol⁻¹. Roughly what is the longest wavelength of light that can ionise a gas-phase fluorine atom?
+Elements: F
+- 71200 nm
+- 0.0712 nm
+* 71.2 nm
+- 712 nm
+# Explanation: As in the guanine example: 1681 kJ mol⁻¹ × 10³ ÷ NA = 2.79 × 10⁻¹⁸ J per atom; ν = E/h = 4.21 × 10¹⁵ s⁻¹; λ = c/ν = 71.2 nm.
+
+The first ionisation energy of sodium is 496 kJ mol⁻¹. Roughly what is the longest wavelength of light that can ionise a gas-phase sodium atom?
+Elements: Na
+- 2.41 × 10⁵ nm
+- 0.241 nm
+- 2410 nm
+* 241 nm
+# Explanation: As in the guanine example: 496 kJ mol⁻¹ × 10³ ÷ NA = 8.24 × 10⁻¹⁹ J per atom; ν = E/h = 1.24 × 10¹⁵ s⁻¹; λ = c/ν = 241 nm.
+
+The first ionisation energy of copper is 745 kJ mol⁻¹. Roughly what is the longest wavelength of light that can ionise a gas-phase copper atom?
+Elements: Cu
+- 1.61 × 10⁵ nm
+* 161 nm
+- 0.161 nm
+- 1610 nm
+# Explanation: As in the guanine example: 745 kJ mol⁻¹ × 10³ ÷ NA = 1.24 × 10⁻¹⁸ J per atom; ν = E/h = 1.87 × 10¹⁵ s⁻¹; λ = c/ν = 161 nm.
+
+The first ionisation energy of tin is 709 kJ mol⁻¹. Roughly what is the longest wavelength of light that can ionise a gas-phase tin atom?
+Elements: Sn
+* 169 nm
+- 1.69 × 10⁵ nm
+- 0.169 nm
+- 1690 nm
+# Explanation: As in the guanine example: 709 kJ mol⁻¹ × 10³ ÷ NA = 1.18 × 10⁻¹⁸ J per atom; ν = E/h = 1.78 × 10¹⁵ s⁻¹; λ = c/ν = 169 nm.
+
+The first ionisation energy of barium is 503 kJ mol⁻¹. Roughly what is the longest wavelength of light that can ionise a gas-phase barium atom?
+Elements: Ba
+* 238 nm
+- 2.38 × 10⁵ nm
+- 0.238 nm
+- 2380 nm
+# Explanation: As in the guanine example: 503 kJ mol⁻¹ × 10³ ÷ NA = 8.35 × 10⁻¹⁹ J per atom; ν = E/h = 1.26 × 10¹⁵ s⁻¹; λ = c/ν = 238 nm.
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+The first ionisation energy of lithium is 520 kJ mol⁻¹. What is the longest wavelength of light, in nm, that can ionise a gas-phase lithium atom? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Li
+Steal
+= 230 ± 0.6% nm
+# Shown answer: 230 nm
+# Explanation: 520 × 10³ J mol⁻¹ ÷ NA = 8.64 × 10⁻¹⁹ J; ν = E/h = 1.30 × 10¹⁵ s⁻¹; λ = c/ν = 2.30 × 10⁻⁷ m = 230 nm.
+
+The first ionisation energy of argon is 1521 kJ mol⁻¹. What is the longest wavelength of light, in nm, that can ionise a gas-phase argon atom? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Ar
+Steal
+= 78.7 ± 0.6% nm
+# Shown answer: 78.7 nm
+# Explanation: 1521 × 10³ J mol⁻¹ ÷ NA = 2.53 × 10⁻¹⁸ J; ν = E/h = 3.81 × 10¹⁵ s⁻¹; λ = c/ν = 7.87 × 10⁻⁸ m = 78.7 nm.
+
+The first ionisation energy of nickel is 737 kJ mol⁻¹. What is the longest wavelength of light, in nm, that can ionise a gas-phase nickel atom? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Ni
+Steal
+= 162 ± 0.6% nm
+# Shown answer: 162 nm
+# Explanation: 737 × 10³ J mol⁻¹ ÷ NA = 1.22 × 10⁻¹⁸ J; ν = E/h = 1.85 × 10¹⁵ s⁻¹; λ = c/ν = 1.62 × 10⁻⁷ m = 162 nm.
+
+The first ionisation energy of barium is 503 kJ mol⁻¹. What is the longest wavelength of light, in nm, that can ionise a gas-phase barium atom? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Ba
+Steal
+= 238 ± 0.6% nm
+# Shown answer: 238 nm
+# Explanation: 503 × 10³ J mol⁻¹ ÷ NA = 8.35 × 10⁻¹⁹ J; ν = E/h = 1.26 × 10¹⁵ s⁻¹; λ = c/ν = 2.38 × 10⁻⁷ m = 238 nm.
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the wavelength, in nm, of the photon emitted when an atom drops from n = 4 to n = 1? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Steal
+= 97.3 ± 0.6% nm
+# Shown answer: 97.3 nm
+# Explanation: Gap = 1230 kJ mol⁻¹ = 2.04 × 10⁻¹⁸ J per photon; ν = E/h = 3.08 × 10¹⁵ s⁻¹; λ = c/ν = 97.3 nm (a Lyman line, ultraviolet).
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the wavelength, in nm, of the photon emitted when an atom drops from n = 2 to n = 1? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Steal
+= 122 ± 0.6% nm
+# Shown answer: 122 nm
+# Explanation: Gap = 984 kJ mol⁻¹ = 1.63 × 10⁻¹⁸ J per photon; ν = E/h = 2.47 × 10¹⁵ s⁻¹; λ = c/ν = 122 nm (a Lyman line, ultraviolet).
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the wavelength, in nm, of the photon emitted when an atom drops from n = 4 to n = 3? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Steal
+= 1870 ± 0.6% nm
+# Shown answer: 1870 nm
+# Explanation: Gap = 64 kJ mol⁻¹ = 1.06 × 10⁻¹⁹ J per photon; ν = E/h = 1.60 × 10¹⁴ s⁻¹; λ = c/ν = 1870 nm (a Paschen line, infrared).
+
+Hydrogen's energy levels are n = 1: −1312, n = 2: −328, n = 3: −146, n = 4: −82 and n = 5: −52.5 kJ mol⁻¹. What is the wavelength, in nm, of the photon emitted when an atom drops from n = 5 to n = 1? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Steal
+= 95 ± 0.6% nm
+# Shown answer: 95.0 nm
+# Explanation: Gap = 1259.5 kJ mol⁻¹ = 2.09 × 10⁻¹⁸ J per photon; ν = E/h = 3.16 × 10¹⁵ s⁻¹; λ = c/ν = 95.0 nm (a Lyman line, ultraviolet).
+
+Potassium metal needs 3.5 × 10⁻¹⁹ J per atom to remove an electron. 320 nm UV light shines on it. What is the kinetic energy of each ejected electron, in units of 10⁻¹⁹ J? Use c = 3.00 × 10⁸ m s⁻¹ and h = 6.626 × 10⁻³⁴ J s. Give 2 s.f.
+Steal
+= 2.7 ± 0.06 × 10⁻¹⁹ J
+# Shown answer: 2.7 × 10⁻¹⁹ J
+# Explanation: E(photon) = hc/λ = 6.21 × 10⁻¹⁹ J. The excess, 6.21 × 10⁻¹⁹ − 3.5 × 10⁻¹⁹ = 2.7 × 10⁻¹⁹ J, becomes the electron's kinetic energy.
+
+Potassium metal needs 3.5 × 10⁻¹⁹ J per atom to remove an electron. 250 nm UV light shines on it. What is the kinetic energy of each ejected electron, in units of 10⁻¹⁹ J? Use c = 3.00 × 10⁸ m s⁻¹ and h = 6.626 × 10⁻³⁴ J s. Give 2 s.f.
+Steal
+= 4.5 ± 0.06 × 10⁻¹⁹ J
+# Shown answer: 4.5 × 10⁻¹⁹ J
+# Explanation: E(photon) = hc/λ = 7.95 × 10⁻¹⁹ J. The excess, 7.95 × 10⁻¹⁹ − 3.5 × 10⁻¹⁹ = 4.5 × 10⁻¹⁹ J, becomes the electron's kinetic energy.
+
+Potassium metal needs 3.5 × 10⁻¹⁹ J per atom to remove an electron. 280 nm UV light shines on it. What is the kinetic energy of each ejected electron, in units of 10⁻¹⁹ J? Use c = 3.00 × 10⁸ m s⁻¹ and h = 6.626 × 10⁻³⁴ J s. Give 2 s.f.
+Steal
+= 3.6 ± 0.06 × 10⁻¹⁹ J
+# Shown answer: 3.6 × 10⁻¹⁹ J
+# Explanation: E(photon) = hc/λ = 7.10 × 10⁻¹⁹ J. The excess, 7.10 × 10⁻¹⁹ − 3.5 × 10⁻¹⁹ = 3.6 × 10⁻¹⁹ J, becomes the electron's kinetic energy.
+
+Potassium metal needs 3.5 × 10⁻¹⁹ J per atom to remove an electron. 380 nm UV light shines on it. What is the kinetic energy of each ejected electron, in units of 10⁻¹⁹ J? Use c = 3.00 × 10⁸ m s⁻¹ and h = 6.626 × 10⁻³⁴ J s. Give 2 s.f.
+Steal
+= 1.7 ± 0.06 × 10⁻¹⁹ J
+# Shown answer: 1.7 × 10⁻¹⁹ J
+# Explanation: E(photon) = hc/λ = 5.23 × 10⁻¹⁹ J. The excess, 5.23 × 10⁻¹⁹ − 3.5 × 10⁻¹⁹ = 1.7 × 10⁻¹⁹ J, becomes the electron's kinetic energy.
+
+BBC Radio Cornwall broadcasts on 103.9 MHz FM in West Cornwall. What is the energy of one of its photons, in units of 10⁻²⁶ J? Use h = 6.626 × 10⁻³⁴ J s. Give 3 s.f.
+Steal
+= 6.88 ± 0.6% × 10⁻²⁶ J
+# Shown answer: 6.88 × 10⁻²⁶ J
+# Explanation: 103.9 MHz = 1.039 × 10⁸ s⁻¹; E = hν = 6.626 × 10⁻³⁴ × 1.039 × 10⁸ = 6.88 × 10⁻²⁶ J.
+
+BBC Radio Devon broadcasts on 103.4 MHz FM. What is the energy of one of its photons, in units of 10⁻²⁶ J? Use h = 6.626 × 10⁻³⁴ J s. Give 3 s.f.
+Steal
+= 6.85 ± 0.6% × 10⁻²⁶ J
+# Shown answer: 6.85 × 10⁻²⁶ J
+# Explanation: 103.4 MHz = 1.034 × 10⁸ s⁻¹; E = hν = 6.626 × 10⁻³⁴ × 1.034 × 10⁸ = 6.85 × 10⁻²⁶ J.
+
+BBC Radio Lancashire broadcasts on 95.5 MHz FM. What is the energy of one of its photons, in units of 10⁻²⁶ J? Use h = 6.626 × 10⁻³⁴ J s. Give 3 s.f.
+Steal
+= 6.33 ± 0.6% × 10⁻²⁶ J
+# Shown answer: 6.33 × 10⁻²⁶ J
+# Explanation: 95.5 MHz = 9.550 × 10⁷ s⁻¹; E = hν = 6.626 × 10⁻³⁴ × 9.550 × 10⁷ = 6.33 × 10⁻²⁶ J.
+
+Until 2021, BBC Radio Lancashire also broadcast on 855 kHz MW. What is the energy of one of those photons, in units of 10⁻²⁸ J? Use h = 6.626 × 10⁻³⁴ J s. Give 3 s.f.
+Steal
+= 5.67 ± 0.6% × 10⁻²⁸ J
+# Shown answer: 5.67 × 10⁻²⁸ J
+# Explanation: 855 kHz = 8.550 × 10⁵ s⁻¹; E = hν = 6.626 × 10⁻³⁴ × 8.550 × 10⁵ = 5.67 × 10⁻²⁸ J.
+
+What is the energy of one mole of 230 nm photons, in kJ mol⁻¹? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s and NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Steal
+= 520 ± 0.6% kJ mol⁻¹
+# Shown answer: 520 kJ mol⁻¹
+# Explanation: λ = 2.30 × 10⁻⁷ m; ν = c/λ = 1.304 × 10¹⁵ s⁻¹; E = hν = 8.643 × 10⁻¹⁹ J; × NA = 5.20 × 10⁵ J mol⁻¹ = 520 kJ mol⁻¹. Round only at the end.
+
+What is the frequency of 650 nm light, in THz? Use c = 3.00 × 10⁸ m s⁻¹. Give 3 s.f.
+Steal
+= 462 ± 0.6% THz
+# Shown answer: 462 THz
+# Explanation: ν = c/λ = 3.00 × 10⁸ ÷ 6.50 × 10⁻⁷ = 4.62 × 10¹⁴ s⁻¹ = 462 THz (1 THz = 10¹² Hz).
+
+What is the frequency of 211 nm light, in THz? Use c = 3.00 × 10⁸ m s⁻¹. Give 3 s.f.
+Steal
+= 1420 ± 0.6% THz
+# Shown answer: 1420 THz
+# Explanation: ν = c/λ = 3.00 × 10⁸ ÷ 2.11 × 10⁻⁷ = 1.42 × 10¹⁵ s⁻¹ = 1420 THz (1 THz = 10¹² Hz).
+
+What is the frequency of 260 nm light, in THz? Use c = 3.00 × 10⁸ m s⁻¹. Give 3 s.f.
+Steal
+= 1150 ± 0.6% THz
+# Shown answer: 1150 THz
+# Explanation: ν = c/λ = 3.00 × 10⁸ ÷ 2.60 × 10⁻⁷ = 1.15 × 10¹⁵ s⁻¹ = 1150 THz (1 THz = 10¹² Hz).

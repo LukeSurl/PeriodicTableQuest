@@ -1,0 +1,5 @@
+/* Periodic Table Quest (new): builds on ../css/style.css and ../grid/css/grid.css */
+.cell.noq { opacity: .28; }
+.host .cell.noq { background: transparent; }
+.play button.cell.noq { cursor: not-allowed; }
+.sheet .stealhead { color: var(--tb); font-weight: 700; }

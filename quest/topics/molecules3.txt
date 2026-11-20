@@ -1,0 +1,420 @@
+# Molecules 3: Molecular orbitals from p orbitals
+# Exported from the classic Periodic Table Quest (questions/molecules3.js).
+# Import into a new Periodic Table Quest quiz: "Import questions from text", paste, then "Replace all questions".
+# Lines starting with # are notes and are ignored by the import.
+
+# ---------- Hand-written questions ----------
+
+In a diatomic molecule, which p orbital is, by convention, the one pointing towards the other atom?
+* pz
+- pₓ
+- py
+- All three point towards it equally
+# Explanation: The internuclear axis is called z, so pz points along it. pₓ and py are at right angles to it.
+
+Why is the axis between the two nuclei of a diatomic called "z"?
+- Because z is always vertical
+- Because pz is lower in energy than pₓ and py
+- Because the electrons orbit around the z axis
+* It is just a convention
+# Explanation: There are no built-in x, y and z directions in the universe. Calling the bond axis z simply makes the labels consistent.
+
+Two pz orbitals overlap end-on, along the internuclear axis. What type of molecular orbitals do they form?
+* σ bonding and σ antibonding
+- π bonding and π antibonding
+- Only a σ bonding orbital
+- Non-bonding orbitals
+# Explanation: End-on overlap gives σ orbitals, just like s–s overlap. In phase gives the bonding orbital, out of phase the antibonding one.
+
+Two pₓ orbitals, at right angles to the internuclear axis, overlap side-on. What type of molecular orbitals do they form?
+- σ bonding and σ antibonding
+* π bonding and π antibonding
+- Nothing: they don't point at each other
+- Only a π antibonding orbital
+# Explanation: Side-on overlap gives π orbitals, with electron density above and below the axis.
+
+Which overlap is stronger: end-on (pz with pz) or side-on (pₓ with pₓ)?
+- Side-on (π)
+- They are the same
+* End-on (σ)
+- It depends on the element
+# Explanation: pz orbitals point straight at each other, so they overlap far more than two parallel pₓ orbitals do.
+
+Because π overlap is weaker than σ overlap, the π bonding and antibonding orbitals of F₂ are…
+Elements: F
+- Further from the original 2p orbitals than the σ ones are
+* Closer in energy to the original 2p orbitals than the σ ones are
+- Both below the original 2p orbitals
+- At exactly the same energies as the σ orbitals
+# Explanation: Weaker overlap means a smaller bonding effect and a smaller antibonding effect. So 1πᵤ sits above 3σg, and 1πg* below 3σᵤ*.
+
+In a homonuclear diatomic, why doesn't the pₓ orbital on one atom form bonding and antibonding orbitals with the pz orbital on the other?
+- The pₓ orbital is higher in energy
+* The in-phase and out-of-phase parts of the overlap cancel, so there is no net interaction
+- They are too far apart
+- Only orbitals with the same letter can ever combine
+# Explanation: Half of the pₓ orbital overlaps the pz lobe in phase and half out of phase. For the same reason, in a diatomic pₓ and py can't interact with an s orbital on the other atom.
+
+What do σ orbitals have that π orbitals don't?
+- A nodal plane between the nuclei
+* Rotational symmetry about the internuclear axis
+- Electron density above and below the axis
+- Room for more than two electrons
+# Explanation: Spin a σ orbital about the bond axis and it looks the same. A π orbital has its density above and below the axis, so it doesn't.
+
+What does the star in a label such as σᵤ* tell you?
+* It is an antibonding orbital
+- It is the highest occupied orbital
+- It contains unpaired electrons
+- It was formed by side-on overlap
+# Explanation: Antibonding orbitals are marked with stars, though some sources leave them off.
+
+What do the g and u in σg and πᵤ stand for?
+- Ground state and upper state
+* Gerade (even) and ungerade (uneven): how the orbital behaves under inversion
+- Bonding and antibonding
+- Gained and unchanged electrons
+# Explanation: Inverting through the centre of the molecule leaves the phase of a g orbital unchanged and flips that of a u orbital. These labels are only used for bonds between identical atoms.
+
+In a homonuclear diatomic, what does the 3 in 3σg mean?
+- It holds three electrons
+- It is made from n = 3 atomic orbitals
+* It is the third σg orbital in energy order, counting those from the core
+- It is the third orbital in the diagram overall
+# Explanation: In F₂, 1σg comes from the 1s core orbitals, 2σg from 2s and 3σg from 2pz.
+
+In a homonuclear diatomic, when molecular orbitals are numbered, how do the two degenerate πᵤ orbitals count?
+* Once: both are 1πᵤ
+- Twice: 1πᵤ and 2πᵤ
+- Not at all: only σ orbitals are numbered
+- As half each
+# Explanation: A degenerate pair counts as one step in the sequence, so the next set of πᵤ orbitals would be 2πᵤ.
+
+The Lewis model gives F₂ a single shared pair. How many valence electrons does molecular orbital theory place in the molecular orbitals of F₂?
+Elements: F
+- 2
+* 14
+- 8
+- 12
+# Explanation: Seven from each fluorine. Eight are in bonding orbitals and six in antibonding orbitals, so the bond order is still (8 − 6) ÷ 2 = 1: six electrons are trying to pull the molecule apart.
+
+According to molecular orbital theory, why is O₂ paramagnetic?
+Elements: O
+- It has one electron in 3σᵤ*
+- Its 3σg orbital is only half full
+* Its two highest-energy electrons sit singly, with parallel spins, in the two degenerate 1πg* orbitals
+- O₂ is really an ion
+# Explanation: O₂ has 12 valence electrons; the last two go into 1πg*, one in each orbital (Hund's rule). The Lewis model can't explain this.
+
+Molecular orbital theory gives O₂ a bond order of 2. Which electrons does that count?
+Elements: O
+* 8 in bonding orbitals and 4 in antibonding orbitals
+- 4 in bonding orbitals and 0 in antibonding orbitals
+- 12 in bonding orbitals and 8 in antibonding orbitals
+- 6 in bonding orbitals and 2 in antibonding orbitals
+# Explanation: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*²: bonding 2 + 2 + 4 = 8, antibonding 2 + 2 = 4. (8 − 4) ÷ 2 = 2.
+
+What is the HOMO of a molecule?
+* The highest-energy molecular orbital that contains electrons
+- The lowest-energy molecular orbital
+- The highest-energy bonding orbital
+- The lowest orbital with room for another electron
+# Explanation: Its electrons are the ones most likely to be lost in a chemical or physical reaction. It may be bonding or antibonding, full or partly filled.
+
+What is the LUMO of a molecule?
+- The highest-energy molecular orbital
+- The lowest-energy antibonding orbital
+* The lowest-energy molecular orbital with room for another electron
+- The highest orbital that contains electrons
+# Explanation: This is where an electron goes if the molecule gains one. It may be bonding or antibonding, empty or partly filled.
+
+Can the HOMO of a molecule be an antibonding orbital?
+Elements: F
+- No: the HOMO is always a bonding orbital
+- Only in ions
+* Yes: in F₂, for example, the HOMO is 1πg*
+- Only if the molecule doesn't exist
+# Explanation: In F₂ the highest occupied orbitals are the antibonding 1πg* pair, and its LUMO is 3σᵤ*.
+
+Which orbital of O₂ is both its HOMO and its LUMO?
+Elements: O
+- 1πᵤ
+* 1πg*
+- 3σg
+- 3σᵤ*
+# Explanation: The 1πg* pair holds only two of its possible four electrons: it has the highest-energy electrons and also the lowest-energy vacancies.
+
+# ---------- Generated examples ----------
+# The classic game made these questions afresh for each element. Here are 6 fixed examples of each kind.
+
+Using molecular orbital theory (ignoring s–p mixing), what is the bond order of F₂⁺?
+Elements: F
+* 1½
+- ½
+- 0
+- 2
+# Explanation: F₂⁺ has 13 valence electrons: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*³. Bonding 8, antibonding 5: bond order = (8 − 5) ÷ 2 = 1½.
+
+Using molecular orbital theory (ignoring s–p mixing), what is the bond order of Ne₂?
+Elements: Ne
+- 1½
+- ½
+- 1
+* 0
+# Explanation: Ne₂ has 16 valence electrons: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*⁴ 3σᵤ*². Bonding 8, antibonding 8: bond order = (8 − 8) ÷ 2 = 0. Bond order 0: it is not stable.
+
+Using molecular orbital theory (ignoring s–p mixing), what is the bond order of S₂⁻?
+Elements: S
+- 0
+- 1
+- 3
+* 1½
+# Explanation: S₂⁻ has 13 valence electrons: σg(3s)² σᵤ*(3s)² σg(3p)² πᵤ⁴ πg*³. Bonding 8, antibonding 5: bond order = (8 − 5) ÷ 2 = 1½. (The same pattern as O₂ and F₂, built from 3s and 3p orbitals.)
+
+Using molecular orbital theory (ignoring s–p mixing), what is the bond order of Ar₂⁺?
+Elements: Ar
+- 1½
+- 1
+- 2
+* ½
+# Explanation: Ar₂⁺ has 15 valence electrons: σg(3s)² σᵤ*(3s)² σg(3p)² πᵤ⁴ πg*⁴ σᵤ*(3p)¹. Bonding 8, antibonding 7: bond order = (8 − 7) ÷ 2 = ½. (The same pattern as O₂ and F₂, built from 3s and 3p orbitals.)
+
+Using molecular orbital theory (ignoring s–p mixing), what is the bond order of Kr₂?
+Elements: Kr
+- 1
+* 0
+- 1½
+- ½
+# Explanation: Kr₂ has 16 valence electrons: σg(4s)² σᵤ*(4s)² σg(4p)² πᵤ⁴ πg*⁴ σᵤ*(4p)². Bonding 8, antibonding 8: bond order = (8 − 8) ÷ 2 = 0. (The same pattern as O₂ and F₂, built from 4s and 4p orbitals.) Bond order 0: it is not stable.
+
+Using molecular orbital theory (ignoring s–p mixing), what is the bond order of Xe₂?
+Elements: Xe
+- 1½
+- ½
+* 0
+- 1
+# Explanation: Xe₂ has 16 valence electrons: σg(5s)² σᵤ*(5s)² σg(5p)² πᵤ⁴ πg*⁴ σᵤ*(5p)². Bonding 8, antibonding 8: bond order = (8 − 8) ÷ 2 = 0. (The same pattern as O₂ and F₂, built from 5s and 5p orbitals.) Bond order 0: it is not stable.
+
+According to molecular orbital theory, how many unpaired electrons does O₂⁺ have?
+Elements: O
+- 0
+- 2
+* 1
+- 3
+# Explanation: O₂⁺: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*¹. The 1 electron in the two degenerate 1πg* orbitals is unpaired, so 1 unpaired: paramagnetic.
+
+According to molecular orbital theory, how many unpaired electrons does F₂⁺ have?
+Elements: F
+- 0
+- 2
+- 3
+* 1
+# Explanation: F₂⁺: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*³. The 3 electrons in the two degenerate 1πg* orbitals leave one orbital with a single electron, so 1 unpaired: paramagnetic.
+
+According to molecular orbital theory, how many unpaired electrons does Cl₂⁻ have?
+Elements: Cl
+- 0
+- 2
+- 3
+* 1
+# Explanation: Cl₂⁻: σg(3s)² σᵤ*(3s)² σg(3p)² πᵤ⁴ πg*⁴ σᵤ*(3p)¹. The single electron in σᵤ*(3p) is unpaired, so it is paramagnetic.
+
+According to molecular orbital theory, how many unpaired electrons does Ar₂⁺ have?
+Elements: Ar
+* 1
+- 0
+- 2
+- 3
+# Explanation: Ar₂⁺: σg(3s)² σᵤ*(3s)² σg(3p)² πᵤ⁴ πg*⁴ σᵤ*(3p)¹. The single electron in σᵤ*(3p) is unpaired, so it is paramagnetic.
+
+According to molecular orbital theory, how many unpaired electrons does Se₂ have?
+Elements: Se
+- 0
+- 1
+- 3
+* 2
+# Explanation: Se₂: σg(4s)² σᵤ*(4s)² σg(4p)² πᵤ⁴ πg*². The 2 electrons in the two degenerate πg* orbitals go in singly with parallel spins (Hund's rule), so 2 unpaired: paramagnetic.
+
+According to molecular orbital theory, how many unpaired electrons does I₂⁻ have?
+Elements: I
+- 0
+* 1
+- 2
+- 3
+# Explanation: I₂⁻: σg(5s)² σᵤ*(5s)² σg(5p)² πᵤ⁴ πg*⁴ σᵤ*(5p)¹. The single electron in σᵤ*(5p) is unpaired, so it is paramagnetic.
+
+Which molecular orbital is the LUMO (lowest unoccupied molecular orbital) of H₂⁺?
+Elements: H
+- 1σᵤ*
+- 2σg
+* 1σg
+# Explanation: H₂⁺: 1σg¹. The lowest orbital with room for another electron is 1σg, which is only partly filled, so it is the HOMO as well.
+
+Which molecular orbital is the HOMO (highest occupied molecular orbital) of Li₂?
+Elements: Li
+- 1σg
+- 1σᵤ*
+- 2σᵤ*
+* 2σg
+# Explanation: Li₂: 2σg². The highest-energy orbital holding electrons is 2σg.
+
+Which molecular orbital is the LUMO (lowest unoccupied molecular orbital) of Be₂⁺?
+Elements: Be
+- 1σg
+* 2σᵤ*
+- 1σᵤ*
+- 2σg
+# Explanation: Be₂⁺: 2σg² 2σᵤ*¹. The lowest orbital with room for another electron is 2σᵤ*, which is only partly filled, so it is the HOMO as well.
+
+Which molecular orbital is the LUMO (lowest unoccupied molecular orbital) of O₂⁺?
+Elements: O
+- 1πᵤ
+- 3σg
+- 3σᵤ*
+* 1πg*
+# Explanation: O₂⁺: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*¹. The lowest orbital with room for another electron is 1πg*, which is only partly filled, so it is the HOMO as well.
+
+Which molecular orbital is the HOMO (highest occupied molecular orbital) of F₂⁻?
+Elements: F
+- 1πᵤ
+- 3σg
+* 3σᵤ*
+- 1πg*
+# Explanation: F₂⁻: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*⁴ 3σᵤ*¹. The highest-energy orbital holding electrons is 3σᵤ*. It is only partly filled, so it is also the LUMO.
+
+Which molecular orbital is the LUMO (lowest unoccupied molecular orbital) of Ne₂⁺?
+Elements: Ne
+- 1πg*
+- 2σg
+* 3σᵤ*
+- 1πᵤ
+# Explanation: Ne₂⁺: 2σg² 2σᵤ*² 3σg² 1πᵤ⁴ 1πg*⁴ 3σᵤ*¹. The lowest orbital with room for another electron is 3σᵤ*, which is only partly filled, so it is the HOMO as well.
+
+In a homonuclear diatomic, what is the label for the bonding (in-phase) combination of py + py orbitals?
+- σg
+- σᵤ*
+* πᵤ
+- πg*
+# Explanation: Side-on overlap gives π orbitals; antibonding ones get a star. The g/u labels flip between σ and π: σg and σᵤ*, but πᵤ and πg*.
+
+In a homonuclear diatomic, what is the label for the bonding (in-phase) combination of pz + pz orbitals?
+* σg
+- σᵤ*
+- πᵤ
+- πg*
+# Explanation: End-on overlap along the internuclear axis gives σ orbitals; antibonding ones get a star. The g/u labels flip between σ and π: σg and σᵤ*, but πᵤ and πg*.
+
+In a homonuclear diatomic, what is the label for the antibonding (out-of-phase) combination of py + py orbitals?
+- σg
+- σᵤ*
+* πg*
+- πᵤ
+# Explanation: Side-on overlap gives π orbitals; antibonding ones get a star. The g/u labels flip between σ and π: σg and σᵤ*, but πᵤ and πg*.
+
+In a homonuclear diatomic, what is the label for the antibonding (out-of-phase) combination of pz + pz orbitals?
+- σg
+* σᵤ*
+- πᵤ
+- πg*
+# Explanation: End-on overlap along the internuclear axis gives σ orbitals; antibonding ones get a star. The g/u labels flip between σ and π: σg and σᵤ*, but πᵤ and πg*.
+
+In a homonuclear diatomic, what is the label for the bonding (in-phase) combination of pₓ + pₓ orbitals?
+- σg
+- σᵤ*
+- πg*
+* πᵤ
+# Explanation: Side-on overlap gives π orbitals; antibonding ones get a star. The g/u labels flip between σ and π: σg and σᵤ*, but πᵤ and πg*.
+
+In a homonuclear diatomic, what is the label for the bonding (in-phase) combination of s + s orbitals?
+- σᵤ*
+* σg
+- πᵤ
+- πg*
+# Explanation: End-on overlap along the internuclear axis gives σ orbitals; antibonding ones get a star. The g/u labels flip between σ and π: σg and σᵤ*, but πᵤ and πg*.
+
+# ---------- Generated steal questions ----------
+# 4 fixed examples of each kind of steal challenge.
+
+The bond dissociation energy of N₂ is 944.9 kJ mol⁻¹. How much energy, in kJ, is needed to break the bonds in 50.0 g of N₂ gas into separate atoms? Relative atomic mass of N: 14.01. Give 3 s.f.
+Elements: N
+Steal
+= 1690 ± 0.6% kJ
+# Shown answer: 1690 kJ
+# Explanation: M(N₂) = 2 × 14.01 = 28.02 g mol⁻¹; n = 50.0 ÷ 28.02 = 1.784 mol of bonds; E = 1.784 × 944.9 = 1690 kJ.
+
+2.00 g of gas-phase oxygen atoms all pair up to form O₂. The bond dissociation energy of O₂ is 498.5 kJ mol⁻¹. How much energy, in kJ, is released? Relative atomic mass of O: 16.00. Give 3 s.f.
+Elements: O
+Steal
+= 31.2 ± 0.6% kJ
+# Shown answer: 31.2 kJ
+# Explanation: n(atoms) = 2.00 ÷ 16.00 = 0.1250 mol. Two atoms make one bond, so 0.06250 mol of bonds form, releasing 0.06250 × 498.5 = 31.2 kJ.
+
+The bond dissociation energy of F₂ is 158.7 kJ mol⁻¹. How much energy, in kJ, is needed to break the bonds in 50.0 g of F₂ gas into separate atoms? Relative atomic mass of F: 19.00. Give 3 s.f.
+Elements: F
+Steal
+= 209 ± 0.6% kJ
+# Shown answer: 209 kJ
+# Explanation: M(F₂) = 2 × 19.00 = 38.00 g mol⁻¹; n = 50.0 ÷ 38.00 = 1.316 mol of bonds; E = 1.316 × 158.7 = 209 kJ.
+
+The bond dissociation energy of I₂ is 152.3 kJ mol⁻¹. How much energy, in kJ, is needed to break the bonds in 7.50 g of I₂ gas into separate atoms? Relative atomic mass of I: 126.90. Give 3 s.f.
+Elements: I
+Steal
+= 4.5 ± 0.6% kJ
+# Shown answer: 4.50 kJ
+# Explanation: M(I₂) = 2 × 126.90 = 253.80 g mol⁻¹; n = 7.50 ÷ 253.80 = 0.02955 mol of bonds; E = 0.02955 × 152.3 = 4.50 kJ.
+
+The bond dissociation energy of F₂ is 158.7 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one F₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: F
+Steal
+= 754 ± 0.6% nm
+# Shown answer: 754 nm
+# Explanation: 158.7 × 10³ J mol⁻¹ ÷ NA = 2.64 × 10⁻¹⁹ J per bond; ν = E/h = 3.98 × 10¹⁴ s⁻¹; λ = c/ν = 7.54 × 10⁻⁷ m = 754 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of Na₂ is 74.8 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one Na₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Na
+Steal
+= 1600 ± 0.6% nm
+# Shown answer: 1600 nm
+# Explanation: 74.8 × 10³ J mol⁻¹ ÷ NA = 1.24 × 10⁻¹⁹ J per bond; ν = E/h = 1.87 × 10¹⁴ s⁻¹; λ = c/ν = 1.60 × 10⁻⁶ m = 1600 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of K₂ is 57 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one K₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: K
+Steal
+= 2100 ± 0.6% nm
+# Shown answer: 2100 nm
+# Explanation: 57 × 10³ J mol⁻¹ ÷ NA = 9.47 × 10⁻²⁰ J per bond; ν = E/h = 1.43 × 10¹⁴ s⁻¹; λ = c/ν = 2.10 × 10⁻⁶ m = 2100 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The bond dissociation energy of I₂ is 152.3 kJ mol⁻¹. What is the longest wavelength of light, in nm, whose photons each have enough energy to break one I₂ bond? Use c = 3.00 × 10⁸ m s⁻¹, h = 6.626 × 10⁻³⁴ J s, NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: I
+Steal
+= 786 ± 0.6% nm
+# Shown answer: 786 nm
+# Explanation: 152.3 × 10³ J mol⁻¹ ÷ NA = 2.53 × 10⁻¹⁹ J per bond; ν = E/h = 3.82 × 10¹⁴ s⁻¹; λ = c/ν = 7.86 × 10⁻⁷ m = 786 nm. Longer wavelengths carry less energy per photon, so can't break the bond.
+
+The first ionisation energy of neon is 2081 kJ mol⁻¹. How much energy does it take to remove the outer electron from one neon atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Ne
+Steal
+= 34.6 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 34.6 × 10⁻¹⁹ J
+# Explanation: 2081 kJ mol⁻¹ = 2081 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 3.46 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of titanium is 659 kJ mol⁻¹. How much energy does it take to remove the outer electron from one titanium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Ti
+Steal
+= 10.9 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 10.9 × 10⁻¹⁹ J
+# Explanation: 659 kJ mol⁻¹ = 659 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.09 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of chromium is 653 kJ mol⁻¹. How much energy does it take to remove the outer electron from one chromium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Cr
+Steal
+= 10.8 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 10.8 × 10⁻¹⁹ J
+# Explanation: 653 kJ mol⁻¹ = 653 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.08 × 10⁻¹⁸ J per atom.
+
+The first ionisation energy of rhodium is 720 kJ mol⁻¹. How much energy does it take to remove the outer electron from one rhodium atom, in units of 10⁻¹⁹ J? Use NA = 6.022 × 10²³ mol⁻¹. Give 3 s.f.
+Elements: Rh
+Steal
+= 12 ± 0.6% × 10⁻¹⁹ J
+# Shown answer: 12.0 × 10⁻¹⁹ J
+# Explanation: 720 kJ mol⁻¹ = 720 × 10³ J per mole of atoms; ÷ 6.022 × 10²³ = 1.20 × 10⁻¹⁸ J per atom.
