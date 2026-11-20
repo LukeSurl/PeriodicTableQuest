@@ -4,6 +4,7 @@
   const P = window.PLQ_SETTINGS;
   const { $, esc, store, withDemo, isDemo, theme } = GQ;
   theme();
+  GQ.moreBelow();
   document.title = $('title').textContent = P.title;
   const GKEY = isDemo() ? 'gq-mine-demo' : 'gq-mine';
   if (isDemo()) $('mode').textContent = 'Demo mode: this browser only';

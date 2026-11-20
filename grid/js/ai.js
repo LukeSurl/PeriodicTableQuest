@@ -35,26 +35,29 @@ ${pach ? '- Mark the two or three hardest questions as worth more: for those, ad
 
 Format the reply exactly like this, because a computer will read it:
 - Put all the questions together in ONE code block, and nothing else inside the code block.
-- Leave a blank line between questions.
-- For each question: first the question on one line, then ${pach ? 'a "Multiplier: " line if it has one' : 'a line starting "Label: "'}, then each answer on its own line starting with "- ". Start the correct answer with "* " instead of "- ".${fb ? fbFormat : ''}${num ? '\n- ' + numFormat : ''}
+- Leave a blank line between questions, and no blank lines inside a question.
+- For each question: first the question on one line starting "Q: ", then ${pach ? 'a "Multiplier: " line if it has one' : 'a line starting "Label: "'}, then each answer on its own line starting with "- ". Start the correct answer with "* " instead of "- ".${fb ? fbFormat : ''}${num ? '\n- ' + numFormat : ''}
+- After the last question, write a line saying END (still inside the code block).
+- Keep the "- " and "* " at the start of every answer line exactly as shown: do not turn them into bullet points.
 - Plain text only: no numbering, no bold, no letters such as A) or B), and no explanations inside the code block. You may use Unicode characters such as ² ³ ⁻ ₂ × for formulae and units.
 
 Here is an example of the format:
 
 \`\`\`
-What is the C–C bond length in benzene?
+Q: What is the C–C bond length in benzene?
 ${pach ? '' : 'Label: Bond lengths\n'}${fb ? 'Feedback: Benzene\'s bonds are all the same length. Think about where that length sits between a single and a double bond.\n' : ''}- 134 pm
 * 140 pm
 - 151 pm
 
-Which of these molecules is aromatic?
+Q: Which of these molecules is aromatic?
 ${pach ? 'Multiplier: 2' : 'Label: Aromaticity'}
 * Pyridine
 - Cyclohexene
 - Cyclooctatetraene${num ? `
 
-How many moles are in 9.0 g of water? Give 2 significant figures.
+Q: How many moles are in 9.0 g of water? Give 2 significant figures.
 ${pach ? '' : 'Label: Moles\n'}= 0.50 ± 0.005 mol` : ''}
+END
 \`\`\`
 
 After the code block, briefly tell me about any question where you were unsure of the correct answer.
@@ -77,34 +80,37 @@ Rules for the questions:
 
 Format the reply exactly like this, because a computer will read it:
 - Put all the questions together in ONE code block, and nothing else inside the code block.
-- Leave a blank line between questions.
-- For each question: first the question on one line. Then, only if it is about particular elements, a line starting "Elements: " with their symbols separated by commas. Then, only for steal questions, a line saying "Steal". Then each answer on its own line starting with "- ", with the correct answer starting "* " instead.${fb ? fbFormat : ''}${num ? '\n- ' + numFormat : ''}
+- Leave a blank line between questions, and no blank lines inside a question.
+- For each question: first the question on one line starting "Q: ". Then, only if it is about particular elements, a line starting "Elements: " with their symbols separated by commas. Then, only for steal questions, a line saying "Steal". Then each answer on its own line starting with "- ", with the correct answer starting "* " instead.${fb ? fbFormat : ''}${num ? '\n- ' + numFormat : ''}
+- After the last question, write a line saying END (still inside the code block).
+- Keep the "- " and "* " at the start of every answer line exactly as shown: do not turn them into bullet points.
 - Plain text only: no numbering, no bold, no letters such as A) or B), and no explanations inside the code block. You may use Unicode characters such as ² ³ ⁻ ₂ × for formulae and units.
 
 Here is an example of the format:
 
 \`\`\`
-Which of these is the electron configuration of a neutral sodium atom?
+Q: Which of these is the electron configuration of a neutral sodium atom?
 Elements: Na
 ${fb ? 'Feedback: Count the electrons: a neutral atom has as many as its atomic number.\n' : ''}- 1s² 2s² 2p⁶
 * 1s² 2s² 2p⁶ 3s¹
 - 1s² 2s² 2p⁶ 3s²
 
-Which statement about isotopes of the same element is true?
+Q: Which statement about isotopes of the same element is true?
 - They have different numbers of protons
 * They have the same number of protons but different numbers of neutrons
 - They have different chemical properties
 ${num ? `
-Chlorine is 75.8% ³⁵Cl and 24.2% ³⁷Cl. Calculate its relative atomic mass to 3 significant figures.
+Q: Chlorine is 75.8% ³⁵Cl and 24.2% ³⁷Cl. Calculate its relative atomic mass to 3 significant figures.
 Elements: Cl
 Steal
 = 35.5 ± 0.05` : `
-Which of these chlorine isotopes is the most abundant?
+Q: Which of these chlorine isotopes is the most abundant?
 Elements: Cl
 Steal
 * ³⁵Cl
 - ³⁶Cl
 - ³⁷Cl`}
+END
 \`\`\`
 
 After the code block, briefly tell me about any question where you were unsure of the correct answer.
@@ -141,7 +147,7 @@ If my lecture material is not attached or pasted, do not write any questions: as
   $('aiReply').addEventListener('paste', () => setTimeout(() => { $('aiCheck').disabled = !$('aiReply').value.trim(); if (!$('aiCheck').disabled) check(); }, 0));
   $('aiCheck').onclick = check;
   function check() {
-    const { text, dropped } = GQ_IMPORT.cleanAI($('aiReply').value);
+    const { text, dropped, rebuilt } = GQ_IMPORT.cleanAI($('aiReply').value);
     if (!text) {
       $('aiMsg').innerHTML = '<span class="warnline" style="display:inline">No questions found in that text. Did you copy the AI\'s reply (the shaded box)?</span>';
       return;
@@ -149,7 +155,8 @@ If my lecture material is not attached or pasted, do not write any questions: as
     $('importText').value = text;
     $('importText').dispatchEvent(new Event('input'));
     $('importBox').open = true;
-    $('aiMsg').textContent = dropped ? `Ignored ${dropped} bit${dropped === 1 ? '' : 's'} of chat text. Now check the questions in the import box.` : 'Now check the questions in the import box.';
+    $('aiMsg').textContent = (rebuilt ? 'The reply lost its layout when it was copied, so the questions have been put back together. Check them carefully in the import box.'
+      : dropped ? `Ignored ${dropped} bit${dropped === 1 ? '' : 's'} of chat text. Now check the questions in the import box.` : 'Now check the questions in the import box.');
     $('importBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 } };

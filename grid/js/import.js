@@ -16,7 +16,7 @@
 // is ignored). "Label:" is optional. Multiple-choice answers start with "-", and the
 // correct one with "*". A number answer is one line starting with "=": the value, then
 // optionally "± 0.05" or "± 1%" (how close an answer must be), then optionally a unit.
-// Lines starting with "#" are notes and are ignored. An optional "Feedback:" line is shown to
+// Lines starting with "#" are notes and are ignored, as is a line saying "END". An optional "Feedback:" line is shown to
 // a student who gets the question wrong (any wrong answer); without it they see the usual message.
 //
 // Periodic Table Quest only: "Elements: Na, K" (the question only appears on those
@@ -61,7 +61,7 @@
   function parse(text, type) {
     const ptq = type === 'ptq', pach = type === 'pachinko', maxMult = (W.GQ_SETTINGS && W.GQ_SETTINGS.pachinko && W.GQ_SETTINGS.pachinko.maxMultiplier) || 5;
     const blocks = String(text || '').replace(/\r\n?/g, '\n').split(/\n\s*\n/)
-      .map(b => b.split('\n').filter(l => !/^\s*#/.test(l)).join('\n').trim()).filter(Boolean);
+      .map(b => b.split('\n').filter(l => !/^\s*(#|end\W*\s*$)/i.test(l)).join('\n').trim()).filter(Boolean);
     const qs = [], errors = [];
     blocks.forEach((block, b) => {
       const n = b + 1, q = { text: '', kind: 'mc', opts: [], label: '', answer: null, unit: '', steal: false, els: [], mult: 1, fb: '' }, textLines = [];
@@ -154,13 +154,64 @@
 
   // Tidy a reply copied from an AI chat: drop code fences, bold/heading marks and any
   // chat text around the questions (any block without answer lines).
+  //
+  // Some chat tools (Copilot especially) ignore the code block and show the reply as
+  // formatted text; copying that loses the "-" before answers and puts a blank line
+  // after every line. The prompt asks for "Q:" before each question and "END" after the
+  // last, so the questions can be put back together: a "Q:" line starts a question, and
+  // if no answer in it starts with "-", its other plain lines are taken as wrong answers.
+  const META = /^(label|feedback|multiplier|mult|elements?|steal)\b|^[x×]\s*\d+$/i;
+  const MARK = /^([*\-–•]\s*\S|=\s*\S)/;
+  const QLINE = /^(q\s*\d*\s*[:.)])\s*\S/i;
   function cleanAI(text) {
-    const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n')
-      .filter(l => !/^\s*```/.test(l))
+    let lines = String(text || '').replace(/\r\n?/g, '\n').replace(/ /g, ' ').split('\n');
+    // If there is a code block, the questions are in it
+    const fences = lines.map((l, i) => /^\s*```/.test(l) ? i : -1).filter(i => i >= 0);
+    if (fences.length >= 2) {
+      const inside = [];
+      for (let k = 0; k + 1 < fences.length; k += 2) inside.push(...lines.slice(fences[k] + 1, fences[k + 1]), '');
+      if (inside.some(l => l.trim())) lines = inside;
+    }
+    lines = lines.filter(l => !/^\s*```/.test(l))
       .map(l => l.replace(/\*\*|__/g, '').replace(/^\s*#+\s+(?=\S)/, '').replace(/^(\s*)\*\s*(label|elements?|steal|multiplier|feedback)\b/i, '$1$2'));
-    const blocks = lines.join('\n').split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
-    const keep = blocks.filter(b => b.split('\n').some(l => /^\s*([*\-–•]\s*\S|=\s*\S)/.test(l)));
-    return { text: keep.join('\n\n'), dropped: blocks.length - keep.length };
+    // Anything after an "END" line is chat
+    const end = lines.findIndex(l => /^\s*end\W*\s*$/i.test(l));
+    if (end >= 0) lines = lines.slice(0, end);
+
+    const filled = lines.map(l => l.trim());
+    const nonEmpty = filled.filter(Boolean);
+    // Double spaced: no two lines with text are next to each other
+    const doubled = nonEmpty.length >= 4 && !filled.some((l, i) => l && filled[i + 1]);
+    const noDash = !nonEmpty.some(l => /^[\-–•]\s*\S/.test(l));
+    let blocks, rebuilt = false;
+    if (nonEmpty.some(l => QLINE.test(l)) && (doubled || noDash)) {
+      blocks = []; let cur = null;
+      for (const l of nonEmpty) {
+        if (QLINE.test(l)) blocks.push(cur = [l]);
+        else if (cur) cur.push(l);
+      }
+      rebuilt = true;
+    } else if (doubled) {
+      // No "Q:" lines: a question starts with a plain line after some answers that
+      // ends with "?" or ":", or is followed by a "Label:"-style line
+      blocks = []; let cur = null;
+      nonEmpty.forEach((l, i) => {
+        const plain = !META.test(l) && !MARK.test(l);
+        const hasAnswers = cur && cur.slice(1).some(x => !META.test(x));
+        if (plain && (!cur || (hasAnswers && (/[?:]\s*$/.test(l) || META.test(nonEmpty[i + 1] || ''))))) blocks.push(cur = [l]);
+        else cur.push(l);
+      });
+      rebuilt = true;
+    }
+    if (rebuilt) {
+      blocks = blocks.map(b => {
+        const dashless = !b.some(l => /^[\-–•]\s*\S/.test(l)) && !b.some(l => /^=\s*\S/.test(l));
+        return b.map((l, j) => j > 0 && dashless && !META.test(l) && !MARK.test(l) ? '- ' + l : l)
+          .filter((l, j) => j === 0 || l.length <= 220).join('\n');
+      });
+    } else blocks = lines.join('\n').split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+    const keep = blocks.filter(b => b.split('\n').some(l => MARK.test(l.trim())));
+    return { text: keep.map(b => b.replace(/^q\s*\d*\s*[:.)]\s*/i, '')).join('\n\n'), dropped: blocks.length - keep.length, rebuilt };
   }
 
   const api = { parse, toText, cleanAI, parseNumLine, numText };

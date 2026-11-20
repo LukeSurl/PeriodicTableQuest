@@ -2,6 +2,7 @@
 (async function () {
   const { $, esc, store, withDemo, isDemo, theme, toast, parseNum, fmtNum, parseEls, elSym, elsOf } = GQ;
   theme();
+  GQ.moreBelow();
   const KEY = isDemo() ? 'gq-mine-demo' : 'gq-mine';
   let discarded = false;   // an empty quiz deleted on leaving the page (see pagehide below)
   const [id, k] = location.hash.slice(1).split('.');

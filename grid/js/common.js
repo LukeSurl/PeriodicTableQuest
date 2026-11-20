@@ -167,6 +167,28 @@
     return `<svg viewBox="0 0 ${n + 2 * m} ${n + 2 * m}" shape-rendering="crispEdges" role="img" aria-label="QR code to join"><rect width="100%" height="100%" fill="#fff"/><path d="${path}" fill="${ink}"/></svg>`;
   }
 
+  // A "More below" button at the foot of the window whenever the page carries on out of
+  // sight (useful on small laptop screens). Clicking it scrolls down most of a screen.
+  function moreBelow() {
+    if (document.querySelector('.morebelow')) return;
+    const b = document.createElement('button');
+    b.className = 'morebelow'; b.type = 'button';
+    b.innerHTML = 'More below <span aria-hidden="true">↓</span>';
+    b.onclick = () => window.scrollBy({ top: Math.round(innerHeight * 0.75), behavior: 'smooth' });
+    document.body.appendChild(b);
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const left = document.documentElement.scrollHeight - (scrollY + innerHeight);
+      b.classList.toggle('show', left > 120);
+    };
+    const later = () => { if (!raf) raf = requestAnimationFrame(update); };
+    addEventListener('scroll', later, { passive: true });
+    addEventListener('resize', later);
+    if (window.ResizeObserver) new ResizeObserver(later).observe(document.body);
+    update();
+  }
+
   let toastT;
   function toast(msg) {
     let t = document.querySelector('.toast');
@@ -174,5 +196,5 @@
     t.innerHTML = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 2800);
   }
 
-  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, score, winner, resultText, rulesList, qrSvg, toast };
+  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, score, winner, resultText, rulesList, qrSvg, toast, moreBelow };
 })();
