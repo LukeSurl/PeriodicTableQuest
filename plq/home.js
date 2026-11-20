@@ -120,6 +120,24 @@
     });
   }
   draw();
+  // Quizzes made here but left empty (e.g. the editor closed before its clean-up finished):
+  // after an hour, delete them quietly and take them off the list
+  (async function sweep() {
+    const old = store.get(GKEY, []).filter(m => (!m.title || m.title === 'Untitled quiz') && m.at && Date.now() - m.at > 3600e3);
+    if (!old.length) return;
+    try {
+      backend = backend || await GQ_BACKEND.create();
+      for (const m of old) {
+        const q = await backend.getQuiz(m.id).catch(() => undefined);
+        if (q === undefined) continue;
+        const empty = !q || ((!q.title || q.title === 'Untitled quiz') && q.qs.every(x => !(x.text || '').trim() && !x.opts.some(o => (o || '').trim()) && !x.img && !(x.fb || '').trim()));
+        if (!empty) continue;
+        if (q) await backend.deleteQuiz(m.id, m.k).catch(() => {});
+        store.set(GKEY, store.get(GKEY, []).filter(x => x.id !== m.id));
+      }
+      draw();
+    } catch (e) { /* offline: try again next visit */ }
+  })();
   window.addEventListener('storage', draw);   // e.g. a quiz renamed in another tab
   window.addEventListener('pageshow', draw);  // coming back with the browser's Back button
 

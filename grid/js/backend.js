@@ -116,6 +116,7 @@
         await timeout(D.remove(r(`quizzes/${id}`)));
       },
       watchQuiz(id, cb) { return D.onValue(r(`quizzes/${id}`), s => cb(s.exists() ? cleanQuiz(s.val()) : null)); },
+      async getQuiz(id) { const s = await timeout(D.get(r(`quizzes/${id}`))); return s.exists() ? cleanQuiz(s.val()) : null; },
 
       // ----- Games -----
       newRunCode,
@@ -346,6 +347,7 @@
         (quizWatchers[id] || []).forEach(cb => cb(cleanQuiz(q[id].quiz)));
       },
       async deleteQuiz(id) { const q = all(); delete q[id]; putAll(q); },
+      async getQuiz(id) { return all()[id] ? cleanQuiz(all()[id].quiz) : null; },
       watchQuiz(id, cb) {
         (quizWatchers[id] = quizWatchers[id] || []).push(cb);
         setTimeout(() => cb(all()[id] ? cleanQuiz(all()[id].quiz) : null), 0);

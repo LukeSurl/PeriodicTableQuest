@@ -3,6 +3,7 @@
   const { $, esc, store, withDemo, isDemo, theme, toast, parseNum, fmtNum, parseEls, elSym, elsOf } = GQ;
   theme();
   const KEY = isDemo() ? 'gq-mine-demo' : 'gq-mine';
+  let discarded = false;   // an empty quiz deleted on leaving the page (see pagehide below)
   const [id, k] = location.hash.slice(1).split('.');
   const problem = html => { $('problem').innerHTML = html; $('problem').classList.remove('hidden'); $('saveState').textContent = ''; };
   const home = withDemo('../');
@@ -58,6 +59,7 @@
   function blankQ() { return { text: '', kind: 'mc', opts: ['', '', '', ''], label: '', img: '', unit: '', steal: false, els: {}, mult: 1 }; }
   const multTag = q => (pach && +q.mult > 1 ? ` <span class="stealtag multtag">×${+q.mult}</span>` : '');
   function remember() {
+    if (discarded) return;
     const mine = store.get(KEY, []).filter(m => m.id !== id);
     mine.unshift({ id, k, title: quiz.title || 'Untitled quiz', type: S.type, at: Date.now() });
     store.set(KEY, mine.slice(0, 50));
@@ -86,7 +88,18 @@
     }
     saving = false;
   }
-  window.addEventListener('beforeunload', ev => { if (dirty || saving) { ev.preventDefault(); ev.returnValue = ''; } });
+  // Nothing added at all (no title, no question content)? Then leaving quietly deletes the quiz,
+  // rather than leaving an empty "Untitled quiz" behind.
+  const isEmpty = () => (!quiz.title || quiz.title === 'Untitled quiz') && quiz.qs.every((q, i) => isBlank(q, i) && !(q.fb || '').trim());
+  window.addEventListener('beforeunload', ev => { if ((dirty || saving) && !isEmpty()) { ev.preventDefault(); ev.returnValue = ''; } });
+  window.addEventListener('pagehide', () => {
+    if (!isEmpty() || discarded) return;
+    discarded = true; clearTimeout(timer);
+    store.set(KEY, store.get(KEY, []).filter(m => m.id !== id));
+    B.deleteQuiz(id, k).catch(() => {});
+  });
+  // Coming back with the browser's Back button after leaving an empty quiz: put it back on the list
+  window.addEventListener('pageshow', ev => { if (ev.persisted && discarded) { location.reload(); } });
   document.addEventListener('keydown', ev => { if ((ev.ctrlKey || ev.metaKey) && ev.key === 's') { ev.preventDefault(); save(); } });
   state('All changes saved');
 
