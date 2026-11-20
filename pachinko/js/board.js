@@ -76,15 +76,11 @@
     return null;
   }
 
-  // Each question always gets the same decoration: a shape chosen from a hash of its text.
-  // Every shape looks different when turned, so the spin shows.
+  // Each question gets a shape in order: question 1 the first shape, question 2 the second, and so
+  // on, starting again after the last. Every shape looks different when turned, so the spin shows.
   const SHAPE_NAMES = ['Stripe', 'Cross', 'Triangle', 'Square', 'Half disc', 'Star', 'Crescent', 'Heart', 'Lightning bolt', 'Bow tie'];
   const SHAPES = SHAPE_NAMES.length;
-  function shapeFor(text) {
-    let h = 5381;
-    for (const c of String(text || '')) h = ((h * 33) ^ c.codePointAt(0)) >>> 0;
-    return h % SHAPES;
-  }
+  const shapeFor = i => ((+i || 0) % SHAPES + SHAPES) % SHAPES;   // i = the question's position, from 0
   // Draw a shape in white on a disc of radius r centred at the origin (already rotated)
   function decorate(g, shape, r) {
     g.fillStyle = '#fff'; g.strokeStyle = '#fff'; g.lineCap = 'round'; g.lineJoin = 'round';

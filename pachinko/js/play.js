@@ -124,16 +124,15 @@
          <p class="hint">Type a number. For standard form, type e.g. 6.02e23 or 6.02 × 10^23.</p>`
       : `<div class="opts">${order.map(j => `<button class="opt" data-j="${j}">${esc(q.opts[j])}</button>`).join('')}</div>`;
     $('sheet').innerHTML = `
+      <canvas class="ballprev" id="ballCv" width="120" height="120" aria-label="Your ball for this question"></canvas>
       <p class="qhead"><b>Question</b> · Team ${esc(team(myTeam).name)}${+q.mult > 1 ? `<span class="multnote">Worth ×${+q.mult}</span>` : ''}</p>
-      <div class="ballprev"><canvas id="ballCv" width="96" height="96" aria-hidden="true"></canvas>
-        <span>Get it right and this ball drops on the big screen${+q.mult > 1 ? `, worth ×${+q.mult} the points where it lands` : ''}. Look out for it!</span></div>
       ${q.img ? `<img class="qimg" src="${q.img}" alt="">` : ''}
       <div class="q">${esc(q.text).replace(/\n/g, '<br>')}</div>
       ${body}
       <div id="res"><button class="btn close" id="closeBtn">Skip for now</button></div>`;
     $('sheetBg').classList.remove('hidden');
     $('closeBtn').onclick = close;
-    spinPreview(q);
+    drawPreview(q);
     if (GQ.isNum(q)) {
       $('numform').onsubmit = ev => {
         ev.preventDefault();
@@ -192,19 +191,12 @@
     });
   }
 
-  // The ball this question would drop, turning slowly, so the student can spot it on the big screen
-  let spinning = 0;
-  function spinPreview(q) {
-    const cv = $('ballCv'), id = ++spinning;
+  // The ball a right answer to this question drops, the right way up, in the sheet's corner
+  function drawPreview(q) {
+    const cv = $('ballCv'), g = cv.getContext('2d');
     const colour = getComputedStyle(document.documentElement).getPropertyValue('--t' + myTeam).trim();
-    const shape = PACH.shapeFor(q.text), mult = +q.mult || 1, t0 = performance.now();
-    (function frame(now) {
-      if (id !== spinning || !cv.isConnected) return;
-      const g = cv.getContext('2d');
-      g.clearRect(0, 0, cv.width, cv.height);
-      PACH.drawBall(g, cv.width / 2, cv.height / 2, cv.width * 0.44, colour, mult, shape, (now - t0) / 1000 * 1.6);
-      requestAnimationFrame(frame);
-    })(t0);
+    g.clearRect(0, 0, cv.width, cv.height);
+    PACH.drawBall(g, cv.width / 2, cv.height / 2, cv.width * 0.44, colour, +q.mult || 1, PACH.shapeFor(q.i), 0);
   }
 
   function close() { if (busy) return; sheetDrop = null; $('sheetBg').classList.add('hidden'); update(); }
