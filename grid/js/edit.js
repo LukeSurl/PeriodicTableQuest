@@ -417,9 +417,9 @@
   // ---------- Import and export as text ----------
   function showImportHelp() {
     $('importHelp').innerHTML = `Put a blank line between questions. Write the question, then each answer on its own line starting with <code>-</code>. Start the correct answer with <code>*</code> instead. For a number answer, write one line starting with <code>=</code>: the value, then optionally how close an answer must be (<code>± 0.1</code> or <code>± 1%</code>) and a unit. An optional <code>Feedback:</code> line is shown to a student who answers wrongly. `
-      + (pach ? `A <code>Multiplier: 2</code> line (up to ×${S.maxMultiplier}) makes a question's ball worth that many times its points. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`
-        : ptq ? 'An <code>Elements:</code> line ties a question to those elements, and a line saying <code>Steal</code> makes it a steal question. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.'
-        : 'A <code>Label:</code> line for the big screen is optional. Pachinko\'s <code>Multiplier:</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.');
+      + (pach ? `A <code>Multiplier: 2</code> line (up to ×${S.maxMultiplier}) makes a question's ball worth that many times its points. Periodic Table Quest's <code>Elements:</code> and <code>Steal</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`
+        : ptq ? 'An <code>Elements:</code> line ties a question to those elements, and a line saying <code>Steal</code> makes it a steal question. Pachinko\'s <code>Multiplier:</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.'
+        : 'A <code>Label:</code> line for the big screen is optional. Periodic Table Quest\'s <code>Elements:</code> and <code>Steal</code> lines and Pachinko\'s <code>Multiplier:</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.');
     $('importEg').textContent = pach
       ? 'What is the C–C bond length in benzene?\nFeedback: The bonds are all the same length, between a single and a double bond.\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nMultiplier: 2\n= 0.50 ± 0.005 mol'
       : ptq

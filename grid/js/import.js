@@ -21,7 +21,8 @@
 //
 // Periodic Table Quest only: "Elements: Na, K" (the question only appears on those
 // elements; without it, it can appear on any) and "Steal" (a harder question, used
-// for taking an element from the other team).
+// for taking an element from the other team). Other quiz types accept these lines and
+// ignore them.
 //
 // Pachinko only: "Multiplier: 2" (or "×2") makes a right answer's ball worth double.
 // Other quiz types accept the line and ignore it, so questions move freely between them.
@@ -65,7 +66,7 @@
     const qs = [], errors = [];
     blocks.forEach((block, b) => {
       const n = b + 1, q = { text: '', kind: 'mc', opts: [], label: '', answer: null, unit: '', steal: false, els: [], mult: 1, fb: '' }, textLines = [];
-      let numLines = 0, badNum = '', badEls = [], ptqOnly = '', badMult = '';
+      let numLines = 0, badNum = '', badEls = [], badMult = '';
       for (const raw of block.split('\n')) {
         const line = raw.trim();
         if (!line) continue;
@@ -77,12 +78,10 @@
           if (Number.isInteger(v) && v >= 1 && v <= maxMult) q.mult = v; else badMult = m[1];
         }
         else if ((m = line.match(/^steal(?:\s+question)?\s*(?::\s*(\S+))?\s*$/i))) {
-          q.steal = !m[1] || /^(y|yes|true|1)$/i.test(m[1]);
-          if (!ptq) ptqOnly = 'Steal';
+          // Only Periodic Table Quest uses Steal and Elements; other types accept and ignore them
+          if (ptq) q.steal = !m[1] || /^(y|yes|true|1)$/i.test(m[1]);
         } else if ((m = line.match(/^elements?\s*:\s*(.*)$/i))) {
-          const r = G().parseEls(m[1]);
-          q.els = r.zs; badEls = r.bad;
-          if (!ptq) ptqOnly = 'Elements';
+          if (ptq) { const r = G().parseEls(m[1]); q.els = r.zs; badEls = r.bad; }
         } else if ((m = line.match(/^=\s*(.*)$/))) {
           numLines++;
           const r = parseNumLine(m[1]);
@@ -105,7 +104,6 @@
       if (!q.text) errors.push(`${where}: there is no question text above the answers.`);
       if (badMult && pach) errors.push(`${where}: the multiplier "${badMult}" should be a whole number from 1 to ${maxMult}.`);
       if (!pach) q.mult = 1;
-      if (ptqOnly) errors.push(`${where}: "${ptqOnly}" lines are only for Periodic Table Quest quizzes. Remove the line.`);
       if (badEls.length) errors.push(`${where}: ${badEls.map(x => `"${x}"`).join(', ')} ${badEls.length === 1 ? 'isn\'t an element symbol' : 'aren\'t element symbols'}.`);
       if (numLines) {
         if (badNum) errors.push(`${where}: couldn't read the number in "= ${badNum}". Write e.g. "= 35.5", "= 35.5 ± 0.1 g mol⁻¹" or "= 6.02 × 10^23 ± 1%".`);
