@@ -144,7 +144,8 @@
 
   // A team wins a question by having more correct answers on it. The overall score is
   // questions won (a, b), where a question with a multiplier counts that many times;
-  // total correct answers (ca, cb) break a tie. mult: whether any question has a multiplier.
+  // equal scores are a draw (no tie-break). ca, cb: total correct answers, shown for interest.
+  // mult: whether any question has a multiplier.
   function score(pts, quiz) {
     let a = 0, b = 0, ca = 0, cb = 0;
     const qs = (quiz && quiz.qs) || [];
@@ -154,14 +155,13 @@
     });
     return { a, b, ca, cb, mult: hasMult(quiz) };
   }
-  const winner = s => (s.a !== s.b ? (s.a > s.b ? 'a' : 'b') : s.ca !== s.cb ? (s.ca > s.cb ? 'a' : 'b') : null);
+  const winner = s => (s.a !== s.b ? (s.a > s.b ? 'a' : 'b') : null);
   // The result in words, e.g. for the end of the game
   function resultText(s) {
     const w = winner(s), A = esc(team('a').name), Bn = esc(team('b').name);
     const each = s.mult ? `${s.a} point${s.a === 1 ? '' : 's'} each` : `${s.a} question${s.a === 1 ? '' : 's'} won each`;
-    if (!w) return { w, head: 'It\'s a draw!', sub: `${each}, and ${s.ca} correct answer${s.ca === 1 ? '' : 's'} each` };
-    if (s.a !== s.b) return { w, head: `${esc(team(w).name)} wins!`, sub: `${s.mult ? 'Points' : 'Questions won'}: ${A} ${s.a} – ${s.b} ${Bn}` };
-    return { w, head: `${esc(team(w).name)} wins!`, sub: `${each}, so it went to correct answers: ${A} ${s.ca} – ${s.cb} ${Bn}` };
+    if (!w) return { w, head: 'It\'s a draw!', sub: each };
+    return { w, head: `${esc(team(w).name)} wins!`, sub: `${s.mult ? 'Points' : 'Questions won'}: ${A} ${s.a} – ${s.b} ${Bn}` };
   }
   // How to play, in the team names from settings
   const rulesList = quiz => `<ul class="rules">
