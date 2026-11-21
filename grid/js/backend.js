@@ -50,7 +50,7 @@
       if (q.steal) o.steal = true;
       if (q.fb && String(q.fb).trim()) o.fb = String(q.fb).trim().slice(0, 400);
       if (q.els && Object.keys(q.els).length) o.els = elsObj(q.els);
-      if (quiz.type === 'pachinko' && +q.mult > 1) o.mult = Math.min(10, Math.round(+q.mult));
+      if (quiz.type !== 'ptq' && +q.mult > 1) o.mult = Math.min(10, Math.round(+q.mult));
       return o;
     }) });
   // Answers ready to store: { a: {i: option}, n: {i: {v, tol, pct}}, lo: {i: …}, hi: {i: …} }

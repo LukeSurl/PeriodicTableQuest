@@ -35,7 +35,7 @@
 <script>
   document.getElementById('h').textContent = GQ_SETTINGS.title + ': demo';
   // Bump the number when the demo questions change, so browsers that ran an older demo get the new one
-  const ID = 'demoquiz02', K = 'demo-only-edit-key-00000';
+  const ID = 'demoquiz03', K = 'demo-only-edit-key-00000';
   const pic = f => 'demo-pics/' + f;
   const quiz = { title: 'Demo: Stage 1 biosciences warm-up', qs: [
     { text: 'What is this molecule?', opts: ['Glucose', 'Fructose', 'Ribose', 'Sucrose'], label: 'Mystery molecule', img: pic('glucose.png'), ready: true },
@@ -45,14 +45,14 @@
     { text: 'Which bond links amino acids together in a protein?', opts: ['Peptide bond', 'Glycosidic bond', 'Phosphodiester bond', 'Hydrogen bond'], label: 'Proteins', img: '', ready: true },
     { text: 'Roughly what percentage of a normal distribution lies in the shaded region (within one standard deviation of the mean)?', opts: ['50%', '68%', '95%', '99.7%'], label: 'Bell curve', img: pic('normal.png'), ready: true },
     { text: 'Roughly what fraction of the energy at one trophic level passes to the next?', opts: ['1%', '10%', '50%', '90%'], label: 'Food chains', img: '', ready: true },
-    { text: 'A solution has [H⁺] = 10⁻³ mol dm⁻³. What is its pH?', opts: ['−3', '0.001', '3', '11'], label: 'pH', img: '', ready: true }
+    { text: 'A solution has [H⁺] = 10⁻³ mol dm⁻³. What is its pH?', opts: ['−3', '0.001', '3', '11'], label: 'pH', img: '', mult: 2, ready: true }
   ] };
   const answers = [0, 2, 3, 2, 0, 1, 1, 2];
   function seed(force) {
     try {
       const all = JSON.parse(localStorage.getItem('gq-demo-quizzes') || '{}');
       if (force || !all[ID]) { all[ID] = { k: K, quiz, answers }; localStorage.setItem('gq-demo-quizzes', JSON.stringify(all)); }
-      const mine = JSON.parse(localStorage.getItem('gq-mine-demo') || '[]').filter(m => m.id !== ID && m.id !== 'demoquiz01');
+      const mine = JSON.parse(localStorage.getItem('gq-mine-demo') || '[]').filter(m => m.id !== ID && m.id !== 'demoquiz01' && m.id !== 'demoquiz02');
       mine.unshift({ id: ID, k: K, title: all[ID].quiz.title }); localStorage.setItem('gq-mine-demo', JSON.stringify(mine));
     } catch (e) { document.querySelector('.lead').insertAdjacentHTML('beforeend', '<br><b>This browser is blocking storage, so the demo can\'t run here.</b>'); }
   }

@@ -57,7 +57,7 @@
   remember();
 
   function blankQ() { return { text: '', kind: 'mc', opts: ['', '', '', ''], label: '', img: '', unit: '', steal: false, els: {}, mult: 1 }; }
-  const multTag = q => (pach && +q.mult > 1 ? ` <span class="stealtag multtag">×${+q.mult}</span>` : '');
+  const multTag = q => (!ptq && +q.mult > 1 ? ` <span class="stealtag multtag">×${+q.mult}</span>` : '');
   function remember() {
     if (discarded) return;
     const mine = store.get(KEY, []).filter(m => m.id !== id);
@@ -191,7 +191,9 @@
       <select id="m${i}" data-f="mult" class="multsel">${Array.from({ length: S.maxMultiplier }, (_, k) => `<option value="${k + 1}" ${+q.mult === k + 1 ? 'selected' : ''}>${k ? '×' + (k + 1) : '×1 (normal)'}</option>`).join('')}</select>`
       : `
       <label class="lbl" for="l${i}">On the big screen <small>optional; without these the tile shows the question itself</small></label>
-      <input type="text" id="l${i}" data-f="label" value="${esc(q.label)}" maxlength="${S.labelLength}" placeholder="Short label, e.g. Bond angles">`}
+      <input type="text" id="l${i}" data-f="label" value="${esc(q.label)}" maxlength="${S.labelLength}" placeholder="Short label, e.g. Bond angles">
+      <label class="lbl" for="m${i}">Multiplier <small>for tricky questions: the team that wins this question gets this many questions' worth</small></label>
+      <select id="m${i}" data-f="mult" class="multsel">${Array.from({ length: S.maxMultiplier }, (_, k) => `<option value="${k + 1}" ${+q.mult === k + 1 ? 'selected' : ''}>${k ? '×' + (k + 1) : '×1 (normal)'}</option>`).join('')}</select>`}
       <label class="lbl" for="f${i}">Feedback for a wrong answer <small>optional; shown to a student who gets it wrong. Leave empty for the usual "Not quite" message. Phones can read this, so don't give the answer away.</small></label>
       <textarea id="f${i}" data-f="fb" maxlength="400" rows="2" placeholder="e.g. Remember that isotopes differ only in their number of neutrons.">${esc(q.fb || '')}</textarea>
       <div class="picbox" style="margin-top:.5rem">
@@ -418,8 +420,8 @@
   function showImportHelp() {
     $('importHelp').innerHTML = `Put a blank line between questions. Write the question, then each answer on its own line starting with <code>-</code>. Start the correct answer with <code>*</code> instead. For a number answer, write one line starting with <code>=</code>: the value, then optionally how close an answer must be (<code>± 0.1</code> or <code>± 1%</code>) and a unit. An optional <code>Feedback:</code> line is shown to a student who answers wrongly. `
       + (pach ? `A <code>Multiplier: 2</code> line (up to ×${S.maxMultiplier}) makes a question's ball worth that many times its points. Periodic Table Quest's <code>Elements:</code> and <code>Steal</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`
-        : ptq ? 'An <code>Elements:</code> line ties a question to those elements, and a line saying <code>Steal</code> makes it a steal question. Pachinko\'s <code>Multiplier:</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.'
-        : 'A <code>Label:</code> line for the big screen is optional. Periodic Table Quest\'s <code>Elements:</code> and <code>Steal</code> lines and Pachinko\'s <code>Multiplier:</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.');
+        : ptq ? 'An <code>Elements:</code> line ties a question to those elements, and a line saying <code>Steal</code> makes it a steal question. <code>Multiplier:</code> lines (used by Quiz Grid and Pachinko) are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.'
+        : `A <code>Label:</code> line for the big screen is optional. A <code>Multiplier: 2</code> line (up to ×${S.maxMultiplier}) makes winning a question count as that many questions. Periodic Table Quest's <code>Elements:</code> and <code>Steal</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`);
     $('importEg').textContent = pach
       ? 'What is the C–C bond length in benzene?\nFeedback: The bonds are all the same length, between a single and a double bond.\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nMultiplier: 2\n= 0.50 ± 0.005 mol'
       : ptq

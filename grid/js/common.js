@@ -88,13 +88,18 @@
   const fbHtml = q => (q && q.fb && String(q.fb).trim() ? `<p class="fbtext">${esc(String(q.fb).trim())}</p>` : '');
 
   // What a tile shows: picture and/or short label, otherwise the question itself
-  function tileInner(q, n) {
+  function tileInner(q, n, noMult) {
+    const m = multOf(q), mult = m > 1 && !noMult ? `<span class="gmult" title="Counts ${m} times">×${m}</span>` : '';
     const img = q.img ? `<img src="${q.img}" alt="">` : '';
     const longest = q.label ? Math.max(...q.label.split(/\s+/).map(w => w.length)) : 0;
     const label = q.label ? `<span class="glabel" style="--w:${Math.max(longest, 7)}">${esc(q.label)}</span>` : '';
     const text = !q.img && !q.label ? `<span class="gtext">${esc(q.text)}</span>` : '';
-    return `<span class="gnum">${n}</span><span class="gbody${q.img ? ' hasimg' : ''}">${img}${label}${text}</span>`;
+    return `<span class="gnum">${n}${mult}</span><span class="gbody${q.img ? ' hasimg' : ''}">${img}${label}${text}</span>`;
   }
+
+  // How many times a question counts (Quiz Grid and Pachinko multipliers); 1 for most
+  const multOf = q => (q && +q.mult > 1 ? Math.round(+q.mult) : 1);
+  const hasMult = quiz => playable(quiz).some(q => multOf(q) > 1);
 
   // Points on one question, per team. pts = { qIndex: { uid: { t: 'a' or 'b', at } } }
   function counts(p) {
@@ -103,10 +108,10 @@
     return c;
   }
 
-  // Build or refresh a grid of tiles
+  // Build or refresh a grid of tiles (opts.noMult: no ×2 badges, e.g. where Pachinko draws its own)
   function drawGrid(container, quiz, pts, opts = {}) {
     const qs = playable(quiz);
-    const key = JSON.stringify(qs.map(q => [q.i, q.text, q.label, q.img ? q.img.length : 0]));
+    const key = JSON.stringify(qs.map(q => [q.i, q.text, q.label, q.img ? q.img.length : 0, multOf(q)]));
     if (container.dataset.key !== key) {
       container.dataset.key = key;
       container.classList.add('ggrid');
@@ -115,7 +120,7 @@
       container.style.setProperty('--cols', cols);
       container.style.setProperty('--rows', Math.ceil(n / cols));
       container.innerHTML = qs.map((q, k) => `<${opts.onTap ? 'button type="button"' : 'div'} class="gtile" data-i="${q.i}">
-          ${tileInner(q, k + 1)}<span class="gflags"><span class="fa"></span><span class="fb"></span></span></${opts.onTap ? 'button' : 'div'}>`).join('')
+          ${tileInner(q, k + 1, opts.noMult)}<span class="gflags"><span class="fa"></span><span class="fb"></span></span></${opts.onTap ? 'button' : 'div'}>`).join('')
         || '<p class="gempty">No questions yet.</p>';
       if (opts.onTap) container.querySelectorAll('.gtile').forEach(b => b.onclick = () => opts.onTap(+b.dataset.i));
     }
@@ -138,25 +143,32 @@
   }
 
   // A team wins a question by having more correct answers on it. The overall score is
-  // questions won (a, b); total correct answers (ca, cb) break a tie.
-  function score(pts) {
+  // questions won (a, b), where a question with a multiplier counts that many times;
+  // total correct answers (ca, cb) break a tie. mult: whether any question has a multiplier.
+  function score(pts, quiz) {
     let a = 0, b = 0, ca = 0, cb = 0;
-    Object.values(pts || {}).forEach(p => { const c = counts(p); ca += c.a; cb += c.b; if (c.a > c.b) a++; else if (c.b > c.a) b++; });
-    return { a, b, ca, cb };
+    const qs = (quiz && quiz.qs) || [];
+    Object.keys(pts || {}).forEach(i => {
+      const c = counts(pts[i]), m = multOf(qs[i]);
+      ca += c.a; cb += c.b; if (c.a > c.b) a += m; else if (c.b > c.a) b += m;
+    });
+    return { a, b, ca, cb, mult: hasMult(quiz) };
   }
   const winner = s => (s.a !== s.b ? (s.a > s.b ? 'a' : 'b') : s.ca !== s.cb ? (s.ca > s.cb ? 'a' : 'b') : null);
   // The result in words, e.g. for the end of the game
   function resultText(s) {
     const w = winner(s), A = esc(team('a').name), Bn = esc(team('b').name);
-    if (!w) return { w, head: 'It\'s a draw!', sub: `${s.a} question${s.a === 1 ? '' : 's'} won each, and ${s.ca} correct answer${s.ca === 1 ? '' : 's'} each` };
-    if (s.a !== s.b) return { w, head: `${esc(team(w).name)} wins!`, sub: `Questions won: ${A} ${s.a} – ${s.b} ${Bn}` };
-    return { w, head: `${esc(team(w).name)} wins!`, sub: `${s.a} question${s.a === 1 ? '' : 's'} won each, so it went to correct answers: ${A} ${s.ca} – ${s.cb} ${Bn}` };
+    const each = s.mult ? `${s.a} point${s.a === 1 ? '' : 's'} each` : `${s.a} question${s.a === 1 ? '' : 's'} won each`;
+    if (!w) return { w, head: 'It\'s a draw!', sub: `${each}, and ${s.ca} correct answer${s.ca === 1 ? '' : 's'} each` };
+    if (s.a !== s.b) return { w, head: `${esc(team(w).name)} wins!`, sub: `${s.mult ? 'Points' : 'Questions won'}: ${A} ${s.a} – ${s.b} ${Bn}` };
+    return { w, head: `${esc(team(w).name)} wins!`, sub: `${each}, so it went to correct answers: ${A} ${s.ca} – ${s.cb} ${Bn}` };
   }
   // How to play, in the team names from settings
-  const rulesList = () => `<ul class="rules">
+  const rulesList = quiz => `<ul class="rules">
       <li>You'll be put into Team <b style="color:var(--ta)">${esc(team('a').name)}</b> or Team <b style="color:var(--tb)">${esc(team('b').name)}</b> at random.</li>
       <li>The team with more correct answers on a question holds that question.</li>
-      <li>The team that holds the most questions at the end wins!</li></ul>`;
+      <li>The team that holds the most questions at the end wins!</li>${hasMult(quiz) ? `
+      <li>A question marked ×2 counts as two questions, ×3 as three, and so on.</li>` : ''}</ul>`;
 
   function qrSvg(url) {
     const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
@@ -174,5 +186,5 @@
     t.innerHTML = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 2800);
   }
 
-  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, score, winner, resultText, rulesList, qrSvg, toast };
+  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, multOf, hasMult, score, winner, resultText, rulesList, qrSvg, toast };
 })();

@@ -19,6 +19,7 @@ button.gtile:active { transform: scale(.97); }
   font-weight: 800; font-size: max(.75rem, 9cqh); line-height: 1; color: var(--muted);
   background: #ffffffcc; border-radius: 6px; padding: 2px 5px;
 }
+.gmult { display: inline-block; margin-left: .3em; background: #FFC828; color: #3a2a00; border-radius: 99px; padding: 0 .35em; box-shadow: 0 0 6px #FFC828aa; }
 .gbody { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2cqh; padding: 8cqh 6cqw 3cqh; }
 .gbody img { flex: 1; min-height: 0; max-width: 100%; object-fit: contain; }
 .glabel { font-weight: 700; font-size: clamp(.7rem, min(15cqh, calc(150cqw / var(--w, 7))), 3.2rem); line-height: 1.1; overflow-wrap: anywhere; hyphens: auto; }

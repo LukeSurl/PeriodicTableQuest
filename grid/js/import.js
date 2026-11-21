@@ -24,8 +24,9 @@
 // for taking an element from the other team). Other quiz types accept these lines and
 // ignore them.
 //
-// Pachinko only: "Multiplier: 2" (or "×2") makes a right answer's ball worth double.
-// Other quiz types accept the line and ignore it, so questions move freely between them.
+// Quiz Grid and Pachinko: "Multiplier: 2" (or "×2") makes a question count double (in Quiz
+// Grid, winning it counts as two questions; in Pachinko, its ball scores double points).
+// Periodic Table Quest accepts the line and ignores it, so questions move freely between types.
 (function () {
   const W = typeof window !== 'undefined' ? window : globalThis;
   const S = W.GQ_SETTINGS || { maxQuestions: 30, maxOptions: 6, labelLength: 40 };
@@ -60,7 +61,7 @@
   }
 
   function parse(text, type) {
-    const ptq = type === 'ptq', pach = type === 'pachinko', maxMult = (W.GQ_SETTINGS && W.GQ_SETTINGS.pachinko && W.GQ_SETTINGS.pachinko.maxMultiplier) || 5;
+    const ptq = type === 'ptq', pach = type === 'pachinko', maxMult = (W.GQ_SETTINGS && W.GQ_SETTINGS.maxMultiplier) || 5;
     const blocks = String(text || '').replace(/\r\n?/g, '\n').split(/\n\s*\n/)
       .map(b => b.split('\n').filter(l => !/^\s*#/.test(l)).join('\n').trim()).filter(Boolean);
     const qs = [], errors = [];
@@ -102,8 +103,8 @@
       const short = q.text ? `"${q.text.slice(0, 40)}${q.text.length > 40 ? '…' : ''}"` : '';
       const where = `Question ${n}${short ? ' ' + short : ''}`;
       if (!q.text) errors.push(`${where}: there is no question text above the answers.`);
-      if (badMult && pach) errors.push(`${where}: the multiplier "${badMult}" should be a whole number from 1 to ${maxMult}.`);
-      if (!pach) q.mult = 1;
+      if (badMult && !ptq) errors.push(`${where}: the multiplier "${badMult}" should be a whole number from 1 to ${maxMult}.`);
+      if (ptq) q.mult = 1;
       if (badEls.length) errors.push(`${where}: ${badEls.map(x => `"${x}"`).join(', ')} ${badEls.length === 1 ? 'isn\'t an element symbol' : 'aren\'t element symbols'}.`);
       if (numLines) {
         if (badNum) errors.push(`${where}: couldn't read the number in "= ${badNum}". Write e.g. "= 35.5", "= 35.5 ± 0.1 g mol⁻¹" or "= 6.02 × 10^23 ± 1%".`);
@@ -141,7 +142,7 @@
         ...(q.label && q.label.trim() ? ['Label: ' + q.label.trim()] : []),
         ...(els.length ? ['Elements: ' + els.join(', ')] : []),
         ...(type === 'ptq' && q.steal ? ['Steal'] : []),
-        ...(type === 'pachinko' && +q.mult > 1 ? ['Multiplier: ' + Math.round(+q.mult)] : []),
+        ...(type !== 'ptq' && +q.mult > 1 ? ['Multiplier: ' + Math.round(+q.mult)] : []),
         ...(q.fb && String(q.fb).trim() ? ['Feedback: ' + String(q.fb).trim().replace(/\s*\n\s*/g, ' ')] : []),
         ...(q.kind === 'num'
           ? [answers[i] && isFinite(answers[i].v) ? '= ' + numText(answers[i], (q.unit || '').trim()) : '= ?']

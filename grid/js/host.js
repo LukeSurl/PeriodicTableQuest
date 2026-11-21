@@ -7,7 +7,6 @@
   $('title').textContent = document.title = S.title;
   $('nameA').textContent = team('a').name; $('nameB').textContent = team('b').name;
   $('mins').value = S.defaultMinutes;
-  $('howto').innerHTML = '<b>How to play</b>' + GQ.rulesList();
   const fatal = html => { $('overlay').classList.remove('hidden'); $('overlayBox').innerHTML = `<h2>Problem</h2><p>${html}</p>`; };
   if (!quizId) return fatal('This page needs a quiz\'s present link. You\'ll find it on the quiz\'s edit page.');
 
@@ -24,6 +23,9 @@
     if (!q) return fatal('No quiz found for this link. It may have been deleted, or the link was copied incompletely.');
     if (q.type && q.type !== 'grid') return fatal(`This quiz isn't a Quiz Grid quiz. <a href="../${GQ_SETTINGS.hostPages[q.type]}${location.search}">Open it in the right game</a>.`);
     $('topic').textContent = q.title || '';
+    $('howto').innerHTML = '<b>How to play</b>' + GQ.rulesList(q);
+    $('scorecap').textContent = GQ.hasMult(q) ? 'Questions won (counting multipliers)' : 'Questions won';
+    const s = score(state.pts, q); $('scoreA').textContent = s.a; $('scoreB').textContent = s.b;
     draw(false);
     if (state.meta) renderMeta();
   });
@@ -75,13 +77,13 @@
     if (part === 'pts' || part === 'meta') {
       draw(!first).forEach(feedLine);
       if (part === 'pts') first = false;
-      const s = score(state.pts);
+      const s = score(state.pts, quiz);
       $('scoreA').textContent = s.a; $('scoreB').textContent = s.b;
     }
     if (part === 'players' || part === 'pts') {
       let a = 0, b = 0;
       Object.values(state.players || {}).forEach(p => p.t === 'a' ? a++ : b++);
-      const s = score(state.pts), pl = n => `${n} player${n === 1 ? '' : 's'}`;
+      const s = score(state.pts, quiz), pl = n => `${n} player${n === 1 ? '' : 's'}`;
       $('plA').textContent = `${pl(a)} · ${s.ca} correct`; $('plB').textContent = `${pl(b)} · ${s.cb} correct`;
     }
     // The scores can arrive after the status (e.g. reopening a finished game), so redo the result
@@ -97,9 +99,9 @@
     if (m.status === 'lobby') {
       ov.classList.remove('hidden');
       box.innerHTML = `<div class="lobbygrid"><div class="bigqr">${code ? qrSvg(playUrl()) : ''}<div>Code <b>${esc(code || '')}</b></div></div>
-        <div><h2>Scan to join</h2><div class="lobby-msg">${GQ.rulesList()}</div><p class="small">${n} question${n === 1 ? '' : 's'}. Each player can answer every one.</p></div></div>`;
+        <div><h2>Scan to join</h2><div class="lobby-msg">${GQ.rulesList(quiz)}</div><p class="small">${n} question${n === 1 ? '' : 's'}. Each player can answer every one.</p></div></div>`;
     } else if (m.status === 'ended') {
-      const r = GQ.resultText(score(state.pts));
+      const r = GQ.resultText(score(state.pts, quiz));
       ov.classList.remove('hidden');
       box.innerHTML = `<h2${r.w ? ` style="color:var(--t${r.w})"` : ''}>${r.head}</h2><p>${r.sub}</p>`;
     } else ov.classList.add('hidden');

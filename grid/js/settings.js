@@ -14,6 +14,7 @@ window.GQ_SETTINGS = {
   maxQuestions: 30,
   maxOptions: 6,
   labelLength: 40,                  // longest "short label" for a tile
+  maxMultiplier: 5,                 // a question can count ×1 up to ×5 (Quiz Grid and Pachinko)
   imageMaxPixels: 1000,             // pictures are shrunk to fit this many pixels on their longest side
   imageMaxKB: 300,                  // and squeezed until they are smaller than this
 

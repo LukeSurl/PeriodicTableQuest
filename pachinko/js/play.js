@@ -106,7 +106,7 @@
   // ---------- One question ----------
   // The questions as tiles, as in Quiz Grid, each with its ball in the top right corner
   function drawTiles() {
-    GQ.drawGrid($('grid'), quiz, {}, { cols: 2, onTap: tapTile, mark: (el, i) => {
+    GQ.drawGrid($('grid'), quiz, {}, { cols: 2, noMult: true, onTap: tapTile, mark: (el, i) => {
       el.classList.toggle('done', isDone({ i }));
       let cv = el.querySelector('canvas.tileball');
       if (!cv || cv.dataset.t !== myTeam) {

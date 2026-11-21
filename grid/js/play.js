@@ -62,14 +62,14 @@
   function draw() {
     if (!quiz) return;
     drawGrid($('grid'), quiz, state.pts, { cols: 2, onTap: open, mark: (el, i) => el.classList.toggle('done', !!(state.mine && state.mine[i])) });
-    const s = score(state.pts); $('scoreA').textContent = s.a; $('scoreB').textContent = s.b;
+    const s = score(state.pts, quiz); $('scoreA').textContent = s.a; $('scoreB').textContent = s.b;
   }
 
   function renderMeta() {
     const m = state.meta; if (!m || !myTeam) return;
     if (m.status === 'lobby') setStatus('The game starts soon. You can look at the questions now; answers open when the timer starts.');
     else if (m.status === 'ended') {
-      const r = GQ.resultText(score(state.pts));
+      const r = GQ.resultText(score(state.pts, quiz));
       setStatus(`<b>Game over. ${r.head}</b> ${r.sub}. ${r.w === myTeam ? '🎉' : r.w ? 'Better luck next time.' : ''}`);
     } else setStatus('');
   }
@@ -104,10 +104,10 @@
       : !state.meta || state.meta.status === 'lobby' ? 'Answers open when the game starts.'
       : state.meta.status === 'ended' || !isOpen() ? 'The game is over.'
       : cooling ? 'Wait for the timer after a wrong answer, then try again.'
-      : c.a + c.b ? `Correct answers so far: ${esc(team('a').name)} ${c.a}, ${esc(team('b').name)} ${c.b}. The team with most holds this question.` : '';
+      : c.a + c.b ? `Correct answers so far: ${esc(team('a').name)} ${c.a}, ${esc(team('b').name)} ${c.b}. The team with most holds this question${GQ.multOf(q) > 1 ? `, which counts as ${GQ.multOf(q)} questions` : ''}.` : '';
     delete $('sheet').dataset.answered;
     $('sheet').innerHTML = `
-      <p class="qhead"><b>Question ${qNumber(sheetQ)}</b> · Team ${esc(team(myTeam).name)}</p>
+      <p class="qhead"><b>Question ${qNumber(sheetQ)}</b>${GQ.multOf(q) > 1 ? ` <span class="gmult">×${GQ.multOf(q)}</span>` : ''} · Team ${esc(team(myTeam).name)}</p>
       ${q.img ? `<img class="qimg" src="${q.img}" alt="">` : ''}
       <div class="q">${esc(q.text).replace(/\n/g, '<br>')}</div>
       ${GQ.isNum(q) ? numForm(q, canAnswer) : `<div class="opts">${q.opts.map((o, j) => o ? `<button class="opt" data-j="${j}" ${canAnswer ? '' : 'disabled'}>${esc(o)}</button>` : '').join('')}</div>`}
