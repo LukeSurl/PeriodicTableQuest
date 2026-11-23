@@ -1,0 +1,38 @@
+# Publishes database.rules.json to Firebase whenever it changes on main
+# (or when run by hand from the Actions tab). Uses the FIREBASE_SERVICE_ACCOUNT
+# repository secret: the JSON key of a Firebase service account.
+name: Publish Firebase rules
+
+on:
+  push:
+    branches: [main]
+    paths: [database.rules.json, firebase.json, .github/workflows/firebase-rules.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-rules
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check the rules are valid JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('database.rules.json','utf8'))"
+      - name: Publish rules
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          if [ -z "$FIREBASE_SERVICE_ACCOUNT" ]; then echo "The FIREBASE_SERVICE_ACCOUNT secret is missing"; exit 1; fi
+          KEY="$RUNNER_TEMP/firebase-key.json"
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$KEY"
+          export GOOGLE_APPLICATION_CREDENTIALS="$KEY"
+          npx --yes firebase-tools@13 deploy --only database --project periodic-table-quest --non-interactive
+          rm -f "$KEY"
