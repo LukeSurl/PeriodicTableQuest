@@ -79,6 +79,7 @@
       $('plA').textContent = pl(a); $('plB').textContent = pl(b);
     }
     if (part === 'meta' || (part === 'cells' && state.meta && state.meta.status === 'ended')) renderMeta();
+    if (part === 'meta') GQ_RESULTS.track(B, code, quizId, quiz, state);   // keep the results when the game ends
   }
 
   function renderMeta() {
@@ -140,15 +141,19 @@
       setTimeout(() => { if (btn.dataset.armed) { delete btn.dataset.armed; btn.textContent = label; } }, 3000);
     });
   }
-  $('start').onclick = () => B.updateMeta(code, { status: 'open', endsAt: B.now() + durationMs() });
+  $('start').onclick = () => B.updateMeta(code, { status: 'open', endsAt: B.now() + durationMs(), ...GQ_RESULTS.startPatch(state.meta) });
   $('plus').onclick = () => {
     const m = state.meta; if (!m) return;
     if (m.status === 'open') B.updateMeta(code, { endsAt: m.endsAt + 60000 });
-    else B.updateMeta(code, { status: 'open', endsAt: B.now() + 60000 });
+    else B.updateMeta(code, { status: 'open', endsAt: B.now() + 60000, ...GQ_RESULTS.startPatch(m) });
   };
   $('end').onclick = () => B.updateMeta(code, { status: 'ended', endsAt: B.now() });
-  confirmClick($('reset'), 'Clear board', async () => { await B.clearRun(code); await B.updateMeta(code, { status: 'lobby', endsAt: 0 }); $('feed').innerHTML = ''; });
+  confirmClick($('reset'), 'Clear board', async () => {
+    await GQ_RESULTS.save(B, code, quizId, quiz, state);
+    await B.clearRun(code); await B.updateMeta(code, { status: 'lobby', endsAt: 0, started: null }); $('feed').innerHTML = '';
+  });
   confirmClick($('newgame'), 'New game', async () => {
+    await GQ_RESULTS.save(B, code, quizId, quiz, state);
     if (B.mode !== 'demo') await B.deleteRun(code).catch(() => {});
     $('feed').innerHTML = ''; await openRun(true);
   });

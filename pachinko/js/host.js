@@ -165,6 +165,7 @@
     }
     if (part === 'players') updatePlayers();
     if (part === 'meta' || (part === 'scores' && state.meta && state.meta.status === 'ended')) renderMeta();
+    if (part === 'meta') GQ_RESULTS.track(B, code, quizId, quiz, state);   // keep the results when the game ends
   }
   function updatePlayers() {
     let a = 0, b = 0;
@@ -244,19 +245,21 @@
       setTimeout(() => { if (btn.dataset.armed) { delete btn.dataset.armed; btn.textContent = label; } }, 3000);
     });
   }
-  $('start').onclick = () => B.updateMeta(code, { status: 'open', endsAt: B.now() + durationMs() });
+  $('start').onclick = () => B.updateMeta(code, { status: 'open', endsAt: B.now() + durationMs(), ...GQ_RESULTS.startPatch(state.meta) });
   $('plus').onclick = () => {
     const m = state.meta; if (!m) return;
     if (m.status === 'open' && m.endsAt > B.now()) B.updateMeta(code, { endsAt: m.endsAt + 60000 });
-    else B.updateMeta(code, { status: 'open', endsAt: B.now() + 60000 });
+    else B.updateMeta(code, { status: 'open', endsAt: B.now() + 60000, ...GQ_RESULTS.startPatch(m) });
   };
   $('end').onclick = () => B.updateMeta(code, { endsAt: Math.min(B.now(), (state.meta && state.meta.endsAt) || B.now()) });
   confirmClick($('reset'), 'Clear scores', async () => {
-    await B.clearRun(code); await B.updateMeta(code, { status: 'lobby', endsAt: 0 });
+    await GQ_RESULTS.save(B, code, quizId, quiz, state);
+    await B.clearRun(code); await B.updateMeta(code, { status: 'lobby', endsAt: 0, started: null });
     $('feed').innerHTML = ''; balls = []; spawned = new Set(); seenScores = new Set(); seenDrops = new Set();
     $('repA').innerHTML = ''; $('repB').innerHTML = '';
   });
   confirmClick($('newgame'), 'New game', async () => {
+    await GQ_RESULTS.save(B, code, quizId, quiz, state);
     if (B.mode !== 'demo') await B.deleteRun(code).catch(() => {});
     $('feed').innerHTML = ''; await openRun(true);
   });

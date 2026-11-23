@@ -135,6 +135,12 @@ Text import: `Multiplier: 2` (or `×2`) on its own line. Like every game-specifi
 
 Any question can have its own feedback, shown under "Not quite" to a student who answers it wrongly (the same text for every wrong answer). It is optional: without it, students see the usual message. In the editor it is the "Feedback for a wrong answer" box; in text it is a `Feedback:` line, so older text without one still imports as before. The AI prompt asks for feedback only when "Include feedback for students who answer wrongly" is ticked (off by default). Feedback is stored with the questions, which phones download, so a determined student could read it in advance: it should hint, not give the answer.
 
+## Results from past games (all quiz types)
+
+The editor's **Results from past games** box keeps a record of how the class did in each game: for every question, how many students answered it, how many were right first time and how many were right in the end, and for multiple-choice questions how many chose each answer first and how many chose each wrong answer at some point (for number questions, the wrong first answers). Each game can be downloaded as a CSV file or deleted. Questions are numbered as in the editor, whichever game presented them; in Periodic Table Quest, where questions come up at random, "first time" means the first time that student met the question.
+
+While a game runs, each phone notes its own attempts at `runs/<code>/att/<q>/<uid>` (its first answer, whether it was right, and any wrong options chosen). Practice answers before the start are not noted. When the game ends, and before **Clear scores**, **Clear board** or **New game**, the projector page adds these up into a summary with no player IDs in it and keeps it at `results/<quiz>/<code>/<started>`, which only the quiz's editors can read or delete. Nothing is kept for a game in which nobody answered. The phones report their own attempts, so a student who knows their way round developer tools could skew the figures; they are a guide to the class's understanding, not marks. The code is in `grid/js/results.js`.
+
 ## Number answers (both quiz types)
 
 A question can have a typed number answer instead of options. The lecturer gives the value, how close an answer must be (in the same units, or as a percentage) and an optional unit shown by the answer box. Students can type `6.02e23`, `6.02 × 10^23` or a decimal comma. In text, a number answer is one line: `= 35.5 ± 0.05 g mol⁻¹`. The database stores the accepted range (`answers/<id>/lo` and `hi`) and checks each answer against it.
@@ -183,3 +189,4 @@ Not yet: explanations after answering, deleting a quiz, and a list of a lecturer
 | `js/engine/` | Game code: `tools.js`, `quiz.js`, `loader.js`, `table.js`, `backend.js`, `host.js`, `play.js` |
 | `js/vendor/qrcode.js` | QR code generator (MIT licence, Kazuhiko Arase) |
 | `database.rules.json` | Firebase security rules |
+| `grid/js/results.js` | Results from past games: adds up each game's attempts (projector pages) and shows them (editor) |
