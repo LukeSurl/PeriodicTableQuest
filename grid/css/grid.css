@@ -196,7 +196,8 @@ body.ptq .preview { aspect-ratio: auto; max-height: none; }
 .multsel { font: inherit; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: .4rem .5rem; }
 .multtag { background: var(--ink); }
 body.pach .preview { aspect-ratio: auto; max-height: none; height: 420px; }
-.pachprev { width: 100%; height: 100%; display: block; }
+body.pach #preview { height: 100%; }
+.pachprev { width: 100%; height: 100%; display: block; object-fit: contain; }
 
 /* Editor: which game presents the set */
 .gamepick { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .5rem; margin-top: .5rem; }

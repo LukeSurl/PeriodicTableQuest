@@ -51,7 +51,7 @@
     $('qTitle').placeholder = t.place; $('presentHelp').innerHTML = t.present; $('qsHelp').textContent = t.qs; $('previewHead').textContent = t.head;
     if (t.note) $('previewNote').innerHTML = t.note;
     // The preview is built differently for each game: start it afresh
-    tableCells = null; $('preview').innerHTML = ''; $('preview').classList.remove('ptprev'); $('preview').dataset.key = '';
+    tableCells = null; $('preview').innerHTML = ''; $('preview').className = ''; $('preview').removeAttribute('style'); $('preview').dataset.key = '';
     showImportHelp();
     GQ_AI.init(S);
     $('gamePick').querySelectorAll('input').forEach(r => { r.checked = r.value === S.type; });
@@ -268,8 +268,8 @@
   // ---------- Preview ----------
   function drawPreview() {
     if (pach) {
-      if (!$('preview').querySelector('canvas')) $('preview').innerHTML = '<canvas class="pachprev"></canvas>';
-      PACH.draw($('preview').querySelector('canvas'), [], []);
+      // The board never changes, so it's a fixed picture (pachinko/img/board.png, drawn from board.js)
+      if (!$('preview').querySelector('img')) $('preview').innerHTML = '<img class="pachprev" src="../pachinko/img/board.png" alt="The Pachinko board: pegs above nine scoring zones">';
       const ready = quiz.qs.slice(0, S.maxQuestions).filter((q, i) => !problems(q, i).length), mults = ready.filter(q => +q.mult > 1).length;
       $('previewNote').innerHTML = `${ready.length} question${ready.length === 1 ? '' : 's'} ready${mults ? `, ${mults} with a multiplier` : ''}. Each student can drop one ball per question they answer correctly, so at most ${ready.length} each. The numbers along the bottom are the points for landing in each zone.`;
       return;
@@ -293,8 +293,6 @@
       + `<br>Elements in bold have questions of their own${general ? '; non-element specific questions may be used for any element' : '; <b>greyed-out elements have no questions</b> (either element-specific or all-element questions), so students can\'t claim them'}.`
       + (steals ? '' : ' There are no questions marked as steal questions, so an ordinary question is used for steals.');
   }
-
-  window.addEventListener('resize', () => { if (pach && $('preview').querySelector('canvas')) PACH.draw($('preview').querySelector('canvas'), [], []); });
 
   // ---------- Typing: update the model without redrawing, so the cursor stays put ----------
   function setNum(q, i, card) {
