@@ -135,7 +135,8 @@
     const r = canvas.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
     const w = Math.max(10, Math.round(r.width * dpr)), h = Math.max(10, Math.round(r.height * dpr));
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
-    const scale = Math.min(w / W, h / H);
+    // Leave room round the edge for the border's full width, so it isn't half cut off where the board meets the canvas
+    const pad = 1, scale = Math.min(w / (W + pad), h / (H + pad));
     return { scale, ox: (w - W * scale) / 2, oy: (h - H * scale) / 2 };
   }
   const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
