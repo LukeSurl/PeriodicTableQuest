@@ -119,15 +119,15 @@
     const order = q.opts.map((o, j) => j).filter(j => q.opts[j]).sort(() => Math.random() - 0.5);
     const body = GQ.isNum(q)
       ? `<form class="numform" id="numform" autocomplete="off">
-           <input id="numIn" inputmode="decimal" enterkeyhint="done" placeholder="Your answer" aria-label="Your answer">${q.unit ? `<span class="unit">${esc(q.unit)}</span>` : ''}
+           <input id="numIn" inputmode="decimal" enterkeyhint="done" placeholder="Your answer" aria-label="Your answer">${q.unit ? `<span class="unit">${GQ.fmt(q.unit)}</span>` : ''}
            <button class="btn primary">Submit</button></form>
          <p class="hint">Type a number. For standard form, type e.g. 6.02e23 or 6.02 × 10^23.</p>`
-      : `<div class="opts">${order.map(j => `<button class="opt" data-j="${j}">${esc(q.opts[j])}</button>`).join('')}</div>`;
+      : `<div class="opts">${order.map(j => `<button class="opt" data-j="${j}">${GQ.fmt(q.opts[j])}</button>`).join('')}</div>`;
     $('sheet').innerHTML = `
       <div class="el"><div class="big"><small>${e.z}</small><b>${e.s}</b></div>
         <div class="what">${head}<strong>${esc(e.n)}</strong></div></div>
       ${q.img ? `<img class="qimg" src="${q.img}" alt="">` : ''}
-      <div class="q">${esc(q.text).replace(/\n/g, '<br>')}</div>
+      <div class="q">${GQ.fmt(q.text)}</div>
       ${body}
       <div id="res"><button class="btn close" id="closeBtn">Cancel</button></div>`;
     sheetOpen = true;

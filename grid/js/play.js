@@ -110,8 +110,8 @@
     $('sheet').innerHTML = `
       <p class="qhead"><b>Question ${qNumber(sheetQ)}</b>${GQ.multOf(q) > 1 ? ` <span class="gmult">×${GQ.multOf(q)}</span>` : ''} · Team ${esc(team(myTeam).name)}</p>
       ${q.img ? `<img class="qimg" src="${q.img}" alt="">` : ''}
-      <div class="q">${esc(q.text).replace(/\n/g, '<br>')}</div>
-      ${GQ.isNum(q) ? numForm(q, canAnswer) : `<div class="opts">${q.opts.map((o, j) => o ? `<button class="opt" data-j="${j}" ${canAnswer ? '' : 'disabled'}>${esc(o)}</button>` : '').join('')}</div>`}
+      <div class="q">${GQ.fmt(q.text)}</div>
+      ${GQ.isNum(q) ? numForm(q, canAnswer) : `<div class="opts">${q.opts.map((o, j) => o ? `<button class="opt" data-j="${j}" ${canAnswer ? '' : 'disabled'}>${GQ.fmt(o)}</button>` : '').join('')}</div>`}
       <div id="res">${note ? `<div class="result">${note}</div>` : ''}<button class="btn close" id="closeBtn">Back to the questions</button></div>`;
     $('closeBtn').onclick = close;
     $('sheet').querySelectorAll('.opt').forEach(b => b.onclick = () => choose(sheetQ, +b.dataset.j, b));
@@ -125,7 +125,7 @@
   // A box to type a number answer in
   function numForm(q, can) {
     return `<form class="numform" id="numform" autocomplete="off">
-        <input id="numIn" inputmode="decimal" enterkeyhint="done" placeholder="Your answer" aria-label="Your answer" ${can ? '' : 'disabled'}>${q.unit ? `<span class="unit">${esc(q.unit)}</span>` : ''}
+        <input id="numIn" inputmode="decimal" enterkeyhint="done" placeholder="Your answer" aria-label="Your answer" ${can ? '' : 'disabled'}>${q.unit ? `<span class="unit">${GQ.fmt(q.unit)}</span>` : ''}
         <button class="btn primary" ${can ? '' : 'disabled'}>Submit</button></form>
       <p class="hint">Type a number. For standard form, type e.g. 6.02e23 or 6.02 × 10^23.</p>`;
   }

@@ -85,15 +85,27 @@
   }
 
   // A question's own feedback for a wrong answer, if the lecturer wrote one
-  const fbHtml = q => (q && q.fb && String(q.fb).trim() ? `<p class="fbtext">${esc(String(q.fb).trim())}</p>` : '');
+  // Question text as HTML, with light markup: H_2O and v_{max} (subscript), x^2, 10^-3, Fe^3+ and
+  // SO_4^{2-} (superscript), *italic* and **bold**. Runs of underscores (fill-in blanks) are left alone.
+  const minus = t => t.replace(/-/g, '−');
+  function fmt(s) {
+    return esc(String(s == null ? '' : s))
+      .replace(/\*\*(?=\S)([\s\S]*?\S)\*\*/g, '<b>$1</b>')
+      .replace(/(^|[^\w*])\*(?=[^\s*])([^*\n]*?[^\s*])?\*(?![\w*])/g, (m, pre, body) => (body === undefined ? m : `${pre}<i>${body}</i>`))
+      .replace(/\^(?:\{([^{}\n]*)\}|([+\-−]?\d+(?:\.\d+)?[+\-−]?|[+\-−]|[A-Za-zα-ωΑ-Ω⦵°‡∘⊖*]))/g, (m, a, b) => `<sup>${minus(a != null ? a : b)}</sup>`)
+      .replace(/([^\s_])_(?:\{([^{}\n]*)\}|(\d+|[A-Za-zα-ω](?![A-Za-zα-ω])))/g, (m, pre, a, b) => `${pre}<sub>${minus(a != null ? a : b)}</sub>`)
+      .replace(/\n/g, '<br>');
+  }
+
+  const fbHtml = q => (q && q.fb && String(q.fb).trim() ? `<p class="fbtext">${fmt(String(q.fb).trim())}</p>` : '');
 
   // What a tile shows: picture and/or short label, otherwise the question itself
   function tileInner(q, n, noMult) {
     const m = multOf(q), mult = m > 1 && !noMult ? `<span class="gmult" title="Counts ${m} times">×${m}</span>` : '';
     const img = q.img ? `<img src="${q.img}" alt="">` : '';
     const longest = q.label ? Math.max(...q.label.split(/\s+/).map(w => w.length)) : 0;
-    const label = q.label ? `<span class="glabel" style="--w:${Math.max(longest, 7)}">${esc(q.label)}</span>` : '';
-    const text = !q.img && !q.label ? `<span class="gtext">${esc(q.text)}</span>` : '';
+    const label = q.label ? `<span class="glabel" style="--w:${Math.max(longest, 7)}">${fmt(q.label)}</span>` : '';
+    const text = !q.img && !q.label ? `<span class="gtext">${fmt(q.text)}</span>` : '';
     return `<span class="gnum">${n}${mult}</span><span class="gbody${q.img ? ' hasimg' : ''}">${img}${label}${text}</span>`;
   }
 
@@ -196,5 +208,5 @@
     return true;
   }
 
-  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, multOf, hasMult, score, winner, resultText, rulesList, followGame, qrSvg, toast };
+  window.GQ = { S, $, esc, fmt, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, multOf, hasMult, score, winner, resultText, rulesList, followGame, qrSvg, toast };
 })();

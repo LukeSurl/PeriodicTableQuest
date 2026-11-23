@@ -172,7 +172,7 @@
   function acceptedLine(q, i) {
     const a = answers[i];
     if (!a || !isFinite(a.v)) return '';
-    const t = Math.abs(+a.tol || 0) * (a.pct ? Math.abs(a.v) / 100 : 1), u = q.unit ? ' ' + esc(q.unit) : '';
+    const t = Math.abs(+a.tol || 0) * (a.pct ? Math.abs(a.v) / 100 : 1), u = q.unit ? ' ' + GQ.fmt(q.unit) : '';
     const f = x => fmtNum(+x.toPrecision(10));
     return t ? `Accepts ${f(a.v - t)} to ${f(a.v + t)}${u}` : `Accepts only exactly ${f(a.v)}${u}`;
   }
