@@ -290,7 +290,7 @@
         const p = S.players[msg.uid], id = `${msg.uid}_${msg.q}`, now = Date.now();
         let result = 'dropped';
         if (S.drops[id]) result = 'already';
-        else if (S.meta.status !== 'open' || now >= S.meta.endsAt + (S.meta.grace || 5000)) result = 'closed';
+        else if (S.meta.status !== 'open' || now >= S.meta.endsAt) result = 'closed';
         else if (!p || p.t !== msg.t || !(S.proofs[msg.uid] && S.proofs[msg.uid][msg.q])) result = 'refused';
         if (result === 'dropped') { S.drops[id] = { q: String(msg.q), t: msg.t, at: now }; publish(); }
         reply({ result });

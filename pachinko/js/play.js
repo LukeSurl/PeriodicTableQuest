@@ -82,7 +82,7 @@
     const finished = total > 0 && left === 0;
     if (m.status === 'lobby') setStatus('The game starts soon. Questions open when the timer starts.');
     else if (m.status === 'ended') { const r = P.resultText(state.scores); setStatus(`<b>Game over. ${r.head}</b> ${r.sub}. ${r.w === myTeam ? '🎉' : r.w ? 'Better luck next time.' : ''}`); }
-    else if (timeUp()) setStatus('Time\'s up! Watch the last balls land on the big screen.');
+    else if (timeUp()) setStatus('Time\'s up!');
     else setStatus('');
     $('progress').textContent = total ? `You've got ${got} of ${total} question${total === 1 ? '' : 's'} right` : 'No questions yet.';
     $('done').classList.toggle('hidden', !finished);
@@ -92,7 +92,8 @@
     const mine = Object.keys(state.drops || {}).filter(id => id.startsWith(B.uid + '_'));
     $('myballs').innerHTML = mine.map(id => {
       const s = (state.scores || {})[id];
-      return `<li class="${s ? '' : 'falling'}" style="background:var(--t${myTeam})">${s ? '+' + esc(P.pointsText(s)) : 'falling…'}</li>`;
+      const missed = s ? !(+s.p > 0) : !isOpen();
+      return `<li class="${missed ? 'missed' : s ? '' : 'falling'}" style="background:var(--t${myTeam})">${missed ? 'too late' : s ? '+' + esc(P.pointsText(s)) : 'falling…'}</li>`;
     }).join('');
   }
   setInterval(() => {
@@ -196,13 +197,14 @@
   function showLanding(id) {
     const s = state.scores[id], el = $('landing');
     told.add(id);
-    if (el) el.innerHTML = `Your ball landed on <b>${s.p}</b>${+s.m > 1 ? ` ×${s.m}` : ''}: <b>+${s.p * s.m} points</b> for Team ${esc(team(s.t).name)}!`;
+    if (el && !(+s.p > 0)) el.innerHTML = 'Time ran out before your ball landed, so it didn\'t score.';
+    else if (el) el.innerHTML = `Your ball landed on <b>${s.p}</b>${+s.m > 1 ? ` ×${s.m}` : ''}: <b>+${s.p * s.m} points</b> for Team ${esc(team(s.t).name)}!`;
   }
   function announceLandings() {
     Object.entries(state.scores || {}).forEach(([id, s]) => {
       if (!id.startsWith(B.uid + '_') || told.has(id)) return;
       told.add(id);
-      if (id !== sheetDrop || $('sheetBg').classList.contains('hidden')) toast(`Your ball landed: +${s.p * s.m} points for Team ${esc(team(s.t).name)}`);
+      if (id !== sheetDrop || $('sheetBg').classList.contains('hidden')) toast(!(+s.p > 0) ? 'Time ran out before your ball landed.' : `Your ball landed: +${s.p * s.m} points for Team ${esc(team(s.t).name)}`);
     });
   }
 

@@ -31,7 +31,7 @@
 
   let code, state = { meta: null, players: {}, drops: {}, scores: {} }, unwatch = null, first = true;
   const runKey = 'pach-run-' + quizId + (B.mode === 'demo' ? '-demo' : '');
-  const extra = () => ({ grace: S.dropGraceSeconds * 1000 });
+  const extra = () => ({});
 
   async function openRun(fresh) {
     if (B.mode === 'demo') {
@@ -46,7 +46,7 @@
       if (!code) { code = B.newRunCode(); await B.createRun(code, quizId, extra()); store.set(runKey, code); }
     }
     if (unwatch) unwatch();
-    first = true; balls = []; flashes = []; spawned = new Set(); seenScores = new Set(); seenDrops = null; finishing = false; loaded = new Set();
+    first = true; balls = []; flashes = []; spawned = new Set(); seenScores = new Set(); seenDrops = null; loaded = new Set();
     $('repA').innerHTML = ''; $('repB').innerHTML = '';
     unwatch = B.watchRun(code, (st, part) => { state = st; loaded.add(part); render(part); });
     drawQR();
@@ -70,7 +70,7 @@
   // Drop a ball for every drop that hasn't landed yet. Wait until both the drops and the scores
   // have loaded, or a refreshed page would think every ball still needed dropping.
   function spawn() {
-    if (!quiz || !loaded.has('drops') || !loaded.has('scores')) return;
+    if (!quiz || !loaded.has('drops') || !loaded.has('scores') || !running()) return;
     Object.entries(state.drops || {}).forEach(([id, d]) => {
       if (spawned.has(id) || (state.scores || {})[id] || !d) return;
       spawned.add(id);
@@ -95,8 +95,9 @@
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  const running = () => !!state.meta && state.meta.status === 'open' && B.now() < state.meta.endsAt;
   function land(b, zone) {
-    if ((state.scores || {})[b.id]) return;
+    if ((state.scores || {})[b.id] || !running()) return;
     const s = { p: PACH.ZONES[zone], m: b.mult, t: b.t };
     flashes.push({ zone, t: b.t, text: '+' + s.p * s.m, until: performance.now() + 1800 });
     B.setScore(code, b.id, s).catch(e => console.warn('Couldn\'t record a score', e));
@@ -152,9 +153,9 @@
         if (seenScores.has(id)) return;
         seenScores.add(id);
         if (!first) {
-          feedLine(sc[id]);
+          if (+sc[id].p > 0) feedLine(sc[id]);
           const d = (state.drops || {})[id];
-          report(sc[id].t, d ? +d.q : 0, `scored ${sc[id].p * (+sc[id].m || 1)} points!`);
+          if (+sc[id].p > 0) report(sc[id].t, d ? +d.q : 0, `scored ${sc[id].p * (+sc[id].m || 1)} points!`);
         }
       });
       if (part === 'scores') first = false;
@@ -197,30 +198,34 @@
   }
 
   // ---------- Clock, and the end of the game ----------
-  // When time is up, answers stop, but the game only ends once every ball has landed
-  // (allowing a few seconds for balls from answers given just before time).
-  let finishing = false;
+  // The game ends the moment the clock hits zero. Any ball still on the board is taken off
+  // and scores nothing (recorded as 0, so it is never dropped again).
+  let ending = false;
+  async function endNow() {
+    if (ending) return; ending = true;
+    balls = [];
+    const sc = state.scores || {};
+    const late = Object.entries(state.drops || {}).filter(([id, d]) => d && !sc[id]);
+    await Promise.all(late.map(([id, d]) => {
+      const q = quiz && quiz.qs[+d.q];
+      return B.setScore(code, id, { p: 0, m: (q && +q.mult) || 1, t: d.t }).catch(() => {});
+    }));
+    await B.updateMeta(code, { status: 'ended' }).catch(e => console.warn('Couldn\'t end the game', e));
+    ending = false;
+  }
   setInterval(() => {
     const m = state.meta; if (!m) return;
     const now = B.now();
     if (m.status === 'open') {
       const left = m.endsAt - now;
-      $('clock').textContent = fmtTime(left);
+      $('clock').textContent = fmtTime(Math.max(0, left));
       $('clock').style.color = left < 30000 ? 'var(--bad)' : '';
-      finishing = left <= 0;
-      $('clockLbl').textContent = finishing ? 'Time\'s up!' : 'until the lecture starts';
-      if (finishing) {
-        const waiting = balls.length || Object.keys(state.drops || {}).some(id => !(state.scores || {})[id]);
-        if (!waiting && now > m.endsAt + (m.grace || S.dropGraceSeconds * 1000) + 500) { finishing = false; B.updateMeta(code, { status: 'ended' }); }
-      }
+      $('clockLbl').textContent = 'until the lecture starts';
+      if (left <= 0) endNow();
     } else if (m.status === 'lobby') {
       $('clock').textContent = fmtTime(durationMs()); $('clock').style.color = '';
-      $('clockLbl').textContent = 'Waiting to start'; finishing = false;
-    } else { $('clock').textContent = '0:00'; $('clock').style.color = ''; $('clockLbl').textContent = 'Game over'; finishing = false; }
-    // Only while balls are actually on the board
-    const landing = finishing && balls.length > 0;
-    $('banner').classList.toggle('hidden', !landing);
-    if (landing) $('banner').textContent = 'Time\'s up! The last balls are landing…';
+      $('clockLbl').textContent = 'Waiting to start';
+    } else { $('clock').textContent = '0:00'; $('clock').style.color = ''; $('clockLbl').textContent = 'Game over'; }
   }, 250);
   function durationMs() {
     const t = $('endAt').value;
