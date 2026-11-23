@@ -217,8 +217,10 @@
       $('clock').textContent = fmtTime(durationMs()); $('clock').style.color = '';
       $('clockLbl').textContent = 'Waiting to start'; finishing = false;
     } else { $('clock').textContent = '0:00'; $('clock').style.color = ''; $('clockLbl').textContent = 'Game over'; finishing = false; }
-    $('banner').classList.toggle('hidden', !finishing);
-    if (finishing) $('banner').textContent = 'Time\'s up! The last balls are landing…';
+    // Only while balls are actually on the board
+    const landing = finishing && balls.length > 0;
+    $('banner').classList.toggle('hidden', !landing);
+    if (landing) $('banner').textContent = 'Time\'s up! The last balls are landing…';
   }, 250);
   function durationMs() {
     const t = $('endAt').value;
