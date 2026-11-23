@@ -177,6 +177,31 @@
             }
           }
         },
+        "att": {
+          "$q": {
+            ".validate": "$q.matches(/^([0-9]|[1-9][0-9]|1[0-9][0-9])$/)",
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid && newData.exists() && root.child('runs').child($code).child('players').child($uid).exists() && root.child('runs').child($code).child('meta/status').val() === 'open' && now < root.child('runs').child($code).child('meta/endsAt').val() + 5000",
+              "f": {
+                ".validate": "!data.exists() && newData.hasChildren(['a', 'ok']) && newData.child('a').isNumber() && newData.child('ok').isBoolean()",
+                "$other": {
+                  ".validate": "$other === 'a' || $other === 'ok'"
+                }
+              },
+              "r": {
+                ".validate": "newData.val() === true"
+              },
+              "w": {
+                "$j": {
+                  ".validate": "$j.matches(/^[0-9]$/) && newData.val() === true"
+                }
+              },
+              "$other": {
+                ".validate": false
+              }
+            }
+          }
+        },
         "scores": {
           "$id": {
             ".validate": "!data.exists() && newData.hasChildren(['p', 'm', 't']) && newData.child('p').isNumber() && newData.child('m').isNumber()"
@@ -210,6 +235,17 @@
             "$other": {
               ".validate": "$other === 'q' || $other === 'a' || $other === 'at'"
             }
+          }
+        }
+      }
+    },
+    "results": {
+      "$quiz": {
+        ".read": "auth != null && root.child('owners').child($quiz).child(auth.uid).exists()",
+        "$code": {
+          "$key": {
+            ".write": "auth != null && ((newData.exists() && root.child('runs').child($code).child('meta/host').val() === auth.uid && root.child('runs').child($code).child('meta/quiz').val() === $quiz) || (!newData.exists() && root.child('owners').child($quiz).child(auth.uid).exists()))",
+            ".validate": "$key.matches(/^[0-9]{1,15}$/) && newData.hasChildren(['at', 'started', 'type', 'players', 'qs']) && newData.child('started').isNumber() && newData.child('players').isNumber()"
           }
         }
       }

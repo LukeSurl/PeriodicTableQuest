@@ -13,6 +13,9 @@
 //                        against answers/<id>, so phones never need to see the answers
 //   eproofs/<code>/<uid>/<z>  the latest correct answer a player gave for element z
 //                        (Periodic Table Quest); claiming z needs a fresh one
+//   runs/<code>/att      each player's attempts at each question, for the results (see results.js)
+//   results/<id>/<code>/<started>  how the class did in one game, with no player IDs:
+//                        only editors can read it
 //
 // Answers: a multiple-choice answer is the position of the correct option (answers/<id>/a/<i>);
 // a number answer is { v, tol, pct } (answers/<id>/n/<i>) plus the range the database accepts
@@ -88,6 +91,21 @@
     const r = p => D.ref(db, p);
     const timeout = (p, ms = 10000) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
     const isDenied = e => /permission/i.test(String(e && (e.code || e.message)));
+    // Each phone notes its own attempts at each question while the game runs (see results.js)
+    const metaOf = {};
+    const noted = new Set(safe(() => JSON.parse(sessionStorage.getItem('gq-noted')) || [], []));
+    function note(code, q, a, ok) {
+      const m = metaOf[code];
+      if (!m || m.status !== 'open' || !isFinite(a)) return;
+      const base = `runs/${code}/att/${q}/${user.uid}`, key = `${code}/${m.started || m.created || 0}/${q}`;
+      const quiet = p => p.catch(() => {});
+      if (!noted.has(key)) {
+        noted.add(key); safe(() => sessionStorage.setItem('gq-noted', JSON.stringify([...noted].slice(-500))));
+        quiet(D.set(r(base + '/f'), { a, ok: !!ok }));
+      }
+      if (ok) quiet(D.set(r(base + '/r'), true));
+      else if (Number.isInteger(a) && a >= 0 && a <= 9) quiet(D.set(r(`${base}/w/${a}`), true));
+    }
 
     return {
       mode: 'firebase', uid: user.uid,
@@ -131,6 +149,7 @@
       async clearRun(code) {
         await D.remove(r(`runs/${code}/pts`)); await D.remove(r(`runs/${code}/cells`));
         await D.remove(r(`runs/${code}/drops`)); await D.remove(r(`runs/${code}/scores`));
+        await D.remove(r(`runs/${code}/att`));
         await D.remove(r(`proofs/${code}`)); await D.remove(r(`eproofs/${code}`));
       },
       async deleteRun(code) {
@@ -140,7 +159,9 @@
       watchRun(code, cb) {
         const st = { meta: undefined, players: {}, pts: {}, cells: {}, drops: {}, scores: {}, mine: {} };
         const offs = ['meta', 'players', 'pts', 'cells', 'drops', 'scores'].map(part => D.onValue(r(`runs/${code}/${part}`), s => {
-          st[part] = part === 'meta' ? s.val() : (s.val() || {}); cb(st, part);
+          st[part] = part === 'meta' ? s.val() : (s.val() || {});
+          if (part === 'meta') metaOf[code] = st.meta;
+          cb(st, part);
         }));
         offs.push(D.onValue(r(`proofs/${code}/${user.uid}`), s => { st.mine = s.val() || {}; cb(st, 'mine'); }, () => {}));
         return () => offs.forEach(o => o());
@@ -154,7 +175,7 @@
       },
       // Returns 'right' or 'wrong'. The database only accepts a proof that matches the answer.
       async answer(code, q, a) {
-        try { await timeout(D.set(r(`proofs/${code}/${user.uid}/${q}`), { a, at: D.serverTimestamp() })); return 'right'; }
+        try { await timeout(D.set(r(`proofs/${code}/${user.uid}/${q}`), { a, at: D.serverTimestamp() })); note(code, q, a, true); return 'right'; }
         catch (e) {
           if (!isDenied(e)) throw e;
           // Refused: work out why, so a student is only told "wrong" when the answer was wrong
@@ -164,6 +185,7 @@
           const m = meta.val();
           if (!m || m.status !== 'open' || Date.now() + offset >= m.endsAt) return 'closed';
           if (!me.exists()) return 'notjoined';
+          note(code, q, a, false);
           return 'wrong';
         }
       },
@@ -180,6 +202,16 @@
           return 'refused';
         }
       },
+
+      // ----- Results (see results.js) -----
+      async getAttempts(code) { return (await timeout(D.get(r(`runs/${code}/att`)))).val() || {}; },
+      saveResult: (quizId, code, key, sum) => timeout(D.set(r(`results/${quizId}/${code}/${key}`), sum)),
+      async getResults(quizId) {
+        const v = (await timeout(D.get(r(`results/${quizId}`)))).val() || {}, out = [];
+        Object.entries(v).forEach(([code, ks]) => Object.entries(ks || {}).forEach(([key, sum]) => { if (sum && sum.qs) out.push({ code, key, sum }); }));
+        return out;
+      },
+      deleteResult: (quizId, code, key) => timeout(D.remove(r(`results/${quizId}/${code}/${key}`))),
 
       // ----- Pachinko -----
       // After a right answer to question q: drop a ball for team t. Returns 'dropped', 'already',
@@ -203,13 +235,14 @@
       // ----- Periodic Table Quest -----
       // Answer question q while trying to claim element z. Returns 'right', 'wrong', 'closed' or 'notjoined'.
       async answerEl(code, z, q, a) {
-        try { await timeout(D.set(r(`eproofs/${code}/${user.uid}/${z}`), { q: String(q), a, at: D.serverTimestamp() })); return 'right'; }
+        try { await timeout(D.set(r(`eproofs/${code}/${user.uid}/${z}`), { q: String(q), a, at: D.serverTimestamp() })); note(code, q, a, true); return 'right'; }
         catch (e) {
           if (!isDenied(e)) throw e;
           const [meta, me] = await Promise.all([D.get(r(`runs/${code}/meta`)), D.get(r(`runs/${code}/players/${user.uid}`))]);
           const m = meta.val();
           if (!m || m.status === 'ended' || (m.status === 'open' && Date.now() + offset >= m.endsAt)) return 'closed';
           if (!me.exists()) return 'notjoined';
+          note(code, q, a, false);
           return 'wrong';
         }
       },
@@ -257,6 +290,17 @@
 
     // The projector page holds each game's state and answers requests from phones
     let server = null;
+    // A player's attempt at question q, for the results (as phones note them in Firebase)
+    function noteAttempt(S, uid, q, a, ok) {
+      if (!isFinite(a)) return;
+      const qa = S.att[q] = S.att[q] || {}, x = qa[uid] = qa[uid] || {};
+      if (!x.f) x.f = { a, ok: !!ok };
+      if (ok) x.r = true;
+      else if (Number.isInteger(a) && a >= 0 && a <= 9) { x.w = x.w || {}; x.w[a] = true; }
+    }
+    const RKEY = 'gq-demo-results';
+    const allResults = () => safe(() => JSON.parse(localStorage.getItem(RKEY)) || {}, {});
+    const putResults = v => safe(() => localStorage.setItem(RKEY, JSON.stringify(v)));
     const watchers = [];
     function publish() {
       const st = JSON.parse(JSON.stringify(server.state));
@@ -278,6 +322,7 @@
         const right = open && S.players[msg.uid] && entry && isRight(entry.answers[msg.q], msg.a);
         if (right) { S.proofs[msg.uid] = S.proofs[msg.uid] || {}; S.proofs[msg.uid][msg.q] = { a: msg.a, at: Date.now() }; }
         reply({ result: right ? 'right' : !open ? 'closed' : !S.players[msg.uid] ? 'notjoined' : 'wrong' });
+        if (open && S.players[msg.uid]) noteAttempt(S, msg.uid, msg.q, msg.a, right);
         if (right) publish();
       }
       if (msg.type === 'award') {
@@ -302,6 +347,7 @@
         const right = live && S.players[msg.uid] && fits && isRight(entry.answers[msg.q], msg.a);
         if (right) { S.eproofs[msg.uid] = S.eproofs[msg.uid] || {}; S.eproofs[msg.uid][msg.z] = { q: String(msg.q), a: msg.a, at: Date.now() }; }
         reply({ result: right ? 'right' : !live ? 'closed' : !S.players[msg.uid] ? 'notjoined' : 'wrong' });
+        if (S.meta.status === 'open' && live && S.players[msg.uid] && fits) noteAttempt(S, msg.uid, msg.q, msg.a, right);
       }
       if (msg.type === 'claim') {
         const p = S.players[msg.uid], c = S.cells[msg.z], now = Date.now();
@@ -361,13 +407,21 @@
 
       newRunCode,
       async createRun(code, quizId, extra) {
-        server = { code, state: { meta: { host: uid, quiz: quizId, status: 'lobby', endsAt: 0, created: Date.now(), ...(extra || {}) }, players: {}, pts: {}, cells: {}, drops: {}, scores: {}, proofs: {}, eproofs: {} } };
+        server = { code, state: { meta: { host: uid, quiz: quizId, status: 'lobby', endsAt: 0, created: Date.now(), ...(extra || {}) }, players: {}, pts: {}, cells: {}, drops: {}, scores: {}, proofs: {}, eproofs: {}, att: {} } };
         publish();
       },
       async getRunMeta(code) { return server && server.code === code ? server.state.meta : null; },
       async updateMeta(code, patch) { Object.assign(server.state.meta, patch); publish(); },
-      async clearRun() { Object.assign(server.state, { pts: {}, cells: {}, drops: {}, scores: {}, proofs: {}, eproofs: {} }); publish(); send({ type: 'cleared', code: server.code }); },
+      async clearRun() { Object.assign(server.state, { pts: {}, cells: {}, drops: {}, scores: {}, proofs: {}, eproofs: {}, att: {} }); publish(); send({ type: 'cleared', code: server.code }); },
       async setScore(code, id, s) { server.state.scores[id] = s; publish(); },
+      async getAttempts(code) { return server && server.code === code ? JSON.parse(JSON.stringify(server.state.att || {})) : {}; },
+      async saveResult(quizId, code, key, sum) { const v = allResults(); ((v[quizId] = v[quizId] || {})[code] = v[quizId][code] || {})[key] = sum; putResults(v); },
+      async getResults(quizId) {
+        const out = [];
+        Object.entries(allResults()[quizId] || {}).forEach(([code, ks]) => Object.entries(ks || {}).forEach(([key, sum]) => out.push({ code, key, sum })));
+        return out;
+      },
+      async deleteResult(quizId, code, key) { const v = allResults(); if (v[quizId] && v[quizId][code]) { delete v[quizId][code][key]; putResults(v); } },
       async deleteRun() { server = null; },
       watchRun(code, cb) {
         if (server && server.code === code) {

@@ -211,3 +211,27 @@ body.pach #preview { height: 100%; }
 .qcard.unused { opacity: .6; }
 .qcard.unused:focus-within { opacity: 1; }
 .unusedtag { background: var(--bad); }
+
+/* Results from past games (editor) */
+.resultsbox .rgame { border-top: 1px solid var(--line); padding: .5rem 0; }
+.resultsbox .rgame > summary { cursor: pointer; padding: .3rem 0; }
+.resultsbox .rgacts { margin: .4rem 0 .2rem; }
+.rq { padding: .7rem 0; border-bottom: 1px dashed var(--line); }
+.rq:last-child { border-bottom: 0; }
+.rqhead { margin: 0 0 .4rem; }
+.rqtext { margin-left: .3rem; }
+.rstats { display: grid; grid-template-columns: auto 1fr; gap: .25rem .8rem; align-items: center; font-size: .92rem; }
+.rstats > span:not(.rval) { color: var(--muted); }
+.rval { white-space: nowrap; }
+.rbar { display: inline-block; vertical-align: middle; width: 9rem; height: .7rem; background: var(--line); border-radius: 99px; overflow: hidden; margin-right: .4rem; }
+.rbar > span { display: block; height: 100%; background: var(--muted); }
+.rbar.ok > span { background: var(--ok); }
+.rbar.ok2 > span { background: #7DB98F; }
+.rbar.no > span { background: #C98A00; }
+.ropts { width: 100%; border-collapse: collapse; margin-top: .5rem; font-size: .9rem; }
+.ropts th { text-align: left; font-weight: 600; color: var(--muted); padding: .2rem .4rem; border-bottom: 1px solid var(--line); }
+.ropts td { padding: .25rem .4rem; vertical-align: middle; }
+.ropts tr.right td { background: #F0F9F3; }
+.ropts td:first-child { font-weight: 700; color: var(--muted); }
+.ropts td:last-child { text-align: center; }
+.rtick { color: var(--ok); font-weight: 700; }
