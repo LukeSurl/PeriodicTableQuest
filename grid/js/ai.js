@@ -1,6 +1,7 @@
 // Quiz Grid and Periodic Table Quest editor: build a prompt that asks an AI chat to write
 // questions in the import format, and pass its reply to the "Import questions from text" box.
-// edit.js calls GQ_AI.init(settings) once it knows which kind of quiz is open.
+// edit.js calls GQ_AI.init(settings) once it knows which game the set is presented as, and again
+// whenever that changes (so handlers are assigned, not added).
 window.GQ_AI = { init(S) {
   const { $, esc, toast } = GQ;
   if (!$('aiBox')) return;
@@ -119,7 +120,7 @@ If my lecture material is not attached or pasted, do not write any questions: as
     return ptq ? ptqPrompt(n, who, focus, num, steals, fb) : gridPrompt(n, who, focus, num, fb);
   }
   const refresh = () => { $('aiPrompt').value = prompt(); };
-  ['aiCount', 'aiStudents', 'aiFocus', 'aiSteals', 'aiNum', 'aiFb'].forEach(id => { $(id).addEventListener('input', refresh); $(id).addEventListener('change', refresh); });
+  ['aiCount', 'aiStudents', 'aiFocus', 'aiSteals', 'aiNum', 'aiFb'].forEach(id => { $(id).oninput = refresh; $(id).onchange = refresh; });
   refresh();
   $('aiShow').onclick = () => {
     const show = $('aiPrompt').classList.toggle('hidden') === false;
@@ -137,8 +138,8 @@ If my lecture material is not attached or pasted, do not write any questions: as
   };
 
   // The reply: tidy it, hand it to the import box, and show that box
-  $('aiReply').addEventListener('input', () => { $('aiCheck').disabled = !$('aiReply').value.trim(); $('aiMsg').textContent = ''; });
-  $('aiReply').addEventListener('paste', () => setTimeout(() => { $('aiCheck').disabled = !$('aiReply').value.trim(); if (!$('aiCheck').disabled) check(); }, 0));
+  $('aiReply').oninput = () => { $('aiCheck').disabled = !$('aiReply').value.trim(); $('aiMsg').textContent = ''; };
+  $('aiReply').onpaste = () => setTimeout(() => { $('aiCheck').disabled = !$('aiReply').value.trim(); if (!$('aiCheck').disabled) check(); }, 0);
   $('aiCheck').onclick = check;
   function check() {
     const { text, dropped } = GQ_IMPORT.cleanAI($('aiReply').value);

@@ -42,6 +42,9 @@
   const elsObj = v => { const o = {}; if (v) Object.keys(v).forEach(k => { if (v[k] && +k >= 1 && +k <= 118) o[k] = true; }); return o; };
   const cleanQuiz = q => ({ title: (q && q.title) || '', type: (q && q.type) || 'grid',
     qs: asArray(q && q.qs).map(x => ({ text: '', label: '', img: '', kind: 'mc', unit: '', fb: '', ...x, opts: optsOf(x && x.opts), els: elsObj(x && x.els), steal: !!(x && x.steal), mult: Math.max(1, Math.round(+(x && x.mult) || 1)) })) });
+  // What a game's pages see: only as many questions as that game allows (the first N),
+  // so a long set can still be presented as Quiz Grid or Pachinko
+  const forGame = q => (q ? { ...q, qs: q.qs.slice(0, window.GQ_SETTINGS.forType(q.type).maxQuestions) } : null);
   // A quiz ready to store: drop empty extras so old readers and the rules see what they expect
   const storeQuiz = quiz => ({ title: quiz.title || 'Untitled quiz', type: quiz.type || 'grid',
     qs: quiz.qs.map(q => {
@@ -50,7 +53,7 @@
       if (q.steal) o.steal = true;
       if (q.fb && String(q.fb).trim()) o.fb = String(q.fb).trim().slice(0, 400);
       if (q.els && Object.keys(q.els).length) o.els = elsObj(q.els);
-      if (quiz.type !== 'ptq' && +q.mult > 1) o.mult = Math.min(10, Math.round(+q.mult));
+      if (+q.mult > 1) o.mult = Math.min(10, Math.round(+q.mult));   // kept in every game, so switching back loses nothing
       return o;
     }) });
   // Answers ready to store: { a: {i: option}, n: {i: {v, tol, pct}}, lo: {i: …}, hi: {i: …} }
@@ -115,7 +118,7 @@
         if (k) await timeout(D.set(r(`owners/${id}/${user.uid}`), k));
         await timeout(D.remove(r(`quizzes/${id}`)));
       },
-      watchQuiz(id, cb) { return D.onValue(r(`quizzes/${id}`), s => cb(s.exists() ? cleanQuiz(s.val()) : null)); },
+      watchQuiz(id, cb) { return D.onValue(r(`quizzes/${id}`), s => cb(s.exists() ? forGame(cleanQuiz(s.val())) : null)); },
       async getQuiz(id) { const s = await timeout(D.get(r(`quizzes/${id}`))); return s.exists() ? cleanQuiz(s.val()) : null; },
 
       // ----- Games -----
@@ -344,13 +347,13 @@
       async saveQuiz(id, quiz, answers) {
         const q = all(); if (!q[id]) throw new Error('This quiz no longer exists.');
         q[id].quiz = JSON.parse(JSON.stringify(storeQuiz(quiz))); q[id].answers = answers; putAll(q);
-        (quizWatchers[id] || []).forEach(cb => cb(cleanQuiz(q[id].quiz)));
+        (quizWatchers[id] || []).forEach(cb => cb(forGame(cleanQuiz(q[id].quiz))));
       },
       async deleteQuiz(id) { const q = all(); delete q[id]; putAll(q); },
       async getQuiz(id) { return all()[id] ? cleanQuiz(all()[id].quiz) : null; },
       watchQuiz(id, cb) {
         (quizWatchers[id] = quizWatchers[id] || []).push(cb);
-        setTimeout(() => cb(all()[id] ? cleanQuiz(all()[id].quiz) : null), 0);
+        setTimeout(() => cb(all()[id] ? forGame(cleanQuiz(all()[id].quiz)) : null), 0);
         return () => { quizWatchers[id] = quizWatchers[id].filter(f => f !== cb); };
       },
       // Demo only: put a ready-made quiz in place

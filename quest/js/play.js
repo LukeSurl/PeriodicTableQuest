@@ -38,7 +38,8 @@
       if (!st.meta) return;
       if (quizFor !== st.meta.quiz) {
         quizFor = st.meta.quiz; if (unQuiz) unQuiz();
-        unQuiz = B.watchQuiz(quizFor, q => { quiz = q; PTQ.markPlayable(cells, q); });
+        unQuiz = B.watchQuiz(quizFor, q => { if (quiz && q && q.type !== 'ptq') return;   // set switched to another game mid-game
+          quiz = q; PTQ.markPlayable(cells, q); });
       }
       if (!myTeam && !joining) join();
       renderMeta();

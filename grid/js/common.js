@@ -186,5 +186,15 @@
     t.innerHTML = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 2800);
   }
 
-  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, multOf, hasMult, score, winner, resultText, rulesList, qrSvg, toast };
+  // Projector pages: the set is presented as another game now (changed in the editor), so open
+  // that game's page with the same link. Not in the middle of a game: that one carries on, and
+  // the change shows next time the link is opened. Returns true if the page is moving on.
+  function followGame(q, mine, meta) {
+    const type = (q && q.type) || 'grid';
+    if (type === mine || !S.hostPages[type] || (meta && meta.status === 'open')) return false;
+    location.replace('../' + S.hostPages[type] + location.search);
+    return true;
+  }
+
+  window.GQ = { S, $, esc, safe, store, team, fmtTime, isDemo, withDemo, theme, playable, isNum, parseNum, fmtNum, numRange, parseEls, elSym, elsOf, ELS, fitsEl, poolFor, fbHtml, tileInner, drawGrid, counts, multOf, hasMult, score, winner, resultText, rulesList, followGame, qrSvg, toast };
 })();

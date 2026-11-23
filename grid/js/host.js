@@ -19,9 +19,9 @@
   // The quiz itself, kept up to date if it is edited during the game
   let quiz = null, quizLoaded = false;
   B.watchQuiz(quizId, q => {
+    if (!q) { quiz = q; quizLoaded = true; return fatal('No quiz found for this link. It may have been deleted, or the link was copied incompletely.'); }
+    if ((q.type || 'grid') !== 'grid') { GQ.followGame(q, 'grid', quiz && state.meta); return; }
     quiz = q; quizLoaded = true;
-    if (!q) return fatal('No quiz found for this link. It may have been deleted, or the link was copied incompletely.');
-    if (q.type && q.type !== 'grid') return fatal(`This quiz isn't a Quiz Grid quiz. <a href="../${GQ_SETTINGS.hostPages[q.type]}${location.search}">Open it in the right game</a>.`);
     $('topic').textContent = q.title || '';
     $('howto').innerHTML = '<b>How to play</b>' + GQ.rulesList(q);
     $('scorecap').textContent = GQ.hasMult(q) ? 'Questions won (counting multipliers)' : 'Questions won';

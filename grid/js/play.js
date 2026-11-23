@@ -33,7 +33,8 @@
       if (!st.meta) return;
       if (quizFor !== st.meta.quiz) {
         quizFor = st.meta.quiz; if (unQuiz) unQuiz();
-        unQuiz = B.watchQuiz(quizFor, q => { quiz = q; draw(); if (sheetQ != null) refreshSheet(); });
+        unQuiz = B.watchQuiz(quizFor, q => { if (quiz && q && (q.type || 'grid') !== 'grid') return;   // set switched to another game mid-game: carry on with this one
+          quiz = q; draw(); if (sheetQ != null) refreshSheet(); });
       }
       if (!myTeam && !joining) join();
       renderMeta();

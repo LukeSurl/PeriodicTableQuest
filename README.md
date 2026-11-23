@@ -105,7 +105,9 @@ Question text is tidied automatically before it is shown: numbers in standard fo
 
 The site's front page (`index.html`, with its files in `plq/`) is the home page for every quiz type: `https://lukesurl.github.io/PeriodicTableQuest/`. The old `plq/` address redirects there. At the top, **Create new quiz** shows a card for each type (Quiz Grid and Periodic Table Quest); clicking one starts a new quiz of that type. Below, **Your saved quizzes** lists every quiz made or opened in this browser, of any type, newest first, with Edit, Present and Forget. Copyright and other "about" details sit quietly at the bottom. The name, the card text and the footer are in `plq/settings.js`.
 
-All three quiz types share one editor (`grid/edit.html`), the same private edit links and the same database. A quiz's type (`grid` or `ptq`) is stored with it.
+All three games share one editor (`grid/edit.html`), the same private edit links and the same database. What a lecturer makes is a **question set**; the editor's **Present as** choice says which game presents it (stored as the quiz's `type`: `grid`, `ptq` or `pachinko`) and can be changed at any time. Settings used by only some games (labels, multipliers, elements, steal questions) are kept whichever game is chosen, and the text import reads and exports them all.
+
+Each set has one present link, `present.html?quiz=<id>`, which opens the projector page of whichever game the set is currently presented as. The projector pages also follow a change: one opened for another game moves to the right page, unless a game is under way (that one carries on). A set can hold up to 200 questions (`setMaxQuestions`); Quiz Grid uses only the first 30 and Pachinko the first 50, and the editor warns when a set is longer than its game uses. The cards on the home page choose the game a new set starts as. Demo quizzes stay in their own game.
 
 ## Periodic Table Quest (new, in `quest/`)
 
@@ -127,7 +129,7 @@ Students pick questions from a grid of tiles on their phones, as in Quiz Grid; e
 
 The projector runs the board. A phone's right answer is a proof (as in Quiz Grid), then a drop at `runs/<code>/drops/<uid>_<q>`, which the rules accept only with that proof and until 5 seconds after time; the projector drops the ball and writes where it landed to `runs/<code>/scores/<id>`. `pachinko/demo.html` runs the projector and two phones with no database.
 
-Text import: `Multiplier: 2` (or `×2`) on its own line. Quiz Grid and Periodic Table Quest accept the line and ignore it, and Pachinko accepts Quiz Grid's `Label:` lines, so questions copy between the two in either direction.
+Text import: `Multiplier: 2` (or `×2`) on its own line. Like every game-specific line, it is kept whichever game presents the set.
 
 ## Feedback for wrong answers (all quiz types)
 

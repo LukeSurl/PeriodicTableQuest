@@ -197,3 +197,16 @@ body.ptq .preview { aspect-ratio: auto; max-height: none; }
 .multtag { background: var(--ink); }
 body.pach .preview { aspect-ratio: auto; max-height: none; height: 420px; }
 .pachprev { width: 100%; height: 100%; display: block; }
+
+/* Editor: which game presents the set */
+.gamepick { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .5rem; margin-top: .5rem; }
+.gamepick label { border: 1px solid var(--line); border-radius: 10px; padding: .5rem .7rem; cursor: pointer; display: block; background: var(--paper); }
+.gamepick label:has(input:checked) { border: 2px solid var(--ink); padding: calc(.5rem - 1px) calc(.7rem - 1px); }
+.gamepick input { accent-color: var(--ink); margin: 0 .35rem 0 0; }
+.gamepick b { font-size: 1rem; }
+.gamepick small { display: block; color: var(--muted, #666); margin-top: .25rem; line-height: 1.35; }
+.gamepick a { font-size: .85rem; }
+#limitNote { margin: .7rem 0 0; }
+.qcard.unused { opacity: .6; }
+.qcard.unused:focus-within { opacity: 1; }
+.unusedtag { background: var(--bad); }

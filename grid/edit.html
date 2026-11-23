@@ -22,6 +22,12 @@
       <input type="text" id="qTitle" maxlength="100" placeholder="e.g. Lecture 1 warm-up">
     </div>
 
+    <div class="panel gamebox">
+      <b>Present as</b> <small class="muted">change this at any time: every question is kept, and the present link stays the same</small>
+      <div class="gamepick" id="gamePick" role="radiogroup" aria-label="Present as"></div>
+      <div id="limitNote" class="notice bad small hidden" role="alert"></div>
+    </div>
+
     <div class="panel">
       <div class="row"><b style="flex:1">Run this quiz</b>
         <a class="btn primary" id="presentBtn" target="_blank" rel="noopener">Present now</a></div>
@@ -97,6 +103,6 @@
     <div class="modal-actions"><button class="btn" id="pickClear">Clear</button><span class="spacer"></span><button class="btn" id="pickCancel">Cancel</button><button class="btn primary" id="pickDone">Done</button></div>
   </div>
 </div>
-<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', '../js/elements.js', '../js/engine/table.js', 'js/settings.js', '../pachinko/js/board.js', 'js/common.js', 'js/backend.js', 'js/import.js', 'js/ai.js', 'js/edit.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', '../js/elements.js', '../js/engine/table.js', 'js/settings.js', '../plq/settings.js', '../pachinko/js/board.js', 'js/common.js', 'js/backend.js', 'js/import.js', 'js/ai.js', 'js/edit.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
 </body>
 </html>

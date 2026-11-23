@@ -37,7 +37,8 @@
       if (!st.meta) return;
       if (quizFor !== st.meta.quiz) {
         quizFor = st.meta.quiz; if (unQuiz) unQuiz();
-        unQuiz = B.watchQuiz(quizFor, q => { quiz = q; update(); });
+        unQuiz = B.watchQuiz(quizFor, q => { if (quiz && q && q.type !== 'pachinko') return;   // set switched to another game mid-game
+          quiz = q; update(); });
       }
       if (!myTeam && !joining) join();
     }

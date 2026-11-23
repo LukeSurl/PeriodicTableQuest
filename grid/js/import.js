@@ -1,4 +1,4 @@
-// Quiz Grid and Periodic Table Quest: reading questions typed or pasted as plain text,
+// Pre-Lecture Quizzes: reading questions typed or pasted as plain text,
 // and writing them back out.
 //
 // The format (blank line between questions):
@@ -19,14 +19,12 @@
 // Lines starting with "#" are notes and are ignored. An optional "Feedback:" line is shown to
 // a student who gets the question wrong (any wrong answer); without it they see the usual message.
 //
-// Periodic Table Quest only: "Elements: Na, K" (the question only appears on those
-// elements; without it, it can appear on any) and "Steal" (a harder question, used
-// for taking an element from the other team). Other quiz types accept these lines and
-// ignore them.
-//
-// Quiz Grid and Pachinko: "Multiplier: 2" (or "×2") makes a question count double (in Quiz
-// Grid, winning it counts as two questions; in Pachinko, its ball scores double points).
-// Periodic Table Quest accepts the line and ignores it, so questions move freely between types.
+// Lines used by only some games are always read and kept, because a question set can be
+// switched to another game at any time:
+//   "Elements: Na, K" and "Steal" (Periodic Table Quest: the question only appears on those
+//   elements; a steal question is a harder one, for taking an element from the other team)
+//   "Multiplier: 2" or "×2" (Quiz Grid: winning the question counts as two; Pachinko: its
+//   ball scores double points)
 (function () {
   const W = typeof window !== 'undefined' ? window : globalThis;
   const S = W.GQ_SETTINGS || { maxQuestions: 30, maxOptions: 6, labelLength: 40 };
@@ -61,7 +59,7 @@
   }
 
   function parse(text, type) {
-    const ptq = type === 'ptq', pach = type === 'pachinko', maxMult = (W.GQ_SETTINGS && W.GQ_SETTINGS.maxMultiplier) || 5;
+    const maxMult = (W.GQ_SETTINGS && W.GQ_SETTINGS.maxMultiplier) || 5;
     const blocks = String(text || '').replace(/\r\n?/g, '\n').split(/\n\s*\n/)
       .map(b => b.split('\n').filter(l => !/^\s*#/.test(l)).join('\n').trim()).filter(Boolean);
     const qs = [], errors = [];
@@ -79,10 +77,9 @@
           if (Number.isInteger(v) && v >= 1 && v <= maxMult) q.mult = v; else badMult = m[1];
         }
         else if ((m = line.match(/^steal(?:\s+question)?\s*(?::\s*(\S+))?\s*$/i))) {
-          // Only Periodic Table Quest uses Steal and Elements; other types accept and ignore them
-          if (ptq) q.steal = !m[1] || /^(y|yes|true|1)$/i.test(m[1]);
+          q.steal = !m[1] || /^(y|yes|true|1)$/i.test(m[1]);
         } else if ((m = line.match(/^elements?\s*:\s*(.*)$/i))) {
-          if (ptq) { const r = G().parseEls(m[1]); q.els = r.zs; badEls = r.bad; }
+          const r = G().parseEls(m[1]); q.els = r.zs; badEls = r.bad;
         } else if ((m = line.match(/^=\s*(.*)$/))) {
           numLines++;
           const r = parseNumLine(m[1]);
@@ -103,8 +100,7 @@
       const short = q.text ? `"${q.text.slice(0, 40)}${q.text.length > 40 ? '…' : ''}"` : '';
       const where = `Question ${n}${short ? ' ' + short : ''}`;
       if (!q.text) errors.push(`${where}: there is no question text above the answers.`);
-      if (badMult && !ptq) errors.push(`${where}: the multiplier "${badMult}" should be a whole number from 1 to ${maxMult}.`);
-      if (ptq) q.mult = 1;
+      if (badMult) errors.push(`${where}: the multiplier "${badMult}" should be a whole number from 1 to ${maxMult}.`);
       if (badEls.length) errors.push(`${where}: ${badEls.map(x => `"${x}"`).join(', ')} ${badEls.length === 1 ? 'isn\'t an element symbol' : 'aren\'t element symbols'}.`);
       if (numLines) {
         if (badNum) errors.push(`${where}: couldn't read the number in "= ${badNum}". Write e.g. "= 35.5", "= 35.5 ± 0.1 g mol⁻¹" or "= 6.02 × 10^23 ± 1%".`);
@@ -136,13 +132,13 @@
   // qs as stored by the editor; answers[i] is an option position or { v, tol, pct }
   function toText(qs, answers, type) {
     return qs.map((q, i) => {
-      const els = type === 'ptq' && q.els ? Object.keys(q.els).map(Number).sort((a, b) => a - b).map(z => G().elSym(z)) : [];
+      const els = q.els ? Object.keys(q.els).map(Number).sort((a, b) => a - b).map(z => G().elSym(z)) : [];
       return [
         q.text.trim(),
         ...(q.label && q.label.trim() ? ['Label: ' + q.label.trim()] : []),
         ...(els.length ? ['Elements: ' + els.join(', ')] : []),
-        ...(type === 'ptq' && q.steal ? ['Steal'] : []),
-        ...(type !== 'ptq' && +q.mult > 1 ? ['Multiplier: ' + Math.round(+q.mult)] : []),
+        ...(q.steal ? ['Steal'] : []),
+        ...(+q.mult > 1 ? ['Multiplier: ' + Math.round(+q.mult)] : []),
         ...(q.fb && String(q.fb).trim() ? ['Feedback: ' + String(q.fb).trim().replace(/\s*\n\s*/g, ' ')] : []),
         ...(q.kind === 'num'
           ? [answers[i] && isFinite(answers[i].v) ? '= ' + numText(answers[i], (q.unit || '').trim()) : '= ?']

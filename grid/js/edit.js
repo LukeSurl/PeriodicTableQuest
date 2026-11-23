@@ -1,4 +1,6 @@
-// Quiz Grid and Periodic Table Quest: the question editor (one page for both kinds of quiz)
+// Pre-Lecture Quizzes: the question editor. One page for every game: a question set is
+// presented as Quiz Grid, Periodic Table Quest or Pachinko, chosen here and changeable at any time.
+// Settings used by only some games (labels, elements, steal, multipliers) are kept whichever is chosen.
 (async function () {
   const { $, esc, store, withDemo, isDemo, theme, toast, parseNum, fmtNum, parseEls, elSym, elsOf } = GQ;
   theme();
@@ -22,31 +24,61 @@
       : `Couldn't open the quiz. Check your internet connection and reload. <small>(${esc(e.message)})</small>`);
   }
 
-  // Settings for this kind of quiz
-  const S = GQ_SETTINGS.forType(quiz.type), ptq = S.type === 'ptq', pach = S.type === 'pachinko';
-  document.body.classList.toggle('ptq', ptq); document.body.classList.toggle('pach', pach);
-  $('home').textContent = S.title; $('home').href = home;
-  document.title = `Edit: ${S.title}`;
-  if (ptq) {
-    $('qTitle').placeholder = 'e.g. Chemistry Lecture 1 warm-up';
-    $('presentHelp').innerHTML = 'Open the <b>present link</b> on the lectern PC. It shows the periodic table and a QR code for students. Anyone with it can run the quiz but not change it.';
-    $('qsHelp').textContent = 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Questions can be tied to particular elements, or left for any element. Changes save automatically.';
-    $('previewHead').textContent = 'Which elements have element-specific questions';
+  // Settings for the game the set is presented as (see setGame)
+  let S, ptq, pach;
+  const SET_MAX = GQ_SETTINGS.setMaxQuestions || 200;
+  const games = (window.PLQ_SETTINGS && PLQ_SETTINGS.products) || [{ id: 'grid', name: 'Quiz Grid' }, { id: 'ptq', name: 'Periodic Table Quest' }, { id: 'pachinko', name: 'Pachinko' }];
+  // Quiz Grid's wording is in edit.html; the other games change it
+  const gridText = { place: $('qTitle').placeholder, present: $('presentHelp').innerHTML, qs: $('qsHelp').textContent, head: $('previewHead').textContent, note: $('previewNote').innerHTML };
+  const gameText = {
+    grid: gridText,
+    ptq: { place: 'e.g. Chemistry Lecture 1 warm-up',
+      present: 'Open the <b>present link</b> on the lectern PC. It shows the periodic table and a QR code for students. Anyone with it can run the quiz but not change it.',
+      qs: 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Questions can be tied to particular elements, or left for any element. Changes save automatically.',
+      head: 'Which elements have element-specific questions' },
+    pachinko: { place: 'e.g. Lecture 1 warm-up',
+      present: 'Open the <b>present link</b> on the lectern PC. It shows the Pachinko board and a QR code for students. Anyone with it can run the quiz but not change it.',
+      qs: 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Students pick questions from a list on their phones and can answer each one correctly once. Give tricky questions a multiplier. Changes save automatically.',
+      head: 'The board' }
+  };
+  function setGame(type) {
+    S = GQ_SETTINGS.forType(type); ptq = S.type === 'ptq'; pach = S.type === 'pachinko';
+    quiz.type = S.type;
+    document.body.classList.toggle('ptq', ptq); document.body.classList.toggle('pach', pach);
+    $('home').textContent = S.title; $('home').href = home;
+    document.title = `Edit: ${S.title}`;
+    const t = gameText[S.type];
+    $('qTitle').placeholder = t.place; $('presentHelp').innerHTML = t.present; $('qsHelp').textContent = t.qs; $('previewHead').textContent = t.head;
+    if (t.note) $('previewNote').innerHTML = t.note;
+    // The preview is built differently for each game: start it afresh
+    tableCells = null; $('preview').innerHTML = ''; $('preview').classList.remove('ptprev'); $('preview').dataset.key = '';
+    showImportHelp();
+    GQ_AI.init(S);
+    $('gamePick').querySelectorAll('input').forEach(r => { r.checked = r.value === S.type; });
   }
-  if (pach) {
-    $('qTitle').placeholder = 'e.g. Lecture 1 warm-up';
-    $('presentHelp').innerHTML = 'Open the <b>present link</b> on the lectern PC. It shows the Pachinko board and a QR code for students. Anyone with it can run the quiz but not change it.';
-    $('qsHelp').textContent = 'Each question needs question text, and either at least two options with one marked as correct, or a number answer. Students pick questions from a list on their phones and can answer each one correctly once. Give tricky questions a multiplier. Changes save automatically.';
-    $('previewHead').textContent = 'The board';
+  $('gamePick').innerHTML = games.map(g => `<label><input type="radio" name="game" value="${g.id}"><b>${esc(g.name)}</b>
+      <small>${esc(g.blurb || '')}${g.demo ? ` <a href="${withDemo('../' + g.demo).replace(/\?demo=1$/, '')}" target="_blank" rel="noopener">Try the demo</a>` : ''}</small></label>`).join('');
+  $('gamePick').addEventListener('change', ev => {
+    if (!ev.target.matches('input[name="game"]')) return;
+    setGame(ev.target.value);
+    changed(); render();
+    toast(`Now presented as ${S.title}`);
+    if (quiz.qs.length > S.maxQuestions) $('limitNote').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  let tableCells = null;
+  setGame(quiz.type);
+  // The demo pages show one game each, so their quizzes stay in it
+  if (/^demo/.test(id)) {
+    $('gamePick').querySelectorAll('input').forEach(r => { r.disabled = true; });
+    $('limitNote').insertAdjacentHTML('beforebegin', `<p class="small muted" style="margin:.5rem 0 0">This is a demo quiz, so it stays as ${esc(S.title)}. Create your own quiz on the start page to try switching games.</p>`);
   }
-  showImportHelp();
-  GQ_AI.init(S);
 
   if (!quiz.qs.length) { quiz.qs.push(blankQ()); answers = []; }
   $('editor').classList.remove('hidden');
 
+  // One present link for the set, whichever game it is presented as
   const base = new URL('.', location.href).href;
-  const presentUrl = withDemo(new URL('../' + GQ_SETTINGS.hostPages[S.type] + '?quiz=' + id, base).href);
+  const presentUrl = withDemo(new URL('../present.html?quiz=' + id, base).href);
   $('presentLink').value = presentUrl; $('presentBtn').href = presentUrl;
   $('editLink').value = location.href.split('#')[0] + '#' + id + '.' + k;
   document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
@@ -58,6 +90,9 @@
 
   function blankQ() { return { text: '', kind: 'mc', opts: ['', '', '', ''], label: '', img: '', unit: '', steal: false, els: {}, mult: 1 }; }
   const multTag = q => (!ptq && +q.mult > 1 ? ` <span class="stealtag multtag">×${+q.mult}</span>` : '');
+  // A card's heading: number, tags for this game, and a warning if this game won't use it
+  const unused = i => i >= S.maxQuestions;
+  const head = (q, i) => `Question ${i + 1}${ptq && q.steal ? ' <span class="stealtag">Steal</span>' : ''}${multTag(q)}${unused(i) ? ` <span class="stealtag unusedtag">Not used in ${esc(S.title)}</span>` : ''}`;
   function remember() {
     if (discarded) return;
     const mine = store.get(KEY, []).filter(m => m.id !== id);
@@ -167,8 +202,8 @@
 
   function card(q, i) {
     const n = quiz.qs.length, probs = problems(q, i);
-    return `<div class="qcard${probs.length ? ' incomplete' : ''}${q.steal ? ' steal' : ''}" data-i="${i}">
-      <div class="qtop"><h3>Question ${i + 1}${q.steal ? ' <span class="stealtag">Steal</span>' : ''}${multTag(q)}</h3>
+    return `<div class="qcard${probs.length ? ' incomplete' : ''}${ptq && q.steal ? ' steal' : ''}${unused(i) ? ' unused' : ''}" data-i="${i}">
+      <div class="qtop"><h3>${head(q, i)}</h3>
         <button class="btn" data-act="up" ${i === 0 ? 'disabled' : ''} title="Move up" aria-label="Move question ${i + 1} up">↑</button>
         <button class="btn" data-act="down" ${i === n - 1 ? 'disabled' : ''} title="Move down" aria-label="Move question ${i + 1} down">↓</button>
         <button class="btn" data-act="dup" title="Make a copy">Copy</button>
@@ -207,8 +242,9 @@
 
   function render(focusSel) {
     $('qs').innerHTML = quiz.qs.map(card).join('');
-    $('addQ').disabled = quiz.qs.length >= S.maxQuestions;
-    $('addQ').textContent = quiz.qs.length >= S.maxQuestions ? `Up to ${S.maxQuestions} questions` : '+ Add a question';
+    $('addQ').disabled = quiz.qs.length >= SET_MAX;
+    $('addQ').textContent = quiz.qs.length >= SET_MAX ? `Up to ${SET_MAX} questions` : '+ Add a question';
+    limitNote();
     drawPreview();
     if (focusSel) { const el = $('qs').querySelector(focusSel); if (el) { el.focus(); el.scrollIntoView({ block: 'center', behavior: 'smooth' }); } }
   }
@@ -222,17 +258,23 @@
     const acc = c.querySelector('[data-accepted]'); if (acc) acc.innerHTML = acceptedLine(quiz.qs[i], i);
   };
 
+  // A set longer than this game allows: say so (the game uses only the first questions)
+  function limitNote() {
+    const n = quiz.qs.length, max = S.maxQuestions, over = n > max;
+    $('limitNote').classList.toggle('hidden', !over);
+    if (over) $('limitNote').innerHTML = `<b>${esc(S.title)} uses only the first ${max} questions.</b> This set has ${n}, so questions ${max + 1} to ${n} won't come up while it is presented as ${esc(S.title)}. Move the ones you want into the first ${max}, or choose ${games.filter(g => g.id !== S.type && GQ_SETTINGS.forType(g.id).maxQuestions >= n).map(g => esc(g.name)).join(' or ') || 'another game'}.`;
+  }
+
   // ---------- Preview ----------
-  let tableCells = null;
   function drawPreview() {
     if (pach) {
-      if (!$('preview').querySelector('canvas')) { $('preview').innerHTML = '<canvas class="pachprev"></canvas>'; window.addEventListener('resize', () => PACH.draw($('preview').querySelector('canvas'), [], [])); }
+      if (!$('preview').querySelector('canvas')) $('preview').innerHTML = '<canvas class="pachprev"></canvas>';
       PACH.draw($('preview').querySelector('canvas'), [], []);
-      const ready = quiz.qs.filter((q, i) => !problems(q, i).length), mults = ready.filter(q => +q.mult > 1).length;
+      const ready = quiz.qs.slice(0, S.maxQuestions).filter((q, i) => !problems(q, i).length), mults = ready.filter(q => +q.mult > 1).length;
       $('previewNote').innerHTML = `${ready.length} question${ready.length === 1 ? '' : 's'} ready${mults ? `, ${mults} with a multiplier` : ''}. Each student can drop one ball per question they answer correctly, so at most ${ready.length} each. The numbers along the bottom are the points for landing in each zone.`;
       return;
     }
-    if (!ptq) return GQ.drawGrid($('preview'), { qs: quiz.qs.map(q => ({ ...q, ready: true })) }, {}, { aspect: 2 });
+    if (!ptq) return GQ.drawGrid($('preview'), { qs: quiz.qs.slice(0, S.maxQuestions).map(q => ({ ...q, ready: true })) }, {}, { aspect: 2 });
     const ready = quiz.qs.map((q, i) => ({ ...q, ready: !problems(q, i).length }));
     const pq = { qs: ready };
     if (!tableCells) { $('preview').innerHTML = ''; $('preview').classList.add('ptprev'); tableCells = PQ_TABLE.build($('preview')); }
@@ -252,6 +294,8 @@
       + (steals ? '' : ' There are no questions marked as steal questions, so an ordinary question is used for steals.');
   }
 
+  window.addEventListener('resize', () => { if (pach && $('preview').querySelector('canvas')) PACH.draw($('preview').querySelector('canvas'), [], []); });
+
   // ---------- Typing: update the model without redrawing, so the cursor stays put ----------
   function setNum(q, i, card) {
     const r = rawOf(q), a = answers[i] && typeof answers[i] === 'object' ? answers[i] : {};
@@ -262,7 +306,7 @@
   $('qs').addEventListener('input', ev => {
     const c = ev.target.closest('.qcard'); if (!c) return;
     const i = +c.dataset.i, q = quiz.qs[i], t = ev.target;
-    if (t.dataset.f === 'mult') { q.mult = +t.value; c.querySelector('h3').innerHTML = `Question ${i + 1}${multTag(q)}`; }
+    if (t.dataset.f === 'mult') { q.mult = +t.value; c.querySelector('h3').innerHTML = head(q, i); }
     else if (t.dataset.f) q[t.dataset.f] = t.value;
     else if (t.dataset.opt != null) q.opts[+t.dataset.opt] = t.value;
     else if (t.dataset.right != null) {
@@ -277,7 +321,7 @@
     } else if (t.dataset.bool) {
       q[t.dataset.bool] = t.checked;
       c.classList.toggle('steal', !!q.steal);
-      c.querySelector('h3').innerHTML = `Question ${i + 1}${q.steal ? ' <span class="stealtag">Steal</span>' : ''}`;
+      c.querySelector('h3').innerHTML = head(q, i);
     } else if (t.dataset.kind) {
       if ((t.dataset.kind === 'num') === isNum(q)) return;
       // Keep the other kind's answer, so switching back and forth loses nothing
@@ -419,9 +463,7 @@
   // ---------- Import and export as text ----------
   function showImportHelp() {
     $('importHelp').innerHTML = `Put a blank line between questions. Write the question, then each answer on its own line starting with <code>-</code>. Start the correct answer with <code>*</code> instead. For a number answer, write one line starting with <code>=</code>: the value, then optionally how close an answer must be (<code>± 0.1</code> or <code>± 1%</code>) and a unit. An optional <code>Feedback:</code> line is shown to a student who answers wrongly. `
-      + (pach ? `A <code>Multiplier: 2</code> line (up to ×${S.maxMultiplier}) makes a question's ball worth that many times its points. Periodic Table Quest's <code>Elements:</code> and <code>Steal</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`
-        : ptq ? 'An <code>Elements:</code> line ties a question to those elements, and a line saying <code>Steal</code> makes it a steal question. <code>Multiplier:</code> lines (used by Quiz Grid and Pachinko) are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.'
-        : `A <code>Label:</code> line for the big screen is optional. A <code>Multiplier: 2</code> line (up to ×${S.maxMultiplier}) makes winning a question count as that many questions. Periodic Table Quest's <code>Elements:</code> and <code>Steal</code> lines are accepted and ignored. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`);
+      + `Optional lines for particular games: <code>Label:</code> (a short label for a Quiz Grid tile), <code>Multiplier: 2</code> (up to ×${S.maxMultiplier}: a tricky question counts more in Quiz Grid and Pachinko), and <code>Elements: Na, K</code> and <code>Steal</code> (Periodic Table Quest). They are all kept whichever game presents the set. Lines starting with <code>#</code> are notes and are ignored. Pictures can be added afterwards.`;
     $('importEg').textContent = pach
       ? 'What is the C–C bond length in benzene?\nFeedback: The bonds are all the same length, between a single and a double bond.\n- 134 pm\n* 140 pm\n- 151 pm\n\nHow many moles are in 9.0 g of water? Give 2 s.f.\nMultiplier: 2\n= 0.50 ± 0.005 mol'
       : ptq
@@ -443,10 +485,11 @@
     const n = r.qs.length, nNum = r.qs.filter(q => q.kind === 'num').length, nSteal = r.qs.filter(q => q.steal).length;
     const extra = [nNum ? `${nNum} with a number answer` : '', nSteal ? `${nSteal} steal question${nSteal === 1 ? '' : 's'}` : ''].filter(Boolean).join(', ');
     $('importCheck').innerHTML = `<p class="okline">Found ${n} question${n === 1 ? '' : 's'}${extra ? ` (${extra})` : ''}, all complete.</p>`
-      + (kept + n > S.maxQuestions ? `<p class="warnline">Adding them would make ${kept + n}; the max number of questions allowed is ${S.maxQuestions}. You can still replace the existing questions.</p>` : '');
+      + (kept + n > SET_MAX ? `<p class="warnline">Adding them would make ${kept + n}; the max number of questions allowed is ${SET_MAX}. You can still replace the existing questions.</p>`
+        : kept + n > S.maxQuestions ? `<p class="warnline">That makes ${kept + n} questions, but ${esc(S.title)} uses only the first ${S.maxQuestions}.</p>` : '');
     parsed = r.qs;
-    $('importAdd').disabled = kept + n > S.maxQuestions;
-    $('importReplace').disabled = n > S.maxQuestions;
+    $('importAdd').disabled = kept + n > SET_MAX;
+    $('importReplace').disabled = n > SET_MAX;
   }
   $('importText').addEventListener('input', checkImport);
   function doImport(replace) {

@@ -21,9 +21,9 @@
 
   let quiz = null;
   B.watchQuiz(quizId, q => {
+    if (!q) { quiz = q; return fatal('No quiz found for this link. It may have been deleted, or the link was copied incompletely.'); }
+    if (q.type !== 'pachinko') { GQ.followGame(q, 'pachinko', quiz && state.meta); return; }
     quiz = q;
-    if (!q) return fatal('No quiz found for this link. It may have been deleted, or the link was copied incompletely.');
-    if (q.type !== 'pachinko') return fatal(`This quiz isn't a Pachinko quiz. <a href="../${GQ_SETTINGS.hostPages[q.type] || 'grid/host.html'}${location.search}">Open it in the right game</a>.`);
     $('topic').textContent = q.title || '';
     spawn();
     if (state.meta) renderMeta();

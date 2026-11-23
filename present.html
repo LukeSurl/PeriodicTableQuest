@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Opening the quiz…</title>
+<script>window.GQ_V = Date.now(); document.write(['css/style.css', 'grid/css/grid.css'].map(f => `<link rel="stylesheet" href="${f}?v=${GQ_V}">`).join(''));</script>
+</head>
+<body class="page">
+<main>
+  <p class="panel" id="msg">Opening the quiz…</p>
+</main>
+<!-- The present link for every question set. It looks up which game the set is currently
+     presented as (chosen in the editor) and opens that game's projector page. -->
+<script>document.write(['js/config.js', 'grid/js/settings.js', 'grid/js/common.js', 'grid/js/backend.js'].map(f => `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+<script>
+(async function () {
+  const msg = html => { document.getElementById('msg').innerHTML = html; };
+  const id = new URLSearchParams(location.search).get('quiz');
+  if (!id) return msg('This link is missing its quiz. Check you copied all of it. <a href="./">Go to the start page</a>');
+  try {
+    const B = await GQ_BACKEND.create();
+    const q = await B.getQuiz(id);
+    if (!q) return msg('No quiz found for this link. It may have been deleted, or the link was copied incompletely.');
+    location.replace((GQ_SETTINGS.hostPages[q.type] || GQ_SETTINGS.hostPages.grid) + location.search);
+  } catch (e) {
+    msg(`Couldn't connect. Check the internet connection and reload. <small>(${GQ.esc(e.message)})</small>`);
+  }
+})();
+</script>
+</body>
+</html>

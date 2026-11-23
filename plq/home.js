@@ -1,5 +1,6 @@
-// Pre-Lecture Quizzes: the home page. "Create new quiz" lists the quiz types; below it,
-// every quiz of every type saved in this browser.
+// Pre-Lecture Quizzes: the home page. "Create new quiz" lists the games a question set can be
+// presented as (the one clicked is where it starts; the editor can switch it); below it, every
+// quiz saved in this browser.
 (function () {
   const P = window.PLQ_SETTINGS;
   const { $, esc, store, withDemo, isDemo, theme } = GQ;
@@ -50,7 +51,7 @@
       <span class="pic">${icon(p.icon)}</span>
       <span class="pname">${esc(p.name)}</span>
       <span class="pblurb">${esc(p.blurb)}</span>
-      <span class="pgo">Create a ${esc(p.name)} quiz</span></button>
+      <span class="pgo">Start as ${esc(p.name)}</span></button>
       ${p.demo ? `<a class="pdemo" href="${p.demo}" target="_blank" rel="noopener">or try the demo first</a>` : ''}</div>`).join('');
   $('products').querySelectorAll('.product').forEach(b => b.onclick = () => create(b));
 
@@ -63,7 +64,7 @@
       const mine = store.get(GKEY, []); mine.unshift({ id: qid, k, title: 'Untitled quiz', type, at: Date.now() }); store.set(GKEY, mine);
       location.href = withDemo('grid/edit.html') + `#${qid}.${k}`;
     } catch (e) {
-      btn.disabled = false; btn.querySelector('.pgo').textContent = `Create a ${name} quiz`;
+      btn.disabled = false; btn.querySelector('.pgo').textContent = `Start as ${name}`;
       $('createMsg').innerHTML = `<b>Couldn't create the quiz.</b> Check your internet connection. <small>(${esc(e.message)})</small>`;
     }
   }
@@ -75,7 +76,7 @@
     return store.get(GKEY, []).map((m, i) => {
       const type = pages[m.type] ? m.type : 'grid';
       return { type, key: m.id, at: m.at || 0, order: i, title: m.title || 'Untitled quiz', detail: '',
-        edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo(pages[type] + '?quiz=' + m.id) };
+        edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo('present.html?quiz=' + m.id) };
     }).sort((a, b) => b.at - a.at || a.order - b.order);   // most recent first; older entries (no date) keep their order
   }
 
@@ -107,7 +108,7 @@
     const shown = items.filter(x => filter === 'all' || x.type === filter);
     $('saved').innerHTML = shown.length ? shown.map((x, i) => `<li>
         <span class="ticon" title="${esc(product(x.type).name)}">${icon(product(x.type).icon)}</span>
-        <span class="t">${esc(x.title)}<small>${esc(product(x.type).name)}${x.detail ? ' · ' + esc(x.detail) : ''}</small></span>
+        <span class="t">${esc(x.title)}<small>Presented as ${esc(product(x.type).name)}${x.detail ? ' · ' + esc(x.detail) : ''}</small></span>
         <a class="btn" href="${x.edit}">Edit</a>
         ${x.present ? `<a class="btn primary" href="${x.present}" target="_blank" rel="noopener">Present</a>` : '<span class="btn primary disabled" title="Choose some topics first">Present</span>'}
         <button class="btn" data-forget="${i}" title="Delete this quiz">Delete</button></li>`).join('')

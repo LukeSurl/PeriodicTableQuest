@@ -11,7 +11,8 @@ window.GQ_SETTINGS = {
   defaultMinutes: 10,               // default countdown on the projector
   wrongCooldownSeconds: 10,         // pause after a wrong answer, to discourage guessing
 
-  maxQuestions: 30,
+  setMaxQuestions: 200,             // most questions in one question set, whichever game presents it
+  maxQuestions: 30,                 // most questions Quiz Grid uses: a longer set uses its first 30
   maxOptions: 6,
   labelLength: 40,                  // longest "short label" for a tile
   maxMultiplier: 5,                 // a question can count ×1 up to ×5 (Quiz Grid and Pachinko)
@@ -38,15 +39,16 @@ window.GQ_SETTINGS = {
   // ball of their team's colour down a board, and the zone it lands in sets the points.
   pachinko: {
     title: 'Pachinko',
-    maxQuestions: 50,
+    maxQuestions: 50,               // a longer set uses its first 50
     maxMultiplier: 5,               // a question can be worth ×1 up to ×5
     zones: [100, 30, 50, 20, 10, 20, 50, 30, 100],   // points for each landing zone, left to right
     wrongCooldownSeconds: 8,
     dropGraceSeconds: 5             // a right answer just before time up can still drop its ball
   }
 };
-// Where each quiz type is presented, from the site root
+// Where each game is presented, from the site root. A set's present link is present.html, which
+// opens the page for whichever game the set is currently presented as.
 window.GQ_SETTINGS.hostPages = { grid: 'grid/host.html', ptq: 'quest/host.html', pachinko: 'pachinko/host.html' };
-// The settings for one quiz type: 'grid' (the default) or 'ptq'
+// The settings for one game: 'grid' (the default), 'ptq' or 'pachinko'
 window.GQ_SETTINGS.forType = type => (type === 'ptq' || type === 'pachinko'
   ? { ...window.GQ_SETTINGS, ...window.GQ_SETTINGS[type], type } : { ...window.GQ_SETTINGS, type: 'grid' });
