@@ -15,6 +15,8 @@
 <main>
   <section class="board">
     <canvas id="board" aria-label="Pachinko board"></canvas>
+    <ul class="reports a" id="repA" aria-live="polite" aria-label="Blue team: live reports"></ul>
+    <ul class="reports b" id="repB" aria-live="polite" aria-label="Red team: live reports"></ul>
     <div class="banner hidden" id="banner"></div>
     <div class="overlay hidden" id="overlay"><div class="box" id="overlayBox"></div></div>
   </section>
@@ -35,7 +37,7 @@
       </div>
     </div>
     <div class="card howto" id="howto"></div>
-    <div class="card feed"><ul id="feed"></ul></div>
+    <div class="card feed hidden" id="feedCard"><ul id="feed"></ul></div>
   </aside>
 </main>
 <div class="controls" id="controls">

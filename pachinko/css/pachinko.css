@@ -18,3 +18,16 @@
 .play #grid .gtile canvas.tileball { position: absolute; top: -9px; right: -9px; width: 60px; height: 60px; z-index: 1; pointer-events: none; }
 .play #grid .gtile.done canvas.tileball { opacity: .45; }
 .play #grid .gtile.done::after { top: auto; bottom: 6px; }
+
+/* Projector: live reports either side of the board (Blue left, Red right) */
+.host .reports { position: absolute; top: .4rem; bottom: .4rem; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; overflow: hidden; z-index: 2; pointer-events: none; }
+.host .reports.a { left: .4rem; }
+.host .reports.b { right: .4rem; }
+.host .reports li { display: flex; align-items: center; gap: .55rem; background: var(--paper); border-radius: 12px; padding: .45rem .7rem; font-weight: 700;
+  font-size: clamp(.8rem, 1.15vw, 1.25rem); line-height: 1.25; box-shadow: 0 3px 10px #003c3b1f; animation: repin .45s ease; }
+.host .reports.a li { border-left: 6px solid var(--ta); color: var(--ta); }
+.host .reports.b li { border-left: 6px solid var(--tb); color: var(--tb); }
+.host .reports li:nth-child(n+4) { opacity: .75; }
+.host .reports li:nth-child(n+6) { opacity: .45; }
+.host .reports .repball { width: 2.4em; height: 2.4em; flex: none; }
+@keyframes repin { from { transform: translateY(-14px); opacity: 0; } }

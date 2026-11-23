@@ -46,7 +46,8 @@
       if (!code) { code = B.newRunCode(); await B.createRun(code, quizId, extra()); store.set(runKey, code); }
     }
     if (unwatch) unwatch();
-    first = true; balls = []; flashes = []; spawned = new Set(); seenScores = new Set(); finishing = false;
+    first = true; balls = []; flashes = []; spawned = new Set(); seenScores = new Set(); seenDrops = null; finishing = false;
+    $('repA').innerHTML = ''; $('repB').innerHTML = '';
     unwatch = B.watchRun(code, (st, part) => { state = st; render(part); });
     drawQR();
   }
@@ -65,7 +66,7 @@
   }
 
   // ---------- The board ----------
-  let balls = [], flashes = [], spawned = new Set(), seenScores = new Set();
+  let balls = [], flashes = [], spawned = new Set(), seenScores = new Set(), seenDrops = null;
   // Drop a ball for every drop that hasn't landed yet
   function spawn() {
     if (!quiz) return;
@@ -89,6 +90,7 @@
     balls = balls.filter(b => !b.landed);
     flashes = flashes.filter(f => f.until > now);
     PACH.draw($('board'), balls, flashes);
+    placeReports();
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
@@ -98,14 +100,60 @@
     B.setScore(code, b.id, s).catch(e => console.warn('Couldn\'t record a score', e));
   }
 
+  // ---------- Live reports, either side of the board: Blue on the left, Red on the right ----------
+  // They use the space beside the board; if there isn't enough, the side panel's feed is used instead.
+  let wideEnough = null;
+  function placeReports() {
+    const cv = $('board'), r = cv.getBoundingClientRect();
+    const boardW = Math.min(r.width, r.height * PACH.W / PACH.H), free = (r.width - boardW) / 2;
+    const ok = free >= 150;
+    if (ok !== wideEnough) {
+      wideEnough = ok;
+      ['repA', 'repB'].forEach(id => $(id).classList.toggle('hidden', !ok));
+      $('feedCard').classList.toggle('hidden', ok);
+    }
+    if (ok) ['repA', 'repB'].forEach(id => { $(id).style.width = `${Math.min(free - 16, 340)}px`; });
+  }
+  const qNumber = q => { const k = GQ.playable(quiz || { qs: [] }).findIndex(x => x.i === q); return k >= 0 ? k + 1 : q + 1; };
+  function ballIcon(t, q) {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 96; cv.className = 'repball';
+    const qq = quiz && quiz.qs[q];
+    PACH.drawBall(cv.getContext('2d'), 48, 48, 30, getComputedStyle(document.documentElement).getPropertyValue('--t' + t).trim(), (qq && +qq.mult) || 1, PACH.shapeFor(q), 0);
+    return cv;
+  }
+  function report(t, q, html) {
+    const ul = $(t === 'a' ? 'repA' : 'repB'), li = document.createElement('li');
+    li.appendChild(ballIcon(t, q));
+    const span = document.createElement('span'); span.innerHTML = html; li.appendChild(span);
+    ul.prepend(li);
+    while (ul.children.length > 8) ul.lastChild.remove();
+  }
+  // New right answers, and balls landing (not the ones already there when the page opened)
+  function newReports(part) {
+    if (part === 'drops') {
+      const drops = state.drops || {};
+      if (!seenDrops) { seenDrops = new Set(Object.keys(drops)); return; }
+      Object.entries(drops).forEach(([id, d]) => {
+        if (seenDrops.has(id) || !d) return;
+        seenDrops.add(id);
+        report(d.t, +d.q, `Question ${qNumber(+d.q)} answered correctly!`);
+      });
+    }
+  }
+
   function render(part) {
+    if (part === 'drops') newReports(part);
     if (part === 'drops' || part === 'scores' || part === 'meta') spawn();
     if (part === 'scores' || part === 'meta') {
       const sc = state.scores || {};
       Object.keys(sc).forEach(id => {
         if (seenScores.has(id)) return;
         seenScores.add(id);
-        if (!first) feedLine(sc[id]);
+        if (!first) {
+          feedLine(sc[id]);
+          const d = (state.drops || {})[id];
+          report(sc[id].t, d ? +d.q : 0, `scored ${sc[id].p * (+sc[id].m || 1)} points!`);
+        }
       });
       if (part === 'scores') first = false;
       const t = P.totals(sc);
@@ -196,7 +244,8 @@
   $('end').onclick = () => B.updateMeta(code, { endsAt: Math.min(B.now(), (state.meta && state.meta.endsAt) || B.now()) });
   confirmClick($('reset'), 'Clear scores', async () => {
     await B.clearRun(code); await B.updateMeta(code, { status: 'lobby', endsAt: 0 });
-    $('feed').innerHTML = ''; balls = []; spawned = new Set(); seenScores = new Set();
+    $('feed').innerHTML = ''; balls = []; spawned = new Set(); seenScores = new Set(); seenDrops = new Set();
+    $('repA').innerHTML = ''; $('repB').innerHTML = '';
   });
   confirmClick($('newgame'), 'New game', async () => {
     if (B.mode !== 'demo') await B.deleteRun(code).catch(() => {});
