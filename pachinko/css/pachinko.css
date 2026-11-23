@@ -29,5 +29,5 @@
 .host .reports.b li { border-left: 6px solid var(--tb); color: var(--tb); }
 .host .reports li:nth-child(n+4) { opacity: .75; }
 .host .reports li:nth-child(n+6) { opacity: .45; }
-.host .reports .repball { width: 2.4em; height: 2.4em; flex: none; }
+.host .reports .repball { width: 3em; height: 3em; margin: -.3em -.2em; flex: none; }
 @keyframes repin { from { transform: translateY(-14px); opacity: 0; } }

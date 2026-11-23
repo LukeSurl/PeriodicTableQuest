@@ -118,7 +118,7 @@
   function ballIcon(t, q) {
     const cv = document.createElement('canvas'); cv.width = cv.height = 96; cv.className = 'repball';
     const qq = quiz && quiz.qs[q];
-    PACH.drawBall(cv.getContext('2d'), 48, 48, 30, getComputedStyle(document.documentElement).getPropertyValue('--t' + t).trim(), (qq && +qq.mult) || 1, PACH.shapeFor(q), 0);
+    PACH.drawBall(cv.getContext("2d"), 48, 48, 22, getComputedStyle(document.documentElement).getPropertyValue('--t' + t).trim(), (qq && +qq.mult) || 1, PACH.shapeFor(q), 0);
     return cv;
   }
   function report(t, q, html) {
