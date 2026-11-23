@@ -46,9 +46,9 @@
       if (!code) { code = B.newRunCode(); await B.createRun(code, quizId, extra()); store.set(runKey, code); }
     }
     if (unwatch) unwatch();
-    first = true; balls = []; flashes = []; spawned = new Set(); seenScores = new Set(); seenDrops = null; finishing = false;
+    first = true; balls = []; flashes = []; spawned = new Set(); seenScores = new Set(); seenDrops = null; finishing = false; loaded = new Set();
     $('repA').innerHTML = ''; $('repB').innerHTML = '';
-    unwatch = B.watchRun(code, (st, part) => { state = st; render(part); });
+    unwatch = B.watchRun(code, (st, part) => { state = st; loaded.add(part); render(part); });
     drawQR();
   }
 
@@ -66,10 +66,11 @@
   }
 
   // ---------- The board ----------
-  let balls = [], flashes = [], spawned = new Set(), seenScores = new Set(), seenDrops = null;
-  // Drop a ball for every drop that hasn't landed yet
+  let balls = [], flashes = [], spawned = new Set(), seenScores = new Set(), seenDrops = null, loaded = new Set();
+  // Drop a ball for every drop that hasn't landed yet. Wait until both the drops and the scores
+  // have loaded, or a refreshed page would think every ball still needed dropping.
   function spawn() {
-    if (!quiz) return;
+    if (!quiz || !loaded.has('drops') || !loaded.has('scores')) return;
     Object.entries(state.drops || {}).forEach(([id, d]) => {
       if (spawned.has(id) || (state.scores || {})[id] || !d) return;
       spawned.add(id);
@@ -95,6 +96,7 @@
   }
   requestAnimationFrame(frame);
   function land(b, zone) {
+    if ((state.scores || {})[b.id]) return;
     const s = { p: PACH.ZONES[zone], m: b.mult, t: b.t };
     flashes.push({ zone, t: b.t, text: '+' + s.p * s.m, until: performance.now() + 1800 });
     B.setScore(code, b.id, s).catch(e => console.warn('Couldn\'t record a score', e));

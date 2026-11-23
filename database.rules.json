@@ -179,7 +179,7 @@
         },
         "scores": {
           "$id": {
-            ".validate": "newData.hasChildren(['p', 'm', 't']) && newData.child('p').isNumber() && newData.child('m').isNumber()"
+            ".validate": "!data.exists() && newData.hasChildren(['p', 'm', 't']) && newData.child('p').isNumber() && newData.child('m').isNumber()"
           }
         },
         "$other": {
