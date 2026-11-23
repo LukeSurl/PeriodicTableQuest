@@ -149,26 +149,30 @@
     g.setTransform(1, 0, 0, 1, 0, 0);
     g.clearRect(0, 0, canvas.width, canvas.height);
     g.setTransform(s, 0, 0, s, f.ox, f.oy);
-    // Board
-    g.fillStyle = paper; g.strokeStyle = ink; g.lineWidth = 0.6;
-    roundRect(g, 0, 0, W, H, 3); g.fill(); g.stroke();
+    // Board: everything inside is clipped to its rounded outline, and the border is drawn last, on top
+    g.fillStyle = paper;
+    roundRect(g, 0, 0, W, H, 3); g.fill();
+    g.save(); g.clip();
     // Zones
     ZONES.forEach((v, i) => {
       const fl = (flashes || []).find(x => x.zone === i && x.until > now);
       g.fillStyle = fl ? team[fl.t] : (v >= 100 ? '#F9EEDA' : v >= 50 ? '#E7F1FB' : '#ffffff');
-      g.fillRect(i * ZW, ZONE_TOP, ZW, H - ZONE_TOP - 0.4);
+      g.fillRect(i * ZW, ZONE_TOP, ZW, H - ZONE_TOP);
       g.fillStyle = fl ? '#fff' : ink;
       g.font = `700 ${v >= 100 ? 4.2 : 3.8}px Segoe UI, system-ui, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
       g.fillText(String(v), i * ZW + ZW / 2, LAND_Y - 4);
     });
     g.strokeStyle = ink; g.lineWidth = 0.8;
-    dividers.forEach(x => { g.beginPath(); g.moveTo(x, ZONE_TOP); g.lineTo(x, H - 0.4); g.stroke(); });
+    dividers.forEach(x => { g.beginPath(); g.moveTo(x, ZONE_TOP); g.lineTo(x, H); g.stroke(); });
     g.beginPath(); g.moveTo(0, ZONE_TOP); g.lineTo(W, ZONE_TOP); g.strokeStyle = line; g.lineWidth = 0.3; g.stroke();
     // Pegs
     g.fillStyle = ink;
     for (const p of pegs) { g.beginPath(); g.arc(p.x, p.y, PEG_R, 0, Math.PI * 2); g.fill(); }
     // Balls
     for (const b of balls || []) drawBall(g, b.x, b.y, BALL_R, team[b.t] || ink, b.mult, b.shape, b.a);
+    g.restore();
+    g.strokeStyle = ink; g.lineWidth = 0.6;
+    roundRect(g, 0, 0, W, H, 3); g.stroke();
     // Points floating up from where a ball landed
     for (const fl of flashes || []) {
       const left = fl.until - now; if (left <= 0 || !fl.text) continue;
