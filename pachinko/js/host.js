@@ -136,7 +136,7 @@
       Object.entries(drops).forEach(([id, d]) => {
         if (seenDrops.has(id) || !d) return;
         seenDrops.add(id);
-        report(d.t, +d.q, `Question ${qNumber(+d.q)} answered correctly!`);
+        report(d.t, +d.q, `Q${qNumber(+d.q)} correct!`);
       });
     }
   }
