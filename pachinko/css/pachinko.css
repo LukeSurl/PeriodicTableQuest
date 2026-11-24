@@ -30,3 +30,11 @@
 .host .reports li:nth-child(n+6) { opacity: .45; }
 .host .reports .repball { width: 3em; height: 3em; margin: -.3em -.2em; flex: none; }
 @keyframes repin { from { transform: translateY(-14px); opacity: 0; } }
+/* The notice at the end */
+.host .overlay .finalscores { display: flex; gap: 4vw; justify-content: center; margin: .3em 0; font-size: clamp(1.6rem, 3.6vw, 4rem); font-weight: 800; }
+.host .overlay .finalscores b { display: inline-block; min-width: 2.2ch; }
+.host .overlay .finalscores b.bump { animation: bump .5s ease-out; }
+@keyframes bump { 0% { transform: scale(1.5); } 100% { transform: scale(1); } }
+.host .overlay h2.winner { margin-top: .2em; animation: winner .6s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes winner { 0% { transform: scale(.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.host .overlay.finishing { background: transparent; backdrop-filter: none; }   /* so the last balls can be seen landing */

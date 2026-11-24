@@ -82,7 +82,7 @@
     const finished = total > 0 && left === 0;
     if (m.status === 'lobby') setStatus('The game starts soon. Questions open when the timer starts.');
     else if (m.status === 'ended') { const r = P.resultText(state.scores); setStatus(`<b>Game over. ${r.head}</b> ${r.sub}. ${r.w === myTeam ? '🎉' : r.w ? 'Better luck next time.' : ''}`); }
-    else if (timeUp()) setStatus('Time\'s up!');
+    else if (timeUp()) setStatus('Time\'s up! Watch the last balls land on the big screen.');
     else setStatus('');
     $('progress').textContent = total ? `You've got ${got} of ${total} question${total === 1 ? '' : 's'} right` : 'No questions yet.';
     $('done').classList.toggle('hidden', !finished);
@@ -92,7 +92,7 @@
     const mine = Object.keys(state.drops || {}).filter(id => id.startsWith(B.uid + '_'));
     $('myballs').innerHTML = mine.map(id => {
       const s = (state.scores || {})[id];
-      const missed = s ? !(+s.p > 0) : !isOpen();
+      const missed = s ? !(+s.p > 0) : m.status === 'ended';
       return `<li class="${missed ? 'missed' : s ? '' : 'falling'}" style="background:var(--t${myTeam})">${missed ? 'too late' : s ? '+' + esc(P.pointsText(s)) : 'falling…'}</li>`;
     }).join('');
   }

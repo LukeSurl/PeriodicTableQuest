@@ -95,7 +95,8 @@
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-  const running = () => !!state.meta && state.meta.status === 'open' && B.now() < state.meta.endsAt;
+  // Balls keep falling and scoring after the clock hits zero, until the game is declared over
+  const running = () => !!state.meta && state.meta.status === 'open';
   function land(b, zone) {
     if ((state.scores || {})[b.id] || !running()) return;
     const s = { p: PACH.ZONES[zone], m: b.mult, t: b.t };
@@ -178,16 +179,30 @@
     if (!quiz) return;
     if (!m) { ov.classList.remove('hidden'); box.innerHTML = '<h2>Setting up…</h2>'; return; }
     if (m.status === 'lobby') {
+      shownFinal = null; ov.classList.remove('finishing');
       const n = GQ.playable(quiz).length;
       ov.classList.remove('hidden');
       box.innerHTML = `<div class="lobbygrid"><div class="bigqr">${code ? qrSvg(playUrl()) : ''}<div>Code <b>${esc(code || '')}</b></div></div>
         <div><h2>Scan to join</h2><div class="lobby-msg">${P.rulesList()}</div><p class="small">${n} question${n === 1 ? '' : 's'}. Each player can answer every one.</p></div></div>`;
-    } else if (m.status === 'ended') {
-      const r = P.resultText(state.scores);
-      ov.classList.remove('hidden');
-      box.innerHTML = `<h2${r.w ? ` style="color:var(--t${r.w})"` : ''}>${r.head}</h2><p>${r.sub}</p>`;
-    } else ov.classList.add('hidden');
+    } else if (m.status === 'ended') finalNotice(true);
+    else if (B.now() >= m.endsAt) finalNotice(false);
+    else { ov.classList.add('hidden'); ov.classList.remove('finishing'); shownFinal = null; }
     $('start').textContent = m.status === 'open' ? 'Restart timer' : (m.status === 'ended' ? 'Play on' : 'Start');
+  }
+
+  // The notice at the end: the scores first (they tick up as the last balls land), then the winner
+  let shownFinal = null;
+  function finalNotice(withWinner) {
+    const ov = $('overlay'), box = $('overlayBox'), t = P.totals(state.scores), r = P.resultText(state.scores);
+    ov.classList.remove('hidden'); ov.classList.toggle('finishing', !withWinner);
+    const key = `${withWinner}|${t.a}|${t.b}`;
+    if (key === shownFinal) return;
+    const was = shownFinal && shownFinal.split('|');
+    shownFinal = key;
+    const num = (k, v, old) => `<span class="fs" style="color:var(--t${k})">${esc(team(k).name)} <b class="${old != null && +old !== v ? 'bump' : ''}">${v}</b></span>`;
+    box.innerHTML = `<p class="small">Time's up!</p>
+      <div class="finalscores">${num('a', t.a, was && was[1])}${num('b', t.b, was && was[2])}</div>
+      ${withWinner ? `<h2 class="winner"${r.w ? ` style="color:var(--t${r.w})"` : ''}>${r.head}</h2>` : '<p class="small">The last balls are landing…</p>'}`;
   }
 
   function feedLine(s) {
@@ -198,9 +213,10 @@
   }
 
   // ---------- Clock, and the end of the game ----------
-  // The game ends the moment the clock hits zero. Any ball still on the board is taken off
-  // and scores nothing (recorded as 0, so it is never dropped again).
-  let ending = false;
+  // At zero, answers stop and the scores go up in front of the board while the last balls land.
+  // Once every ball has scored, the game is over and the winner is added. If a ball somehow
+  // hasn't landed after 30 seconds it is taken off and scores nothing (recorded as 0).
+  let ending = false, settledAt = 0;
   async function endNow() {
     if (ending) return; ending = true;
     balls = [];
@@ -220,8 +236,15 @@
       const left = m.endsAt - now;
       $('clock').textContent = fmtTime(Math.max(0, left));
       $('clock').style.color = left < 30000 ? 'var(--bad)' : '';
-      $('clockLbl').textContent = 'until the lecture starts';
-      if (left <= 0) endNow();
+      $('clockLbl').textContent = left > 0 ? 'until the lecture starts' : 'Time\'s up!';
+      if (left <= 0) {
+        finalNotice(false);
+        const waiting = !loaded.has('drops') || !loaded.has('scores') || balls.length
+          || Object.entries(state.drops || {}).some(([id, d]) => d && !(state.scores || {})[id]);
+        // A short pause after the last ball scores, so the final score sinks in before the winner appears
+        if (waiting) settledAt = 0; else if (!settledAt) settledAt = now;
+        if ((settledAt && now - settledAt > 1500) || -left > 30000) endNow();
+      }
     } else if (m.status === 'lobby') {
       $('clock').textContent = fmtTime(durationMs()); $('clock').style.color = '';
       $('clockLbl').textContent = 'Waiting to start';
