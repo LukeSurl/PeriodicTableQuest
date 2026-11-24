@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Results</title>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../css/style.css', 'css/grid.css'].map(f => `<link rel="stylesheet" href="${f}?v=${GQ_V}">`).join(''));</script>
+</head>
+<body class="page">
+<header class="top">
+  <a href="../" class="homelink">Pre-Lecture Quizzes</a>
+  <h1 id="qTitle">Results</h1>
+  <span class="spacer"></span>
+  <a id="editBtn" href="#">Edit this quiz</a>
+</header>
+<main>
+  <div id="problem" class="panel notice bad hidden"></div>
+  <div class="panel resultsbox hidden" id="resultsBox">
+    <p class="small">After each game, this keeps how many students answered each question, how many were right first time and how many were right in the end. For multiple-choice questions it also shows which answers students chose. No student names or IDs are kept, and only people with the edit link can see these results. Questions are numbered as they are in the editor.</p>
+    <div id="results"><p class="small muted">Loading…</p></div>
+  </div>
+</main>
+<!-- Results from past games for one question set. Opened from the saved quizzes list on the
+     start page; needs the edit link's key (#<id>.<key>), as only editors can read results. -->
+<script>document.write(['../js/config.js', '../js/elements.js', 'js/settings.js', '../plq/settings.js', 'js/common.js', 'js/backend.js', 'js/results.js'].map(f => `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+<script>
+(async function () {
+  const { $, esc, withDemo, theme } = GQ;
+  theme();
+  const home = withDemo('../');
+  document.querySelectorAll('.homelink').forEach(a => { a.href = home; });
+  const problem = html => { $('problem').innerHTML = html; $('problem').classList.remove('hidden'); };
+  const [id, k] = location.hash.slice(1).split('.');
+  if (!id || !k) return problem(`This page needs a quiz's results link. <a href="${home}">Go to the start page</a> and click Results beside a saved quiz.`);
+  $('editBtn').href = withDemo('edit.html') + `#${id}.${k}`;
+  let B, quiz, answers;
+  try { B = await GQ_BACKEND.create(); ({ quiz, answers } = await B.openQuiz(id, k)); }
+  catch (e) {
+    return problem(e.message === 'badlink'
+      ? `This link doesn't match a quiz. It may have been deleted. <a href="${home}">Start page</a>`
+      : `Couldn't open the results. Check your internet connection and reload. <small>(${esc(e.message)})</small>`);
+  }
+  const title = quiz.title || 'Untitled quiz';
+  $('qTitle').textContent = `Results: ${title}`;
+  document.title = `Results: ${title}`;
+  $('resultsBox').classList.remove('hidden');
+  GQ_RESULTS.show($('results'), B, id, answers);
+})();
+</script>
+</body>
+</html>

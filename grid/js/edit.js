@@ -88,14 +88,6 @@
   });
   remember();
 
-  // ---------- Results from past games ----------
-  async function showResults() {
-    const n = await GQ_RESULTS.show($('results'), B, id, answers);
-    if (n != null) $('resultsCount').textContent = n ? `${n} game${n === 1 ? '' : 's'} so far` : 'none yet';
-  }
-  showResults();
-  $('resultsBox').addEventListener('toggle', () => { if ($('resultsBox').open) showResults(); });
-
   function blankQ() { return { text: '', kind: 'mc', opts: ['', '', '', ''], label: '', img: '', unit: '', steal: false, els: {}, mult: 1 }; }
   const multTag = q => (!ptq && +q.mult > 1 ? ` <span class="stealtag multtag">×${+q.mult}</span>` : '');
   // A card's heading: number, tags for this game, and a warning if this game won't use it

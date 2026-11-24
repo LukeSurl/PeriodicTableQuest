@@ -76,7 +76,7 @@
     return store.get(GKEY, []).map((m, i) => {
       const type = pages[m.type] ? m.type : 'grid';
       return { type, key: m.id, at: m.at || 0, order: i, title: m.title || 'Untitled quiz', detail: '',
-        edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, present: withDemo('present.html?quiz=' + m.id) };
+        edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, results: withDemo('grid/results.html') + `#${m.id}.${m.k}`, present: withDemo('present.html?quiz=' + m.id) };
     }).sort((a, b) => b.at - a.at || a.order - b.order);   // most recent first; older entries (no date) keep their order
   }
 
@@ -111,6 +111,7 @@
         <span class="t">${esc(x.title)}<small>Presented as ${esc(product(x.type).name)}${x.detail ? ' · ' + esc(x.detail) : ''}</small></span>
         <a class="btn" href="${x.edit}">Edit</a>
         ${x.present ? `<a class="btn primary" href="${x.present}" target="_blank" rel="noopener">Present</a>` : '<span class="btn primary disabled" title="Choose some topics first">Present</span>'}
+        <a class="btn" href="${x.results}" title="How the class did in past games">Results</a>
         <button class="btn" data-forget="${i}" title="Delete this quiz">Delete</button></li>`).join('')
       : '<li class="muted">None yet. Quizzes you create or open on this computer will appear here.</li>';
     $('saved').querySelectorAll('[data-forget]').forEach(b => b.onclick = () => {

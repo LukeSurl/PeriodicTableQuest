@@ -137,7 +137,7 @@ Any question can have its own feedback, shown under "Not quite" to a student who
 
 ## Results from past games (all quiz types)
 
-The editor's **Results from past games** box keeps a record of how the class did in each game: for every question, how many students answered it, how many were right first time and how many were right in the end, and for multiple-choice questions how many chose each answer first and how many chose each wrong answer at some point (for number questions, the wrong first answers). Each game can be downloaded as a CSV file or deleted. Questions are numbered as in the editor, whichever game presented them; in Periodic Table Quest, where questions come up at random, "first time" means the first time that student met the question.
+The **Results** page (`grid/results.html`, opened with the **Results** button beside each saved quiz on the start page) keeps a record of how the class did in each game: for every question, how many students answered it, how many were right first time and how many were right in the end, and for multiple-choice questions how many chose each answer first and how many chose each wrong answer at some point (for number questions, the wrong first answers). Each game can be downloaded as a CSV file or deleted. Like the editor, it needs the quiz's edit key (`#<id>.<key>`). Questions are numbered as in the editor, whichever game presented them; in Periodic Table Quest, where questions come up at random, "first time" means the first time that student met the question.
 
 While a game runs, each phone notes its own attempts at `runs/<code>/att/<q>/<uid>` (its first answer, whether it was right, and any wrong options chosen). Practice answers before the start are not noted. When the game ends, and before **Clear scores**, **Clear board** or **New game**, the projector page adds these up into a summary with no player IDs in it and keeps it at `results/<quiz>/<code>/<started>`, which only the quiz's editors can read or delete. Nothing is kept for a game in which nobody answered. The phones report their own attempts, so a student who knows their way round developer tools could skew the figures; they are a guide to the class's understanding, not marks. The code is in `grid/js/results.js`.
 
@@ -189,4 +189,4 @@ Not yet: explanations after answering, deleting a quiz, and a list of a lecturer
 | `js/engine/` | Game code: `tools.js`, `quiz.js`, `loader.js`, `table.js`, `backend.js`, `host.js`, `play.js` |
 | `js/vendor/qrcode.js` | QR code generator (MIT licence, Kazuhiko Arase) |
 | `database.rules.json` | Firebase security rules |
-| `grid/js/results.js` | Results from past games: adds up each game's attempts (projector pages) and shows them (editor) |
+| `grid/results.html`, `grid/js/results.js` | Results from past games: the projector pages add up each game's attempts; the Results page shows them |

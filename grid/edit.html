@@ -37,12 +37,6 @@
       <div class="linkbox"><input type="text" id="editLink" readonly aria-label="Edit link"><button class="btn" data-copy="editLink">Copy</button></div>
     </div>
 
-    <details class="panel importbox resultsbox" id="resultsBox">
-      <summary><b>Results from past games</b> <small class="muted" id="resultsCount">how the class did on each question</small></summary>
-      <p class="small">After each game, this keeps how many students answered each question, how many were right first time and how many were right in the end. For multiple-choice questions it also shows which answers students chose. No student names or IDs are kept, and only people with the edit link can see these results. Questions are numbered as they are on this page.</p>
-      <div id="results"><p class="small muted">Loading…</p></div>
-    </details>
-
     <h2>Questions</h2>
     <p class="small muted" id="qsHelp">Each question needs question text, and either at least two options with one marked as correct, or a number answer. Changes save automatically.</p>
 
@@ -109,6 +103,6 @@
     <div class="modal-actions"><button class="btn" id="pickClear">Clear</button><span class="spacer"></span><button class="btn" id="pickCancel">Cancel</button><button class="btn primary" id="pickDone">Done</button></div>
   </div>
 </div>
-<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', '../js/elements.js', '../js/engine/table.js', 'js/settings.js', '../plq/settings.js', 'js/common.js', 'js/backend.js', 'js/results.js', 'js/import.js', 'js/ai.js', 'js/edit.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
+<script>/* Always fetch the latest version of these files, so an update shows at once */ window.GQ_V = Date.now(); document.write(['../js/config.js', '../js/elements.js', '../js/engine/table.js', 'js/settings.js', '../plq/settings.js', 'js/common.js', 'js/backend.js', 'js/import.js', 'js/ai.js', 'js/edit.js'].map(f => /\.css$/.test(f) ? `<link rel="stylesheet" href="${f}?v=${GQ_V}">` : `<script src="${f}?v=${GQ_V}"><\/script>`).join(''));</script>
 </body>
 </html>
