@@ -237,13 +237,13 @@
       <input type="text" id="l${i}" data-f="label" value="${esc(q.label)}" maxlength="${S.labelLength}" placeholder="Short label, e.g. Bond angles">
       <label class="lbl" for="m${i}">Multiplier <small>for tricky questions: the team that wins this question gets this many questions' worth</small></label>
       <select id="m${i}" data-f="mult" class="multsel">${Array.from({ length: S.maxMultiplier }, (_, k) => `<option value="${k + 1}" ${+q.mult === k + 1 ? 'selected' : ''}>${k ? '×' + (k + 1) : '×1 (normal)'}</option>`).join('')}</select>`}
-      <label class="lbl" for="f${i}">Feedback for a wrong answer <small>optional; shown to a student who gets it wrong. Leave empty for the usual "Not quite" message. Phones can read this, so don't give the answer away.</small></label>
-      <textarea id="f${i}" data-f="fb" maxlength="400" rows="2" placeholder="e.g. Remember that isotopes differ only in their number of neutrons.">${esc(q.fb || '')}</textarea>
       <div class="picbox" style="margin-top:.5rem">
         <div class="paste" tabindex="0" role="button" data-act="pic" aria-label="Add a picture: click to choose a file, or paste one">${q.img ? 'Paste, drop or click to replace the picture' : 'Picture: click here and paste one (Ctrl+V), drag one in, or click to choose a file'}</div>
         ${q.img ? `<div><img class="picprev" src="${q.img}" alt="Picture for question ${i + 1}"><button class="btn" data-act="nopic" style="margin-top:.3rem">Remove picture</button></div>` : ''}
       </div>
       <p class="small muted" style="margin:.3rem 0 0">${ptq || pach ? 'A picture is shown above the question on phones.' : 'A picture is shown on the tile and above the question on phones.'}</p>
+      <label class="lbl" for="f${i}">Feedback for a wrong answer <small>optional; shown to a student who gets it wrong. Leave empty for the usual "Not quite" message. Phones can read this, so don't give the answer away.</small></label>
+      <textarea id="f${i}" data-f="fb" maxlength="400" rows="2" placeholder="e.g. Remember that isotopes differ only in their number of neutrons.">${esc(q.fb || '')}</textarea>
       ${probs.map(p => `<p class="warnline">${p}</p>`).join('')}
     </div>`;
   }
