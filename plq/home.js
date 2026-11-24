@@ -76,7 +76,7 @@
     return store.get(GKEY, []).map((m, i) => {
       const type = pages[m.type] ? m.type : 'grid';
       return { type, key: m.id, at: m.at || 0, order: i, title: m.title || 'Untitled quiz', detail: '',
-        edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, results: withDemo('grid/results.html') + `#${m.id}.${m.k}`, present: withDemo('present.html?quiz=' + m.id) };
+        edit: withDemo('grid/edit.html') + `#${m.id}.${m.k}`, results: m.k ? withDemo('grid/results.html') + `#${m.id}.${m.k}` : '', present: withDemo('present.html?quiz=' + m.id) };
     }).sort((a, b) => b.at - a.at || a.order - b.order);   // most recent first; older entries (no date) keep their order
   }
 
@@ -97,6 +97,33 @@
     draw();
   }
 
+  // Results: greyed out, with the reason on mouseover, when they can't be seen from here
+  const hasResults = {};   // quiz id → true / false once checked (see checkResults)
+  const why = {
+    nokey: 'Results can\'t be seen here: this browser doesn\'t have the quiz\'s edit link. Open the edit link on this computer (or use the computer you made the quiz on) to see them.',
+    none: 'No results yet. They are saved when a game of this quiz ends, and can then be seen here.'
+  };
+  function resultsBtn(x) {
+    const reason = !x.results ? why.nokey : hasResults[x.key] === false ? why.none : '';
+    return reason ? `<span class="btn disabled" title="${esc(reason)}" tabindex="0" aria-disabled="true">Results</span>`
+      : `<a class="btn" href="${x.results}" title="How the class did in past games">Results</a>`;
+  }
+  // Ask the database which saved quizzes have results (only their editors can read them)
+  let checking = false;
+  async function checkResults() {
+    if (checking) return; checking = true;
+    try {
+      backend = backend || await GQ_BACKEND.create();
+      const ids = store.get(GKEY, []).filter(m => m.k).map(m => m.id);
+      await Promise.all(ids.map(async qid => {
+        try { hasResults[qid] = (await backend.getResults(qid)).length > 0; }
+        catch (e) { delete hasResults[qid]; }   // can't tell (e.g. offline): leave the button on
+      }));
+      draw();
+    } catch (e) { /* offline: leave the buttons on */ }
+    checking = false;
+  }
+
   function draw() {
     const items = allSaved();
     const types = P.products.filter(p => items.some(x => x.type === p.id));
@@ -111,7 +138,7 @@
         <span class="t">${esc(x.title)}<small>Presented as ${esc(product(x.type).name)}${x.detail ? ' · ' + esc(x.detail) : ''}</small></span>
         <a class="btn" href="${x.edit}">Edit</a>
         ${x.present ? `<a class="btn primary" href="${x.present}" target="_blank" rel="noopener">Present</a>` : '<span class="btn primary disabled" title="Choose some topics first">Present</span>'}
-        <a class="btn" href="${x.results}" title="How the class did in past games">Results</a>
+        ${resultsBtn(x)}
         <button class="btn" data-forget="${i}" title="Delete this quiz">Delete</button></li>`).join('')
       : '<li class="muted">None yet. Quizzes you create or open on this computer will appear here.</li>';
     $('saved').querySelectorAll('[data-forget]').forEach(b => b.onclick = () => {
@@ -123,6 +150,7 @@
     });
   }
   draw();
+  checkResults();
   // Quizzes made here but left empty (e.g. the editor closed before its clean-up finished):
   // after an hour, delete them quietly and take them off the list
   (async function sweep() {
@@ -142,7 +170,7 @@
     } catch (e) { /* offline: try again next visit */ }
   })();
   window.addEventListener('storage', draw);   // e.g. a quiz renamed in another tab
-  window.addEventListener('pageshow', draw);  // coming back with the browser's Back button
+  window.addEventListener('pageshow', () => { draw(); checkResults(); });  // coming back with the browser's Back button
 
   // ---------- About ----------
   const A = P.about;
